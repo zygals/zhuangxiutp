@@ -105,7 +105,7 @@
                                     <input type="radio" name="index_show" class="index_show no" value="0" <?php /*echo $row_->index_show=='否'?'checked':'';*/?>> 否</label>
                             </div>
                         </div>-->
-                        <<div class="form-group">
+                        <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">状态：</label>
                             <div class="col-xs-8">
                                 <label class="control-label" >

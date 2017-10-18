@@ -67,6 +67,15 @@
 
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="situation" class="col-xs-3 control-label">商户是否可用：</label>
+                            <div class="col-xs-8">
+                                <label class="control-label" >
+                                    <input type="radio" name="is_show_to_shop" id="" value="1" <?php echo $row_->getData('is_show_to_shop')==1?'checked':''?>>可用</label> &nbsp;
+                                <label class="control-label">
+                                    <input type="radio" name="is_show_to_shop" id="" value="0" <?php echo $row_->getData('is_show_to_shop')==0?'checked':''?>> 不可用</label>
+                            </div>
+                        </div>
 					</div>
 				</div>
 				<div class="text-center">

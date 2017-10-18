@@ -13,16 +13,20 @@ class Dingdan extends model {
         $status = ['0'=>'delete',1=>'未支付',2=>'已支付',4=>'用户取消',5=>'用户删除'];
         return $status[$value];
     }
-    public function getGoodStAttr($value)
+    public function getGoodstAttr($value)
     {
         $status = [1=>'未发货',2=>'已发货',3=>'已收货',4=>'已评价'];
         return $status[$value];
     }
-    /*
-     *
-     * */
 
-    //分页查询
+    public static function findOne($order_id){
+       $row_ = self::where(['dingdan.id'=>$order_id])->join('user','dingdan.user_id=user.id')->join('shop','shop.id=dingdan.shop_id')->join('address','address.id=dingdan.address_id')->field('dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.name shop_name')->find();
+
+       return $row_;
+    }
+    /*
+     * //分页查询
+     * */
     public static function getAlldingdans($data){
         $where = ['dingdan.st'=>['<>',0]];
         $order = ['create_time desc'];
@@ -50,14 +54,14 @@ class Dingdan extends model {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list=self::where($where)->join('user','user.id=dingdan.user_id')->field('dingdan.*,user.user_name ')->order($order)->paginate();
+        $list=self::where($where)->join('user','user.id=dingdan.user_id')->join('shop','dingdan.shop_id=shop.id')->field('dingdan.*,user.username,shop.name shop_name')->order($order)->paginate();
         //dump($list);
 
         return $list;
     }
     // 添加订单 wx
     public function addOrder($data) {
-        $user_id = User::getUserIdByName($data['user_name']);
+        $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return $user_id;
         }
@@ -72,8 +76,8 @@ class Dingdan extends model {
         $sum_price = $row_good->price * $data['nums'];
         $data_order['user_id'] = $user_id;
         $data_order['st'] = 1;
-        $data_order['good_st'] = 1;
-        $data_order['orderno'] = $this->makeTradeNo($data['user_name']);
+        $data_order['goodst'] = 1;
+        $data_order['orderno'] = $this->makeTradeNo($data['username']);
         $address = Address::getUserDefaultAddress($user_id);
 
         $data_order['address_id'] = $address->id;

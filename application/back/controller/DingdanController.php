@@ -46,14 +46,10 @@ class DingdanController extends BaseController {
      * @return \think\Response
      */
     public function read(Request $request) {
-//      return 23;
         $data = $request->param();
-        $row_order = $this->findById($data['id'], new Dingdan());
-        $row_user = $this->findById($row_order->user_id,new User());
-        $row_address = $this->findById($row_order->address_id,new Address());
+        $row_order = Dingdan::findOne($data['id']);
         $list_good =  OrderGood::getGood($row_order->id);
-       // dump($row_good);exit;
-        return $this->fetch('', ['row_order' => $row_order,'row_user'=>$row_user,'row_address'=>$row_address, 'list_good'=>$list_good,'title'=>'订单详情 '.$row_order->orderno]);
+        return $this->fetch('', ['row_order' => $row_order, 'list_good'=>$list_good,'title'=>'订单详情 '.$row_order->orderno]);
     }
     //改发货状态
     public  function edit(Request $request){

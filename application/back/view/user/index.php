@@ -14,7 +14,7 @@
                     <input type="text" id="" name="time_from" value="{$Think.get.time_from}" class="form-control input-sm date_input" placeholder="从？如：2017-02-03">
 
                     <input type="text" id="" name="time_to" value="{$Think.get.time_to}" class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
-                    <input type="text" name="user_name" value="{$Think.get.user_name}" class="form-control input-sm"
+                    <input type="text" name="username" value="{$Think.get.username}" class="form-control input-sm"
                            placeholder="输入用户名搜索">
                     <input type="text" name="nickname" value="{$Think.get.nickname}" class="form-control input-sm"
                            placeholder="输入昵称搜索">
@@ -74,7 +74,7 @@
                     {$user->id}
                 </div>
 				<div class="col-xs-2 ">
-					{$user->user_name}
+					{$user->username}
 				</div>
               <div class="col-xs-1">
                     {$user->nickname}

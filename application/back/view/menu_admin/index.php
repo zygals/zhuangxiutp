@@ -37,8 +37,9 @@
                 方法
             </div>
             <div class="col-xs-1">
-                参数
+                商户可用
             </div>
+
             <div class="col-xs-1">
                 排序
             </div>
@@ -65,8 +66,8 @@
                         <div class="col-xs-1">
                             {$row_->action}
                         </div>
-                        <div class="col-xs-1" title="{$row_->param}">
-                            {$row_->param}
+                        <div class="col-xs-1" title="{$row_->is_show_to_shop}">
+                            {$row_->is_show_to_shop}
                         </div>
                         <div class="col-xs-1">
                             {$row_->sort}
@@ -99,8 +100,8 @@
                             <div class="col-xs-1">
                                 {$row_child->action}
                             </div>
-                            <div class="col-xs-1" title="{$row_->param}">
-                                {$row_child->param}
+                            <div class="col-xs-1" title=" {$row_->is_show_to_shop}">
+                                {$row_child->is_show_to_shop}
                             </div>
                             <div class="col-xs-1">
                                 {$row_child->sort}

@@ -23,7 +23,9 @@ class AdminController extends BaseController{
 
 		return $this->fetch('');
 	}
-//guoshu : a8390bd091760b0db7c8cfdb1b1ba69f
+	/*
+	 *   login submit
+	 * */
 	public function sigin(Request $request){
 		$captcha = new Captcha();
 		if(!$captcha->check($request->param('captcha'))){
@@ -38,15 +40,17 @@ class AdminController extends BaseController{
 		$condition['name']=$name;
 		$condition['pwd']=$pwd;
 		$admin = Admin::get($condition);
+
 		if($admin->type=='商户'){
            if($admin->st=='禁用'){
                $this->error('禁用,请联系平台！');
            }
         }
 		if($admin){
+
             $admin->setInc('times');
-			session('admin_zhx',(object)array('name'=>$admin->name,'id'=>$admin->id));
-           // $last_ip = $request->ip();
+			session('admin_zhx',(object)array('name'=>$admin->name,'id'=>$admin->id,'type'=>$admin->type,'truename'=>$admin->truename));
+            //dump(session('admin_zhx'));exit;
           $ip = $_SERVER['REMOTE_ADDR'];
             (new AdminLog())->addLog($admin->id,$ip);
 			 $this->redirect("index/index");

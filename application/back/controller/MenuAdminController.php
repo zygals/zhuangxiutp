@@ -40,7 +40,7 @@ class MenuAdminController extends BaseController {
 
     public function update(Request $request) {
         $data = $request->param();
-
+        //dump($data);exit;
         $m_ = new MenuAdmin();
         $m_->save($data,$data['id']);
         $this->redirect('index');

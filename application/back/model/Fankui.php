@@ -5,6 +5,10 @@ namespace app\back\model;
 use think\Model;
 
 class Fankui extends Base {
+    public function getStAttr($value){
+        $st = [0=>'deleted',1=>'正常','不显示'];
+        return $st[$value];
+    }
 
     public  function addFankui($data) {
         $good = OrderGood::getGood($data['order_id']);
@@ -18,6 +22,10 @@ class Fankui extends Base {
         $this->save($data_);
         Dingdan::updateSt(['st'=>'fankui','order_id'=>$data['order_id']]);
         return ['code'=>0,'msg'=>'add fankui ok'];
+    }
+    public static function getListPage($data=[]){
+        $list_ = self::where(['fankui.st'=>['<>',0]])->join('dingdan','fankui.order_id=dingdan.id')->join('user','fankui.user_id=user.id')->join('shop','fankui.shop_id=shop.id')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
+        return $list_;
     }
     public static function getList($data){
         $user_id = User::getUserIdByName($data['user_name']);
