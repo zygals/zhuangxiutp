@@ -23,8 +23,8 @@ class Base extends model {
 
         $order = "create_time desc";
 
-        if (!empty($data['title'])) {
-            $where['title'] = ['like', '%' . $data['title'] . '%'];
+        if (!empty($data['name'])) {
+            $where['name'] = ['like', '%' . $data['name'] . '%'];
         }
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

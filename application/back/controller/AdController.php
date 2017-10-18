@@ -17,7 +17,8 @@ class AdController extends BaseController {
      */
     public function index(Request $request) {
         $data = $request->param();
-
+//        dump($data);exit;
+//        exit;
         $list_ = Ad::getList($data);
         $page_str = $list_->render();
         $page_str =Base::getPageStr($data,$page_str);
@@ -94,7 +95,7 @@ class AdController extends BaseController {
         $data = $request->param();
         $referer=$request->header()['referer'];
         $row_ = $this->findById($data['id'],new Ad());
-        return $this->fetch('',['row_'=>$row_,'referer'=>$referer,'title'=>'修改广告图 '.$row_->title,'act'=>'update']);
+        return $this->fetch('',['row_'=>$row_,'referer'=>$referer,'title'=>'修改广告图 '.$row_->name,'act'=>'update']);
     }
 
 

@@ -22,7 +22,7 @@
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">名称：</label>
                         <div class="col-xs-8 ">
-                            <input type="text" class="form-control input-sm duiqi" name='title' value="{$row_->title}" id="" placeholder="">
+                            <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
                         </div>
                     </div>
 

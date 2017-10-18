@@ -20,7 +20,7 @@
 							<div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label">名称：</label>
 								<div class="col-xs-8 ">
-									<input type="text" class="form-control input-sm duiqi" name='title' value="" id="" placeholder="">
+									<input type="text" class="form-control input-sm duiqi" name='name' value="" id="" placeholder="">
 								</div>
 							</div>
 

@@ -13,7 +13,7 @@
 		<div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
-                    <input type="text" name="title" value="{$Think.get.title}" class="form-control input-sm"
+                    <input type="text" name="name" value="{$Think.get.title}" class="form-control input-sm"
                            placeholder="输入名称搜索">
                 </div>
                 <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
@@ -73,8 +73,8 @@
                 <div class="col-xs-1 ">
                     {$row_->id}
                 </div>
-				<div class="col-xs-1 " title="{$row_->title}">
-					{$row_->title}
+				<div class="col-xs-1 " title="{$row_->name}">
+					{$row_->name}
 				</div>
 
                <!-- <div class="col-xs-2 " title="{$row_->url}">
