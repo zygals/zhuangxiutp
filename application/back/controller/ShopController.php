@@ -56,7 +56,7 @@ class ShopController extends BaseController {
             $this->error($res);
         }
         $file = $request->file('img');
-        $file2 = $request->file('img_big');
+        $file2 = $request->file('logo');
 
         if (empty($file) || empty($file2)) {
             $this->error('请上传图片或检查图片大小！');
@@ -71,7 +71,7 @@ class ShopController extends BaseController {
         $arr = $this->dealImg($file, $path_name);
         $arr2 = $this->dealImg($file2, $path_name);
         $data['img'] = $arr['save_url_path'];
-        $data['img_big'] = $arr2['save_url_path'];
+        $data['logo'] = $arr2['save_url_path'];
         if(!empty($data['cate_ids'])){
             $data['cate_ids'] = implode(',',$data['cate_ids']);
         }
@@ -114,7 +114,7 @@ class ShopController extends BaseController {
         $row_ = $this->findById($data['id'],new Shop());
 
         $file = $request->file('img');
-        $file2 = $request->file('img_big');
+        $file2 = $request->file('logo');
         $path_name = 'shop';
         if(!empty($file)){
             $size = $file->getSize();
@@ -130,9 +130,9 @@ class ShopController extends BaseController {
             if ($size > config('upload_size') ) {
                 $this->error('图片大小超过限定！');
             }
-            $this->deleteImg($row_->img_big);
+            $this->deleteImg($row_->logo);
             $arr = $this->dealImg($file2, $path_name);
-            $data['img_big'] = $arr['save_url_path'];
+            $data['logo'] = $arr['save_url_path'];
         }
         if($this->saveById($data['id'],new Shop(),$data)){
 

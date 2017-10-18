@@ -20,24 +20,19 @@ class GoodController extends BaseController {
      */
     public function index(Request $request) {
         $data = $request->param();
-       $rule = ['cate_id' => 'number','type_id'=>'number|in:1,2','index_show'=>'number|in:1','sort_type'=>'desc'];
+       $rule = ['cate_id' => 'number','shop_id'=>'number','sort_type'=>'desc'];
         $res = $this->validate($data, $rule);
         if ($res !== true) {
             $this->error($res);
         }
-        $list_cate = [];
-        if(!empty($data['type_id'])){
-            $list_cate = Cate::getAllCateByType($data['type_id']);
-        }
         $list_ = Good::getList($data);
-        $page_str = $list_->render();
-
-        $page_str = Base::getPageStr($data,$page_str);
-        $url = $request->url();
-
 
         $list_shop= Shop::getListAll();
-        return $this->fetch('index', ['list_' => $list_,'list_shop'=>$list_shop,'list_cate'=>$list_cate,'url'=>$url,'page_str'=>$page_str]);
+        dump($list_shop);
+        $page_str = $list_->render();
+        $page_str = Base::getPageStr($data,$page_str);
+        $url = $request->url();
+        return $this->fetch('index', ['list_' => $list_,'list_shop'=>$list_shop,'url'=>$url,'page_str'=>$page_str]);
     }
 
     /**

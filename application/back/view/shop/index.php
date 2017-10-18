@@ -72,6 +72,9 @@
                 地址
 			</div>
             <div class="col-xs-1">
+                logo
+            </div>
+            <div class="col-xs-1">
                 列表图
             </div>
             <div class="col-xs-1">
@@ -106,16 +109,24 @@
                 <div class="col-xs-1 " title="{$row_->addr}">
                     {$row_->addr}
                 </div>
+                <div class="col-xs-1">
+                    <a href="__IMGURL__{$row_->logo}" target="_blank">
+                        <img src="__IMGURL__{$row_->logo}" height="55"  alt="没有">
+                    </a>
+                </div>
 		<div class="col-xs-1">
                     <a href="__IMGURL__{$row_->img}" target="_blank">
                         <img src="__IMGURL__{$row_->img}" height="55"  alt="没有">
                     </a>
 				</div>
                 <div class="col-xs-1" title="{$row_->admin_name}">
-
-                    {$row_->admin_name}
+                    <?php if($row_->admin_st==2){?>
+                   <span style="color:red;"> {$row_->admin_name}</span>
+<?php }else{?>
+                        {$row_->admin_name}
+                    <?php }?>
                 </div>
-                <div class="col-xs-1">
+                <div class="col-xs-1" title=" {$row_->create_time}">
                     {$row_->create_time}
                 </div>
 

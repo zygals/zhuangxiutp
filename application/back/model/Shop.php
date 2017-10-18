@@ -13,7 +13,7 @@ class Shop extends Base {
     public static function getListAll(){
         $where = ['st' => ['=',1]];
         $order = "create_time asc";
-        $list_ = self::where($where)->order($order)->select();
+        $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->field('shop.*,')->order($order)->select();
 
         return $list_;
     }

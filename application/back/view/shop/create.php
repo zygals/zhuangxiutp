@@ -35,9 +35,15 @@
                             </div>
                         </div>
                         <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm duiqi" name='city' value="" id="" placeholder="如：北京">
+                            </div>
+                        </div>
+                        <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>地址：</label>
                             <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='addr' value="" id="" placeholder="">
+                                <input type="text" class="form-control input-sm " name='addr' value="" id="" placeholder="">
                             </div>
                         </div>
                         <div class="form-group ">
@@ -49,21 +55,28 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>logo：</label>
+                            <div class="col-xs-4 ">
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd1" name="logo" placeholder=""><span style="color:red">尺寸要求（50*50），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>列表图：</label>
                             <div class="col-xs-4 ">
                                 <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（166*114），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
 
                         </div>
-                        <div class="form-group">
+                       <!-- <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>详情页图：</label>
                             <div class="col-xs-4 ">
-                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img_big" placeholder=""><span style="color:red">尺寸要求（750*300），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd2" name="img_big" placeholder=""><span style="color:red">尺寸要求（750*300），大小不超过<?php /*echo floor(config('upload_size')/1024/1024);*/?>M。</span>
                             </div>
 
-                        </div>
+                        </div>-->
                         <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>详细说明：</label>
+                            <label for="sName" class="col-xs-3 control-label">详细说明：</label>
                             <div class="col-xs-8 ">
                                 <textarea name="info" id="desc_textarea" style="width:700px;height:300px;"></textarea>
                             </div>
@@ -93,7 +106,7 @@
 
         $('form').bootstrapValidator({
             fields: {
-                title: {
+                name: {
                     validators:
                         {
                             notEmpty: {
@@ -102,7 +115,7 @@
                         }
 
                 },
-                lishu: {
+                truename: {
                     validators:
                         {
                             notEmpty: {
@@ -111,7 +124,24 @@
                         }
 
                 },
+                phone: {
+                    validators:
+                        {
+                            notEmpty: {
+                                message: '不能为空'
+                            }
+                        }
 
+                },
+                cate_id: {
+                    validators:
+                        {
+                            notEmpty: {
+                                message: '不能为空'
+                            }
+                        }
+
+                },
                 city: {
                     validators: {
                         notEmpty: {
@@ -121,18 +151,26 @@
 
                     }
                 },
+                addr: {
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
 
+
+                    }
+                },
                 img: {
                     validators: {
                         notEmpty: {
-                            message: '请添加缩略图'
+                            message: '不能为空'
                         }
                     }
                 },
-                img_big: {
+                logo: {
                     validators: {
                         notEmpty: {
-                            message: '请添加详情页图'
+                            message: '不能为空'
                         }
                     }
                 },
