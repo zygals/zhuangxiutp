@@ -7,37 +7,13 @@
         padding-right:10px;
     }
 </style>
-<script src="__EDITOR__/kindeditor.js"></script>
-<script src="__EDITOR__/lang/zh_CN.js"></script>
 <script>
-    KindEditor.ready(function (K) {
-        // var editor = K.create('#desc_textarea');
-      /*  var editor = K.create('textarea[name="desc"]',{
-            themeType: 'simple',
-            resizeType: 1,
-            uploadJson: '__EDITOR__/php/upload_json.php',
-            fileManagerJson: '__EDITOR__/php/file_manager_json.php',
-            allowFileManager: true,
-            //下面这行代码就是关键的所在，当失去焦点时执行 this.sync();
-            afterBlur: function(){this.sync();}
-        });*/
-
-    });
-    function getListCate(obj) {
-        var type_id = obj.value;
-        $.get('{:url("ajax/index")}',{type_id:type_id},function (data) {
-            // console.log(data);
-            var str = '';
-            var data_cate = data.data;
-            for(var i=0;i<data_cate.length;i++){
-                str+='<option value="'+data_cate[i].id+'">'+data_cate[i].title+'</option>';
-            }
-            $('#sel_cate').html(str);
-        });
-
+    function  changeCate(obj){
+        var cate_name= $(obj).children('option:selected').attr('data_cate_name');
+        $('#cate_name_label').html(cate_name);
     }
 </script>
-	<!--弹出添加用户窗口--><form class="form-horizontal" action="{:url($act)}" method="post" enctype="multipart/form-data" >
+<form class="form-horizontal" action="{:url($act)}" method="post" enctype="multipart/form-data" >
     <input type="hidden" name="id" value="{$row_->id}">
     <input type="hidden" name="referer" value="{$referer}">
 		<div class="row" >
@@ -48,39 +24,31 @@
 				<div class="">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>院校：</label>
+                            <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商户：</label>
                             <div class="col-xs-8">
-                                <select class=" form-control select-duiqi" name="school_id" id="">
-                                    <?php foreach ($list_school as $row_s) { ?>
-                                        <option value="{$row_s['id']}" <?php echo $row_s->id==$row_->school_id?'selected':''?>>{$row_s['title']}</option>
+                                <select onchange="changeCate(this)"  class=" form-control select-duiqi" name="shop_id" id="">
+                                    <?php foreach ($list_shop as $row_s) { ?>
+                                        <option data_cate_name="{$row_s->cate_name}" value="{$row_s['id']}" <?php echo $row_s->id==$row_->shop_id?'selected':''?>>{$row_s['name']}</option>
                                     <?php } ?>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>类型：</label>
-                            <div class="col-xs-8">
-                                <select onchange="getListCate(this)" class=" form-control select-duiqi" name="type" id="">
-                                    <?php foreach (\app\common\model\Cate::$type_cate as $row_type) { ?>
-                                        <option value="{$row_type['type_id']}" <?php echo $row_type['title']==$row_->type?'selected':''?>>{$row_type['title']}</option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>分类：</label>
                             <div class="col-xs-8">
-                                <select class=" form-control select-duiqi" name="cate_id" id="sel_cate">
-<?php foreach($list_cate as $k=>$row_cate){?>
-    <option value="{$row_cate->id}" <?php echo $row_->cate_id==$row_cate->id?'selected':''?>>{$row_cate->title}</option>
-                                    <?php }?>
-                                </select>
+                                <label  id="cate_name_label">
+                                    <?php foreach ($list_shop as $row_s) { ?>
+                                        <?php echo $row_s->id==$row_->shop_id ?$row_s->cate_name:'' ;?>
+                                    <?php } ?>
+                                </label>
+
                             </div>
                         </div>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>名称：</label>
                             <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='title' value="{$row_->title}" id="" placeholder="">
+                                <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
                             </div>
                         </div>
 
@@ -128,22 +96,22 @@
 
                             </div>
                         </div>
-                        <div class="form-group">
+                       <!-- <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">首页推荐：</label>
                             <div class="col-xs-8">
                                 <label class="control-label" >
-                                    <input type="radio" name="index_show" class="index_show yes" value="1" <?php echo $row_->index_show=='是'?'checked':'';?> >是</label> &nbsp;
+                                    <input type="radio" name="index_show" class="index_show yes" value="1" <?php /*echo $row_->index_show=='是'?'checked':'';*/?> >是</label> &nbsp;
                                 <label class="control-label">
-                                    <input type="radio" name="index_show" class="index_show no" value="0" <?php echo $row_->index_show=='否'?'checked':'';?>> 否</label>
+                                    <input type="radio" name="index_show" class="index_show no" value="0" <?php /*echo $row_->index_show=='否'?'checked':'';*/?>> 否</label>
                             </div>
-                        </div>
-                        <div class="form-group">
+                        </div>-->
+                        <<div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">状态：</label>
                             <div class="col-xs-8">
                                 <label class="control-label" >
                                     <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
                                 <label class="control-label">
-                                    <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='不显示'?'checked':''?>> 不显示</label>
+                                    <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='下架'?'checked':''?>> 下架</label>
                             </div>
                         </div>
                         <?php if($row_->is_add_attr=1 && !empty($row_->good_attrs)){?>
@@ -169,14 +137,14 @@
 </form>
 
 <script>
-    $('.index_show').click(function () {
+/*    $('.index_show').click(function () {
         var index_img = document.getElementById('img_index');
         if($(this).hasClass('yes')){
             index_img.style.display='block';
         }else {
             index_img.style.display='none';
         }
-    });
+    });*/
     $(function () {
         $('form').bootstrapValidator({
             fields: {
@@ -189,7 +157,7 @@
                         }
 
                 },
-                desc: {
+                price: {
                     validators:
                         {
                             notEmpty: {
@@ -199,15 +167,18 @@
 
                 },
 
-                cate_id: {
+
+                shop_id: {
                     validators: {
                         notEmpty: {
-                            message: '请选择分类'
+                            message: '请选择'
                         }
 
 
                     }
                 },
+
+
 
 
             }

@@ -20,30 +20,21 @@ $('#sel_cate_id').val('');
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-8">
                     <select name="shop_id" style="color:inherit">
-                        <option value="">--请选择院校--</option>
+                        <option value="">--请选择商户--</option>
                         <?php foreach ($list_shop as $row_) { ?>
                             <option value="{$row_['id']}" {eq name="Think.get.shop_id" value="$row_['id']"
-                                    }selected{/eq}>{$row_['title']}</option>
+                                    }selected{/eq}>{$row_['name']}</option>
                         <?php } ?>
                     </select>
-                    <select name="type_id" onchange="getGoodsByType()" style="color:inherit">
-                        <option value="">--请选择类型--</option>
-                        <?php foreach (\app\back\model\Cate::$type_cate as $row_) { ?>
-                            <option value="{$row_['type_id']}" {eq name="Think.get.type_id" value="$row_['type_id']"
-                                    }selected{/eq}>{$row_['title']}</option>
+                    <select name="cate_id" style="color:inherit">
+                        <option value="">--请选择分类--</option>
+                        <?php foreach ($list_cate as $row_) { ?>
+                            <option value="{$row_->id}" {eq name="Think.get.cate_id" value="$row_->id"
+                                    }selected{/eq}>{$row_->name}</option>
                         <?php } ?>
                     </select>
-                    <?php if(count($list_cate)>0){?>
-                        <select id="sel_cate_id" name="cate_id" style="color:inherit">
-                            <option value="">--请选择资料分类--</option>
 
-                            <?php foreach ($list_cate as $row_) { ?>
-                                <option value="{$row_['id']}" {eq name="Think.get.cate_id" value="$row_['id']"
-                                        }selected{/eq}>{$row_['title']}</option>
-                            <?php } ?>
-                        </select>
-                    <?php }?>
-                    <input type="text" name="title" value="{$Think.get.title}" class="form-control input-sm"
+                    <input type="text" name="name" value="{$Think.get.name}" class="form-control input-sm"
                            placeholder="输入名称搜索">
 
                 </div>
@@ -52,10 +43,10 @@ $('#sel_cate_id').val('');
                         <option value="">--请选择排序字段--</option>
                         <option value="sort" {eq name="Think.get.paixu" value="sort"
                                 }selected{/eq}>排序</option>
-                        <option value="store" {eq name="Think.get.paixu" value="store"
+                        <!--<option value="store" {eq name="Think.get.paixu" value="store"
                                 }selected{/eq}>库存</option>
                         <option value="sales" {eq name="Think.get.paixu" value="sales"
-                                }selected{/eq}>销量</option>
+                                }selected{/eq}>销量</option>-->
                         <option value="create_time" {eq name="Think.get.paixu" value="create_time"
                                 }selected{/eq}>添加时间</option>
                         <option value="update_time" {eq name="Think.get.paixu" value="update_time"
@@ -64,9 +55,12 @@ $('#sel_cate_id').val('');
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type" value="desc"
                                }checked{/eq}>降序</label>
-                    <label class="">
+                   <!-- <label class="">
                         <input type="checkbox" name="index_show" id="" value="1" {eq name="Think.get.index_show" value="1"
-                               }checked{/eq}>首页</label>
+                               }checked{/eq}>首页</label>-->
+                    <label class="">
+                        <input type="checkbox" name="st" id="" value="2" {eq name="Think.get.st" value="2"
+                               }checked{/eq}>下架</label>
                     <button class="btn btn-white btn-xs " type="submit">提交</button>
                 </div>
             </form>
@@ -112,7 +106,7 @@ $('#sel_cate_id').val('');
                 <div class="col-xs-1 ">
                     {$row_->id}
                 </div>
-                <div class="col-xs-1 ">
+                <div class="col-xs-1 " title="{$row_->shop_name}">
                     {$row_->shop_name}
                 </div>
 				<div class="col-xs-1 " title="{$row_->name}">
@@ -134,13 +128,13 @@ $('#sel_cate_id').val('');
                 <div class="col-xs-1">
                     {$row_->st}
                 </div>
-                <div class="col-xs-1">
+                <div class="col-xs-1" title="{$row_->create_time}">
                     {$row_->create_time}
                 </div>
 				<div class="col-xs-">
                     <a href="{:url('edit')}?id={$row_->id}"><button class="btn btn-success btn-xs edit_" >修</button></a>
                     <button class="btn btn-danger btn-xs del_cate" data-toggle="modal" data-target="#deleteSource" data-id="<?= $row_['id']?>" onclick="del_(this)"> 删</button>
-                   <a href="{:url('good_attr/create')}?good_id={$row_->id}"><button class="btn <?php if($row_->is_add_attr==0){?>btn-info<?php }else{?>btn-danger<?php }?> btn-xs edit_" ><?php if($row_->is_add_attr==0){?> 完参数<?php }else{?>更参数<?php }?></button></a>
+                  <!-- <a href="{:url('good_attr/create')}?good_id={$row_->id}"><button class="btn <?php /*if($row_->is_add_attr==0){*/?>btn-info<?php /*}else{*/?>btn-danger<?php /*}*/?> btn-xs edit_" ><?php /*if($row_->is_add_attr==0){*/?> 完参数<?php /*}else{*/?>更参数<?php /*}*/?></button></a>-->
 
 				</div>
 			</div>

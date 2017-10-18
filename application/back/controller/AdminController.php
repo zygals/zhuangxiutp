@@ -38,6 +38,11 @@ class AdminController extends BaseController{
 		$condition['name']=$name;
 		$condition['pwd']=$pwd;
 		$admin = Admin::get($condition);
+		if($admin->type=='商户'){
+           if($admin->st=='禁用'){
+               $this->error('禁用,请联系平台！');
+           }
+        }
 		if($admin){
             $admin->setInc('times');
 			session('admin_zhx',(object)array('name'=>$admin->name,'id'=>$admin->id));

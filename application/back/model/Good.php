@@ -8,19 +8,14 @@ use app\back\model\GoodAttr;
 class Good extends Base {
 
     public function getStAttr($value) {
-        $status = [0 => 'deleted', 1 => '正常', 2 => '不显示'];
+        $status = [0 => 'deleted', 1 => '正常', 2 => '下架'];
         return $status[$value];
     }
 
-
-    public function getTypeAttr($value) {
-        $status = [1 => '图书', 2 => '真题'];
-        return $status[$value];
-    }
-    public function getIndexShowAttr($value) {
+/*    public function getIndexShowAttr($value) {
         $status = [0 => '否', 1 => '是'];
         return $status[$value];
-    }
+    }*/
     public function updateAddAttr($good_id){
         $row_good = $this->where(['id'=>$good_id])->find();
         $row_good->is_add_attr =1 ;
@@ -41,14 +36,14 @@ class Good extends Base {
         }
         return false;
     }
-    public static function getList($data=[],$field='good.*,cate.name cate_name',$where=['good.st' => ['<>', 0]]) {
+    public static function getList($data=[],$field='good.*,cate.name cate_name,shop.name shop_name',$where=['good.st' => ['<>', 0]]) {
         //$where = ['good.st' => ['<>', 0], 'cate.st' => ['<>', 0]];
         $order = "create_time desc";
         if (!empty($data['type_id'])) {
             $where['good.type'] = $data['type_id'];
         }
         if (!empty($data['cate_id'])) {
-            $where['cate_id'] = $data['cate_id'];
+            $where['shop.cate_id'] = $data['cate_id'];
         }
         if (!empty($data['shop_id'])) {
             $where['shop_id'] = $data['shop_id'];
@@ -65,7 +60,10 @@ class Good extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = 'good.'.$data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->join('cate', 'good.cate_id=cate.id', 'left')->field($field)->order($order)->paginate();
+        if(!empty($data['st']) ){
+            $where['good.st']= ['=',2];
+        }
+        $list_ = self::where($where)->join('cate', 'good.cate_id=cate.id', 'left')->join('shop','shop.id=good.shop_id')->field($field)->order($order)->paginate();
 
         return $list_;
     }

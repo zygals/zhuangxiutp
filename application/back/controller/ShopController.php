@@ -26,7 +26,7 @@ class ShopController extends BaseController {
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data,$page_str);
         $url = $request->url();
-        $list_cate = Cate::getList(['type_id'=>1]);
+        $list_cate = Cate::getAllCateByType(1);
         return $this->fetch('index', ['list_' => $list_,'url'=>$url,'list_cate'=>$list_cate,'page_str'=>$page_str]);
     }
 
@@ -36,7 +36,7 @@ class ShopController extends BaseController {
      * @return \think\Response
      */
     public function create() {
-        $list_cate = Cate::getList(['type_id'=>1]);
+        $list_cate = Cate::getAllCateByType(1);
         return $this->fetch('', ['title'=>'添加商户','act'=>'save','list_cate'=>$list_cate]);
 
     }
@@ -92,7 +92,7 @@ class ShopController extends BaseController {
         $row_ = $this->findById($data['id'],new Shop());
        // dump($row_->type);exit;
         $referer = $request->header()['referer'];
-        $list_cate = Cate::getList(['type_id'=>1]);
+        $list_cate = Cate::getAllCateByType(1);
         return $this->fetch('',['row_'=>$row_,'list_cate'=>$list_cate,'title'=>'修改商户'.$row_->name,'act'=>'update','referer'=>$referer]);
     }
 

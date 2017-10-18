@@ -6,7 +6,12 @@
         padding-right:10px;
     }
 </style>
-
+<script>
+  function  changeCate(obj){
+     var cate_name= $(obj).children('option:selected').attr('data_cate_name');
+$('#cate_name_label').html(cate_name);
+    }
+</script>
 	<!--弹出添加用户窗口-->
 <form id="addForm" class="form-horizontal" action="{:url($act)}" method="post" enctype="multipart/form-data" >
 		<div class="row" >
@@ -20,9 +25,9 @@
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商户：</label>
                             <div class="col-xs-8">
-                                <select class=" form-control select-duiqi" name="shop_id" id="">
+                                <select onchange="changeCate(this)" class=" form-control select-duiqi" name="shop_id" id="">
                                     <?php foreach ($list_shop as $row_) { ?>
-                                        <option value="{$row_['id']}" >{$row_['title']}</option>
+                                        <option data_cate_name="{$row_->cate_name}" value="{$row_['id']}" >{$row_['name']}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -31,11 +36,7 @@
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>分类：</label>
                             <div class="col-xs-8">
-                                <select class=" form-control select-duiqi" name="cate_id" id="sel_cate">
-                                    <?php foreach ($list_cate as $row_) { ?>
-                                        <option value="{$row_['id']}" >{$row_['name']}</option>
-                                    <?php } ?>
-                                </select>
+                                <label id="cate_name_label"><?php echo $list_shop[0]->cate_name?></label>
                             </div>
                         </div>
 							<div class="form-group ">
@@ -48,7 +49,7 @@
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>价格：</label>
                             <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='price' value="0.00" id="" placeholder="">
+                                <input type="text" class="form-control input-sm duiqi" name='price' value="" id="" placeholder="0.00元">
                             </div>
                         </div>
 
@@ -68,7 +69,7 @@
                         </div>
 
                         <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>资料描述：</label>
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>描述：</label>
                             <div class="col-xs-8 ">
                                 <textarea name="desc" id="desc_textarea" style="width:700px;height:300px;"></textarea>
                             </div>
@@ -100,7 +101,7 @@
 
         $('form').bootstrapValidator({
             fields: {
-                title: {
+                name: {
                     validators:
                         {
                             notEmpty: {
@@ -109,7 +110,7 @@
                         }
 
                 },
-                desc: {
+                price: {
                     validators:
                         {
                             notEmpty: {
@@ -119,10 +120,11 @@
 
                 },
 
-                cate_id: {
+
+                shop_id: {
                     validators: {
                         notEmpty: {
-                            message: '请选择分类'
+                            message: '请选择'
                         }
 
 

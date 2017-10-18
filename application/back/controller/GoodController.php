@@ -26,13 +26,13 @@ class GoodController extends BaseController {
             $this->error($res);
         }
         $list_ = Good::getList($data);
-
         $list_shop= Shop::getListAll();
-        dump($list_shop);
+        $list_cate= Cate::getAllCateByType(1);
+       // dump($list_shop);
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data,$page_str);
         $url = $request->url();
-        return $this->fetch('index', ['list_' => $list_,'list_shop'=>$list_shop,'url'=>$url,'page_str'=>$page_str]);
+        return $this->fetch('index', ['list_' => $list_,'list_shop'=>$list_shop,'list_cate'=>$list_cate,'url'=>$url,'page_str'=>$page_str]);
     }
 
     /**
@@ -40,11 +40,11 @@ class GoodController extends BaseController {
      *
      * @return \think\Response
      */
-    public function create(Request $request) {
-        $data = $request->param();
+    public function create() {
+
         $list_shop= Shop::getListAll();
-        $list_cate= Cate::getList(['type'=>1]);
-        return $this->fetch('', ['list_cate' => $list_cate,'list_shop' => $list_shop,'title'=>'添加资料','act'=>'save']);
+        //$list_cate= Cate::getAllCateByType(1);
+        return $this->fetch('', ['list_shop' => $list_shop,'title'=>'添加商品','act'=>'save']);
 
     }
 
@@ -56,11 +56,14 @@ class GoodController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-
         $res = $this->validate($data, 'GoodValidate');
         if ($res !== true) {
             $this->error($res);
         }
+       // dump($data);exit;
+        $row_shop = $this->findById($data['shop_id'],new Shop());
+        $data['cate_id'] = $row_shop->cate_id;
+
         $file = $request->file('img');
         $file2 = $request->file('img_big');
 
@@ -95,15 +98,15 @@ class GoodController extends BaseController {
         $row_ = $this->findById($data['id'],new Good());
        // dump($row_->type);exit;
         $referer = $request->header()['referer'];
-        $list_cate = Cate::getAllCateByType(Cate::getTypeIdAttr($row_->type));
+       // $list_cate = Cate::getAllCateByType(Cate::getTypeIdAttr($row_->type));
         $list_shop= Shop::getListAll();
-        $list_good_attr=[];
+        /*$list_good_attr=[];
         if($row_->is_add_attr){
             $list_good_attr = (new GoodAttr)->getGoodAttr($data['id']);
         }
-        $row_->good_attrs = $list_good_attr;
+        $row_->good_attrs = $list_good_attr;*/
         //dump($row_);
-        return $this->fetch('',['row_'=>$row_,'title'=>'修改资料'.$row_->title,'act'=>'update','referer'=>$referer,'list_cate'=>$list_cate,'list_shop'=>$list_shop]);
+        return $this->fetch('',['row_'=>$row_,'title'=>'修改商品'.$row_->name,'act'=>'update','referer'=>$referer,'list_shop'=>$list_shop]);
     }
 
     /**
@@ -121,6 +124,9 @@ class GoodController extends BaseController {
         if ($res !== true) {
             $this->error($res);
         }
+        $row_shop = $this->findById($data['shop_id'],new Shop());
+        $data['cate_id'] = $row_shop->cate_id;
+
         $row_ = $this->findById($data['id'],new Good());
 
         $file = $request->file('img');

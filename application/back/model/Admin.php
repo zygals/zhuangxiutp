@@ -12,7 +12,7 @@ class Admin extends model {
         return $status[$value];
     }
     public function getTypeAttr($value) {
-        $status = [1 => '超级', 2 => '一般'];
+        $status = [1 => '超级', 2 => '商户',3=>'系统一般'];
         return $status[$value];
     }
     public static function pwdGenerate($pass) {
