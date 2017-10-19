@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>广告图：</label>
+                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>缩略图：</label>
                             <div class="col-xs-4 ">
                                 <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（750*300），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
@@ -93,29 +93,21 @@
 
         $('form').bootstrapValidator({
             fields: {
-                title: {
+                name: {
                     validators:
                         {
                             notEmpty: {
-                                message: '名称不能为空'
-                            }
-                        }
-
-                },
-                school_id: {
-                    validators:
-                        {
-                            notEmpty: {
-                                message: '不能为空'
+                                message: '标题不能为空'
                             }
                         }
 
                 },
 
-                cate_article_id: {
+
+                img: {
                     validators: {
                         notEmpty: {
-                            message: '不能为空'
+                            message: '请上传图片'
                         }
 
 
@@ -125,7 +117,7 @@
                 cont: {
                     validators: {
                         notEmpty: {
-                            message: '不能为空'
+                            message: '内容不能为空'
                         }
                     }
                 },

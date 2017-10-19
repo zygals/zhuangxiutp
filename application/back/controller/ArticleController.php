@@ -47,10 +47,10 @@ class ArticleController extends BaseController {
     public function save(Request $request) {
 //        dump($request->param());exit;
         $data = $request->param();
-//        $res = $this->validate($data,"ArticleValidate");
-//        if ($res !== true) {
-//            $this->error($res);
-//        }
+        $res = $this->validate($data,"ArticleValidate");
+        if ($res !== true) {
+            $this->error($res);
+        }
 
         $file = $request->file('img');
         if(empty($file)){

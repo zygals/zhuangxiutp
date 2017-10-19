@@ -31,12 +31,17 @@ class Article extends Base {
     }
     public static function getList($data=[],$filed='article.*,cate.name cate_name',$where=['article.st' => ['<>', 0], 'cate.st' => ['=', 1]]) {
         $order = "create_time desc";
-        if (!empty($data['cate_article_id'])) {
-            $where['cate_article_id'] = $data['cate_article_id'];
+
+        if (!empty($data['type_id'])) {
+            $where['cate_id'] = $data['type_id'];
         }
 
         if (!empty($data['name'])) {
             $where['article.name'] = ['like','%'.$data['name'].'%'];
+        }
+
+        if(!empty($data['index_show'])){
+            $where['index_show'] = $data['index_show'];
         }
 
         if (!empty($data['paixu'])) {
@@ -46,6 +51,7 @@ class Article extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order ='article.'.$data['paixu'] . ' desc';
         }
+
 
         $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->field($filed)->order($order)->paginate();
 //        dump($list_);exit;

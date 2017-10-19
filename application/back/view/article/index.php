@@ -15,20 +15,27 @@
         <div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
-
+                    <select name="type_id" style="color:inherit">
+                        <option value="">--请选择类型--</option>
+                        <?php foreach ($Article_cate as $row_a) { ?>
+                            <option value="{$row_a['id']}" {eq name="Think.get.type_id" value="$row_a['id']"
+                                    }selected{/eq}>{$row_a['name']}</option>
+                        <?php } ?>
+                    </select>
                     <input type="text" name="name" value="{$Think.get.title}" class="form-control input-sm"
-                           placeholder="输入分类或名称进行搜索">
+                           placeholder="输入名称进行搜索">
                 </div>
                 <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
                         <option value="">--请选择排序字段--</option>
-                        <option value="sort" {eq name="Think.get.paixu" value="sort"
-                                }selected{/eq}>排序</option>
+                        <option value="clicks" {eq name="Think.get.paixu" value="clicks"
+                                }selected{/eq}>点击量</option>
                         <option value="create_time" {eq name="Think.get.paixu" value="create_time"
                                 }selected{/eq}>添加时间</option>
                         <option value="update_time" {eq name="Think.get.paixu" value="update_time"
                                 }selected{/eq}>修改时间</option>
                     </select>
+
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type" value="desc"
                                }checked{/eq}>降序</label>
@@ -64,9 +71,7 @@
             <div class="col-xs-2">
                 添加时间
 			</div>
-            <div class="col-xs-1">
-                排序
-            </div>
+
             <div class="col-xs-1">
 				状 态
 			</div>
@@ -106,9 +111,7 @@
                 <div class="col-xs-2">
                     {$row_->create_time}
                 </div>
-                <div class="col-xs-1">
-                    {$row_->sort}
-                </div>
+
 
                 <div class="col-xs-1">
                     {$row_->st}
