@@ -14,7 +14,7 @@
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
                     <input type="text" name="name" value="{$Think.get.title}" class="form-control input-sm"
-                           placeholder="输入名称搜索">
+                           placeholder="输入名称进行搜索">
                 </div>
                 <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">

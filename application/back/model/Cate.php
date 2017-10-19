@@ -57,5 +57,13 @@ class Cate extends model {
         return $list_;
     }
 
+    public static function getListAll(){
+        $where = ['st' => ['=',1],'type'=>['=',2]];
+        $order = "create_time asc";
+        $list_ = self::where($where)->order($order)->select();
+
+        return $list_;
+    }
+
 
 }

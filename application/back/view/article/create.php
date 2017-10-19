@@ -17,32 +17,32 @@
 				</div>
 				<div class="">
 					<div class="container-fluid">
-                        <div class="form-group">
-                            <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>院校：</label>
-                            <div class="col-xs-8">
-                                <select class=" form-control select-duiqi" name="school_id" id="">
-                                    <?php foreach ($list_school as $row_) { ?>
-                                        <option value="{$row_['id']}" >{$row_['title']}</option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>分类：</label>
                             <div class="col-xs-8">
-                                <select class=" form-control select-duiqi" name="cate_article_id" id="sel_cate">
-                                    <?php foreach ($list_cate_article as $row_) { ?>
-                                        <option value="{$row_['id']}" >{$row_['name']}</option>
+                                <select class=" form-control select-duiqi" name="cate_id" id="sel_cate">
+                                    <?php foreach ($list_cate_article as $res) { ?>
+                                        <option value="{$res['id']}" >{$res['name']}</option>
                                     <?php } ?>
                                 </select>
                             </div>
                         </div>
-							<div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>标题：</label>
-								<div class="col-xs-8 ">
-									<input type="text" class="form-control input-sm duiqi" name='title' value="" id="" placeholder="">
-								</div>
-							</div>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>标题：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm duiqi" name='name' value="" id="" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>广告图：</label>
+                            <div class="col-xs-4 ">
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（750*300），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                            </div>
+
+                        </div>
+
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>内容：</label>
                             <div class="col-xs-8 ">

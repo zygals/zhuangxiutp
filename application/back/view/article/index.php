@@ -15,25 +15,9 @@
         <div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
-                    <select name="school_id" style="color:inherit">
-                        <option value="">--请选择院校--</option>
-                        <?php foreach ($list_school as $row_) { ?>
-                            <option value="{$row_['id']}" {eq name="Think.get.school_id" value="$row_['id']"
-                                    }selected{/eq}>{$row_['title']}</option>
-                        <?php } ?>
-                    </select>
-                    <?php if(count($list_cate_article)>0){?>
-                        <select name="cate_article_id" style="color:inherit">
-                            <option value="">--请选择资讯分类--</option>
 
-                            <?php foreach ($list_cate_article as $row_) { ?>
-                                <option value="{$row_['id']}" {eq name="Think.get.cate_article_id" value="$row_['id']"
-                                        }selected{/eq}>{$row_['name']}</option>
-                            <?php } ?>
-                        </select>
-                    <?php }?>
-                    <input type="text" name="title" value="{$Think.get.title}" class="form-control input-sm"
-                           placeholder="输入名称搜索">
+                    <input type="text" name="name" value="{$Think.get.title}" class="form-control input-sm"
+                           placeholder="输入分类或名称进行搜索">
                 </div>
                 <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
@@ -69,7 +53,7 @@
 			</div>
 
             <div class="col-xs-1">
-                院校
+                缩略图
             </div>
             <div class="col-xs-1">
                 首页
@@ -97,14 +81,16 @@
                 <div class="col-xs-1 ">
                     {$row_->id}
                 </div>
-                <div class="col-xs-1 " title="{$row_->title}">
-                    {$row_->title}
+                <div class="col-xs-1 " title="{$row_->name}">
+                    {$row_->name}
                 </div>
-				<div class="col-xs-1 " title="{$row_->cate_article_name}">
-					{$row_->cate_article_name}
+				<div class="col-xs-1 " title="{$row_->cate_name}">
+					{$row_->cate_name}
 				</div>
-                <div class="col-xs-1 " title="{$row_->school_name}">
-                    {$row_->school_name}
+                <div class="col-xs-1 " title="">
+                    <a href="__IMGURL__{$row_->img}" target="_blank">
+                        <img src="__IMGURL__{$row_->img}" style="height:65px;max-width:175px;"  alt="没有">
+                    </a>
                 </div>
                 <div class="col-xs-1 ">
                     {$row_->index_show}

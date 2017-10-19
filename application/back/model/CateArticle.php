@@ -11,7 +11,7 @@ class CateArticle extends model {
         return $status[$value];
     }
     public static function getListAll(){
-        $where = ['st' => ['=',1]];
+        $where = ['st' => ['=',1],'type'=>['=',2]];
         $order = "create_time asc";
         $list_ = self::where($where)->order($order)->select();
 

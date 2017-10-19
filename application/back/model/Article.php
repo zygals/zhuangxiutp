@@ -29,29 +29,28 @@ class Article extends Base {
         }
         return false;
     }
-    public static function getList($data=[],$filed='article.*,cate_article.name cate_article_name,school.title school_name',$where=['article.st' => ['<>', 0], 'cate_article.st' => ['=', 1]]) {
+    public static function getList($data=[],$filed='article.*,cate.name cate_name',$where=['article.st' => ['<>', 0], 'cate.st' => ['=', 1]]) {
         $order = "create_time desc";
         if (!empty($data['cate_article_id'])) {
             $where['cate_article_id'] = $data['cate_article_id'];
         }
-        if (!empty($data['school_id'])) {
-            $where['school_id'] = $data['school_id'];
+
+        if (!empty($data['name'])) {
+            $where['article.name'] = ['like','%'.$data['name'].'%'];
         }
-        if (!empty($data['title'])) {
-            $where['article.title'] = ['like','%'.$data['title'].'%'];
-        }
-        if(!empty($data['index_show'])){
-            $where['index_show'] = $data['index_show'];
-        }
+
         if (!empty($data['paixu'])) {
             $order = 'article.'.$data['paixu'] . ' asc';
         }
+
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order ='article.'.$data['paixu'] . ' desc';
         }
 
-        $list_ = self::where($where)->join('cate_article', 'article.cate_article_id=cate_article.id', 'left')->join('school', 'article.school_id=school.id', 'left')->field($filed)->order($order)->paginate();
-         foreach($list_ as $k=>$value){
+        $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->field($filed)->order($order)->paginate();
+//        dump($list_);exit;
+//        $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->join('school', 'article.school_id=school.id', 'left')->field($filed)->order($order)->paginate();
+        foreach($list_ as $k=>$value){
              if(mb_strlen($value->cont,"UTF8")>40){
                  $list_[$k]->cont = mb_substr($value->cont, 0, 100, 'utf-8').'...';
              }
