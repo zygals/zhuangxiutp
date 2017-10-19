@@ -25,16 +25,18 @@
                     </select>
 
                     <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
-                           placeholder="输入名称/姓名搜索"/>
+                           placeholder="输入名称/姓名/城市搜索"/>
 
 
 
                 </div>
                 <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
-                        <option value="">--请选择排序字段--</option>
-                        <option value="sort" {eq name="Think.get.paixu" value="sort"
-                                }selected{/eq}>排序</option>
+                        <option value="">--排序字段--</option>
+                        <option value="ordernum" {eq name="Think.get.paixu" value="ordernum"
+                                }selected{/eq}>订单数</tion>
+                        <option value="tradenum" {eq name="Think.get.paixu" value="tradenum"
+                                }selected{/eq}>交易数</option>
                         <option value="create_time" {eq name="Think.get.paixu" value="create_time"
                                 }selected{/eq}>添加时间</option>
                         <option value="update_time" {eq name="Think.get.paixu" value="update_time"
@@ -43,9 +45,9 @@
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type" value="desc"
                                }checked{/eq}>降序</label>
-                    <!--<label class="">
-                        <input type="checkbox" name="index_show" id="" value="1" {eq name="Think.get.index_show" value="1"
-                               }checked{/eq}>首页推荐</label>-->
+                    <label class="">
+                        <input type="checkbox" name="to_top" id="" value="1" {eq name="Think.get.to_top" value="1"
+                               }checked{/eq}>置顶</label>
                     <button class="btn btn-white btn-xs " type="submit">提交</button>
                 </div>
             </form>
@@ -74,15 +76,21 @@
             <div class="col-xs-1">
                 logo
             </div>
-            <div class="col-xs-1">
+         <!--   <div class="col-xs-1">
                 列表图
+            </div>-->
+            <div class="col-xs-1">
+                订单量
+            </div>
+            <div class="col-xs-1">
+                交易量
             </div>
             <div class="col-xs-1">
                 管理员
             </div>
-            <div class="col-xs-1">
+         <!--   <div class="col-xs-1">
                 添加时间
-			</div>
+			</div>-->
 			<div class="col-xs-">
 				操 作
 			</div>
@@ -114,21 +122,27 @@
                         <img src="__IMGURL__{$row_->logo}" height="55"  alt="没有">
                     </a>
                 </div>
-		<div class="col-xs-1">
+		<!--<div class="col-xs-1">
                     <a href="__IMGURL__{$row_->img}" target="_blank">
                         <img src="__IMGURL__{$row_->img}" height="55"  alt="没有">
                     </a>
-				</div>
+				</div>-->
+                <div class="col-xs-1" title=" {$row_->ordernum}">
+                    {$row_->ordernum}
+                </div>
+                <div class="col-xs-1" title=" {$row_->tradenum}">
+                    {$row_->tradenum}
+                </div>
                 <div class="col-xs-1" title="{$row_->admin_name}">
-                    <?php if($row_->admin_st==2){?>
+                    <?php if($row_->admin_st!==1){?>
                    <span style="color:red;"> {$row_->admin_name}</span>
 <?php }else{?>
                         {$row_->admin_name}
                     <?php }?>
                 </div>
-                <div class="col-xs-1" title=" {$row_->create_time}">
+              <!--  <div class="col-xs-1" title=" {$row_->create_time}">
                     {$row_->create_time}
-                </div>
+                </div>-->
 
 				<div class="col-xs-">
                     <?php if(empty($row_->admin_id)){?>
@@ -137,11 +151,11 @@
                         <a href="{:url('admin/edit_')}?admin_id={$row_->admin_id}&shop_id={$row_->id}"><button class="btn btn-success btn-xs edit_" >改管</button></a>
                     <?php }?>
                     <a href="{:url('edit')}?id={$row_->id}"><button class="btn btn-success btn-xs edit_" >改</button></a>
-
+                <?php if($row_->admin_st!==1){?>
                     <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
                             data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
                     </button>
-
+                <?php }?>
 				</div>
 			</div>
 			<?php }?>
@@ -173,7 +187,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid">
-						确定删除数据吗？
+						确定删除数据吗？删除商户后，对应的管理员也被删除。
 					</div>
 				</div>
 				<div class="modal-footer">

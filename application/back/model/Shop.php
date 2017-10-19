@@ -5,7 +5,10 @@ namespace app\back\model;
 use think\Model;
 
 class Shop extends Base {
-
+    public function getToTopAttr($value) {
+        $status = [0 => '否', 1 => '是'];
+        return $status[$value];
+    }
     public function getStAttr($value) {
         $status = [0 => 'deleted', 1 => '正常'];
         return $status[$value];
@@ -32,10 +35,10 @@ class Shop extends Base {
             $where['cate_id'] = $data['cate_id'];
         }
         if(!empty($data['name_'])){
-            $where['shop.name|shop.truename'] = ['like','%'.$data['name_'].'%'];
+            $where['shop.name|shop.truename|city'] = ['like','%'.$data['name_'].'%'];
         }
-        if(!empty($data['city'])){
-            $where['city'] = ['like','%'.$data['city'].'%'];
+        if (!empty($data['to_top'])) {
+            $where['shop.to_top'] = $data['to_top'];
         }
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

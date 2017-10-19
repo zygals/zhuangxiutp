@@ -36,6 +36,12 @@
                             <label>{$row_order->username}</label>
                         </div>
                     </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-3 control-label">商户名称：</label>
+                        <div class="col-xs-8 ">
+                            <label>{$row_order->shop_id}:{$row_order->shop_name}</label>
+                        </div>
+                    </div>
                     <?php foreach($list_good as $k=>$row_good){?>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><?php if($k==0){?>商品：<?php }?></label>
@@ -44,7 +50,7 @@
                                     <img src="__IMGURL__{$row_good->img}" alt="没有上传图片" width="136"/>
                                 </div>
                                 <div class="col-xs-6">
-                                    <span>编号：{$row_good->id}</span><br>
+                                    <span>编号：{$row_good->good_id}</span><br>
                                     <span>{$row_good->good_name}</span><br>
                                     <span>{$row_good->price} * {$row_good->num}</span>
                                 </div>
@@ -52,12 +58,7 @@
                             </div>
                     </div>
                     <?php }?>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-3 control-label">商户名称：</label>
-                        <div class="col-xs-8 ">
-                            <label>{$row_order->shop_name}</label>
-                        </div>
-                    </div>
+
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">总额：</label>
                         <div class="col-xs-8 ">

@@ -93,7 +93,7 @@ class ShopController extends BaseController {
        // dump($row_->type);exit;
         $referer = $request->header()['referer'];
         $list_cate = Cate::getAllCateByType(1);
-        return $this->fetch('',['row_'=>$row_,'list_cate'=>$list_cate,'title'=>'修改商户'.$row_->name,'act'=>'update','referer'=>$referer]);
+        return $this->fetch('',['row_'=>$row_,'list_cate'=>$list_cate,'title'=>'修改商户：'.$row_->name,'act'=>'update','referer'=>$referer]);
     }
 
     /**

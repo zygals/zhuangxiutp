@@ -24,7 +24,8 @@ class BaseController extends Controller {
             $this->redirect("admin/login");
         }
 
-        if (!empty(session('admin_zhx')) && session('admin_zhx')->type == '商户') {
+        //商户权限
+         if (!empty(session('admin_zhx')) && session('admin_zhx')->type == '商户') {
             $allow_act = false;
             $list_menu = MenuAdmin::getList();
             foreach ($list_menu as $row_) {

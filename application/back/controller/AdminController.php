@@ -41,13 +41,12 @@ class AdminController extends BaseController{
 		$condition['pwd']=$pwd;
 		$admin = Admin::get($condition);
 
-		if($admin->type=='商户'){
-           if($admin->st=='禁用'){
-               $this->error('禁用,请联系平台！');
-           }
-        }
 		if($admin){
-
+            if($admin->type=='商户'){
+                if($admin->st=='禁用'){
+                    $this->error('禁用,请联系平台！');
+                }
+            }
             $admin->setInc('times');
 			session('admin_zhx',(object)array('name'=>$admin->name,'id'=>$admin->id,'type'=>$admin->type,'truename'=>$admin->truename));
             //dump(session('admin_zhx'));exit;

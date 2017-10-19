@@ -7,6 +7,8 @@ use app\back\model\Good;
 use app\back\model\OrderGood;
 
 class Dingdan extends model {
+
+
     public static $arrStatus  = [1=>'未支付',2=>'已支付',4=>'用户取消',5=>'用户删除'];
     public function getStAttr($value)
     {
@@ -20,7 +22,7 @@ class Dingdan extends model {
     }
 
     public static function findOne($order_id){
-       $row_ = self::where(['dingdan.id'=>$order_id])->join('user','dingdan.user_id=user.id')->join('shop','shop.id=dingdan.shop_id')->join('address','address.id=dingdan.address_id')->field('dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.name shop_name')->find();
+       $row_ = self::where(['dingdan.id'=>$order_id])->join('user','dingdan.user_id=user.id')->join('shop','shop.id=dingdan.shop_id')->join('address','address.id=dingdan.address_id')->field('dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name')->find();
 
        return $row_;
     }

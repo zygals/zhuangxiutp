@@ -12,10 +12,10 @@ class Good extends Base {
         return $status[$value];
     }
 
-/*    public function getIndexShowAttr($value) {
+   public function getToTopAttr($value) {
         $status = [0 => '否', 1 => '是'];
         return $status[$value];
-    }*/
+    }
     public function updateAddAttr($good_id){
         $row_good = $this->where(['id'=>$good_id])->find();
         $row_good->is_add_attr =1 ;
@@ -36,11 +36,11 @@ class Good extends Base {
         }
         return false;
     }
-    public static function getList($data=[],$field='good.*,cate.name cate_name,shop.name shop_name',$where=['good.st' => ['<>', 0]]) {
+    public static function getList($data=[],$field='good.*,cate.name cate_name,shop.name shop_name',$where=['good.st' => ['=', 1]]) {
         //$where = ['good.st' => ['<>', 0], 'cate.st' => ['<>', 0]];
         $order = "create_time desc";
-        if (!empty($data['type_id'])) {
-            $where['good.type'] = $data['type_id'];
+        if (!empty($data['to_top'])) {
+            $where['good.to_top'] = $data['to_top'];
         }
         if (!empty($data['cate_id'])) {
             $where['shop.cate_id'] = $data['cate_id'];

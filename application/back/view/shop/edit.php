@@ -77,15 +77,15 @@
                                 <textarea name="info" id="desc_textarea" style="width:700px;height:300px;">{$row_->info}</textarea>
                             </div>
                         </div>
-                       <!-- <div class="form-group" id="diliver_fee_wrap" style="">
-                            <label for="situation" class="col-xs-3 control-label">排序：</label>
+                        <div class="form-group">
+                            <label for="situation" class="col-xs-3 control-label">置顶：</label>
                             <div class="col-xs-8">
+                                <label class="control-label" >
+                                    <input type="radio" name="to_top" id="" value="1" <?php echo $row_->to_top=='是'?'checked':''?>>是</label> &nbsp;
                                 <label class="control-label">
-                                    <input type="number" name="sort" class="form-control input-sm duiqi" id=""
-                                           value="10000"></label> &nbsp;
-
+                                    <input type="radio" name="to_top" id="" value="0" <?php echo $row_->to_top=='否'?'checked':''?>> 否</label>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
 				<div class="text-center">
                     <a href="javascript:history.back()">

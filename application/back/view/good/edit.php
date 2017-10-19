@@ -51,19 +51,36 @@
                                 <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label for="situation" class="col-xs-3 control-label">置顶：</label>
+                            <div class="col-xs-8">
+                                <label class="control-label" >
+                                    <input type="radio" name="to_top" id="" value="1" <?php echo $row_->to_top=='是'?'checked':''?>>是</label> &nbsp;
+                                <label class="control-label">
+                                    <input type="radio" name="to_top" id="" value="0" <?php echo $row_->to_top=='否'?'checked':''?>> 否</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="situation" class="col-xs-3 control-label">状态：</label>
+                            <div class="col-xs-8">
+                                <label class="control-label" >
+                                    <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
+                                <label class="control-label">
+                                    <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='下架'?'checked':''?>> 下架</label>
+                            </div>
+                        </div>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>价格：</label>
                             <div class="col-xs-8 ">
                                 <input type="text" class="form-control input-sm duiqi" name='price' value="{$row_->price}" id="" placeholder="">
                             </div>
                         </div>
-                        <div class="form-group ">
+                       <!-- <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>库存：</label>
                             <div class="col-xs-8 ">
                                 <input type="number" class="form-control input-sm duiqi" name='store' value="{$row_->store}" id="" placeholder="">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>列表图：</label>
                             <div class="col-xs-4 ">
@@ -87,15 +104,7 @@
                                 <textarea name="desc" id="desc_textarea" style="width:700px;height:300px;">{$row_->desc}</textarea>
                             </div>
                         </div>
-                        <div class="form-group" id="diliver_fee_wrap" style=";">
-                            <label for="situation" class="col-xs-3 control-label">排序：</label>
-                            <div class="col-xs-8">
-                                <label class="control-label">
-                                    <input type="number" name="sort" class="form-control input-sm duiqi" id=""
-                                           value="{$row_->sort}"></label> &nbsp;
 
-                            </div>
-                        </div>
                        <!-- <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">首页推荐：</label>
                             <div class="col-xs-8">
@@ -105,15 +114,7 @@
                                     <input type="radio" name="index_show" class="index_show no" value="0" <?php /*echo $row_->index_show=='否'?'checked':'';*/?>> 否</label>
                             </div>
                         </div>-->
-                        <div class="form-group">
-                            <label for="situation" class="col-xs-3 control-label">状态：</label>
-                            <div class="col-xs-8">
-                                <label class="control-label" >
-                                    <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
-                                <label class="control-label">
-                                    <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='下架'?'checked':''?>> 下架</label>
-                            </div>
-                        </div>
+
                         <?php if($row_->is_add_attr=1 && !empty($row_->good_attrs)){?>
                             <div class="form-group">
                                 <label for="situation" class="col-xs-3 control-label">参数列表：</label>

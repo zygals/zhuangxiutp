@@ -12,7 +12,7 @@
 		<div class="row" >
 			<div class="col-xs-8">
 				<div class="text-center">
-					<h4 class="modal-title" id="gridSystemModalLabel">改管理员</h4>
+					<h4 class="modal-title" id="gridSystemModalLabel">改商户管理员</h4>
 				</div>
 				<div class="">
 					<div class="container-fluid">
