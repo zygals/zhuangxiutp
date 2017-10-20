@@ -24,13 +24,28 @@ $('#cate_name_label').html(cate_name);
 					<div class="container-fluid">
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商户：</label>
-                            <div class="col-xs-8">
-                                <select onchange="changeCate(this)" class=" form-control select-duiqi" name="shop_id" id="">
-                                    <?php foreach ($list_shop as $row_) { ?>
-                                        <option data_cate_name="{$row_->cate_name}" value="{$row_['id']}" >{$row_['name']}</option>
-                                    <?php } ?>
-                                </select>
-                            </div>
+                            <?php if($isShopAdmin){?>
+                                <div class="col-xs-8">
+                                    <label>
+                                        <?php foreach ($list_shop as $row_) {
+                                            if($row_['id']==session('admin_zhx')->shop_id){
+                                                echo $row_['name'];
+                                        ?>
+                                            <input type="hidden" name="shop_id" value="{$row_['id']}">
+                                        <?php }}?>
+                                    </label>
+                                </div>
+                            <?php }else{?>
+                                <div class="col-xs-8">
+                                    <select onchange="changeCate(this)" class=" form-control select-duiqi" name="shop_id" id="">
+                                        <?php foreach ($list_shop as $row_) { ?>
+                                            <option data_cate_name="{$row_->cate_name}" value="{$row_['id']}" >{$row_['name']}</option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            <?php } ?>
+
+
                         </div>
 
                         <div class="form-group">

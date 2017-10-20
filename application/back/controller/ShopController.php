@@ -27,7 +27,8 @@ class ShopController extends BaseController {
         $page_str = Base::getPageStr($data,$page_str);
         $url = $request->url();
         $list_cate = Cate::getAllCateByType(1);
-        return $this->fetch('index', ['list_' => $list_,'url'=>$url,'list_cate'=>$list_cate,'page_str'=>$page_str]);
+        $isShopAdmin = Admin::isShopAdmin();
+        return $this->fetch('index', ['list_' => $list_,'isShopAdmin'=>$isShopAdmin,'url'=>$url,'list_cate'=>$list_cate,'page_str'=>$page_str]);
     }
 
     /**
@@ -104,7 +105,7 @@ class ShopController extends BaseController {
      * @return \think\Response
      */
     public function update(Request $request) {
-        //dump($request->param());exit;
+//        dump($request->param());exit;
         $data = $request->param();
         $referer = $data['referer'];unset($data['referer']);
         $res = $this->validate($data, 'ShopValidate');
@@ -112,10 +113,18 @@ class ShopController extends BaseController {
             $this->error($res);
         }
         $row_ = $this->findById($data['id'],new Shop());
-
+//        dump($row_);exit;
+        if($data['cate_id'] != $row_['cate_id']){
+            $good = new Good;
+            $good->where('shop_id', $row_['id'])
+                ->update(['cate_id' => $data['cate_id']]);
+        }
+//        dump($row_);exit;
         $file = $request->file('img');
         $file2 = $request->file('logo');
         $path_name = 'shop';
+
+
         if(!empty($file)){
             $size = $file->getSize();
             if ($size > config('upload_size') ) {

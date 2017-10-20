@@ -7,6 +7,7 @@ use app\back\model\Base;
 use app\back\model\Good;
 use app\back\model\GoodAttr;
 use app\back\model\Cate;
+use app\back\model\Admin;
 
 use app\back\model\OrderGood;
 use app\back\model\Shop;
@@ -27,13 +28,15 @@ class GoodController extends BaseController {
             $this->error($res);
         }
         $list_ = Good::getList($data);
+//        dump($list_);exit;
         $list_shop = Shop::getListAll();
         $list_cate = Cate::getAllCateByType(1);
         // dump($list_shop);
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
-        return $this->fetch('index', ['list_' => $list_, 'list_shop' => $list_shop, 'list_cate' => $list_cate, 'url' => $url, 'page_str' => $page_str]);
+        $isShopAdmin = Admin::isShopAdmin();
+        return $this->fetch('index', ['list_' => $list_,'isShopAdmin'=>$isShopAdmin ,'list_shop' => $list_shop, 'list_cate' => $list_cate, 'url' => $url, 'page_str' => $page_str]);
     }
 
     /**
@@ -44,8 +47,11 @@ class GoodController extends BaseController {
     public function create() {
 
         $list_shop = Shop::getListAll();
+        $isShopAdmin = Admin::isShopAdmin();
+//        dump(session('admin_zhx'));exit;
+//        dump($list_shop);exit;
         //$list_cate= Cate::getAllCateByType(1);
-        return $this->fetch('', ['list_shop' => $list_shop, 'title' => '添加商品', 'act' => 'save']);
+        return $this->fetch('', ['list_shop' => $list_shop,'isShopAdmin'=>$isShopAdmin, 'title' => '添加商品', 'act' => 'save']);
 
     }
 

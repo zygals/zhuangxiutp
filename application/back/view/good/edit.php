@@ -31,6 +31,7 @@
                                     <?php foreach ($list_shop as $row_s) { ?>
                                         <?php echo $row_s->id==$row_->shop_id ?$row_s->name:'' ;?>
                                     <?php } ?>
+                                    <input type="hidden" name="shop_id" value="{$row_['id']}">
                                 </label>
                             </div>
                         </div>

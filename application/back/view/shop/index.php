@@ -16,14 +16,19 @@
         <div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
+                    <?php if($isShopAdmin){?>
+
+                    <?php }else{?>
                     <select name="cate_id" style="color:inherit">
+
                         <option value="">--请选择分类--</option>
                         <?php foreach ($list_cate as $row_) { ?>
                             <option value="{$row_->id}" {eq name="Think.get.cate_id" value="$row_->id"
                                     }selected{/eq}>{$row_->name}</option>
                         <?php } ?>
-                    </select>
 
+                    </select>
+                    <?php }?>
                     <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
                            placeholder="输入名称/姓名/城市搜索"/>
 
