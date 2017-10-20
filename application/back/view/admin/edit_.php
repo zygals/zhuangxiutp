@@ -46,6 +46,7 @@
                                        value="" id="" placeholder="留空表示不改">
                             </div>
                         </div>
+<?php if(session('admin_zhx')->type=='超级'){?>
                         <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">状态：</label>
                             <div class="col-xs-8">
@@ -54,7 +55,7 @@
                                 <label class="control-label">
                                     <input type="radio" name="st" id="" value="2" <?php echo $row_admin->st=='禁用'?'checked':''?>> 禁用</label>
                             </div>
-                        </div>
+                        </div><?php }?>
 
 
 				</div>

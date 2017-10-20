@@ -34,7 +34,9 @@ class Dingdan extends model {
         $order = ['create_time desc'];
         $time_from = isset($data['time_from'])?$data['time_from']:'';
         $time_to = isset($data['time_to'])?$data['time_from']:'';
-
+        if(Admin::isShopAdmin()){
+            $where['dingdan.shop_id'] = session('admin_zhx')->shop_id;
+        }
         if(!empty($time_from)){
             $where['dingdan.create_time']=['gt',strtotime($time_from)];
         }

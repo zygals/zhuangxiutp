@@ -26,11 +26,12 @@
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商户：</label>
                             <div class="col-xs-8">
-                                <select onchange="changeCate(this)"  class=" form-control select-duiqi" name="shop_id" id="">
+
+                                <label  id="cate_name_label">
                                     <?php foreach ($list_shop as $row_s) { ?>
-                                        <option data_cate_name="{$row_s->cate_name}" value="{$row_s['id']}" <?php echo $row_s->id==$row_->shop_id?'selected':''?>>{$row_s['name']}</option>
+                                        <?php echo $row_s->id==$row_->shop_id ?$row_s->name:'' ;?>
                                     <?php } ?>
-                                </select>
+                                </label>
                             </div>
                         </div>
 
@@ -48,7 +49,7 @@
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>名称：</label>
                             <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
+                                <input type="text" class="form-control input-sm " name='name' value="{$row_->name}" id="" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">

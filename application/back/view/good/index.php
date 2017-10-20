@@ -167,14 +167,16 @@
                             <a href="{:url('edit')}?id={$row_->id}">
                                 <button class="btn btn-success btn-xs edit_" title="修改">修</button>
                             </a>
-                            <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
-                                    data-target="#downSource" data-id="<?= $row_['id'] ?>" onclick="down_(this)" title="下架"> 下
-                            </button>
+
                     <?php if ($row_->st == '下架') { ?>
                             <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
                                     data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
                             </button>
-                    <?php } ?>
+                    <?php } else{?>
+                        <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
+                                data-target="#downSource" data-id="<?= $row_['id'] ?>" onclick="down_(this)" title="下架"> 下
+                        </button>
+                        <?php }?>
                             <!-- <a href="{:url('good_attr/create')}?good_id={$row_->id}"><button class="btn <?php /*if($row_->is_add_attr==0){*/ ?>btn-info<?php /*}else{*/ ?>btn-danger<?php /*}*/ ?> btn-xs edit_" ><?php /*if($row_->is_add_attr==0){*/ ?> 完参数<?php /*}else{*/ ?>更参数<?php /*}*/ ?></button></a>-->
 
                         </div>

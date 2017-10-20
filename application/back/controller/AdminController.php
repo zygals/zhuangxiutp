@@ -48,7 +48,7 @@ class AdminController extends BaseController{
                 }
             }
             $admin->setInc('times');
-			session('admin_zhx',(object)array('name'=>$admin->name,'id'=>$admin->id,'type'=>$admin->type,'truename'=>$admin->truename));
+			session('admin_zhx',(object)array('name'=>$admin->name,'id'=>$admin->id,'type'=>$admin->type,'truename'=>$admin->truename,'shop_id'=>$admin->shop_id));
             //dump(session('admin_zhx'));exit;
           $ip = $_SERVER['REMOTE_ADDR'];
             (new AdminLog())->addLog($admin->id,$ip);
@@ -134,9 +134,10 @@ class AdminController extends BaseController{
      * 改一般管理员的密码
      * */
     public function update_(Request $request) {
+
         $data = $request->param();
         $referer = $data['referer'];unset($data['referer']);
-        //dump($data);exit;
+       // dump(url('logout'));exit;
         $rule = ['admin_id'=>'require|number','repass' => 'confirm:pass'];
         $res = $this->validate($data,$rule);
         if(true!==$res){
@@ -153,7 +154,13 @@ class AdminController extends BaseController{
         if (!($this->saveById($data['id'], new Admin(), $data))) {
             $this->error('没有修改内容！',$referer);
         }
-        $this->success('修改成功', $referer, '', 1);
+        if(Admin::isShopAdmin()){
+            $this->success('修改成功,请重新登录', url('logout'), '', 1);
+        }else{
+
+            $this->success('修改成功', $referer, '', 1);
+        }
+
     }
     /*
      * update pwd of admin
@@ -164,7 +171,6 @@ class AdminController extends BaseController{
     }
     public function update(Request $request){
         $data = $request->param();
-        //dump($data);exit;
         $rule = ['pass'=>'require','pass_new'=>'require','repass_new'=>'require|confirm:pass_new'];
         $msg = ['pass'=>'原始密码必须','pass_new'=>'新密码必须','repass_new.require'=>'确认密码必须','repass_new.confirm'=>'确认密码与新密码不一致'];
         $res = $this->validate($data,$rule,$msg);

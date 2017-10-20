@@ -39,6 +39,9 @@ class Good extends Base {
     public static function getList($data=[],$field='good.*,cate.name cate_name,shop.name shop_name',$where=['good.st' => ['=', 1]]) {
         //$where = ['good.st' => ['<>', 0], 'cate.st' => ['<>', 0]];
         $order = "create_time desc";
+        if(Admin::isShopAdmin()){
+            $where['good.shop_id'] = session('admin_zhx')->shop_id;
+        }
         if (!empty($data['to_top'])) {
             $where['good.to_top'] = $data['to_top'];
         }

@@ -1,6 +1,7 @@
 <?php
 namespace app\back\controller;
 
+use app\back\model\Admin;
 use app\back\model\MenuAdmin;
 use think\Controller;
 use think\Request;
@@ -20,17 +21,17 @@ class BaseController extends Controller {
             'admin/captcha'
         );
         //echo $current_request;exit;
-        if (!session('admin_zhx') && !in_array($current_request, $not_logins)) {
+        if (!(session('admin_zhx') || in_array($current_request, $not_logins))) {
             $this->redirect("admin/login");
         }
 
         //商户权限
-         if (!empty(session('admin_zhx')) && session('admin_zhx')->type == '商户') {
+        if (!empty(session('admin_zhx')) && Admin::isShopAdmin()) {
             $allow_act = false;
             $list_menu = MenuAdmin::getList();
             foreach ($list_menu as $row_) {
                 foreach ($row_['childs'] as $row_child) {
-                    if (strtolower($row_child->controller) == strtolower($request->controller()) || $current_request=='index/index') {
+                    if (strtolower($row_child->controller) == strtolower($request->controller()) || $current_request == 'index/index' || $current_request == 'admin/edit_' || $current_request == 'admin/update_' || $current_request == 'admin/logout') {
 
                         $allow_act = true;
                     }

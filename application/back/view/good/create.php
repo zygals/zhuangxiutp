@@ -42,7 +42,7 @@ $('#cate_name_label').html(cate_name);
 							<div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>名称：</label>
 								<div class="col-xs-8 ">
-									<input type="text" class="form-control input-sm duiqi" name='name' value="" id="" placeholder="">
+									<input type="text" class="form-control input-sm" name='name' value="" id="" placeholder="">
 								</div>
 							</div>
 
