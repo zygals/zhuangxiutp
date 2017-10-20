@@ -28,10 +28,10 @@
                         <?php } ?>
 
                     </select>
-                    <?php }?>
+
                     <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
                            placeholder="输入名称/姓名/城市搜索"/>
-
+                    <?php }?>
 
 
                 </div>
