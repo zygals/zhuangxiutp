@@ -28,9 +28,8 @@
         <div class="col-xs-11">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
-                    <?php if($isShopAdmin){?>
 
-                    <?php }else{?>
+                    <?php if(!$isShopAdmin){?>
                     <select name="shop_id" style="color:inherit">
                         <option value="">--请选择商户--</option>
                         <?php foreach ($list_shop as $row_) { ?>

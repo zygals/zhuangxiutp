@@ -16,9 +16,7 @@
         <div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
-                    <?php if($isShopAdmin){?>
-
-                    <?php }else{?>
+                    <?php if(!$isShopAdmin){?>
                     <select name="cate_id" style="color:inherit">
 
                         <option value="">--请选择分类--</option>
