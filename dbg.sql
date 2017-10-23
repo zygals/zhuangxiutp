@@ -21,3 +21,51 @@ alter table admin add income  decimal(10,2)  DEFAULT '0.00' comment '商家的�
  drop table groupbuy;
  drop table groupbuy_price;
 
+-- 改的表2
+alter table shop add shop_address text comment '门店地址';
+alter table shop add brand varchar(100) comment '经营品牌';
+alter table shop drop shop_address;
+alter table shop add is_add_address tinyint default 0 comment '是否添加店铺地址';
+
+
+DROP TABLE IF EXISTS `shop_address`;
+CREATE TABLE `shop_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   shop_id int not null comment '商家id',
+  name_ varchar(100) not null comment '门店名称',
+ truename_ varchar(100) default '' comment '联系人姓名',
+  mobile_ char(50) default '' comment '联系人手机',
+  address_ varchar(200) default '' comment '详细地址',
+  create_time int default 0,
+  update_time int default 0,
+ st tinyint not null default 1 comment '1正常 0删除',
+  index (`shop_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='商户门店地址' ;
+
+
+DROP TABLE IF EXISTS `withdraw`;
+CREATE TABLE `withdraw` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+   admin_id int not null comment '申请商户id',
+  cach decimal(8,2) not null default 0.00 comment '申请提现金额',
+   st tinyint not null default 1 comment '1待审核 2通过 3未通过', 
+  cash_st tinyint not null default 1 comment '资金状态：1返还成功 2返还失败 ',
+  create_time int default 0,
+  update_time int default 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商户申请提现表' ;
+
+DROP TABLE IF EXISTS `setting`;
+CREATE TABLE `setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  withdraw_limit int  default 0  comment '商户申请提现最小金额',
+  contact varchar(50) not null default '' comment '联系人',
+  address varchar(255) not null default '' comment '平台地址',
+  mobile char(11) not null default '' comment '平台电话',
+  create_time int default 0,
+  update_time int default 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='网站相关设置' ;
+
+
+alter table admin add privilege varchar(255) not null default '' comment '一般管理员权限';
