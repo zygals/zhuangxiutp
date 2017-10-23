@@ -167,8 +167,9 @@
                         </div>
                         <div class="col-xs-">
                             <a href="{:url('edit')}?id={$row_->id}">
-                                <button class="btn btn-success btn-xs edit_" title="修改">修</button>
+                                <button class="btn btn-success btn-xs edit_" title="修改商品">修</button>
                             </a>
+
 
                     <?php if ($row_->st == '下架') { ?>
                             <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"

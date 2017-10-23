@@ -15,13 +15,14 @@
 					<h4 class="modal-title" id="gridSystemModalLabel">{$title}</h4>
 				</div>
 				<div class="">
-					<div class="container-fluid">
+					<div class="container-fluid" id="fields_div">
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商户名称：</label>
                             <div class="col-xs-8">
                                 <input type="text" class="form-control input-sm duiqi" name='name' value="" id="" placeholder="">
                             </div>
                         </div>
+
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span> 商家姓名：</label>
                             <div class="col-xs-8 ">
@@ -31,7 +32,7 @@
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                             <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
+                                <input type="number" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
                             </div>
                         </div>
                         <div class="form-group ">
@@ -54,6 +55,12 @@
 <?php }?>
                             </div>
                         </div>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->经营品牌：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm " name='brand' value="" id="" placeholder="">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>logo：</label>
                             <div class="col-xs-4 ">
@@ -68,6 +75,53 @@
                             </div>
 
                         </div>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label">简介：</label>
+                            <div class="col-xs-8 ">
+                                <textarea name="info" id="desc_textarea" style="width:700px;height:300px;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>门店地址：</label>
+<button type="button" id="more_addr">增加</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="minus_addr">减少</button>
+                        </div>
+                        <div class="address_wrap" style="padding-left:80px;">
+
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>门店名称：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="text" class="form-control input-sm" name='name_[]' value="" id=""
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>联系人姓名：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="text" class="form-control input-sm duiqi" name='truename_[]' value=""
+                                           id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="number" class="form-control input-sm duiqi" name='mobile_[]' value=""
+                                           id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>详细地址：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="text" class="form-control input-sm " name='address_[]' value="" id=""
+                                           placeholder="">
+                                </div>
+                            </div>
+                        </div>
+
                        <!-- <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>详情页图：</label>
                             <div class="col-xs-4 ">
@@ -75,21 +129,8 @@
                             </div>
 
                         </div>-->
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label">详细说明：</label>
-                            <div class="col-xs-8 ">
-                                <textarea name="info" id="desc_textarea" style="width:700px;height:300px;"></textarea>
-                            </div>
-                        </div>
-                       <!-- <div class="form-group" id="diliver_fee_wrap" style="">
-                            <label for="situation" class="col-xs-3 control-label">排序：</label>
-                            <div class="col-xs-8">
-                                <label class="control-label">
-                                    <input type="number" name="sort" class="form-control input-sm duiqi" id=""
-                                           value="10000"></label> &nbsp;
 
-                            </div>
-                        </div>-->
+
                     </div>
 				<div class="text-center">
                     <a href="javascript:history.back()">
@@ -102,6 +143,17 @@
 </form>
 
 <script>
+    $('#more_addr').click(function () {
+        var str = $('.address_wrap').last().clone();
+        $('#fields_div').append(str);
+    });
+    $('#minus_addr').click(function () {
+        if( $('.address_wrap').length==1){
+            return;
+        }
+        $('.address_wrap').last().remove();
+    });
+
       $(function () {
 
         $('form').bootstrapValidator({
@@ -174,6 +226,36 @@
                         }
                     }
                 },
+                "name_[]": {
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
+                    }
+                },
+
+                "truename_[]": {
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
+                    }
+                },
+                "mobile_[]": {
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
+                    }
+                },
+                "address_[]": {
+                    validators: {
+                        notEmpty: {
+                            message: '不能为空'
+                        }
+                    }
+                },
+
 
             }
         });

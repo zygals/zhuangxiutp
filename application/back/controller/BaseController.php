@@ -43,6 +43,22 @@ class BaseController extends Controller {
             }
         }
 
+        if(!empty(session('admin_zhx')) && Admin::isGeneral()){
+            $my_power = MenuAdmin::getListNormal();
+            $is_have_power = false;
+            foreach ($my_power as $power){
+                $power_str = strtolower($power->controller).'/'.$power->action;
+
+                if($power_str==$current_request || strtolower($power->controller)==strtolower($request->controller()) || $current_request=='admin/sigin' || $current_request=='admin/login' ||$current_request=='index/index'|| $current_request=='admin/logout'){
+                    $is_have_power=true;
+                    break;
+                }
+            }
+            if($is_have_power==false){
+                $this->error('您没有此权限');
+            }
+        }
+
     }
 
 

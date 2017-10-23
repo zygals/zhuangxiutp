@@ -10,6 +10,7 @@ use app\back\model\Shop;
 
 use app\back\model\Cate;
 
+use app\back\model\ShopAddress;
 use think\Request;
 
 
@@ -24,11 +25,11 @@ class ShopController extends BaseController {
         $data = $request->param();
         $list_ = Shop::getList($data);
         $page_str = $list_->render();
-        $page_str = Base::getPageStr($data,$page_str);
+        $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
         $list_cate = Cate::getAllCateByType(1);
         $isShopAdmin = Admin::isShopAdmin();
-        return $this->fetch('index', ['list_' => $list_,'isShopAdmin'=>$isShopAdmin,'url'=>$url,'list_cate'=>$list_cate,'page_str'=>$page_str]);
+        return $this->fetch('index', ['list_' => $list_, 'isShopAdmin' => $isShopAdmin, 'url' => $url, 'list_cate' => $list_cate, 'page_str' => $page_str]);
     }
 
     /**
@@ -38,7 +39,7 @@ class ShopController extends BaseController {
      */
     public function create() {
         $list_cate = Cate::getAllCateByType(1);
-        return $this->fetch('', ['title'=>'添加商户','act'=>'save','list_cate'=>$list_cate]);
+        return $this->fetch('', ['title' => '添加商户', 'act' => 'save', 'list_cate' => $list_cate]);
 
     }
 
@@ -51,11 +52,13 @@ class ShopController extends BaseController {
     public function save(Request $request) {
 
         $data = $request->param();
-        //dump($data);exit;
+
         $res = $this->validate($data, 'ShopValidate');
         if ($res !== true) {
             $this->error($res);
         }
+
+
         $file = $request->file('img');
         $file2 = $request->file('logo');
 
@@ -73,14 +76,19 @@ class ShopController extends BaseController {
         $arr2 = $this->dealImg($file2, $path_name);
         $data['img'] = $arr['save_url_path'];
         $data['logo'] = $arr2['save_url_path'];
-        if(!empty($data['cate_ids'])){
-            $data['cate_ids'] = implode(',',$data['cate_ids']);
+        if (!empty($data['cate_ids'])) {
+            $data['cate_ids'] = implode(',', $data['cate_ids']);
         }
+        $data_address = $data;
 
         $shop = new Shop();
         $shop->save($data);
+
+
         $this->success('添加成功', 'index', '', 1);
     }
+    //add shop_address
+
 
     /**
      * 显示编辑资源表单页.
@@ -90,11 +98,13 @@ class ShopController extends BaseController {
      */
     public function edit(Request $request) {
         $data = $request->param();
-        $row_ = $this->findById($data['id'],new Shop());
-       // dump($row_->type);exit;
-        $referer = $request->header()['referer'];
+        $row_ = $this->findById($data['id'], new Shop());
+        // dump($row_->type);exit;
         $list_cate = Cate::getAllCateByType(1);
-        return $this->fetch('',['row_'=>$row_,'list_cate'=>$list_cate,'title'=>'修改商户：'.$row_->name,'act'=>'update','referer'=>$referer]);
+        $list_address = ShopAddress::getAddressByShop($row_->id);
+
+        $referer = $request->header()['referer'];
+        return $this->fetch('', ['row_' => $row_, 'list_cate' => $list_cate,'list_address'=>$list_address, 'title' => '修改商户：' . $row_->name, 'act' => 'update', 'referer' => $referer]);
     }
 
     /**
@@ -107,14 +117,16 @@ class ShopController extends BaseController {
     public function update(Request $request) {
 //        dump($request->param());exit;
         $data = $request->param();
-        $referer = $data['referer'];unset($data['referer']);
+        $referer = $data['referer'];
+        unset($data['referer']);
         $res = $this->validate($data, 'ShopValidate');
         if ($res !== true) {
             $this->error($res);
         }
-        $row_ = $this->findById($data['id'],new Shop());
+
+        $row_ = $this->findById($data['id'], new Shop());
 //        dump($row_);exit;
-        if($data['cate_id'] != $row_['cate_id']){
+        if ($data['cate_id'] != $row_['cate_id']) {
             $good = new Good;
             $good->where('shop_id', $row_['id'])
                 ->update(['cate_id' => $data['cate_id']]);
@@ -125,28 +137,28 @@ class ShopController extends BaseController {
         $path_name = 'shop';
 
 
-        if(!empty($file)){
+        if (!empty($file)) {
             $size = $file->getSize();
-            if ($size > config('upload_size') ) {
+            if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
             }
             $this->deleteImg($row_->img);
             $arr = $this->dealImg($file, $path_name);
             $data['img'] = $arr['save_url_path'];
         }
-        if(!empty($file2)){
+        if (!empty($file2)) {
             $size = $file2->getSize();
-            if ($size > config('upload_size') ) {
+            if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
             }
             $this->deleteImg($row_->logo);
             $arr = $this->dealImg($file2, $path_name);
             $data['logo'] = $arr['save_url_path'];
         }
-        if($this->saveById($data['id'],new Shop(),$data)){
+        if ($this->saveById($data['id'], new Shop(), $data)) {
 
             $this->success('编辑成功', $referer, '', 1);
-        }else{
+        } else {
             $this->error('没有修改内容', $referer, '', 1);
         }
     }
@@ -160,18 +172,81 @@ class ShopController extends BaseController {
     public function delete(Request $request) {
         $data = $request->param();
         $list_good = Good::getListByshopId($data['id']);
-        if($list_good){
+        if ($list_good) {
             $this->error('商户下有商品，不允许删除');
         }
 
-        if( $ret = $this->deleteStatusById($data['id'],new Shop())){
+        if ($ret = $this->deleteStatusById($data['id'], new Shop())) {
             //同时删除管理员
-            $this->deleteStatusById($ret->admin_id,new Admin());
+            $this->deleteStatusById($ret->admin_id, new Admin());
             $this->success('删除成功', $data['url'], '', 1);
-        }else{
+        } else {
             $this->error('删除失败', $data['url'], '', 3);
         }
     }
+    //add shop address
+    public function add_address(Request $request){
+        $data = $request->param();
+        $row_shop = $this->findById($data['id'], new Shop());
+        if($row_shop->is_add_address==1){
+            $this->error('已添加过地址');
+
+        }
+        $referer = $request->header()['referer'];
+//        return $referer;
+
+        return $this->fetch('',['referer'=>$referer,'shop_id'=>$row_shop->id,'title'=>'添加 '.$row_shop->name.' 门店地址','act'=>'save_address']);
+    }
+
+    public function save_address(Request $request){
+        $data = $request->param();
+
+        $res = $this->validate($data, 'ShopAddressValidate');
+        if ($res !== true) {
+            $this->error($res);
+        }
+        $row_shop = $this->findById($data['shop_id'],new Shop());
+        if(empty($data['name_'][0]) || empty($data['truename_'][0]) || empty($data['address_'][0]) || empty($data['mobile_'][0])) {
+            $this->error('门店地址不能为空');
+        }
+        $referer = $data['referer'];unset($data['referer']);
+        //add shop_address
+        (new ShopAddress())->saveAddress($data);
+        $row_shop->is_add_address = 1;
+        $row_shop->save();
+        $this->success('添加成功', $referer, '', 1);
+    }
+
+    public function edit_address(Request $request){
+        $data = $request->param();
+        $row_shop = $this->findById($data['id'],new Shop());
+          $list_address = ShopAddress::getAddressByShop($data['id']);
+
+
+        $referer = $request->header()['referer'];
+        return $this->fetch('',['referer'=>$referer,'shop_id'=>$row_shop->id,'list_address'=>$list_address,'title'=>'修改 '.$row_shop->name.' 门店地址','act'=>'update_address']);
+    }
+    public function update_address(Request $request){
+        $data = $request->param();
+        $res = $this->validate($data, 'ShopAddressValidate');
+        if ($res !== true) {
+            $this->error($res);
+        }
+        if(empty($data['name_'][0]) || empty($data['truename_'][0]) || empty($data['address_'][0]) || empty($data['mobile_'][0])) {
+            $this->error('门店地址不能为空');
+        }
+
+        (new ShopAddress())->saveAddress($data,2);
+
+        $referer = $data['referer'];unset($data['referer']);
+        $this->success('修改成功', $referer, '', 1);
+
+    }
+
+
+
+
+
 
 
 }

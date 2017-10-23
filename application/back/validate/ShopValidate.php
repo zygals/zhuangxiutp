@@ -14,6 +14,8 @@ class ShopValidate extends Validate{
 		'cate_id' =>  'require|number',
 
 
+
+
 	];
 	protected $message  =   [
 		'name.require' => 'name 必须',

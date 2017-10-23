@@ -16,7 +16,7 @@
 					<h4 class="modal-title" id="gridSystemModalLabel">{$title}</h4>
 				</div>
 				<div class="">
-					<div class="container-fluid">
+					<div class="container-fluid" id="fields_div">
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商户名称：</label>
                             <div class="col-xs-8">
@@ -32,7 +32,7 @@
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                             <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='phone' value="{$row_->phone}" id="" placeholder="">
+                                <input type="number" class="form-control input-sm duiqi" name='phone' value="{$row_->phone}" id="" placeholder="">
                             </div>
                         </div>
                         <div class="form-group ">
@@ -53,6 +53,12 @@
                                 <?php foreach($list_cate as $row_c){?>
                                 <label ><input type="radio" <?php echo $row_c->id==$row_->cate_id?'checked':'';?> name="cate_id" value="{$row_c->id}">{$row_c->name}&nbsp;&nbsp;</label>
 <?php }?>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->经营品牌：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm " name='brand' value="{$row_->brand}" id="" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -86,6 +92,47 @@
                                     <input type="radio" name="to_top" id="" value="0" <?php echo $row_->to_top=='否'?'checked':''?>> 否</label>
                             </div>
                         </div>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>门店地址：</label>
+                            <button type="button" id="more_addr">增加</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="minus_addr">减少</button>
+                        </div>
+<?php foreach($list_address as $row_address){?>
+                        <div class="address_wrap" style="padding-left:80px;">
+
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>门店名称：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="text" class="form-control input-sm" name='name_[]' value="{$row_address->name_}" id=""
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>联系人姓名：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="text" class="form-control input-sm duiqi" name='truename_[]' value="{$row_address->truename_}"
+                                           id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="number" class="form-control input-sm duiqi" name='mobile_[]' value="{$row_address->mobile_}"
+                                           id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label"><span
+                                            style="color:red;">*&nbsp;&nbsp;</span>详细地址：</label>
+                                <div class="col-xs-8 ">
+                                    <input type="text" class="form-control input-sm " name='address_[]' value="{$row_address->address_}" id=""
+                                           placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <?php }?>
                     </div>
 				<div class="text-center">
                     <a href="javascript:history.back()">
@@ -98,6 +145,18 @@
 </form>
 
 <script>
+    $('#more_addr').click(function () {
+       // alert()
+        var str = $('.address_wrap').last().clone();
+        $('#fields_div').append(str);
+    });
+    $('#minus_addr').click(function () {
+        if( $('.address_wrap').length==1){
+            return;
+        }
+        $('.address_wrap').last().remove();
+    });
+
       $(function () {
 
         $('form').bootstrapValidator({
