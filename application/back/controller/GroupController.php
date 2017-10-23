@@ -7,9 +7,13 @@ use app\back\model\Ad;
 
 use app\back\model\Base;
 use think\Request;
+use app\back\model\Group;
+use app\back\model\Admin;
+use app\back\model\Shop;
+use app\back\model\Good;
 
 
-class GroupBuyController extends BaseController {
+class GroupController extends BaseController {
     /**
      * 显示资源列表
      *
@@ -17,8 +21,8 @@ class GroupBuyController extends BaseController {
      */
     public function index(Request $request) {
         $data = $request->param();
-
-        $list_ = Ad::getList($data);
+//        $isShopAdmin = Admin::isShopAdmin();
+        $list_ = Group::getList($data);
         $page_str = $list_->render();
         $page_str =Base::getPageStr($data,$page_str);
         $url = $request->url();
@@ -46,9 +50,18 @@ class GroupBuyController extends BaseController {
      */
     public function create() {
 
+        $isShopAdmin = Admin::isShopAdmin();
+        $shop = Shop::getList();
+        return $this->fetch('', ['title'=>'添加团购活动','isShopAdmin'=>$isShopAdmin,'shop'=>$shop,'act'=>'save',]);
 
-        return $this->fetch('', ['title'=>'添加广告图','act'=>'save']);
+    }
 
+    public function ajax(Request $request){
+        $shop_id = $request->param();
+        $id = $shop_id['shop_id'];
+        $good = new Good;
+        $res = $good->where('shop_id',$id)->select();
+        return $res;
     }
 
     /**
@@ -59,28 +72,21 @@ class GroupBuyController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-
-        $res = $this->validate($data, 'AdValidate');
-        if ($res !== true) {
-            $this->error($res);
+//        dump($data);exit;
+        $data['end_time']=strtotime($data['end_time']);
+//        $res = $this->validate($data, 'AdValidate');
+//        if ($res !== true) {
+//            $this->error($res);
+//        }
+        if($data['type']==1){
+            $data['store'] = 0;
+        }else{
+            $data['pnum'] = 0;
+            $data['deposit'] = 0;
         }
-        $file = $request->file('img');
 
-        if (empty($file)) {
-            $this->error('请上传图片或检查图片大小！');
-        }
-        $size = $file->getSize();
-        if ($size > config('upload_size')) {
-            $this->error('图片大小超过限定！');
-        }
-        $path_name = 'ad';
-
-        $arr = $this->dealImg($file, $path_name);
-
-        $data['img'] = $arr['save_url_path'];
-
-        $Ad = new Ad();
-        $Ad->save($data);
+        $group = new Group();
+        $group->save($data);
         $this->success('添加成功', 'index', '', 1);
     }
 
@@ -93,8 +99,9 @@ class GroupBuyController extends BaseController {
     public function edit(Request $request) {
         $data = $request->param();
         $referer=$request->header()['referer'];
-        $row_ = $this->findById($data['id'],new Ad());
-        return $this->fetch('',['row_'=>$row_,'referer'=>$referer,'title'=>'修改广告图 '.$row_->title,'act'=>'update']);
+        $row_ = Group::findById($data['id']);
+//        dump($row_);exit;
+        return $this->fetch('',['row_'=>$row_,'referer'=>$referer,'title'=>'修改团购活动信息 ','act'=>'update']);
     }
 
 
@@ -106,26 +113,24 @@ class GroupBuyController extends BaseController {
      * @return \think\Response
      */
     public function update(Request $request) {
-        //dump($request->param());exit;
+//        dump($request->param());exit;
         $data = $request->param();
+        $data['end_time']=strtotime($data['end_time']);
+        if($data['type']==1){
+            $data['store'] = 0;
+        }else{
+            $data['pnum'] = 0;
+            $data['deposit'] = 0;
+        }
         $referer = $data['referer'];unset($data['referer']);
         $res = $this->validate($data, 'AdValidate');
         if ($res !== true) {
             $this->error($res);
         }
-        $file = $request->file('img');
-        $row_ = $this->findById($data['id'],new Ad());
-        if(!empty($file)){
-            $path_name = 'ad';
-            $size = $file->getSize();
-            if ($size > config('upload_size') ) {
-                $this->error('图片大小超过限定！');
-            }
-            $this->deleteImg($row_->img);
-            $arr = $this->dealImg($file, $path_name);
-            $data['img'] = $arr['save_url_path'];
-        }
-        if($this->saveById($data['id'],new Ad(),$data)){
+
+        $row_ = $this->findById($data['id'],new Group());
+
+        if($this->saveById($data['id'],new Group(),$data)){
 
             $this->success('编辑成功', $referer, '', 1);
         }else{
@@ -148,6 +153,27 @@ class GroupBuyController extends BaseController {
         }else{
             $this->error('删除失败', $data['url'], '', 3);
         }
+    }
+
+    /*
+     * 下架商品
+     * */
+    public function down(Request $request) {
+        $data = $request->param();
+        //   dump($data);exit;
+        //下架条件：
+        $allow_ = true;
+        if (OrderGood::getGoodOn($data['id'])) {
+            $allow_ = false;
+        }
+        if ($allow_ == false) {
+            $this->error('商品被加入订单，不能下架', $data['url']);
+        }
+        //可以下架
+        $row_ = $this->findById($data['id'], new Good());
+        $row_->st = 2;
+        $row_->save();
+        $this->success('下架成功', $data['url'], '', 1);
     }
 
 

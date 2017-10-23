@@ -68,6 +68,11 @@
 <!--            <p><a href="{:Url('gshpc/index/index')}" target="_blank">前台</a></p>-->
             <p><a href="{:Url('menu_admin/index')}">管理菜单</a></p>
             <p><a href="{:Url('index/index')}">登录日志</a></p>
+            <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
+                <p><a href="{:Url('index/index')}">我的收益</a></p>
+                <p><a href="{:Url('index/index')}">申请提现</a></p>
+            <?php }?>
+
         </div>
         <?php if(\app\back\model\Admin::isGeneral()){  $list_menu = \app\back\model\MenuAdmin::getListNormal();?>
             <div class="meun-title">我的管理</div>
