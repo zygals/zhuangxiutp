@@ -29,24 +29,18 @@ class Cate extends model {
         return $status[$value];
     }
 
-    public static function getList($data=[],$field='*',$where=['st' => ['<>', 0]]) {
+    public static function getList($data=[],$field='id,name,type,sort',$where=['st' => ['<>', 0]]) {
 //        $where = ['st' => ['<>', 0]];
-        $order = "create_time desc";
+        $order = "sort asc";
         if (!empty($data['type_id'])) {
             $where['type'] = $data['type_id'];
         }
-        if (!empty($data['name'])) {
-            $where['name'] = ['like', '%' . $data['name'] . '%'];
-        }
-        if (!empty($data['paixu'])) {
-            $order = $data['paixu'] . ' asc';
-        }
-        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
-            $order = $data['paixu'] . ' desc';
-        }
-        $list_ = self::where($where)->order($order)->field($field)->paginate();
 
-        return $list_;
+        $list_ = self::where($where)->order($order)->field($field)->select();
+        if($list_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'cate not exists'];
+        }
+        return ['code'=>0,'msg'=>'cate ok','data'=>$list_];
     }
 
     public static function getAllCateByType($type) {

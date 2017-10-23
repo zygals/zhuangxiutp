@@ -28,31 +28,36 @@ class Shop extends Base {
         }
         return false;
     }
-    public static function getList($data=[],$field='shop.*,cate.name cate_name,admin.id admin_id,admin.name admin_name,admin.st admin_st',$where=['shop.st' => ['=',1]]) {
-       // $where = ['st' => ['<>',0]];
-        $order = "create_time desc";
-        if(session('admin_zhx')->type=='商户'){
-            $where['shop.id'] = session('admin_zhx')->shop_id;
-        }
+    public static function getList($data=[]) {
+        $field='shop.id shop_id,shop.name,shop.img,shop.ordernum,shop.tradenum,shop.img,shop.logo,cate.name cate_name';
+        $where=['shop.st' => 1];
+        $order = "ordernum desc,tradenum desc";
+
         if(!empty($data['cate_id'])){
             $where['cate_id'] = $data['cate_id'];
         }
         if(!empty($data['name_'])){
             $where['shop.name|shop.truename|city'] = ['like','%'.$data['name_'].'%'];
         }
-        if (!empty($data['to_top'])) {
-            $where['shop.to_top'] = $data['to_top'];
-        }
+
         if (!empty($data['paixu'])) {
-            $order = $data['paixu'] . ' asc';
-        }
-        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->join('admin','admin.id=shop.admin_id','left')->order($order)->field($field)->paginate();
-       // dump($list_);exit;
+        if (!empty($data['paixu']) && $data['paixu']=='hot') {
+            $where['shop.to_top'] = 1;
+            $order = "shop.update_time desc";
+        }
+        /*if (!empty($data['paixu']) && !empty($data['sort_type'])) {
+            $order = $data['paixu'] . ' asc';
+        }*/
 
-        return $list_;
+
+        $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->order($order)->field($field)->paginate();
+       // dump($list_);exit;
+        if($list_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'shop not exists'];
+        }
+        return ['code'=>0,'msg'=>'shop list ok','data'=>$list_];
     }
     public static function getIndexList(){
         $where = ['st' => ['=',1]];

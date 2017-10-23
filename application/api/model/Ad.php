@@ -14,8 +14,12 @@ class Ad extends Base {
     }
 
 
-    public static function getList($data=[],$where = ['st' => ['<>', 0]]) {
-        return self::getListCommon($data,$where);
+    public static function getList($data=[],$where = ['st' => ['=', 1]]) {
+        $order = "sort asc";
+
+        $list_ = self::where($where)->field('id,name,img')->order($order)->select();
+
+        return $list_;
 
     }
 

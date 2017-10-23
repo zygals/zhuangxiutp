@@ -6,21 +6,21 @@ use app\api\model\Ad;
 use app\api\model\Good;
 use think\Request;
 use app\api\model\Cate;
-class CateController extends BaseController
-{
 
-   public function index(Request $request){
-      $data = $request->param();
-      $rule = ['type'=>'require|number|in:1,2'];
-      $res = $this->validate($data,$rule);
-      if($res !==true){
-          return json(['code'=>__LINE__,'msg'=>$res]);
-      }
-      return json(['code'=>0,'msg'=>'cate/index','data'=>Cate::getList(['type_id'=>$data['type'],'paixu'=>'sort'],'*',['st'=>1])]);
-   }
-   public function read(Request $request){
+class CateController extends BaseController {
 
-   }
-   
+    /*
+     * 行业分类列表
+     * */
+    public function index(Request $request) {
+
+        return json(Cate::getList(['type_id' => Cate::TYPE_HANGYE]));
+
+    }
+
+    public function read(Request $request) {
+
+    }
+
 
 }

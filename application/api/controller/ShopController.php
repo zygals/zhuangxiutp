@@ -2,16 +2,23 @@
 
 namespace app\api\controller;
 
-use app\api\model\School;
+use app\api\model\Shop;
 use think\Request;
-class SchoolController extends BaseController
+class ShopController extends BaseController
 {
+    /*
+     * 商家列表：可以根据分类查询，根据销量等排序
+     * */
    public function index(Request $request){
-        $data = $request->param();
-        if(empty($data['title'])){
-            $data['title']='';
-        }
-      return json(['code'=>0,'msg'=>'school_index','data'=>School::getList(['paixu'=>'sort','title'=>$data['title']],'id,title,lishu,img,city')]);
+
+       $data = $request->param();
+       $rule = ['cate_id' => 'number'];
+       $res = $this->validate($data, $rule);
+       if ($res !== true) {
+           return json(['code' => __LINE__, 'msg' => $res]);
+       }
+       return json(Shop::getList($data));
+
    }
    public function read(Request $request){
        $data = $request->param();
