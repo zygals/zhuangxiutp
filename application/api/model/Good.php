@@ -16,6 +16,13 @@ class Good extends Base {
         $status = [0 => '否', 1 => '是'];
         return $status[$value];
     }
+    public static function findOne($good_id){
+        $row_ = self::where(['id'=>$good_id,'st'=>1])->find();
+        if(!$row_){
+            return ['code'=>__LINE__,'msg'=>'good not exist'];
+        }
+        return $row_;
+    }
     public function updateAddAttr($good_id){
         $row_good = $this->where(['id'=>$good_id])->find();
         $row_good->is_add_attr =1 ;

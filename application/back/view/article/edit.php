@@ -49,14 +49,7 @@
                                 <textarea name="cont" id="desc_textarea" style="width:700px;height:300px;">{$row_->cont}</textarea>
                             </div>
                         </div>
-                        <!--<div class="form-group" id="diliver_fee_wrap" style=";">
-                            <label for="situation" class="col-xs-3 control-label">排序：</label>
-                            <div class="col-xs-8">
-                                <label class="control-label">
-                                    <input type="number" name="sort" class="form-control input-sm duiqi" id=""
-                                           value="{$row_->sort}"></label> &nbsp;
-                            </div>
-                        </div>-->
+
                         <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">首页推荐：</label>
                             <div class="col-xs-8">

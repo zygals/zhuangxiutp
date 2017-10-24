@@ -9,7 +9,13 @@ use think\Request;
 class UserController extends BaseController {
     //注册
     public function index(Request $request) {
-        $code = $request->param('code');
+        $data = $request->param();
+        $rule = ['code'=>'require'];
+        $res = $this->validate($data,$rule);
+        if(!$res == true){
+            return json(['code'=>__LINE__,'msg'=>$res]);
+        }
+        $code = $data['code'];
         $appid = config('wx_appid');
         $appsecret = config('wx_appsecret');
         $ch = curl_init();
@@ -26,13 +32,13 @@ class UserController extends BaseController {
     {
 
         $data = $request->param();
-        $rule = ['user_name'=>'require'];
+        $rule = ['username'=>'require'];
         $res = $this->validate($data,$rule);
         if(!$res == true){
             return json(['code'=>__LINE__,'msg'=>$res]);
         }
         $m_ = new User();
-        $m_->where(['user_name'=>$data['user_name']])->update($data);
+        $m_->where(['username'=>$data['username']])->update($data);
          return json(['code'=>0,'msg'=>'save userinfo ok']);
     }
 }

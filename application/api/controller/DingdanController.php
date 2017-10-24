@@ -36,26 +36,22 @@ class DingdanController extends BaseController {
     }
 
     /**
-     * 保存新建的资源
-     * use
-     * @param  \think\Request $request
-     * @return \think\Response
+     * 商品立即购买添加订单
+     *
      */
     public function save(Request $request) {
         $data = $request->param();
         $rules = [
-            'user_name' => 'require',
+            'username' => 'require',
             'good_id' => 'require|number',
-            'nums' => 'require|number',
+            'num' => 'require|number',
         ];
         $res = $this->validate($data, $rules);
         if (true !== $res) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-
         return json((new Dingdan)->addOrder($data));
     }
-
 
 
     /**

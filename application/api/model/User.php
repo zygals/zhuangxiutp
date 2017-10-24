@@ -53,6 +53,7 @@ class User extends Base
             }
             return ['code'=>__LINE__,'msg'=>'register user error'];
         }
+        $row_->update_time = time();$row_->save();
         return ['code'=>0,'msg'=>'already register user ok','data'=>$row_['username']];
 
     }//wx
