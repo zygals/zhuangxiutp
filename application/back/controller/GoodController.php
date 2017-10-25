@@ -67,7 +67,7 @@ class GoodController extends BaseController {
         if ($res !== true) {
             $this->error($res);
         }
-        // dump($data);exit;
+       //dump($_FILES);exit;
         $row_shop = $this->findById($data['shop_id'], new Shop());
         $data['cate_id'] = $row_shop->cate_id;
 
@@ -84,11 +84,30 @@ class GoodController extends BaseController {
             $this->error('图片大小超过限定！');
         }
 
-        $path_name = 'good';
+        $path_name = 'good_img';
+        $path_name2 = 'good_img_big';
         $arr = $this->dealImg($file, $path_name);
-        $arr2 = $this->dealImg($file2, $path_name);
+        $arr2 = $this->dealImg($file2, $path_name2);
         $data['img'] = $arr['save_url_path'];
         $data['img_big'] = $arr2['save_url_path'];
+
+
+        if($data['which_info']==1){
+          $data['imgs']='';
+        }else{
+           $data['desc']='';
+            $file3 = $request->file('imgs');
+            $size3 = $file3->getSize();
+           // dump($data);exit;
+            if (!empty($file3)) {
+                if ($size3 > config('upload_size')) {
+                    $this->error('图片大小超过限定！');
+                }
+                $path_name3 = 'good_imgs';
+                $arr = $this->dealImg($file3, $path_name3);
+                $data['imgs'] = $arr['save_url_path'];
+            }
+        }
         $Good = new Good();
         $Good->save($data);
         $this->success('添加成功', 'index', '', 1);
@@ -158,6 +177,24 @@ class GoodController extends BaseController {
             $this->deleteImg($row_->img_big);
             $arr = $this->dealImg($file2, $path_name);
             $data['img_big'] = $arr['save_url_path'];
+        }
+
+        if($data['which_info']==1){
+           $data['imgs']='';
+            $this->deleteImg($row_->imgs);
+        }else{
+           $data['desc']='';
+            $file3 = $request->file('imgs');
+            $size3 = $file3->getSize();
+            if (!empty($file3)) {
+                if ($size3 > config('upload_size')) {
+                    $this->error('图片大小超过限定！');
+                }
+                $path_name3 = 'good_imgs';
+                $this->deleteImg($row_->imgs);
+                $arr = $this->dealImg($file3, $path_name3);
+                $data['imgs'] = $arr['save_url_path'];
+            }
         }
 
         if ($this->saveById($data['id'], new Good(), $data)) {

@@ -30,7 +30,7 @@ class GoodController extends BaseController {
      * 店铺详情-全部宝贝页面列表
      * @return \think\response\Json
      */
-    public function read(Request $request) {
+    public function shop_goods(Request $request) {
         $data = $request->param();
         $rule = ['shop_id' => 'require|number'];
         $res = $this->validate($data, $rule);
@@ -49,6 +49,20 @@ class GoodController extends BaseController {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
          return json((new Collect)->addCollect($data['good_id'],$data['user_name']));
+    }
+
+    /*
+     * 商品详情接口
+     * */
+    public function read(Request $request){
+        $data = $request->param();
+        $rule = ['good_id' => 'require|number','username'=>'require'];
+        $res = $this->validate($data, $rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return (Good::findOne($data['good_id']));
+
     }
 
 

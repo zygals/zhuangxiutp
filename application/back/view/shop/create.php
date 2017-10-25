@@ -23,30 +23,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span> 商家姓名：</label>
-                            <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='truename' value="" id="" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
-                            <div class="col-xs-8 ">
-                                <input type="number" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
-                            <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='city' value="" id="" placeholder="如：北京">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>地址：</label>
-                            <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm " name='addr' value="" id="" placeholder="">
-                            </div>
-                        </div>
+
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>经营类目：</label>
                             <div class="col-xs-8 ">
@@ -75,52 +52,44 @@
                             </div>
 
                         </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label">简介：</label>
-                            <div class="col-xs-8 ">
-                                <textarea name="info" id="desc_textarea" style="width:700px;height:300px;"></textarea>
-                            </div>
-                        </div>
 
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>门店地址：</label>
-<button type="button" id="more_addr">增加</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="minus_addr">减少</button>
+
+                      <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商家信息：</label>
+
                         </div>
                         <div class="address_wrap" style="padding-left:80px;">
 
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>门店名称：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span> 商家姓名：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="text" class="form-control input-sm" name='name_[]' value="" id=""
-                                           placeholder="">
+                                    <input type="text" class="form-control input-sm duiqi" name='truename' value="" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>联系人姓名：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="text" class="form-control input-sm duiqi" name='truename_[]' value=""
-                                           id="" placeholder="">
+                                    <input type="number" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="number" class="form-control input-sm duiqi" name='mobile_[]' value=""
-                                           id="" placeholder="">
+                                    <input type="text" class="form-control input-sm duiqi" name='city' value="" id="" placeholder="如：北京">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>详细地址：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>地址：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="text" class="form-control input-sm " name='address_[]' value="" id=""
-                                           placeholder="">
+                                    <input type="text" class="form-control input-sm " name='addr' value="" id="" placeholder="">
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label">简介：</label>
+                                <div class="col-xs-8 ">
+                                    <textarea name="info" id="desc_textarea" style="width:700px;height:300px;"></textarea>
+                                </div>
+                            </div>
 
                        <!-- <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>详情页图：</label>
@@ -226,7 +195,7 @@
                         }
                     }
                 },
-                "name_[]": {
+               /* "name_[]": {
                     validators: {
                         notEmpty: {
                             message: '不能为空'
@@ -255,7 +224,7 @@
                         }
                     }
                 },
-
+*/
 
             }
         });

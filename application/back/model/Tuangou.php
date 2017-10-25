@@ -4,7 +4,7 @@ namespace app\back\model;
 
 use think\Model;
 
-class Group extends model {
+class Tuangou extends model {
 
     public function getTypeAttr($value) {
         $type = [ 1 => '限人团购','2'=>'限时限量'];
@@ -21,8 +21,8 @@ class Group extends model {
 
         return $list_;
     }
-    public static function getList($data=[],$field='group.*,shop.name shop_name,good.name good_name',$where=['group.st' => [['<>',0],['<>',2]]]) {
-        $order = "group.create_time desc";
+    public static function getList($data=[],$field='tuangou.*,shop.name shop_name,good.name good_name',$where=['tuangou.st' => [['<>',0],['<>',2]]]) {
+        $order = "tuangou.create_time desc";
 //        if(!empty($data['name'])){
 //            $where['name'] = ['like','%'.$data['name'].'%'];
 //        }
@@ -32,7 +32,7 @@ class Group extends model {
 //        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
 //            $order = $data['paixu'] . ' desc';
 //        }
-        $list_ = self::where($where)->join('shop','shop.id=group.shop_id')->join('good','good.id=group.good_id')->field($field)->order($order)->paginate();
+        $list_ = self::where($where)->join('shop','shop.id=tuangou.shop_id')->join('good','good.id=tuangou.good_id')->field($field)->order($order)->paginate();
 
         return $list_;
     }
@@ -64,9 +64,9 @@ class Group extends model {
      *
      * */
 
-    public static function findById($id,$field='group.*,shop.name shop_name,good.name good_name,good.price good_price') {
-        $where['group.id']=['=',$id];
-        $list_ = self::where($where)->join('shop','shop.id=group.shop_id')->join('good','good.id=group.good_id')->field($field)->find();
+    public static function findById($id,$field='tuangou.*,shop.name shop_name,good.name good_name,good.price good_price') {
+        $where['tuangou.id']=['=',$id];
+        $list_ = self::where($where)->join('shop','shop.id=tuangou.shop_id')->join('good','good.id=tuangou.good_id')->field($field)->find();
         return $list_;
     }
 

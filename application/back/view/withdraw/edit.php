@@ -51,8 +51,8 @@
 
 <script>
     $(function () {
-        var maxBenefit = {$benefit};
-        var minBenefit = {$minBenefit};
+        var maxBenefit = '{$benefit}';
+        var minBenefit = '{$minBenefit}';
         $('form').bootstrapValidator({
 
             fields: {

@@ -79,7 +79,6 @@ class ShopController extends BaseController {
         if (!empty($data['cate_ids'])) {
             $data['cate_ids'] = implode(',', $data['cate_ids']);
         }
-        $data_address = $data;
 
         $shop = new Shop();
         $shop->save($data);

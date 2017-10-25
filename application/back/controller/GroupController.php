@@ -6,8 +6,8 @@ namespace app\back\controller;
 use app\back\model\Ad;
 
 use app\back\model\Base;
+use app\back\model\Tuangou;
 use think\Request;
-use app\back\model\Group;
 use app\back\model\Admin;
 use app\back\model\Shop;
 use app\back\model\Good;
@@ -22,7 +22,8 @@ class GroupController extends BaseController {
     public function index(Request $request) {
         $data = $request->param();
 //        $isShopAdmin = Admin::isShopAdmin();
-        $list_ = Group::getList($data);
+        $list_ = Tuangou::getList($data);
+
         $page_str = $list_->render();
         $page_str =Base::getPageStr($data,$page_str);
         $url = $request->url();

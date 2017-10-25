@@ -44,7 +44,7 @@ class Cate extends model {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->order($order)->field($field)->paginate();
+        $list_ = self::where($where)->order($order)->field($field)->select();
 
         return $list_;
     }

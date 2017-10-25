@@ -88,23 +88,27 @@ $('#cate_name_label').html(cate_name);
                             </div>
 
                         </div>
-
                         <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>描述：</label>
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>描述类型：</label>
+                            <div class="col-xs-8 ">
+                                <label><input class="which_info" type="radio" name="which_info" checked value="1">文字</label>
+                                <label ><input class="which_info" type="radio" name ='which_info' value="2">图片</label>
+                            </div>
+                        </div>
+                        <div class="form-group " id="desc_text">
+                            <label for="sName" class="col-xs-3 control-label">描述：</label>
                             <div class="col-xs-8 ">
                                 <textarea name="desc" id="desc_textarea" style="width:700px;height:300px;"></textarea>
                             </div>
                         </div>
-
-                       <!-- <div class="form-group">
-                            <label for="situation" class="col-xs-3 control-label">首页推荐：</label>
-                            <div class="col-xs-8">
-                                    <label class="control-label" >
-                                        <input type="radio" name="index_show" class="index_show yes" value="1" >是</label> &nbsp;
-                                    <label class="control-label">
-                                        <input type="radio" name="index_show" class="index_show no" value="0" checked> 否</label>
+                        <div class="form-group" style="display:none;" id="imgs_div">
+                            <label for="sOrd" class="col-xs-3 control-label">长图：</label>
+                            <div class="col-xs-4 ">
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="imgs" placeholder=""><span style="color:red">尺寸要求（750*），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
-                        </div>-->
+
+                        </div>
+
 
                     </div>
 				<div class="text-center">
@@ -118,6 +122,16 @@ $('#cate_name_label').html(cate_name);
 </form>
 
 <script>
+    $('.which_info').click(function () {
+//        alert()
+if(this.value==1){
+$('#desc_text').show();
+$('#imgs_div').hide();
+}else{
+    $('#desc_text').hide();
+    $('#imgs_div').show();
+}
+    });
       $(function () {
 
         $('form').bootstrapValidator({
@@ -140,7 +154,15 @@ $('#cate_name_label').html(cate_name);
                         }
 
                 },
+                unit: {
+                    validators:
+                        {
+                            notEmpty: {
+                                message: '不能为空'
+                            }
+                        }
 
+                },
 
                 shop_id: {
                     validators: {

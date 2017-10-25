@@ -23,30 +23,7 @@
                                 <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
                             </div>
                         </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span> 商家姓名：</label>
-                            <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='truename' value="{$row_->truename}" id="" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
-                            <div class="col-xs-8 ">
-                                <input type="number" class="form-control input-sm duiqi" name='phone' value="{$row_->phone}" id="" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
-                            <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='city' value="{$row_->city}" id="" placeholder="如：北京">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>地址：</label>
-                            <div class="col-xs-8 ">
-                                <input type="text" class="form-control input-sm duiqi" name='addr' value="{$row_->addr}" id="" placeholder="">
-                            </div>
-                        </div>
+
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>经营类目：</label>
                             <div class="col-xs-8 ">
@@ -77,12 +54,7 @@
                             </div>
 
                         </div>
-                        <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label">详细说明：</label>
-                            <div class="col-xs-8 ">
-                                <textarea name="info" id="desc_textarea" style="width:700px;height:300px;">{$row_->info}</textarea>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">置顶：</label>
                             <div class="col-xs-8">
@@ -93,46 +65,40 @@
                             </div>
                         </div>
                         <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>门店地址：</label>
-                            <button type="button" id="more_addr">增加</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" id="minus_addr">减少</button>
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商家信息：</label>
                         </div>
-<?php foreach($list_address as $row_address){?>
                         <div class="address_wrap" style="padding-left:80px;">
 
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>门店名称：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span> 商家姓名：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="text" class="form-control input-sm" name='name_[]' value="{$row_address->name_}" id=""
-                                           placeholder="">
+                                    <input type="text" class="form-control input-sm duiqi" name='truename' value="{$row_->truename}" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>联系人姓名：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="text" class="form-control input-sm duiqi" name='truename_[]' value="{$row_address->truename_}"
-                                           id="" placeholder="">
+                                    <input type="number" class="form-control input-sm duiqi" name='phone' value="{$row_->phone}" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="number" class="form-control input-sm duiqi" name='mobile_[]' value="{$row_address->mobile_}"
-                                           id="" placeholder="">
+                                    <input type="text" class="form-control input-sm duiqi" name='city' value="{$row_->city}" id="" placeholder="如：北京">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span
-                                            style="color:red;">*&nbsp;&nbsp;</span>详细地址：</label>
+                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>地址：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="text" class="form-control input-sm " name='address_[]' value="{$row_address->address_}" id=""
-                                           placeholder="">
+                                    <input type="text" class="form-control input-sm duiqi" name='addr' value="{$row_->addr}" id="" placeholder="">
                                 </div>
                             </div>
-                        </div>
-                        <?php }?>
+                            <div class="form-group ">
+                                <label for="sName" class="col-xs-3 control-label">简介：</label>
+                                <div class="col-xs-8 ">
+                                    <textarea name="info" id="desc_textarea" style="width:700px;height:300px;">{$row_->info}</textarea>
+                                </div>
+                            </div>
                     </div>
 				<div class="text-center">
                     <a href="javascript:history.back()">
