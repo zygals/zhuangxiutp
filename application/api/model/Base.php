@@ -49,7 +49,7 @@ class Base extends model {
 
     public static function getByShopId($shop_id,$model,$field='*',$where=['st'=>1]){
 
-        $row = $model->field($field)->where($where)->where('shop_id',$shop_id)->select();
+        $row = $model->field($field)->where($where)->where('shop_id',$shop_id)->paginate();
         if(!$row){
             return [];
         }
