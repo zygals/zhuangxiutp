@@ -119,7 +119,7 @@
     </div>
     <!--页码块-->
     <footer class="footer">
-        {$list_->render()}
+
     </footer>
 
     <!--弹出删除用户警告窗口-->

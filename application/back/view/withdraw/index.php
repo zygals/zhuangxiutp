@@ -70,14 +70,14 @@
             <div class="col-xs-1 ">
                 编号
             </div>
-            <div class="col-xs-1 ">
+            <div class="col-xs-2 ">
                 名称
             </div>
             <div class="col-xs-1 ">
-                申请提现金额
+                申请金额
             </div>
             <div class="col-xs-1 ">
-                提现申请状态
+                申请状态
             </div>
             <div class="col-xs-1">
                 资金状态
@@ -99,7 +99,7 @@
                         <div class="col-xs-1">
                             {$row_->id}
                         </div>
-                        <div class="col-xs-1" title="admin_id">
+                        <div class="col-xs-2" title="admin_truename">
                             {$row_->admin_truename}
                         </div>
                         <div class="col-xs-1 " title=" ">
