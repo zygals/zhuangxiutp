@@ -63,6 +63,7 @@
                                     <input type="radio" name="to_top" id="" value="0" <?php echo $row_->to_top=='否'?'checked':''?>> 否</label>
                             </div>
                         </div>
+                       <?php if($row_->st=='下架'){?>
                         <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">状态：</label>
                             <div class="col-xs-8">
@@ -72,6 +73,8 @@
                                     <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='下架'?'checked':''?>> 下架</label>
                             </div>
                         </div>
+                        <?php }?>
+
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>价格：</label>
                             <div class="col-xs-8 ">
@@ -107,36 +110,29 @@
                             </div>
 
                         </div>
-
                         <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>资料描述：</label>
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>描述类型：</label>
+                            <div class="col-xs-8 ">
+                                <label><input class="which_info" type="radio" name="which_info" <?=  $row_->which_info==1?'checked':'';?> value="1">文字</label>
+                                <label ><input class="which_info" type="radio" name ='which_info' value="2" <?=  $row_->which_info==2?'checked':'';?>>图片</label>
+                            </div>
+                        </div>
+                        <div class="form-group " style="display: <?=  $row_->which_info==1?'block':'none';?>;" id="desc_text">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>描述：</label>
                             <div class="col-xs-8 ">
                                 <textarea name="desc" id="desc_textarea" style="width:700px;height:300px;">{$row_->desc}</textarea>
                             </div>
                         </div>
-
-                       <!-- <div class="form-group">
-                            <label for="situation" class="col-xs-3 control-label">首页推荐：</label>
-                            <div class="col-xs-8">
-                                <label class="control-label" >
-                                    <input type="radio" name="index_show" class="index_show yes" value="1" <?php /*echo $row_->index_show=='是'?'checked':'';*/?> >是</label> &nbsp;
-                                <label class="control-label">
-                                    <input type="radio" name="index_show" class="index_show no" value="0" <?php /*echo $row_->index_show=='否'?'checked':'';*/?>> 否</label>
+                        <div class="form-group" style="display:<?=  $row_->which_info==2?'block':'none';?>" id="imgs_div">
+                            <label for="sOrd" class="col-xs-3 control-label">长图：</label>
+                            <div class="col-xs-4 ">
+                                <img src="__IMGURL__{$row_->imgs}" alt="没有上传图片" width="188"/>
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="imgs" placeholder=""><span style="color:red">尺寸要求（750*），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
-                        </div>-->
 
-                        <?php if($row_->is_add_attr=1 && !empty($row_->good_attrs)){?>
-                            <div class="form-group">
-                                <label for="situation" class="col-xs-3 control-label">参数列表：</label>
-                                <div class="col-xs-8">
-                                    <ul>
-                                        <?php foreach($row_->good_attrs as $k=>$row_good_attr){?>
-                                            <li>{$row_good_attr->attr_name}：{$row_good_attr->value}</li>
-                                        <?php }?>
-                                    </ul>
-                                </div>
-                            </div>
-                        <?php }?>
+                        </div>
+
+
 
                     </div>
 				<div class="text-center">
@@ -148,14 +144,16 @@
 </form>
 
 <script>
-/*    $('.index_show').click(function () {
-        var index_img = document.getElementById('img_index');
-        if($(this).hasClass('yes')){
-            index_img.style.display='block';
-        }else {
-            index_img.style.display='none';
+    $('.which_info').click(function () {
+//        alert()
+        if(this.value==1){
+            $('#desc_text').show();
+            $('#imgs_div').hide();
+        }else{
+            $('#desc_text').hide();
+            $('#imgs_div').show();
         }
-    });*/
+    });
     $(function () {
         $('form').bootstrapValidator({
             fields: {
@@ -177,7 +175,15 @@
                         }
 
                 },
+                unit: {
+                    validators:
+                        {
+                            notEmpty: {
+                                message: '不能为空'
+                            }
+                        }
 
+                },
 
                 shop_id: {
                     validators: {

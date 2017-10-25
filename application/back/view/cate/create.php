@@ -44,15 +44,6 @@
                                    placeholder="">
                         </div>
                     </div>
-                    <div class="form-group" id="diliver_fee_wrap" style=";">
-                        <label for="situation" class="col-xs-3 control-label">排序：</label>
-                        <div class="col-xs-8">
-                            <label class="control-label">
-                                <input type="number" name="sort" class="form-control input-sm duiqi" id=""
-                                       value="{$row_->sort|default=0}"></label> &nbsp;
-
-                        </div>
-                    </div>
 
                 </div>
             </div>

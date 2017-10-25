@@ -8,6 +8,7 @@ class GoodValidate extends Validate{
 		'name'  =>  'require',
 		'price'  =>  'require|float',
 		'shop_id' =>  'require|number',
+		'unit' =>  'require',
 
 		//'desc' =>  'require',
 
