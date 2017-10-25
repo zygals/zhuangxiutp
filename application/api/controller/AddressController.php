@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\api\model\Address;
 use MongoDB\Driver\ReadConcern;
 use think\Request;
+use app\api\validate\AddressValidate;
 
 
 class AddressController extends BaseController {
@@ -16,7 +17,7 @@ class AddressController extends BaseController {
     public function index(Request $request) {
 
         $data = $request->param();
-        $rule = ['username' => 'require'];
+        $rule = ['username'=>'require'];
         $res = $this->validate($data, $rule);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
@@ -26,40 +27,81 @@ class AddressController extends BaseController {
     }
 
     /**
-     * 显示创建资源表单页.
+     * 添加地址
      *
      * @return \think\Response
      */
-    public function create() {
-
+    public function add(Request $request) {
+        $data = $request->param();
+        $res = $this->validate($data, 'AddressValidate');
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $add = new Address();
+        return json($add->saveAdd($data));
 
     }
 
     /**
-     * 保存新建的资源
+     * 修改地址列表
      *
-     * @param  \think\Request $request
-     * @return \think\Response
      */
-    public function save(Request $request) {
-        //return 234;
+    public function edit(Request $request){
         $data = $request->param();
-        $rules = ['order_id' => 'require|number', 'user_name' => 'require', 'true_name' => 'require', 'mobile' => 'require', 'pcd' => 'require', 'info' => 'require'];
+        $rules = ['username'=>'require','id'=>'require|number'];
         $res = $this->validate($data, $rules);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        $m_ = new Address();
-        return json($m_->addAddress($data));
-
+        $add = new Address();
+        return json(['code'=>0,'msg'=>'address/edit','data'=>$add->editAdd($data)]);
     }
-   public function read(Request $request){
-       $data = $request->param();
-       $rules = ['address_id' => 'require|number'];
-       $res = $this->validate($data, $rules);
-       if ($res !== true) {
-           return json(['code' => __LINE__, 'msg' => $res]);
-       }
-       return json(['code'=>0,'msg'=>'address/read','data'=>Address::read($data['address_id'])]);
-   }
+
+    /**
+     * 执行修改地址接口
+     * @return array
+     */
+    public function update(Request $request){
+        $data = $request->param();
+        $res = $this->validate($data, 'AddressValidate');
+        if($res !== true){
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $add = new Address();
+        return json($add->updAdd($data));
+    }
+
+    /**
+     * 执行删除地址接口
+     */
+    public function delete(Request $request){
+        $data = $request->param();
+        $rules = [
+            'username'=>'require',
+            'id'=>'require|number',
+        ];
+        $res = $this->validate($data,$rules);
+        if($res !== true){
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $add = new Address();
+        return json($add->delAdd($data));
+    }
+
+    /**
+     * 修改默认地址接口
+     */
+    public function choose(Request $request){
+        $data = $request->param();
+        $rules = [
+            'username'=>'require',
+            'id'=>'require|number',
+        ];
+        $res = $this->validate($data,$rules);
+        if($res !== true){
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $add = new Address();
+        return json($add->choAdd($data));
+    }
 }

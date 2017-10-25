@@ -19,7 +19,7 @@ class Withdraw extends Base{
         return $status[$value];
     }
 
-    public static function getList($data,$field=['withdraw.*,admin.truename admin_truename']){
+    public static function getList($data,$field=['withdraw.*,admin.truename admin_truename,admin.name admin_name']){
         $order = 'create_time desc';
 //        dump(session('admin_zhx'));exit;
         $where = '';

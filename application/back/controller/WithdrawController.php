@@ -57,8 +57,10 @@ class WithdrawController extends BaseController{
 
 //        dump($data);exit;
         $row_ = Withdraw::getListByWithdrawId($data['id']);
-//        dump($row_['st']);exit;
-        $benefit = Admin::getBenefit();
+
+//        dump($row_['admin_id']);exit;
+        $benefit = Admin::getBenefitByAdminId($row_['admin_id']);
+//        dump($benefit);exit;
         $minBenefit = Setting::getMinBenefit();
         $referer = $request->header()['referer'];
         return $this->fetch('edit_st',['row_'=>$row_,'benefit'=>$benefit,'minBenefit'=>$minBenefit,'referer'=>$referer,'act'=>'updateSt','title'=>'修改提现信息']);

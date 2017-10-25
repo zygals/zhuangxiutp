@@ -78,4 +78,12 @@ class Admin extends Base {
         $benefit = self::where('id',$id)->find();
         return $benefit['income'];
     }
+
+    /**
+     * 通过admin_id获取管理员用户收益
+     */
+    public static function getBenefitByAdminId($data){
+        $benefit = self::where(['id'=>$data])->find();
+        return $benefit['income'];
+    }
 }

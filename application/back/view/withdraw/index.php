@@ -71,7 +71,10 @@
                 编号
             </div>
             <div class="col-xs-1 ">
-                名称
+                帐号
+            </div>
+            <div class="col-xs-1 ">
+                真实姓名
             </div>
             <div class="col-xs-1 ">
                 申请提现金额
@@ -98,6 +101,9 @@
                     <div class="row cont_nowrap">
                         <div class="col-xs-1">
                             {$row_->id}
+                        </div>
+                        <div class="col-xs-1" title="admin_id">
+                            {$row_->admin_name}
                         </div>
                         <div class="col-xs-1" title="admin_id">
                             {$row_->admin_truename}

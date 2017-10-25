@@ -19,3 +19,11 @@ ADD COLUMN `st` tinyint(4) NOT NULL DEFAULT 1 COMMENT '0删除 1正常' AFTER `u
 
 ALTER TABLE `zhuangxiu`.`good` 
 ADD COLUMN `unit` varchar(30) NOT NULL COMMENT '计量单位' AFTER `to_top`;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE `zhuangxiu`.`address` 
+MODIFY COLUMN `is_default` tinyint(4) DEFAULT 1 COMMENT '是否为默认地址' AFTER `mobile`;
+
+ALTER TABLE `zhuangxiu`.`address` 
+MODIFY COLUMN `is_default` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1为默认收货地址 0为其他' AFTER `mobile`;

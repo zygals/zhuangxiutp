@@ -83,10 +83,7 @@ class Good extends Base {
         $list_ = self::where(['type'=>1,'index_show'=>1,'st'=>1])->field('id,img,name,price')->limit(5)->order('sort asc')->select();
         return $list_;
     }
-    //wx
-    public static function read($shop_id){
-        return self::getByShopId($shop_id,new self(),'id,name,price,img');
-    }
+
     //wx
     public static function updateStore($order_id){
         $list_order_good = OrderGood::getGood($order_id);
