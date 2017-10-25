@@ -69,3 +69,27 @@ CREATE TABLE `setting` (
 
 
 alter table admin add privilege varchar(255) not null default '' comment '一般管理员权限';
+
+-- 改表3
+
+DROP TABLE IF EXISTS `cart_good`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cart_good` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cart_id` int(11) NOT NULL comment '购物车id',
+   shop_id int  comment '商家id',
+  `good_id` int(11) NOT NULL comment '商品id,用于关联商品表',
+  `num` int(11) NOT NULL DEFAULT '0' COMMENT '某个商品的数量',
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  st tinyint not null default 1 comment '1正常 0删除',
+  PRIMARY KEY (`id`),
+  KEY `cart_id` (`cart_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车商品表';
+
+
+alter table cart add shop_id int not null  after user_id;
+
+alter table cart drop index  user_id;
+
