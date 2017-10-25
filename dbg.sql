@@ -93,3 +93,9 @@ alter table cart add shop_id int not null  after user_id;
 
 alter table cart drop index  user_id;
 
+-- 改表4
+
+alter table good add imgs text comment '商品详情文字介绍' after `desc`;
+alter table good add which_info tinyint default 1 comment '商品介绍时选择图片或是文字:1文字 2图片'  after imgs;
+alter table `group` rename to tuangou;
+
