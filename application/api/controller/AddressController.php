@@ -9,22 +9,20 @@ use think\Request;
 
 class AddressController extends BaseController {
     /**
-     * 显示资源列表
+     * 显示用户地址列表
      *
      * @return \think\Response
      */
     public function index(Request $request) {
 
-        $m_users = new Address();
-        $list = $m_users->getAllAddresss($request);
-        //return json_encode($list);
-        /*$last_url='';
-        $order_id=$request->get('order_id');
-
-        if($order_id!=null){
-            $last_url = url('order/index')."?order_id=".$request->get('order_id');
-        }*/
-        return $this->fetch('index', ['list' => $list/*,'last_url'=>$last_url*/]);
+        $data = $request->param();
+        $rule = ['username' => 'require'];
+        $res = $this->validate($data, $rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+//        $aa = Address::getList($data);dump($aa);exit;
+        return json(Address::getList($data));
     }
 
     /**

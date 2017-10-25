@@ -67,7 +67,7 @@ class Shop extends Base {
     }
     //wx
 
-    public static function read($school_id){
-        return self::getById($school_id,new self(),'id,title,img_big');
+    public static function read($shop_id){
+        return self::getById($shop_id,new self(),'name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand');
     }
 }

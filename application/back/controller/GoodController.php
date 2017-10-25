@@ -124,7 +124,7 @@ class GoodController extends BaseController {
      * @return \think\Response
      */
     public function update(Request $request) {
-        //dump($request->param());exit;
+
         $data = $request->param();
         $referer = $data['referer'];
         unset($data['referer']);
@@ -136,7 +136,6 @@ class GoodController extends BaseController {
         $data['cate_id'] = $row_shop->cate_id;
 
         $row_ = $this->findById($data['id'], new Good());
-
         $file = $request->file('img');
         $file2 = $request->file('img_big');
 
@@ -160,6 +159,7 @@ class GoodController extends BaseController {
             $arr = $this->dealImg($file2, $path_name);
             $data['img_big'] = $arr['save_url_path'];
         }
+
         if ($this->saveById($data['id'], new Good(), $data)) {
 
             $this->success('编辑成功', $referer, '', 1);

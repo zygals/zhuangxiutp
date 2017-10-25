@@ -69,4 +69,13 @@ class Admin extends Base {
         }
         return false;
     }
+
+    /**
+     * 获取商品管理员用户收益
+     */
+    public static function getBenefit(){
+        $id = session('admin_zhx')->id;
+        $benefit = self::where('id',$id)->find();
+        return $benefit['income'];
+    }
 }

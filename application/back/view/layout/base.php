@@ -69,8 +69,8 @@
             <p><a href="{:Url('menu_admin/index')}">管理菜单</a></p>
             <p><a href="{:Url('index/index')}">登录日志</a></p>
             <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
-                <p><a href="{:Url('index/index')}">我的收益</a></p>
-                <p><a href="{:Url('index/index')}">申请提现</a></p>
+                <p>我的收益:　<?php echo(\app\back\model\Admin::getBenefit()) ?>元</p>
+                <p><a href="{:Url('withdraw/edit')}">申请提现</a></p>
             <?php }?>
 
         </div>

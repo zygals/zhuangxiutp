@@ -72,7 +72,7 @@ class GroupController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-//        dump($data);exit;
+        dump($data);exit;
         $data['end_time']=strtotime($data['end_time']);
 //        $res = $this->validate($data, 'AdValidate');
 //        if ($res !== true) {

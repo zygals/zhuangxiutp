@@ -24,5 +24,10 @@ class Setting extends model {
 
     }
 
+    public static function getMinBenefit(){
+        $minBenefit = self::find();
+        return $minBenefit['withdraw_limit'];
+    }
+
 
 }

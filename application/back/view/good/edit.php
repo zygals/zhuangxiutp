@@ -31,7 +31,8 @@
                                     <?php foreach ($list_shop as $row_s) { ?>
                                         <?php echo $row_s->id==$row_->shop_id ?$row_s->name:'' ;?>
                                     <?php } ?>
-                                    <input type="hidden" name="shop_id" value="{$row_['id']}">
+                                    <input type="hidden" name="shop_id" value="{$row_['shop_id']}">
+
                                 </label>
                             </div>
                         </div>
@@ -75,6 +76,13 @@
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>价格：</label>
                             <div class="col-xs-8 ">
                                 <input type="text" class="form-control input-sm duiqi" name='price' value="{$row_->price}" id="" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>计量单位：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm duiqi" name='unit' value="{$row_->unit}" id="" placeholder="">
                             </div>
                         </div>
                        <!-- <div class="form-group ">

@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use app\api\model\Shop;
+use app\api\model\ShopAddress;
 use think\Request;
 class ShopController extends BaseController
 {
@@ -20,16 +21,34 @@ class ShopController extends BaseController
        return json(Shop::getList($data));
 
    }
+
+    /**
+     * 商家详情:获取商家的详细信息
+     * @return \think\response\Json
+     *
+     */
    public function read(Request $request){
        $data = $request->param();
-       $rule = ['school_id' => 'require|number'];
+       $rule = ['shop_id' => 'require|number'];
        $res = $this->validate($data, $rule);
        if ($res !== true) {
            return json(['code' => __LINE__, 'msg' => $res]);
        }
-       return json(['code' => 0, 'msg' => 'school/read', 'data' =>School::read($data['school_id'])]);
+       return json(['code' => 0, 'msg' => 'shop/read', 'data' =>Shop::read($data['shop_id'])]);
    }
-   public function search(Request $request){
 
+    /**
+     * 店铺详情-查询门店地址列表
+     * @return \think\response\Json
+     */
+   public function addr(Request $request){
+       $data = $request->param();
+       $rule = ['shop_id' => 'require|number'];
+       $res = $this->validate($data, $rule);
+       if ($res !== true) {
+           return json(['code' => __LINE__, 'msg' => $res]);
+       }
+
+       return json(['code' => 0, 'msg' => 'shop/read', 'data' =>ShopAddress::getAddressByShop($data['shop_id'])]);
    }
 }

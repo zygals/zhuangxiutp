@@ -67,6 +67,12 @@ $('#cate_name_label').html(cate_name);
                                 <input type="text" class="form-control input-sm duiqi" name='price' value="" id="" placeholder="0.00元">
                             </div>
                         </div>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>计量单位：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm duiqi" name='unit' value="" id="" placeholder="如:瓶、平方米">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>列表图：</label>

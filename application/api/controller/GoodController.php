@@ -26,22 +26,19 @@ class GoodController extends BaseController {
         return json(['code' => 0, 'msg' => 'good/index', 'data' => Good::getList(['type_id' => $data['type'], 'cate_id' => $data['cate_id'],'school_id' => $data['school_id'], 'title'=>$data['title'],'paixu' => 'sort'], 'good.id,good.title,img,good.price,good.type', ['good.st' => 1])]);
     }
 
+    /**
+     * 店铺详情-全部宝贝页面列表
+     * @return \think\response\Json
+     */
     public function read(Request $request) {
         $data = $request->param();
-        $rule = ['good_id' => 'require|number','user_name'=>'require'];
+        $rule = ['shop_id' => 'require|number'];
         $res = $this->validate($data, $rule);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        $row_ =  Good::read($data['good_id']);
-        if(!empty($row_)){
-            $list_good_attr=[];
-            if($row_->is_add_attr){
-                $list_good_attr = (new GoodAttr)->getGoodAttr($data['good_id']);
-            }
-            $row_->good_attrs = $list_good_attr;
-            $row_->isFav = Collect::ifFav($data);
-        }
+
+        $row_ =  Good::read($data['shop_id']);
         return json(['code' => 0, 'msg' => 'good/read', 'data' =>$row_]);
     }
     public function collect(Request $request){

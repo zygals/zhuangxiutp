@@ -77,8 +77,8 @@ class Good extends Base {
         return $list_;
     }
     //wx
-    public static function read($good_id){
-        return self::getById($good_id,new self());
+    public static function read($shop_id){
+        return self::getByShopId($shop_id,new self(),'id,name,price,img');
     }
     //wx
     public static function updateStore($order_id){
