@@ -49,6 +49,6 @@ class ShopController extends BaseController
            return json(['code' => __LINE__, 'msg' => $res]);
        }
 
-       return json(['code' => 0, 'msg' => 'shop/read', 'data' =>ShopAddress::getAddressByShop($data['shop_id'])]);
+       return json(['code' => 0, 'msg' => 'shop/addr', 'data' =>ShopAddress::getAddressByShop($data['shop_id'])]);
    }
 }

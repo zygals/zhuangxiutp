@@ -94,4 +94,14 @@ class Good extends Base {
             $row_good->save();
         }
     }
+
+    /**
+     * 根据shop_id查询该店铺下的所有商品
+     * @param $shop_id
+     * @return \think\Paginator
+     */
+    public static function read($shop_id){
+        $list_ = self::where(['st'=>1,'shop_id'=>$shop_id])->field('id,name,price,img')->order('sales desc')->paginate();
+        return $list_;
+    }
 }

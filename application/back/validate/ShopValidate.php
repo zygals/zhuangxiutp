@@ -16,6 +16,7 @@ class ShopValidate extends Validate{
 
 
 
+
 	];
 	protected $message  =   [
 		'name.require' => 'name 必须',

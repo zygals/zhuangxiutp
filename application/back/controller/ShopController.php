@@ -79,7 +79,9 @@ class ShopController extends BaseController {
         if (!empty($data['cate_ids'])) {
             $data['cate_ids'] = implode(',', $data['cate_ids']);
         }
-
+        if($data['info'] == ''){
+            $data['info'] = '暂无描述';
+        }
         $shop = new Shop();
         $shop->save($data);
 

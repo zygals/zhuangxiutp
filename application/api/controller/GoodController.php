@@ -39,7 +39,7 @@ class GoodController extends BaseController {
         }
 
         $row_ =  Good::read($data['shop_id']);
-        return json(['code' => 0, 'msg' => 'good/read', 'data' =>$row_]);
+        return json(['code' => 0, 'msg' => 'good/shop_goods', 'data' =>$row_]);
     }
     public function collect(Request $request){
         $data = $request->param();
