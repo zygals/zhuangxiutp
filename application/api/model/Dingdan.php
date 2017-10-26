@@ -6,7 +6,7 @@ use think\Model;
 use app\api\model\Good;
 use app\api\model\OrderGood;
 
-class Dingdan extends model {
+class Dingdan extends Base {
 
 
     public static $arrStatus  = [1=>'未支付',2=>'已支付',4=>'用户取消',5=>'用户删除'];
@@ -19,6 +19,22 @@ class Dingdan extends model {
     {
         $status = [1=>'未发货',2=>'已发货',3=>'已收货',4=>'已评价'];
         return $status[$value];
+    }
+    /*
+        * 立即购买，显示订单详情 zyg
+        * */
+    public static function getDetail($data){
+
+        $row_good = self::getById($data['good_id'],new Good);
+         if(!$row_good){
+             return ['code'=>__LINE__,'msg'=>'good not exsits'];
+         }
+         $row_shop = self::getById($row_good->shop_id,new Shop);
+        if(!$row_shop){
+            return ['code'=>__LINE__,'msg'=>'good of shop not exsits'];
+        }
+        return ['code'=>0,'msg'=>'get shop and good ok','data'=>['shop'=>$row_shop,'good'=>$row_good]];
+
     }
 
     public static function findOne($order_id){

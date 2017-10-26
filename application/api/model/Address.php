@@ -146,4 +146,20 @@ class Address extends Base
     public static function read($address_id){
             return self::find($address_id);
     }
+
+    public static function getDefault($username){
+        $user_id = User::getUserIdByName($username);
+        if(is_array($user_id)){
+            return $user_id;
+        }
+        $row_address = self::where(['user_id'=>$user_id,'is_default'=>1,'st'=>1])->find();
+        if(!$row_address){
+            $row_address = self::where(['user_id'=>$user_id,'st'=>1])->order('create_time desc')->find();
+        }
+        if(!$row_address){
+            return ['code'=>__LINE__,'msg'=>'address not exsits'];
+        }
+        return ['code'=>0,'msg'=>'get address default ok','data'=>$row_address];
+
+    }
 }

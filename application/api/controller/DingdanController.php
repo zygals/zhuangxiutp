@@ -73,6 +73,23 @@ class DingdanController extends BaseController {
         return json($m_->getOrder($data));
 
     }
+    /*
+     * 立即购买，显示订单详情 zyg
+     * */
+    public function detail(Request $request){
+        $data = $request->param();
+        $rules = [
+            'good_id' => 'require|number',
+            'num'=>'require|number',
+
+        ];
+        $res = $this->validate($data, $rules);
+        if (true !== $res) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json(Dingdan::getDetail($data));
+
+    }
 
 
 
