@@ -112,7 +112,6 @@ class AddressController extends BaseController {
        $data=$request->param();
        $rules = [
            'username'=>'require',
-
        ];
        $res = $this->validate($data,$rules);
        if($res !== true){
