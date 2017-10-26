@@ -17,7 +17,7 @@ class Address extends Base
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where( ['user_id'=>$user_id,'address.st'=>1])->field('id,truename,mobile,is_default,pcd,info')->order('address.create_time desc')->paginate();
+        $list_ = self::where( ['user_id'=>$user_id,'address.st'=>1])->field('id,truename,mobile,is_default,pcd,info')->order('address.is_default desc')->paginate(5);
         if(count($list_)==0){
             return ['code'=>__LINE__,'msg'=>'没数据啊!'];
         }
