@@ -54,9 +54,9 @@ class Address extends Base
                 return ['code'=>__LINE__,'add address failed'];
             }
         }
-        if($data['is_default']==1){
+       /* if($data['is_default']==1){
             $this->where('user_id',$user_id)->update(['is_default'=>0]);
-        }
+        }*/
 
         if($this->save($data)){
             return ['code'=>0,'msg'=>'add address success','data'=>$this->id];
