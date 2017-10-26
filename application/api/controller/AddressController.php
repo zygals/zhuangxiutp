@@ -104,4 +104,22 @@ class AddressController extends BaseController {
         $add = new Address();
         return json($add->choAdd($data));
     }
+   /*
+    *  查询用户默认地址，如果没有，则提示添加，
+    * */
+
+   public function default_address(Request $request){
+       $data=$request->param();
+       $rules = [
+           'username'=>'require',
+
+       ];
+       $res = $this->validate($data,$rules);
+       if($res !== true){
+           return json(['code' => __LINE__, 'msg' => $res]);
+       }
+       return json(Address::getDefault($data['username']));
+
+   }
+
 }
