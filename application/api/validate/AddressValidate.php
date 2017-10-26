@@ -8,14 +8,14 @@
             'truename'=>'require',
             'mobile'=>'require|regex:mobile',
             'pcd'=>'require',
-            'info'=>'require',
-            'is_default'=>'require|number',
+             'username'=>'require',
+            'is_default'=>'require|boolean',
         ];
         protected $message = [
             'truename.require'=>'用户真实姓名必须',
             'mobile.require'=>'手机号必须',
             'pcd.require'=>'请选择省份城市县区',
-            'info.require'=>'详细地址必须',
+
             'is_default.require'=>'默认地址必须'
         ];
     }

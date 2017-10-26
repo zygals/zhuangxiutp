@@ -71,7 +71,7 @@ class Address extends Base
      */
     public function editAdd($data){
         $address_id = $data['id'];
-        $row_ = self::where(['id'=>$data['id']])->field('id,user_id,truename,mobile,is_default,pcd,info')->find();
+        $row_ = self::where(['id'=>$data['id'],'st'=>1])->field('id,user_id,truename,mobile,is_default,pcd,info')->find();
         return $row_;
     }
 
@@ -81,8 +81,12 @@ class Address extends Base
      *
      */
     public function updAdd($data){
+        $user_id =User::getUserIdByName($data['username']);
+        if(is_array($user_id)){
+            return $user_id;
+        }
         if($data['is_default']==1){
-            $this->where('user_id',$data['user_id'])->update(['is_default'=>0]);
+            $this->where('user_id',$user_id)->update(['is_default'=>0]);
         }
         unset($data['username']);
         if($this->save($data,['id'=>$data['id']])){
