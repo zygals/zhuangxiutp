@@ -89,4 +89,28 @@ class Collect extends Base {
         return ['code'=>0,'msg'=>'删除成功'];
 
     }
+
+    /**
+     * 用户收藏商品
+     * @param $data
+     * @return array|mixed
+     * mazhida 2017年10月26日 18:31:56
+     */
+    public function colGood($data){
+        $user_id = User::getUserIdByName($data['username']);
+        if(is_array($user_id)){
+            return $user_id;
+        }
+        unset($data['username']);
+        $data['user_id'] = $user_id;
+        $data['collect_id'] = $data['good_id'];
+        unset($data['good_id']);
+        $data['type'] = 1;
+        $data['st'] = 1;
+        if(!$this->save($data)){
+            return ['code'=>__LINE__,'msg'=>'收藏失败'];
+        }
+        return ['code'=>0,'msg'=>'collect success'];
+
+    }
 }
