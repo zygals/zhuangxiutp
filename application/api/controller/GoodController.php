@@ -61,7 +61,7 @@ class GoodController extends BaseController {
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        return (Good::findOne($data['good_id']));
+        return json(Good::findOne($data));
 
     }
 
