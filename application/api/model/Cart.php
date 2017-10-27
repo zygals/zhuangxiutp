@@ -26,7 +26,10 @@ class Cart extends Base {
             return $user_id;
         }
 
-        $row_good = Good::findOne($data['good_id']);
+        $row_good = self::getById($data['good_id'],new Good);
+        if(!$row_good){
+            return ['code' => __LINE__, 'msg' => 'good not exsits'];
+        }
         $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
         if (is_array($row_good)) {
             return $row_good;
