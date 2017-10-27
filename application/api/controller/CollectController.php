@@ -10,7 +10,21 @@ use app\api\model\Cate;
 
 class CollectController extends BaseController {
     /**
-     * 商品收藏
+     * 点击收藏商品
+     */
+    public function collect_good(Request $request){
+        $data = $request->param();
+        $rule = ['username' => 'require','good_id'=>'require|number'];
+        $res = $this->validate($data, $rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $colGood = new Collect();
+        return json($colGood->colGood($data));
+    }
+
+    /**
+     * 商品收藏列表
      * @return \think\response\Json
      */
     public function good(Request $request){
