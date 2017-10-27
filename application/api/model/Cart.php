@@ -2,6 +2,7 @@
 
 namespace app\api\model;
 
+use think\Db;
 use think\Model;
 
 class Cart extends Base {
@@ -64,38 +65,44 @@ class Cart extends Base {
         }
         $sum_price_all = 0;
         foreach ($list_cart as $k => $cart) {
-            $sum_price_all+=$cart->sum_price;
+            $sum_price_all += $cart->sum_price;
             $list_cart[$k]['shop_goods'] = CartGood::getGoodsByShop($cart->shop_id);
         }
-        return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all'=>$sum_price_all,'data' => $list_cart];
+        return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all' => $sum_price_all, 'data' => $list_cart];
 
     }
+
     /*
      * using zyg
      * */
     public function deleteGood($data) {
+
         $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return $user_id;
         }
-        $row_cart_good = self::getById($data['cart_good_id'],new CartGood());
-        if(!$row_cart_good){
-            return ['code'=>__LINE__,'msg'=>'cart_good not exsits'];
+
+        $row_cart_good = self::getById($data['cart_good_id'], new CartGood());
+        if (!$row_cart_good) {
+            return ['code' => __LINE__, 'msg' => 'cart_good not exsits'];
         }
         //
-        $row_good = self::getById($row_cart_good->good_id,new Good(),'price');
-        $minus_price = $row_cart_good->num*$row_good->price;
-        $row_cart = self::getById($row_cart_good->cart_id,new self);
-        $row_cart->sum_price-=$minus_price;
-        if($row_cart->sum_price==0){
+        $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
+        $minus_price = $row_cart_good->num * $row_good->price;
+        $row_cart = self::getById($row_cart_good->cart_id, new self);
+        $row_cart->sum_price -= $minus_price;
+        if ($row_cart->sum_price == 0) {
             $row_cart->st = 0;
         }
-        $row_cart->save();
-        $row_good->st=0;
-        $row_good->save();
-
-
+        Db::startTrans();
+        try {
+            $row_cart->save();
+            $row_good->st = 0;
+            $row_good->save();
+            return ['code' => 0, 'msg' => 'del cart_good ok'];
+        } catch (\Exception $e) {
+            return ['code' => __LINE__, 'msg' => 'del cart_good error'];
+        }
     }
-
 
 }
