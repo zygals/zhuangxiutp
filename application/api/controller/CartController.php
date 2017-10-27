@@ -36,6 +36,21 @@ class CartController extends BaseController {
         return json((new Cart)->addCart($data));
 
     }
+    /*
+     * 删除购物车商品
+     * */
+    public function delete_good(Request $request) {
+        $data = $request->param();
+        //dump( $data);exit;
+        $rule = ['username'=>'require','cart_good_id'=>'require|number'];
+        $res = $this->validate($data,$rule);
+        //dump( $res);exit;
+        if($res !== true){
+            return json(['code'=>__LINE__,'msg'=>$res]);
+        }
+        return json((new Cart)->deleteGood($data));
+
+    }
 
 
 

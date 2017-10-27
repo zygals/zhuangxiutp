@@ -4,7 +4,7 @@ namespace app\api\model;
 
 use think\Model;
 
-class Cart extends model {
+class Cart extends Base {
 
     public function getStAttr($value) {
         $status = [0 => 'deleted', 1 => '正常'];
@@ -17,7 +17,7 @@ class Cart extends model {
     }
 
     /*
-     * using
+     * using zyg
      * */
     public function addCart($data) {
         $user_id = User::getUserIdByName($data['username']);
@@ -68,6 +68,32 @@ class Cart extends model {
             $list_cart[$k]['shop_goods'] = CartGood::getGoodsByShop($cart->shop_id);
         }
         return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all'=>$sum_price_all,'data' => $list_cart];
+
+    }
+    /*
+     * using zyg
+     * */
+    public function deleteGood($data) {
+        $user_id = User::getUserIdByName($data['username']);
+        if (is_array($user_id)) {
+            return $user_id;
+        }
+        $row_cart_good = self::getById($data['cart_good_id'],new CartGood());
+        if(!$row_cart_good){
+            return ['code'=>__LINE__,'msg'=>'cart_good not exsits'];
+        }
+        //
+        $row_good = self::getById($row_cart_good->good_id,new Good(),'price');
+        $minus_price = $row_cart_good->num*$row_good->price;
+        $row_cart = self::getById($row_cart_good->cart_id,new self);
+        $row_cart->sum_price-=$minus_price;
+        if($row_cart->sum_price==0){
+            $row_cart->st = 0;
+        }
+        $row_cart->save();
+        $row_good->st=0;
+        $row_good->save();
+
 
     }
 
