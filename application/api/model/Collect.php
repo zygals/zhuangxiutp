@@ -101,16 +101,24 @@ class Collect extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
-        unset($data['username']);
-        $data['user_id'] = $user_id;
-        $data['collect_id'] = $data['good_id'];
-        unset($data['good_id']);
-        $data['type'] = 1;
-        $data['st'] = 1;
-        if(!$this->save($data)){
-            return ['code'=>__LINE__,'msg'=>'收藏失败'];
-        }
-        return ['code'=>0,'msg'=>'collect success'];
+       $res = $this->where(['user_id'=>$user_id,'collect_id'=>$data['good_id'],'type'=>1])->find();
+       if($res){
+            if($res['st']=='正常'){
+                $this->where(['id'=>$res['id']])->update(['st'=>'0']);
+                return ['code'=>0,'msg'=>'删除成功'];
+            }else{
+                $this->where(['id'=>$res['id']])->update(['st'=>'1']);
+                return ['code'=>0,'msg'=>'添加成功'];
+            }
+       }else{
+           $data['user_id'] = $user_id;
+           $data['collect_id'] = $data['good_id'];
+           $data['type'] = 1;
+           unset($data['username']);
+           unset($data['good_id']);
+           $this->save($data);
+           return ['code'=>0,'msg'=>'添加成功'];
+       }
 
     }
 }
