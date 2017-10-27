@@ -81,7 +81,6 @@ class DingdanController extends BaseController {
         $rules = [
             'good_id' => 'require|number',
             'num'=>'require|number',
-
         ];
         $res = $this->validate($data, $rules);
         if (true !== $res) {

@@ -25,14 +25,14 @@ class Cart extends model {
             return $user_id;
         }
 
-        $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $data['shop_id']])->find();
         $row_good = Good::findOne($data['good_id']);
+        $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
         if (is_array($row_good)) {
             return $row_good;
         }
         if (!$row_cart) {//没有此商家的购物车
             $data_cart['user_id'] = $user_id;
-            $data_cart['shop_id'] = $data['shop_id'];
+            $data_cart['shop_id'] = $row_good->shop_id;
             $data_cart['sum_price'] = $row_good->price * $data['num'];
 
             $this->save($data_cart);

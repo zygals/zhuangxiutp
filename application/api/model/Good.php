@@ -16,6 +16,7 @@ class Good extends Base {
         $status = [0 => '否', 1 => '是'];
         return $status[$value];
     }
+    //using zyg
     public static function findOne($good_id){
         $row_ = self::where(['id'=>$good_id,'st'=>1])->find();
         if(!$row_){
