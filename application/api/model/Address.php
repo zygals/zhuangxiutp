@@ -17,7 +17,7 @@ class Address extends Base
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where( ['user_id'=>$user_id,'address.st'=>1])->field('id,truename,mobile,is_default,pcd,info')->order('address.create_time desc')->paginate();
+        $list_ = self::where( ['user_id'=>$user_id,'address.st'=>1])->field('id,truename,mobile,is_default,pcd,info')->order('address.is_default desc')->paginate(5);
         if(count($list_)==0){
             return ['code'=>__LINE__,'msg'=>'没数据啊!'];
         }
@@ -54,9 +54,9 @@ class Address extends Base
                 return ['code'=>__LINE__,'add address failed'];
             }
         }
-        if($data['is_default']==1){
+       /* if($data['is_default']==1){
             $this->where('user_id',$user_id)->update(['is_default'=>0]);
-        }
+        }*/
 
         if($this->save($data)){
             return ['code'=>0,'msg'=>'add address success','data'=>$this->id];
@@ -71,7 +71,7 @@ class Address extends Base
      */
     public function editAdd($data){
         $address_id = $data['id'];
-        $row_ = self::where(['id'=>$data['id']])->field('id,user_id,truename,mobile,is_default,pcd,info')->find();
+        $row_ = self::where(['id'=>$data['id'],'st'=>1])->field('id,user_id,truename,mobile,is_default,pcd,info')->find();
         return $row_;
     }
 
@@ -81,8 +81,12 @@ class Address extends Base
      *
      */
     public function updAdd($data){
+        $user_id =User::getUserIdByName($data['username']);
+        if(is_array($user_id)){
+            return $user_id;
+        }
         if($data['is_default']==1){
-            $this->where('user_id',$data['user_id'])->update(['is_default'=>0]);
+            $this->where('user_id',$user_id)->update(['is_default'=>0]);
         }
         unset($data['username']);
         if($this->save($data,['id'=>$data['id']])){
