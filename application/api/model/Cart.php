@@ -86,23 +86,23 @@ class Cart extends Base {
         if (!$row_cart_good) {
             return ['code' => __LINE__, 'msg' => 'cart_good not exsits'];
         }
+
         //
         $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
         $minus_price = $row_cart_good->num * $row_good->price;
-        $row_cart = self::getById($row_cart_good->cart_id, new self);
+        $row_cart = self::getById($row_cart_good->cart_id, new Cart);
+        if(!$row_cart_good){
+            return ['code' => __LINE__, 'msg' => 'cart not exsits'];
+        }
         $row_cart->sum_price -= $minus_price;
         if ($row_cart->sum_price == 0) {
             $row_cart->st = 0;
         }
-       // Db::startTrans();
-       // try {
-            $row_cart->save();
-            $row_cart_good->st = 0;
-            $row_cart_good->save();
-            return ['code' => 0, 'msg' => 'del cart_good ok'];
-//        } catch (\Exception $e) {
-//            return ['code' => __LINE__, 'msg' => 'del cart_good error'];
-//        }
+        $row_cart->save();
+        $row_cart_good->st = 0;
+        $row_cart_good->save();
+        return ['code' => 0, 'msg' => 'del cart_good ok'];
+
     }
 
 }
