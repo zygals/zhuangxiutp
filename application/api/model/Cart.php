@@ -49,26 +49,27 @@ class Cart extends model {
         return (new CartGood)->addGood($data_good);
 
     }
-/*
- * using
- * */
+
+    /*
+     * using  zyg
+     * */
     public static function getListByUser($username) {
         $user_id = User::getUserIdByName($username);
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop','cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
+        $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
         if ($list_cart->isEmpty()) {
             return ['code' => __LINE__, 'msg' => 'cart good not exsits'];
         }
-
-        foreach ($list_cart as $k=>$cart) {
+        $sum_price_all = 0;
+        foreach ($list_cart as $k => $cart) {
+            $sum_price_all+=$cart->sum_price;
             $list_cart[$k]['shop_goods'] = CartGood::getGoodsByShop($cart->shop_id);
         }
-        return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'data' => $list_cart];
+        return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all'=>$sum_price_all,'data' => $list_cart];
 
     }
-
 
 
 }
