@@ -89,6 +89,9 @@ class Cart extends Base {
 
         //
         $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
+        if(!$row_good){
+            return ['code' => __LINE__, 'msg' => 'good not exsits'];
+        }
         $minus_price = $row_cart_good->num * $row_good->price;
         $row_cart = self::getById($row_cart_good->cart_id, new Cart);
         if(!$row_cart_good){
