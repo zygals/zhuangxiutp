@@ -94,15 +94,15 @@ class Cart extends Base {
         if ($row_cart->sum_price == 0) {
             $row_cart->st = 0;
         }
-        Db::startTrans();
-        try {
+       // Db::startTrans();
+       // try {
             $row_cart->save();
-            $row_good->st = 0;
-            $row_good->save();
+            $row_cart_good->st = 0;
+            $row_cart_good->save();
             return ['code' => 0, 'msg' => 'del cart_good ok'];
-        } catch (\Exception $e) {
-            return ['code' => __LINE__, 'msg' => 'del cart_good error'];
-        }
+//        } catch (\Exception $e) {
+//            return ['code' => __LINE__, 'msg' => 'del cart_good error'];
+//        }
     }
 
 }
