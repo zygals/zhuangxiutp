@@ -7,7 +7,6 @@ use think\Model;
 
 class Address extends Base
 {
-
     /**
      * 获取用户地址列表
      * @return array|false|object|\PDOStatement|string|Model
