@@ -47,6 +47,12 @@ class Base extends model {
         return $row;
     }
 
+    public static function getByDivId($model,$where=['st'=>1],$field='*'){
+
+        $row = $model->where($where)->find();
+        return $row;
+    }
+
     public static function getByShopId($shop_id,$model,$field='*',$where=['st'=>1]){
 
         $row = $model->field($field)->where($where)->where('shop_id',$shop_id)->paginate();
