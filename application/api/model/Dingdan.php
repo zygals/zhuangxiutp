@@ -23,7 +23,7 @@ class Dingdan extends Base {
     /*
         * 立即购买，显示订单详情 zyg
         * */
-    public static function getDetail($data){
+   /* public static function getDetail($data){
 
         $row_good = self::getById($data['good_id'],new Good);
          if(!$row_good){
@@ -35,7 +35,7 @@ class Dingdan extends Base {
         }
         return ['code'=>0,'msg'=>'get shop and good ok','data'=>['shop'=>$row_shop,'good'=>$row_good]];
 
-    }
+    }*/
 
     public static function findOne($order_id){
        $row_ = self::where(['dingdan.id'=>$order_id])->join('user','dingdan.user_id=user.id')->join('shop','shop.id=dingdan.shop_id')->join('address','address.id=dingdan.address_id')->field('dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name')->find();
@@ -79,41 +79,22 @@ class Dingdan extends Base {
 
         return $list;
     }
-    // 添加订单 wx
+    /*
+     * 添加订单 zhuangxiu - zyg
+     *
+     * */
     public function addOrder($data) {
         $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return $user_id;
         }
-        $row_good = Good::read($data['good_id']);
-        //库存判断
-        if($row_good->store < $data['nums']){
-            return ['code'=>__LINE__,'msg'=>'库存不足'];
+        $arr_shop_good_list = json_decode($data['shop_good_list']) ;
+        if(!is_array($arr_shop_good_list)){
+            return ['code'=>__LINE__,'msg'=>'shop_good_list data error'];
         }
-        if(!$row_good){
-            return ['code'=>__LINE__,'msg'=>'商品暂不存在'];
-        }
-        $sum_price = $row_good->price * $data['nums'];
-        $data_order['user_id'] = $user_id;
-        $data_order['st'] = 1;
-        $data_order['goodst'] = 1;
-        $data_order['orderno'] = $this->makeTradeNo($data['username']);
-        $address = Address::getUserDefaultAddress($user_id);
+        return ['code'=>0];
 
-        $data_order['address_id'] = $address->id;
 
-        $data_order['sum_price'] = $sum_price ;
-
-        if (!$this->save($data_order)) {
-            return ['code' => __LINE__, 'msg' => '订单添加失败'];
-        }
-        $new_order_id = $this->getLastInsID();
-            $data_order_good['order_id'] = $new_order_id;
-            $data_order_good['good_id'] = $row_good->id;
-            $data_order_good['nums'] = $data['nums'];
-            (new OrderGood())->save($data_order_good);
-
-        return ['code' => 0, 'msg' => 'add order and add order_good ok', 'data' => $new_order_id];
     }
     //生成订单号 wx
     public function makeTradeNo($username) {
@@ -136,13 +117,13 @@ class Dingdan extends Base {
         }
         return ['code' => 0, 'msg' => 'get order and order_goods ok', 'data' => ['order' => $row_order, 'order_goods' => $list_order_goods,'address'=>$row_address]];
     }
-    public function getOrderAdress($data) {
+ /*   public function getOrderAdress($data) {
         $row_ = Address::get(['id' => $data['address_id']]);
         if (!$row_) {
             return ['code' => __LINE__, 'msg' => 'address not exists'];
         }
         return ['code' => 0, 'msg' => 'get new address ok', 'data' => $row_];
-    }
+    }*/
     //wx
     public static function getMyOrders($data) {
         $user_id = User::getUserIdByName($data['user_name']);
