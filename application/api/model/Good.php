@@ -4,6 +4,7 @@ namespace app\api\model;
 
 use think\Model;
 use app\api\model\GoodAttr;
+use app\api\model\Collect;
 
 class Good extends Base {
 
@@ -17,12 +18,19 @@ class Good extends Base {
         return $status[$value];
     }
     //using zyg
-    public static function findOne($good_id){
-        $row_ = self::where(['id'=>$good_id,'st'=>1])->find();
+    public static function findOne($data){
+        $row_ = self::where(['id'=>$data['good_id'],'st'=>1])->find();
+        $user_id = User::getUserIdByName($data['username']);
         if(!$row_){
             return ['code'=>__LINE__,'msg'=>'good not exist'];
         }
-        return $row_;
+        $res = Collect::getByDivId(new Collect,$where=['st'=>1,'collect_id'=>$data['good_id'],'user_id'=>$user_id,'type'=>1]);
+        if($res){
+            return ['code'=>0,'is_collect'=>'true','data'=>$row_];
+        }else{
+            return ['code'=>0,'is_collect'=>'false','data'=>$row_];
+        }
+
     }
     public function updateAddAttr($good_id){
         $row_good = $this->where(['id'=>$good_id])->find();

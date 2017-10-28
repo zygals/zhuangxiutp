@@ -2,9 +2,10 @@
 
 namespace app\api\model;
 
+use think\Db;
 use think\Model;
 
-class Cart extends model {
+class Cart extends Base {
 
     public function getStAttr($value) {
         $status = [0 => 'deleted', 1 => '正常'];
@@ -17,7 +18,7 @@ class Cart extends model {
     }
 
     /*
-     * using
+     * using zyg
      * */
     public function addCart($data) {
         $user_id = User::getUserIdByName($data['username']);
@@ -25,7 +26,10 @@ class Cart extends model {
             return $user_id;
         }
 
-        $row_good = Good::findOne($data['good_id']);
+        $row_good = self::getById($data['good_id'],new Good);
+        if(!$row_good){
+            return ['code' => __LINE__, 'msg' => 'good not exsits'];
+        }
         $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
         if (is_array($row_good)) {
             return $row_good;
@@ -49,26 +53,62 @@ class Cart extends model {
         return (new CartGood)->addGood($data_good);
 
     }
-/*
- * using
- * */
+
+    /*
+     * using  zyg
+     * */
     public static function getListByUser($username) {
         $user_id = User::getUserIdByName($username);
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop','cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
+        $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
         if ($list_cart->isEmpty()) {
             return ['code' => __LINE__, 'msg' => 'cart good not exsits'];
         }
-
-        foreach ($list_cart as $k=>$cart) {
+        $sum_price_all = 0;
+        foreach ($list_cart as $k => $cart) {
+            $sum_price_all += $cart->sum_price;
             $list_cart[$k]['shop_goods'] = CartGood::getGoodsByShop($cart->shop_id);
         }
-        return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'data' => $list_cart];
+        return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all' => $sum_price_all, 'data' => $list_cart];
 
     }
 
+    /*
+     * using zyg
+     * */
+    public function deleteGood($data) {
 
+        $user_id = User::getUserIdByName($data['username']);
+        if (is_array($user_id)) {
+            return $user_id;
+        }
+
+        $row_cart_good = self::getById($data['cart_good_id'], new CartGood());
+        if (!$row_cart_good) {
+            return ['code' => __LINE__, 'msg' => 'cart_good not exsits'];
+        }
+
+        //
+        $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
+        if(!$row_good){
+            return ['code' => __LINE__, 'msg' => 'good not exsits'];
+        }
+        $minus_price = $row_cart_good->num * $row_good->price;
+        $row_cart = self::getById($row_cart_good->cart_id, new Cart);
+        if(!$row_cart_good){
+            return ['code' => __LINE__, 'msg' => 'cart not exsits'];
+        }
+        $row_cart->sum_price -= $minus_price;
+        if ($row_cart->sum_price == 0) {
+            $row_cart->st = 0;
+        }
+        $row_cart->save();
+        $row_cart_good->st = 0;
+        $row_cart_good->save();
+        return ['code' => 0, 'msg' => 'del cart_good ok'];
+
+    }
 
 }
