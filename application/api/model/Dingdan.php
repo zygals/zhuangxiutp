@@ -161,14 +161,11 @@ class Dingdan extends Base {
                 }
 
             }
-
+            //删除原购物车
+            $row_cart = self::getById($shop->cart_id,new Cart);
+            $row_cart->st=0;$row_cart->save();
         }
-        //删除原购物车
-        $row_cart = self::getById($shop->cart_id,new Cart);
-        $row_cart->st=0;$row_cart->save();
         return ['code' => 0, 'msg' => 'dingdan save_all ok'];
-
-
     }
 
     //生成订单号 wx
