@@ -36,15 +36,17 @@ class DingdanController extends BaseController {
     }
 
     /**
-     * 商品立即购买添加订单
-     *
+     * zhunagxiu
+     * submit order
+     * zyg
      */
-    public function save(Request $request) {
+    public function save_all(Request $request) {
         $data = $request->param();
         $rules = [
             'username' => 'require',
-            'good_id' => 'require|number',
-            'num' => 'require|number',
+            'shop_good_list' => 'require',
+            'sum_price_all' => 'require|float',
+            'address_id' => 'require|number',
         ];
         $res = $this->validate($data, $rules);
         if (true !== $res) {
@@ -76,7 +78,7 @@ class DingdanController extends BaseController {
     /*
      * 立即购买，显示订单详情 zyg
      * */
-    public function detail(Request $request){
+  /*  public function detail(Request $request){
         $data = $request->param();
         $rules = [
             'good_id' => 'require|number',
@@ -88,7 +90,7 @@ class DingdanController extends BaseController {
         }
         return json(Dingdan::getDetail($data));
 
-    }
+    }*/
 
 
 
