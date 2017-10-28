@@ -164,7 +164,7 @@ class Dingdan extends Base {
 
         }
         //删除原购物车
-        (new Cart())->where('id',$shop->cart_id)->update(['st'=>0]);
+        (new Cart())->where('id',$shop->cart_id)->save(['st'=>0]);
         return ['code' => 0, 'msg' => 'dingdan save_all ok'];
 
 
