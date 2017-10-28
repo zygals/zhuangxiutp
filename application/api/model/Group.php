@@ -3,7 +3,7 @@
     use app\back\model\Base;
     use think\Model;
 
-    class Group extends Base{
+    class TuanGou extends Base{
         /**
          * 查询正在进行的团购活动
          */

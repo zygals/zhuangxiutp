@@ -10,7 +10,7 @@
          * 正在进行的团购活动
          */
         public function goon(){
-            return json(['code'=>0,'msg'=>'group/goon','data'=>Group::getGoon()]);
+            return json(['code'=>0,'msg'=>'group/goon','data'=>TuanGou::getGoon()]);
         }
 
         /**
@@ -18,6 +18,6 @@
          */
         public function history()
         {
-            return json(['code'=>0,'msg'=>'group/history','data'=>Group::getHistory()]);
+            return json(['code'=>0,'msg'=>'group/history','data'=>TuanGou::getHistory()]);
         }
     }
