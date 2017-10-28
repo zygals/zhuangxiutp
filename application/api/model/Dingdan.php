@@ -112,7 +112,8 @@ class Dingdan extends Base {
                 'sum_price' => $sum_price,
                 'st' => self::ORDER_ST_DAIZHIFU,
                 'goodst' => self::GOOT_ST_DAIFAHUO,
-
+                'create_time'=>time(),
+                'update_time'=>time(),
             ];
             if(!$new_order_id = $this->insertGetId($data_order)){
                 return ['code'=>__LINE__,'msg'=>'add order error'];
