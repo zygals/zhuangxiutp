@@ -9,7 +9,7 @@
          */
         public static function getGoon(){
             $field = 'good.id good_id,good.img good_img,good.name good_name';
-            $where = ['tuangou.st'=>['=',1]];
+            $where = ['tuangou.st'=>['=',1],'type'=>['=',2]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
         }
@@ -19,7 +19,7 @@
          */
         public static function getHistory(){
             $field = 'good.id good_id,good.img good_img,good.name good_name,price_group,good.price good_price';
-            $where = ['tuangou.st'=>['=',3]];
+            $where = ['tuangou.st'=>['=',3],'type'=>['=',2]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
         }
