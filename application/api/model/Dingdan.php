@@ -114,10 +114,10 @@ class Dingdan extends Base {
                 'goodst' => self::GOOT_ST_DAIFAHUO,
 
             ];
-            if(!$this->save($data_order)){
+            if(!$new_order_id = $this->insertGetId($data_order)){
                 return ['code'=>__LINE__,'msg'=>'add order error'];
             }
-            $new_order_id = $this->getLastInsID();
+          //  $new_order_id = $this->getLastInsID();
             foreach($shop->shop_goods as $good){
 
                 $row_good = self::getById($good->good_id, new Good());
