@@ -104,7 +104,8 @@ class Dingdan extends Base {
                 }
                 $sum_price += $row_good->price * $good->num;
             }
-            $data_order = ['shop_id' => $shop->shop_id,
+            $data_order = [
+                'shop_id' => $shop->shop_id,
                 'orderno' => $this->makeTradeNo($data['username']),
                 'user_id' => $user_id,
                 'address_id' => $data['address_id'],
@@ -116,7 +117,7 @@ class Dingdan extends Base {
             if(!$this->save($data_order)){
                 return ['code'=>__LINE__,'msg'=>'add order error'];
             }
-            $new_order_id = $this->id;
+            $new_order_id = $this->getLastInsID();
             foreach($shop->shop_goods as $good){
 
                 $row_good = self::getById($good->good_id, new Good());
