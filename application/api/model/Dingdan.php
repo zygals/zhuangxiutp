@@ -103,18 +103,19 @@ class Dingdan extends Base {
             }
             $sum_price_all += $row_cart->sum_price;
         }
+        //添加平台订单
+        $data_order_contact = [
+            'orderno' => $this->makeTradeNo($data['username']),
+            'sum_price_all' => $sum_price_all,
+            'st' => 1,//待支付
+            'create_time' => time(),
+            'update_time' => time(),
+        ];
+        if (!$new_order_contact_id = (new OrderContact())->insertGetId($data_order_contact)) {
+            return ['code' => 0, 'msg' => 'add order_contact error'];
+        }
         foreach ($arr_shop_good_list as $shop) {
-            //添加平台订单
-            $data_order_contact = [
-                'orderno' => $this->makeTradeNo($data['username']),
-                'sum_price_all' => $sum_price_all,
-                'st' => 1,//待支付
-                'create_time' => time(),
-                'update_time' => time(),
-            ];
-            if (!$new_order_contact_id = (new OrderContact())->insertGetId($data_order_contact)) {
-                return ['code' => 0, 'msg' => 'add order_contact error'];
-            }
+
             //添加商家订单表开始
             $sum_price = 0;
             foreach ($shop->shop_goods as $good) {
