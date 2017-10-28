@@ -95,16 +95,37 @@ class Dingdan extends Base {
         if (!is_array($arr_shop_good_list)) {
             return ['code' => __LINE__, 'msg' => 'shop_good_list data error'];
         }
+        $sum_price_all = 0;
         foreach ($arr_shop_good_list as $shop) {
+            $row_cart = self::getById($shop->cart_id, new Cart);
+            if (!$row_cart) {
+                return ['code' => __LINE__, 'msg' => 'cart not exists'];
+            }
+            $sum_price_all += $row_cart->sum_price;
+        }
+        foreach ($arr_shop_good_list as $shop) {
+            //添加平台订单
+            $data_order_contact = [
+                'orderno' => $this->makeTradeNo($data['username']),
+                'sum_price_all' => $sum_price_all,
+                'st' => 1,//待支付
+                'create_time' => time(),
+                'update_time' => time(),
+            ];
+            if (!$new_order_contact_id = (new OrderContact())->insertGetId($data_order_contact)) {
+                return ['code' => 0, 'msg' => 'add order_contact error'];
+            }
+            //添加商家订单表开始
             $sum_price = 0;
             foreach ($shop->shop_goods as $good) {
                 $row_good = self::getById($good->good_id, new Good());
-                if(!$row_good){
-                    return ['code'=>__LINE__,'msg'=>'good not exits'];
+                if (!$row_good) {
+                    return ['code' => __LINE__, 'msg' => 'good not exits'];
                 }
                 $sum_price += $row_good->price * $good->num;
             }
             $data_order = [
+                'order_contact_id' => $new_order_contact_id,
                 'shop_id' => $shop->shop_id,
                 'orderno' => $this->makeTradeNo($data['username']),
                 'user_id' => $user_id,
@@ -112,35 +133,36 @@ class Dingdan extends Base {
                 'sum_price' => $sum_price,
                 'st' => self::ORDER_ST_DAIZHIFU,
                 'goodst' => self::GOOT_ST_DAIFAHUO,
-                'create_time'=>time(),
-                'update_time'=>time(),
+                'create_time' => time(),
+                'update_time' => time(),
             ];
-            if(!$new_order_id = $this->insertGetId($data_order)){
-                return ['code'=>__LINE__,'msg'=>'add order error'];
+            if (!$new_order_id = $this->insertGetId($data_order)) {
+                return ['code' => __LINE__, 'msg' => 'add order error'];
             }
-          //  $new_order_id = $this->getLastInsID();
-            foreach($shop->shop_goods as $good){
+            //添加商家订单表end
+            //  $new_order_id = $this->getLastInsID();
+            foreach ($shop->shop_goods as $good) {
 
                 $row_good = self::getById($good->good_id, new Good());
                 $data_order_good = [
-                    'order_id'=>$new_order_id,
-                    'shop_id'=>$row_good->shop_id,
-                    'img'=>$row_good->img,
-                    'price'=>$row_good->price,
-                    'name'=>$row_good->name,
-                     'good_id'=>$row_good->id,
-                    'num'=>$good->num,
-                    'st'=>OrderGood::ST_PREPARE,
+                    'order_id' => $new_order_id,
+                    'shop_id' => $row_good->shop_id,
+                    'img' => $row_good->img,
+                    'price' => $row_good->price,
+                    'name' => $row_good->name,
+                    'good_id' => $row_good->id,
+                    'num' => $good->num,
+                    'st' => OrderGood::ST_PREPARE,
 
                 ];
-                if(!(new OrderGood())->save($data_order_good)){
-                    return ['code'=>__LINE__,'msg'=>'add order_good error'];
+                if (!(new OrderGood())->save($data_order_good)) {
+                    return ['code' => __LINE__, 'msg' => 'add order_good error'];
                 }
 
             }
 
         }
-        return ['code' => 0,'msg'=>'dingdan save_all ok'];
+        return ['code' => 0, 'msg' => 'dingdan save_all ok'];
 
 
     }

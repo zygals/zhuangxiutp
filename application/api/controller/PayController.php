@@ -8,13 +8,7 @@ use app\api\model\User;
 use think\Request;
 class PayController extends BaseController {
     public function pay_ok(Request $request) {
-//        $data = $request->param();
-//        $row_ = Dingdan::find(['id'=>$data['order_id']]);
-//        if(!$row_){
-//            return json(['code'=>__LINE__,'msg'=>'订单不存在']);
-//        }
-//        $row_->st = 2;
-//        $row_->save();
+
     }
     public function pay_now(Request $request) {
         $rules = ['user_name' => 'require', 'order_id' => 'require|number'];
