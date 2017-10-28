@@ -19,7 +19,9 @@ class GroupController extends BaseController {
      *
      * @return \think\Response
      */
+
     public function index(Request $request) {
+//        dump(1);exit;
         $data = $request->param();
 //        $isShopAdmin = Admin::isShopAdmin();
         $list_ = Tuangou::getList($data);
@@ -73,7 +75,7 @@ class GroupController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-        dump($data);exit;
+//        dump($data);exit;
         $data['end_time']=strtotime($data['end_time']);
 //        $res = $this->validate($data, 'AdValidate');
 //        if ($res !== true) {
@@ -86,8 +88,8 @@ class GroupController extends BaseController {
             $data['deposit'] = 0;
         }
 
-        $group = new Group();
-        $group->save($data);
+        $Tuangou = new Tuangou();
+        $Tuangou->save($data);
         $this->success('添加成功', 'index', '', 1);
     }
 
@@ -100,7 +102,7 @@ class GroupController extends BaseController {
     public function edit(Request $request) {
         $data = $request->param();
         $referer=$request->header()['referer'];
-        $row_ = Group::findById($data['id']);
+        $row_ = Tuangou::findById($data['id']);
 //        dump($row_);exit;
         return $this->fetch('',['row_'=>$row_,'referer'=>$referer,'title'=>'修改团购活动信息 ','act'=>'update']);
     }
@@ -129,9 +131,9 @@ class GroupController extends BaseController {
             $this->error($res);
         }
 
-        $row_ = $this->findById($data['id'],new Group());
+        $row_ = $this->findById($data['id'],new Tuangou());
 
-        if($this->saveById($data['id'],new Group(),$data)){
+        if($this->saveById($data['id'],new Tuangou(),$data)){
 
             $this->success('编辑成功', $referer, '', 1);
         }else{
