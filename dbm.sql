@@ -35,3 +35,10 @@ ADD COLUMN `attend_pnum` int(11) NOT NULL DEFAULT 0 COMMENT '目前团购参与�
 
 ALTER TABLE `zhuangxiu`.`tuangou` 
 ADD COLUMN `already_sales` int(11) NOT NULL DEFAULT 0 COMMENT '目前已经售出的数量' AFTER `attend_pnum`;
+
+
+
+2017年10月30日 10:36:51
+
+ALTER TABLE `zhuangxiu`.`tuangou` 
+ADD COLUMN `description` varchar(255) NOT NULL COMMENT '团购活动描述' AFTER `already_sales`;
