@@ -6,4 +6,6 @@ application/index/config.php
 application/back/config.php
 application/wx/config.php
 public/upload
-thinkphp
+framework
+public/index.php
+

@@ -28,11 +28,14 @@ class Shop extends Base {
         }
         return false;
     }
+	/*
+	 * 取商家列表 zhuangxiu-zyg
+	 * */
     public static function getList($data=[]) {
-        $field='shop.id shop_id,shop.name,shop.img,shop.ordernum,shop.tradenum,shop.img,shop.logo,cate.name cate_name';
+        $field='shop.id shop_id,shop.name shop_name,shop.ordernum,shop.tradenum,shop.img,shop.logo,cate.name cate_name';
         $where=['shop.st' => 1];
-        $order = "ordernum desc,tradenum desc";
-
+        $order = "shop.ordernum desc,shop.tradenum desc,shop.create_time desc";//默认销量排序
+//		$order = "shop.create_time desc";
         if(!empty($data['cate_id'])){
             $where['cate_id'] = $data['cate_id'];
         }
@@ -47,11 +50,6 @@ class Shop extends Base {
             $where['shop.to_top'] = 1;
             $order = "shop.update_time desc";
         }
-        /*if (!empty($data['paixu']) && !empty($data['sort_type'])) {
-            $order = $data['paixu'] . ' asc';
-        }*/
-
-
         $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->order($order)->field($field)->paginate();
        // dump($list_);exit;
         if($list_->isEmpty()){

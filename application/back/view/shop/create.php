@@ -27,6 +27,9 @@
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>经营类目：</label>
                             <div class="col-xs-8 ">
+								<?php if($list_cate->isEmpty()){?>
+									<a href="{:url('cate/')}">添加分类</a>
+								<?php }?>
                                 <?php foreach($list_cate as $row_){?>
                                 <label ><input type="radio" name="cate_id" value="{$row_->id}">{$row_->name}&nbsp;&nbsp;</label>
 <?php }?>
@@ -69,7 +72,7 @@
                             <div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="number" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
+                                    <input type="number" maxlength="11" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">
