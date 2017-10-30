@@ -4,6 +4,8 @@
     use think\Model;
 
     class TuanGou extends Base{
+        protected $table = 'tuangou';
+
         /**
          * 查询正在进行的团购活动
          */
