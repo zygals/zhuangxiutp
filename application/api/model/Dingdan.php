@@ -213,6 +213,7 @@ class Dingdan extends Base {
         foreach ($list_order as $k => $row_order) {
             $list_order_good = OrderGood::getGood($row_order->id);
             $list_order[$k]['goods'] = $list_order_good;
+            $list_order[$k]['good_num'] = count($list_order_good);
         }
         return ['code' => 0, 'msg' => 'get order and order_goods ok', 'data' => $list_order];
 
