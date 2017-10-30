@@ -44,4 +44,12 @@
 
             return json(['code'=>0,'msg'=>'group/history_pnum','data'=>TuanGou::getHistoryPnum()]);
         }
+
+        /**
+         * 查看限人团购详情页
+         */
+        public function pnuminfo(Request $request){
+            $t_id = $request->param();
+            return json(['code'=>0,'msg'=>'group/pnuminfo','data'=>TuanGou::getPnumList($t_id)]);
+        }
     }
