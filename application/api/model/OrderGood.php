@@ -11,11 +11,10 @@ class OrderGood extends model {
     const ST_RETURN = 4;
 
     public static function getGood($order_id) {
+		$where = ['order_id' => $order_id];
+		$list_ = self::where($where)->order('create_time asc')->field('id,name good_name,good_id,price,num,img,st')->select();
+		return $list_;
 
-        $where = ['order_id' => $order_id,'good.st'=>1];
-        $list_ = self::where($where)->alias('od')->join('good','od.good_id=good.id')->field('od.*,good.name good_name,good.price,good.img')->order('od.create_time asc')->select();
-
-        return $list_;
     }
 
     public static  function getGoodOn($good_id){

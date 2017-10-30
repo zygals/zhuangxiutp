@@ -36,9 +36,6 @@ class DingdanController extends BaseController {
         return $this->fetch('index', ['list_' => $list_,'page_str'=>$page_str,'url'=>$url]);
 
     }
-
-
-
     /**
      * 显示订单详情
      *
@@ -56,6 +53,7 @@ class DingdanController extends BaseController {
         $data = $request->param();
         $referer = $request->header()['referer'];
         $row_ = $this->findById($data['id'], new Dingdan());
+
         return $this->fetch('',['row_'=>$row_,'act'=>'update','title'=>'改 '.$row_->orderno.' 发货状态','referer'=>$referer]);
     }
     /**
@@ -99,6 +97,17 @@ class DingdanController extends BaseController {
             $this->error('删除失败',  $data['url'], '', 3);
         }
     }
+
+	public function change_goodst(Request $request){
+		$data = $request->param();
+		$referer = $request->header()['referer'];
+		//dump($referer);exit;
+		if((new OrderGood)->saveSt($data['order_good_id'])){
+			$this->success('状态修改成功',$referer,'',1);
+		}else{
+			$this->error('状态修改失败',$referer, '', 1);
+		}
+	}
 
 
 }

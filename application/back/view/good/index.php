@@ -128,7 +128,7 @@
                             {$row_->id}
                         </div>
                         <div class="col-xs-1 " title="{$row_->shop_name}">
-                            {$row_->shop_name}
+                            {$row_->shop_id}:{$row_->shop_name}
                         </div>
                         <div class="col-xs-1 " title="{$row_->name}">
                             {$row_->name}

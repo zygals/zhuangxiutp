@@ -8,16 +8,20 @@ use app\api\model\OrderGood;
 
 class Dingdan extends Base {
     const ORDER_ST_DAIZHIFU = 1;
+    const ORDER_ST_PAID = 2;
+    const ORDER_ST_USER_CANCEL = 5;
+    const ORDER_ST_USER_DELETE = 6;
+    const ORDER_ST_ADMIN_DELETE = 0;
     const GOOT_ST_DAIFAHUO = 1;
 
     public static $arrStatus = [1 => '未支付', 2 => '已支付', 4 => '用户取消', 5 => '用户删除'];
 
     public function getStAttr($value) {
-        $status = ['0' => 'delete', 1 => '待支付', 2 => '已支付', 5 => '用户取消', 6 => '用户删除'];
+        $status = ['0' => '管理员删除', 1 => '待支付', 2 => '已支付', 5 => '用户取消', 6 => '用户删除'];
         return $status[$value];
     }
 
-    public function getGoodstAttrue($value) {
+    public function getGoodstAttr($value) {
         $status = [1 => '待发货', 2 => '待收货', 3 => '待评价', 4 => '已评价'];
         return $status[$value];
     }
@@ -162,8 +166,8 @@ class Dingdan extends Base {
 
             }
             //删除原购物车
-            $row_cart = self::getById($shop->cart_id,new Cart);
-            $row_cart->st=0;$row_cart->save();
+           /* $row_cart = self::getById($shop->cart_id,new Cart);
+            $row_cart->st=0;$row_cart->save();*/
         }
         return ['code' => 0, 'msg' => 'dingdan save_all ok'];
     }
@@ -191,16 +195,21 @@ class Dingdan extends Base {
         return ['code' => 0, 'msg' => 'get order and order_goods ok', 'data' => ['order' => $row_order, 'order_goods' => $list_order_goods, 'address' => $row_address]];
     }
 
-    //wx
+    /*
+   	取用户订单列表
+     * zhuangxiu-zyg
+     * */
     public static function getMyOrders($data) {
-        $user_id = User::getUserIdByName($data['user_name']);
+        $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return $user_id;
         }
-        $where = ['st' => ['neq', 0], 'user_id' => $user_id];
-        $where2 = ['st' => ['neq', 5]];
-        //return ['code' => 3, 'msg' => 'dfsgdsg'];
-        $list_order = self::where($where)->where($where2)->order('create_time desc')->paginate();
+        $where = ['dingdan.st' => ['neq', 0], 'user_id' => $user_id];
+        $where2 = ['dingdan.st' => ['neq', self::ORDER_ST_USER_DELETE]];
+        $list_order = self::where($where)->where($where2)->join('shop','shop.id=dingdan.shop_id')->field('dingdan.*,shop.name shop_name')->order('create_time desc')->paginate();
+		if($list_order->isEmpty()){
+			return ['code'=>__LINE__,'msg'=>'order not exists'];
+		}
         foreach ($list_order as $k => $row_order) {
             $list_order_good = OrderGood::getGood($row_order->id);
             $list_order[$k]['goods'] = $list_order_good;

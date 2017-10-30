@@ -50,9 +50,15 @@
                                     <img src="__IMGURL__{$row_good->img}" alt="没有上传图片" width="136"/>
                                 </div>
                                 <div class="col-xs-6">
-                                    <span>编号：{$row_good->good_id}</span><br>
-                                    <span>{$row_good->good_name}</span><br>
-                                    <span>{$row_good->price} * {$row_good->num}</span>
+                                    <p>编号：{$row_good->good_id}</p>
+                                    <p>{$row_good->good_name}</p>
+                                    <p>{$row_good->price} * {$row_good->num}</p>
+                                    <p>{$row_good->st}</p>
+									<?php if($row_order->st=='已支付' && $row_good->st=='没发货'){?>
+										<a href="javascript:if(confirm('确认已发货了吗？'))window.location.href='{:url('change_goodst')}?order_good_id={$row_good->id}'">确认发货</a>
+									<?php }?>
+									<!--<p>状态：<label><input type="radio" name="st" <?/*= $row_good->st=='1'?'checked':'';*/?>/>待发货</label>
+										<label><input type="radio" name="st"/>已发货</label></p>-->
                                 </div>
 
                             </div>
