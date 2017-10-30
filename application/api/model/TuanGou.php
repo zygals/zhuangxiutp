@@ -22,7 +22,7 @@
         public static function getHistory(){
             $field = 'good.id good_id,good.img good_img,good.name good_name,price_group,good.price good_price,tuangou.id';
             $where = ['tuangou.st'=>['=',3],'type'=>['=',2]];
-            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
+            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->paginate();
             return $list_;
         }
 
