@@ -98,4 +98,22 @@ alter table cart drop index  user_id;
 alter table good add imgs text comment '商品详情文字介绍' after `desc`;
 alter table good add which_info tinyint default 1 comment '商品介绍时选择图片或是文字:1文字 2图片'  after imgs;
 alter table `group` rename to tuangou;
+-- 改表5
 
+
+DROP TABLE IF EXISTS `order_contact`;
+
+CREATE TABLE `order_contact` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderno` varchar(255) NOT NULL COMMENT '用于支付的订单号',
+  sum_price_all decimal(10,2) default 0.00 comment '总价，可能是多个商家的',
+  `st` tinyint(4) DEFAULT '1' COMMENT '0删除，1待支付 ,2已支付',
+
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COMMENT='多商家订单联合表(一对多)订单表';
+
+alter table dingdan add order_contact_id int not null comment '平台订单id';
+alter table order_good modify name varchar(100) not null default '' comment '商品名称';
+alter table order_good modify img varchar(250) not null default '' comment '商品列表图';
