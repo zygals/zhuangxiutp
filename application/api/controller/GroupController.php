@@ -26,7 +26,6 @@
          */
         public function skim(Request $request){
             $t_id = $request->param();
-            $aa = Tuangou::getlist($t_id);
-            dump($aa);exit;
+            return json(['code'=>0,'msg'=>'group/history','data'=>Tuangou::getlist($t_id)]);
         }
     }
