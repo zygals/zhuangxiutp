@@ -7,17 +7,19 @@ use app\back\model\Good;
 use app\back\model\OrderGood;
 
 class Dingdan extends model {
-
+const GOODST_WEIFAHUO=1;
+const GOODST_YIFAHUO=2;
+const GOODST_BUFEN_FAHUO=5;
 
     public static $arrStatus  = [1=>'未支付',2=>'已支付',4=>'用户取消',5=>'用户删除'];
     public function getStAttr($value)
     {
-        $status = ['0'=>'delete',1=>'未支付',2=>'已支付',4=>'用户取消',5=>'用户删除'];
+        $status = ['0'=>'管理员删除',1=>'未支付',2=>'已支付',4=>'用户取消',5=>'用户删除'];
         return $status[$value];
     }
     public function getGoodstAttr($value)
     {
-        $status = [1=>'未发货',2=>'已发货',3=>'已收货',4=>'已评价'];
+        $status = [1=>'未发货',2=>'已发货',5=>'部分发货',3=>'已收货',4=>'已评价'];
         return $status[$value];
     }
 
@@ -144,6 +146,19 @@ class Dingdan extends model {
         return ['code' => 0, 'msg' => 'get order and order_goods ok', 'data' => $list_order];
 
     }
+	/*
+	 * 更改订单发货状态
+	 * zhuangiu - zyg
+	 * */
+	public static function updateGoodst($id,$type){
+		$row_ = self::where(['id'=>$id])->find();
+		if($type=='all'){
+			 $row_->goodst = self::GOODST_YIFAHUO;
+		 }elseif($type=='part'){
+			$row_->goodst = self::GOODST_BUFEN_FAHUO;
+		}
+		$row_->save();
+	}
     //wx
 
      public static function updateSt($data){

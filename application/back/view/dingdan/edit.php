@@ -22,9 +22,9 @@
                         <label for="situation" class="col-xs-3 control-label">发货状态：</label>
                         <div class="col-xs-8">
                             <label class="control-label" >
-                                <input type="radio" name="good_st" id="" value="1" <?php echo $row_->good_st=='未发货'?'checked':''?>>未发货</label> &nbsp;
+                                <input type="radio" name="good_st" id="" value="1" <?php echo $row_->goodst=='未发货'?'checked':''?>>未发货</label> &nbsp;
                             <label class="control-label">
-                                <input type="radio" name="good_st" id="" value="2" <?php echo $row_->good_st=='已发货'?'checked':''?>> 已发货</label>
+                                <input type="radio" name="good_st" id="" value="2" <?php echo $row_->goodst=='已发货'?'checked':''?>> 已发货</label>
                             <span>确认发货后库存将相应减少，销量相应增加</span>
                         </div>
                     </div>

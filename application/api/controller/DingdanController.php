@@ -8,10 +8,14 @@ use think\Request;
 
 class DingdanController extends BaseController {
 
-    // wx
+
+    /*
+     * 取用户订单列表
+     * zhuangxiu-zyg
+     * */
     public function index(Request $request) {
         $data = $request->param();
-        $rule = ['user_name' => 'require'];
+        $rule = ['username' => 'require'];
         $res = $this->validate($data, $rule);
         if (true !== $res) {
             return json(['code' => __LINE__, 'msg' => $res]);

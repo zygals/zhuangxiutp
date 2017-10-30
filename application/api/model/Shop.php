@@ -35,7 +35,6 @@ class Shop extends Base {
         $field='shop.id shop_id,shop.name shop_name,shop.ordernum,shop.tradenum,shop.img,shop.logo,cate.name cate_name';
         $where=['shop.st' => 1];
         $order = "shop.ordernum desc,shop.tradenum desc,shop.create_time desc";//默认销量排序
-//		$order = "shop.create_time desc";
         if(!empty($data['cate_id'])){
             $where['cate_id'] = $data['cate_id'];
         }
@@ -44,7 +43,7 @@ class Shop extends Base {
         }
 
         if (!empty($data['paixu'])) {
-            $order = $data['paixu'] . ' desc';
+            $order = $data['paixu'] . ' desc,create_time desc';
         }
         if (!empty($data['paixu']) && $data['paixu']=='hot') {
             $where['shop.to_top'] = 1;
