@@ -8,7 +8,7 @@
          * 查询正在进行的团购活动
          */
         public static function getGoon(){
-            $field = 'good.id good_id,good.img good_img,good.name good_name,tuangou.id t_id';
+            $field = 'tuangou.id t_id,good.id good_id,good.img good_img,good.name good_name';
             $where = ['tuangou.st'=>['=',1],'type'=>['=',2]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
