@@ -27,3 +27,11 @@ MODIFY COLUMN `is_default` tinyint(4) DEFAULT 1 COMMENT '是否为默认地址' 
 
 ALTER TABLE `zhuangxiu`.`address` 
 MODIFY COLUMN `is_default` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1为默认收货地址 0为其他' AFTER `mobile`;
+
+
+---------------------------------------------------------
+ALTER TABLE `zhuangxiu`.`tuangou` 
+ADD COLUMN `attend_pnum` int(11) NOT NULL DEFAULT 0 COMMENT '目前团购参与人数' AFTER `type`;
+
+ALTER TABLE `zhuangxiu`.`tuangou` 
+ADD COLUMN `already_sales` int(11) NOT NULL DEFAULT 0 COMMENT '目前已经售出的数量' AFTER `attend_pnum`;

@@ -20,4 +20,13 @@
         {
             return json(['code'=>0,'msg'=>'group/history','data'=>Tuangou::getHistory()]);
         }
+
+        /**
+         * 查看限量团购详情页
+         */
+        public function skim(Request $request){
+            $t_id = $request->param();
+            $aa = Tuangou::getlist($t_id);
+            dump($aa);exit;
+        }
     }
