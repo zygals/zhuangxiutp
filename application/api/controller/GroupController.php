@@ -26,6 +26,22 @@
          */
         public function skim(Request $request){
             $t_id = $request->param();
-            return json(['code'=>0,'msg'=>'group/history','data'=>Tuangou::getlist($t_id)]);
+            return json(['code'=>0,'msg'=>'group/skim','data'=>Tuangou::getlist($t_id)]);
+        }
+
+        /**
+         * 获取正在进行限人团购活动
+         */
+        public function goon_pnum(){
+
+            return json(['code'=>0,'msg'=>'group/goon_pnum','data'=>Tuangou::getGoonPnum()]);
+        }
+
+        /**
+         * 获取历史限人团购活动
+         */
+        public function history_pnum(){
+
+            return json(['code'=>0,'msg'=>'group/history_pnum','data'=>Tuangou::getHistoryPnum()]);
         }
     }
