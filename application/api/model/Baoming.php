@@ -45,6 +45,17 @@ class Baoming extends Base{
 		return ['code'=>0,'msg'=>'baoming ok','data'=>$list_];
 
 	}
+	/**
+	 *查询报名人数
+	 *zhuangxiu-zyg
+	 */
+	public function getNum(){
+        $num = $this->count();
+		if(!$num){
+			return ['code'=>__LINE__,'msg'=>'baoming num error'];
+		}
+		return ['code'=>0,'data'=>$num];
+	}
 
 
 }

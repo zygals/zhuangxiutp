@@ -42,6 +42,20 @@ class BaomingController extends BaseController {
 		return json((new Baoming)->addBaoMing($data));
 
     }
+	/**
+	 *查询报名人数
+	 *zhuangxiu-zyg
+	 */
+	public function getnum(Request $request){
+		$data = $request->param();
+		$rule = ['username'=>'require'];
+		$res = $this->validate($data,$rule);
+		if ($res !== true) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json((new Baoming)->getNum($data));
+
+	}
 
 
 
