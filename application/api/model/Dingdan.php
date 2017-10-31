@@ -189,7 +189,8 @@ class Dingdan extends Base{
 	 */
 	public function getOrder($data){
 		$order_id = $data['order_id'];
-		$row_order = self::find( $order_id );
+		$row_order = self::where(['order.id'=>$order_id])->join('
+		shop','shop.id=order.shop_id')->field('order.*,shop.name shop_name')->find( $order_id );
 		if ( !$row_order ) {
 			return ['code' => __LINE__ , 'msg' => 'order is not exists'];
 		}
