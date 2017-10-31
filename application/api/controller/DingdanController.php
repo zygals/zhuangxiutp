@@ -24,8 +24,8 @@ class DingdanController extends BaseController {
     }
 
     /**
-     * 更改订单状态为已支付
-     *
+     * 更改订单状态或是发货状态
+     *zhuangxiu-zyg
      * @return \think\Response
      */
     public function update_st(Request $request) {
@@ -38,8 +38,23 @@ class DingdanController extends BaseController {
         return json(Dingdan::updateSt($data));
 
     }
+	/**
+	 * 更改订单支付状态为已支付：
+	 *zhuangxiu-zyg
+	 * @return \think\Response
+	 */
+	public function update_pay_st(Request $request) {
+		$data = $request->param();
+		$rule = ['order_id' => 'require|number','st'=>'require','type_'=>'require'];
+		$res = $this->validate($data, $rule);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json(Dingdan::updatePaySt($data));
 
+	}
     /**
+	 * 购物车-》订单确认页-》提交订单
      * zhunagxiu
      * submit order
      * zyg

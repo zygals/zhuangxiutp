@@ -41,9 +41,8 @@ class Shop extends Base {
         if(!empty($data['name_'])){
             $where['shop.name|shop.truename|city'] = ['like','%'.$data['name_'].'%'];
         }
-
         if (!empty($data['paixu'])) {
-            $order = $data['paixu'] . ' desc,create_time desc';
+            $order = 'shop.'.$data['paixu'] . ' desc, shop.create_time desc';
         }
         if (!empty($data['paixu']) && $data['paixu']=='hot') {
             $where['shop.to_top'] = 1;
