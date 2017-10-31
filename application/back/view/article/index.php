@@ -10,7 +10,7 @@
 <div role="tabpanel" class="tab-pane" id="user" style="display:block;">
 	<div class="check-div form-inline row">
 				<div class="col-xs-2">
-                    <a href="{:url('create')}"><button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addUser" id="create">添加资讯</button></a>
+                    <a href="{:url('create')}"><button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addUser" id="create">添加</button></a>
 		</div>
         <div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">

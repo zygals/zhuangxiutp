@@ -18,15 +18,15 @@
 		<div class="col-xs-10">
 			<form method="get" action="{:url('index')}" id="searchForm">
 				<div class="col-xs-7">
-					<input type="text" name="name" value="{$Think.get.name}" class="form-control input-sm"
-						   placeholder="输入名称进行搜索">
+					<input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
+						   placeholder="输入姓名或手机进行搜索">
 				</div>
 				<div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
 					<select class=" form-control" name="paixu">
 						<option value="">--请选择排序字段--</option>
-						<option value="sort" {eq name="Think.get.paixu" value="sort"
+				<!--		<option value="sort" {eq name="Think.get.paixu" value="sort"
 								}selected{
-						/eq}>排序</option>
+						/eq}>排序</option>-->
 						<option value="create_time" {eq name="Think.get.paixu" value="create_time"
 								}selected{
 						/eq}>添加时间</option>
@@ -57,8 +57,11 @@
 			<div class="col-xs-2">
 				手机
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-1">
 				地址
+			</div>
+			<div class="col-xs-2">
+				验房时间
 			</div>
 			<div class="col-xs-2">
 				添加时间
@@ -78,16 +81,19 @@
 						<div class="col-xs-1 ">
 							{$row_->id}
 						</div>
+
 						<div class="col-xs-1 " title="{$row_->truename}">
 							{$row_->truename}
 						</div>
-						<div class="col-xs-1 " title="{$row_->mobile}">
+						<div class="col-xs-2 " title="{$row_->mobile}">
 							{$row_->mobile}
 						</div>
-						<div class="col-xs-2" title="{$row_->address}">
+						<div class="col-xs-1" title="{$row_->address}">
 							{$row_->address}
 						</div>
-
+						<div class="col-xs-2">
+							{$row_->time_to}
+						</div>
 						<div class="col-xs-2">
 							{$row_->create_time}
 						</div>
@@ -96,10 +102,20 @@
 						</div>
 						<div class="col-xs-">
 							<a href="{:url('edit')}?id={$row_->id}">
-								<button class="btn btn-success btn-xs edit_">修改</button>
+								<button class="btn btn-success btn-xs edit_">改</button>
 							</a>
+							<?php if($row_->st=='已验房' && $row_->article_st=='0'){?>
+								<a href="{:url('add')}?id={$row_->id}">
+									<button class="btn btn-success btn-xs edit_" title="添加验房总结">总结</button>
+								</a>
+						<?php }?>
+							<?php if($row_->st=='已验房' && $row_->article_st=='1'){?>
+								<a href="{:url('edit_article')}?id={$row_->id}">
+									<button class="btn btn-success btn-xs edit_" title="修改验房总结">改总结</button>
+								</a>
+							<?php }?>
 							<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
-									data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删除
+									data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
 							</button>
 
 						</div>

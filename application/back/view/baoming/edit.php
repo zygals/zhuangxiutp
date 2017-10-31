@@ -20,33 +20,37 @@
                 <div class="container-fluid">
 
                     <div class="form-group ">
-                        <label for="sName" class="col-xs-3 control-label">名称：</label>
+                        <label for="sName" class="col-xs-3 control-label">姓名：</label>
                         <div class="col-xs-8 ">
-                            <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
+                            <input type="text" class="form-control input-sm duiqi" name='truename' value="{$row_->truename}" id="" placeholder="" readonly>
                         </div>
                     </div>
+					<div class="form-group ">
+						<label for="sName" class="col-xs-3 control-label">手机：</label>
+						<div class="col-xs-8 ">
+							<input type="text" class="form-control input-sm duiqi" name='mobile' value="{$row_->mobile}" id="" placeholder="" readonly>
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="sName" class="col-xs-3 control-label">地址：</label>
+						<div class="col-xs-8 ">
+							<input type="text" class="form-control input-sm duiqi" name='address' value="{$row_->address}" id="" placeholder="" readonly>
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="sName" class="col-xs-3 control-label">验房时间：</label>
+						<div class="col-xs-8 ">
+							<input type="text" class="form-control input-sm duiqi" name='time_to' value="<?= date('Y-m-d H:i:s',$row_->time_to);?>" id="" placeholder="" readonly>
+						</div>
+					</div>
 
-                    <div class="form-group">
-                        <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>广告图：</label>
-                        <div class="col-xs-4 ">
-                            <img src="__IMGURL__{$row_->img}" alt="没有上传图片" width="188"/>
-                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（750*400），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。不上传表示不改</span>
-                        </div>
-
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-3 control-label">排序：</label>
-                        <div class="col-xs-8 ">
-                            <input type="number" class="form-control input-sm duiqi" name='sort' value="{$row_->sort}" id="" placeholder="">
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="situation" class="col-xs-3 control-label">状态：</label>
                         <div class="col-xs-8">
                             <label class="control-label" >
-                                <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
+                                <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='没验房'?'checked':''?>>没验房</label> &nbsp;
                             <label class="control-label">
-                                <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='不显示'?'checked':''?>> 不显示</label>
+                                <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='已验房'?'checked':''?>> 已验房</label>
                         </div>
                     </div>
                 </div>

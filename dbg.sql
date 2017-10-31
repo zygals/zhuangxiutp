@@ -118,5 +118,21 @@ alter table dingdan add order_contact_id int not null comment '平台订单id';
 alter table order_good modify name varchar(100) not null default '' comment '商品名称';
 alter table order_good modify img varchar(250) not null default '' comment '商品列表图';
 -- 改表6
-
 alter table order_good add unit varchar(50) default '' after price;
+drop table if exists baoming;
+ CREATE TABLE `baoming` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `truename` varchar(50) NOT NULL COMMENT '报名人姓名',
+  `mobile` varchar(11) NOT NULL ,
+  `address` varchar(100) not null DEFAULT '' comment '报名人地址',
+  `time_to` int DEFAULT '0' comment '验房时间',
+  `st` tinyint(4) DEFAULT '1' COMMENT '1',
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='报名（验房表）'  ;
+
+alter table article add type tinyint not null default 1 comment '1为百科 2为验房';
+alter table article add baoming_id int default 0 comment '报名id';
+alter table baoming add article_st tinyint default 0 comment '是否添加了总结';

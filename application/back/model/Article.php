@@ -29,7 +29,7 @@ class Article extends Base {
         }
         return false;
     }
-    public static function getList($data=[],$filed='article.*,cate.name cate_name',$where=['article.st' => ['<>', 0], 'cate.st' => ['=', 1]]) {
+    public static function getList($data=[],$filed='article.*,cate.name cate_name',$where=['article.st' => ['<>', 0],'article.type'=>1 ,'cate.st' => ['=', 1]]) {
         $order = "create_time desc";
 
         if (!empty($data['type_id'])) {
