@@ -33,13 +33,11 @@ class BaomingController extends BaseController {
      */
     public function save(Request $request) {
 		$data = $request->param();
-		$rule = ['truename' => 'require','mobile'=>'require|number','username'=>'require'];
-		$res = $this->validate($data, $rule);
+		$res = $this->validate($data, 'BaomingValidate');
 		if ($res !== true) {
 			return json(['code' => __LINE__, 'msg' => $res]);
 		}
 		return json((new Baoming)->addBaoMing($data));
-
 
     }
 

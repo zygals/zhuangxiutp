@@ -19,6 +19,9 @@ class Baoming extends Base {
 			return $user_id;
 		}
 		$data['user_id'] = $user_id;unset($data['username']);
+		if(!empty($data['time_to'])){
+			$data['time_to'] = strtotime($data['time_to']);
+		}
 		if(!$this->save($data)){
 			return ['code'=>__LINE__,'msg'=>'add baoming error'];
 		}
