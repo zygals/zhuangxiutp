@@ -123,7 +123,6 @@ class Dingdan extends Base{
 		}
 
 		foreach ( $arr_shop_good_list as $shop ) {
-
 			//添加商家订单表开始
 			$sum_price = 0;
 			foreach ( $shop->shop_goods as $good ) {
