@@ -104,6 +104,18 @@ class ArticleController extends BaseController {
 //        if ($res !== true) {
 //            $this->error($res);
 //        }
+        $file = $request->file('img');
+        $row_ = $this->findById($data['id'],new Article());
+        if(!empty($file)){
+            $path_name = 'article';
+            $size = $file->getSize();
+            if ($size > config('upload_size') ) {
+                $this->error('图片大小超过限定！');
+            }
+            $this->deleteImg($row_->img);
+            $arr = $this->dealImg($file, $path_name);
+            $data['img'] = $arr['save_url_path'];
+        }
         if($this->saveById($data['id'],new Article(),$data)){
 
             $this->success('编辑成功', $referer, '', 1);
