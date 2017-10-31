@@ -72,7 +72,7 @@
                             <div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="number" maxlength="11" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
+                                    <input type="text" maxlength="11" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">

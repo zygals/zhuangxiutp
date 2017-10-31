@@ -231,7 +231,10 @@ class Dingdan extends Base{
 
 	}
 
-	//wx
+	/*
+	 * 更改订单状态，物流状态
+	 * zhuangxiu-zyg
+	 * */
 
 	public static function updateSt($data){
 		$row_ = self::find( ['id' => $data['order_id']] );
@@ -243,7 +246,8 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'paid' ) {
 			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {
-			$row_->goodst = self::GOOT_ST_DAIFANKUI;
+			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
+           OrderGood::updateSt($data['order_id'],'taken');
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
