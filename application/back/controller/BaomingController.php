@@ -6,10 +6,15 @@ namespace app\back\controller;
 use app\back\model\Ad;
 
 use app\back\model\Base;
+use app\back\model\Baoming;
 use think\Request;
 
 
-class AdController extends BaseController {
+class BaomingController extends BaseController {
+	public function __construct(){
+		parent::__construct();
+		$this->assign(['model_name'=>'验房报名']);
+	}
     /**
      * 显示资源列表
      *
@@ -19,7 +24,8 @@ class AdController extends BaseController {
         $data = $request->param();
 //        dump($data);exit;
 //        exit;
-        $list_ = Ad::getList($data);
+        $list_ = Baoming::getList($data);
+
         $page_str = $list_->render();
         $page_str =Base::getPageStr($data,$page_str);
         $url = $request->url();
@@ -127,6 +133,7 @@ class AdController extends BaseController {
             $data['img'] = $arr['save_url_path'];
         }
         if($this->saveById($data['id'],new Ad(),$data)){
+
             $this->success('编辑成功', $referer, '', 1);
         }else{
             $this->error('没有修改', $referer, '', 1);

@@ -3,7 +3,7 @@
     use think\Validate;
 
     class AddressValidate extends Validate{
-        protected $regex = [ 'mobile' => '^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$'];
+		protected $regex = [ 'mobile' => '^1[34587][0-9]\d{4,8}$'];
         protected $rule = [
             'truename'=>'require',
             'mobile'=>'require|regex:mobile',
