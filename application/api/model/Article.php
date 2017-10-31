@@ -32,7 +32,7 @@ class Article extends Base {
     public static function getListIndex($data=[]) {
         $order = "article.update_time desc";
         $where = ['article.st'=>1,'index_show'=>1];
- $fields = "article.name,article.img";
+        $fields = "article.id,article.name,article.img";
 
         $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->field($fields)->order($order)->limit(5)->select();
         if($list_->isEmpty()){

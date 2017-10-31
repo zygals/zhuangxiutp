@@ -36,5 +36,13 @@ class ArticleController extends BaseController {
         return json(['code'=>0,'msg'=>'article from "article/index_show"','data'=>$list_]);
     }
 
+    /**
+     * 装修百科详情页
+     */
+    public function read(Request $request){
+        $art_id = $request->param();
+        return json(['code'=>0,'msg'=>'article/read','data'=>Article::read($art_id)]);
+    }
+
 
 }
