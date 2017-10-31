@@ -5,8 +5,8 @@ namespace app\api\controller;
 
 use app\back\model\Ad;
 
-use app\back\model\Base;
-use app\back\model\Baoming;
+
+use app\api\model\Baoming;
 use think\Request;
 
 
