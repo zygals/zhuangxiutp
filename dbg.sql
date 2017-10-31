@@ -117,3 +117,6 @@ CREATE TABLE `order_contact` (
 alter table dingdan add order_contact_id int not null comment '平台订单id';
 alter table order_good modify name varchar(100) not null default '' comment '商品名称';
 alter table order_good modify img varchar(250) not null default '' comment '商品列表图';
+-- 改表6
+
+alter table order_good add unit varchar(50) default '' after price;

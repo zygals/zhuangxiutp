@@ -9,15 +9,16 @@ use app\api\model\OrderGood;
 class Dingdan extends Base{
 	const ORDER_ST_DAIZHIFU = 1;
 	const ORDER_ST_PAID = 2;
-	const ORDER_ST_USER_CANCEL = 5;
-	const ORDER_ST_USER_DELETE = 6;
+	const ORDER_ST_USER_CANCEL = 4;
+	const ORDER_ST_USER_DELETE = 5;
 	const ORDER_ST_ADMIN_DELETE = 0;
 	const GOOT_ST_DAIFAHUO = 1;
-
+	const GOOT_ST_DAIFANKUI = 3; //已收货
+	const GOOT_ST_FANKUIOK = 4; //已评价
 	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 5 => '用户取消' , 6 => '用户删除'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 4 => '用户取消' ,5 => '用户删除'];
 		return $status[$value];
 	}
 
@@ -148,7 +149,7 @@ class Dingdan extends Base{
 				return ['code' => __LINE__ , 'msg' => 'add order error'];
 			}
 			//添加商家订单表end
-			//  $new_order_id = $this->getLastInsID();
+			//  添加订单商品
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
 				$data_order_good = [
@@ -156,6 +157,7 @@ class Dingdan extends Base{
 					'shop_id' => $row_good->shop_id ,
 					'img' => $row_good->img ,
 					'price' => $row_good->price ,
+					'unit' => $row_good->unit ,
 					'name' => $row_good->name ,
 					'good_id' => $row_good->id ,
 					'num' => $good->num ,
@@ -237,15 +239,15 @@ class Dingdan extends Base{
 			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
 		if ( $data['st'] == 'cancel' ) {
-			$row_->st = 4;
+			$row_->st = self::ORDER_ST_USER_CANCEL;
 		} elseif ( $data['st'] == 'paid' ) {
-			$row_->st = 2;
+			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {
-			$row_->good_st = 3;
-		} elseif ( $data['st'] == 'fankui' ) {
-			$row_->good_st = 4;
+			$row_->good_st = self::GOOT_ST_DAIFANKUI;
+		} elseif ( $data['st'] == 'fankui' ) {//已评价
+			$row_->good_st = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
-			$row_->st = 5;
+			$row_->st = self::ORDER_ST_USER_DELETE;
 		}
 		$row_->save();
 		return ['code' => 0 , 'msg' => '订单状态更改'];
