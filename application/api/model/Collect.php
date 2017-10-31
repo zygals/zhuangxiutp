@@ -59,7 +59,7 @@ class Collect extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where(['collect.st'=>1,'collect.type'=>2,'user_id'=>$user_id])->join('shop','shop.id=collect.collect_id')->field('collect_id,name,img')->order('collect.create_time desc')->paginate();
+        $list_ = self::where(['collect.st'=>1,'collect.type'=>2,'user_id'=>$user_id])->join('shop','shop.id=collect.collect_id')->field('collect_id,name,img')->order('collect.create_time desc')->select();
         return $list_;
     }
    //wx
