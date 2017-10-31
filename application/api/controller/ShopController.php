@@ -29,12 +29,12 @@ class ShopController extends BaseController
      */
    public function read(Request $request){
        $data = $request->param();
-       $rule = ['shop_id' => 'require|number'];
+       $rule = ['shop_id' => 'require|number','username'=>'require'];
        $res = $this->validate($data, $rule);
        if ($res !== true) {
            return json(['code' => __LINE__, 'msg' => $res]);
        }
-       return json(['code' => 0, 'msg' => 'shop/read', 'data' =>Shop::read($data['shop_id'])]);
+       return json(Shop::read($data));
    }
 
     /**

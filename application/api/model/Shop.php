@@ -64,7 +64,19 @@ class Shop extends Base {
     }
     //wx
 
-    public static function read($shop_id){
-        return self::getById($shop_id,new self(),'name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand');
+    public static function read($data){
+        $shop_id = $data['shop_id'];
+        $row_ = self::getById($shop_id,new self(),'name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand');
+        $user_id = User::getUserIdByName($data['username']);
+        if(!$row_){
+            return ['code'=>__LINE__,'msg'=>'good not exist'];
+        }
+        $res = Collect::getByDivId(new Collect,$where=['st'=>1,'collect_id'=>$data['shop_id'],'user_id'=>$user_id,'type'=>2]);
+        if($res){
+            return ['code'=>0,'is_collect'=>'true','data'=>$row_];
+        }else{
+            return ['code'=>0,'is_collect'=>'false','data'=>$row_];
+        }
+
     }
 }
