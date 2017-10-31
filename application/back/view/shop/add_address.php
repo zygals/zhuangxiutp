@@ -46,7 +46,7 @@
                                 <label for="sName" class="col-xs-3 control-label"><span
                                             style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
                                 <div class="col-xs-8 ">
-                                    <input type="number" class="form-control input-sm duiqi" name='mobile_[]' value=""
+                                    <input type="text" maxlength="11" class="form-control input-sm duiqi" name='mobile_[]' value=""
                                            id="" placeholder="">
                                 </div>
                             </div>
