@@ -121,4 +121,33 @@ class Collect extends Base {
        }
 
     }
+
+    /**
+     * 用户收藏商铺
+     *
+     */
+    public function colShop($data){
+        $user_id = User::getUserIdByName($data['username']);
+        if(is_array($user_id)){
+            return $user_id;
+        }
+        $res = $this->where(['user_id'=>$user_id,'collect_id'=>$data['shop_id'],'type'=>2])->find();
+        if($res){
+            if($res['st']=='正常'){
+                $this->where(['id'=>$res['id']])->update(['st'=>'0']);
+                return ['code'=>0,'msg'=>'删除成功'];
+            }else{
+                $this->where(['id'=>$res['id']])->update(['st'=>'1']);
+                return ['code'=>0,'msg'=>'添加成功'];
+            }
+        }else{
+            $data['user_id'] = $user_id;
+            $data['collect_id'] = $data['shop_id'];
+            $data['type'] = 2;
+            unset($data['username']);
+            unset($data['shop_id']);
+            $this->save($data);
+            return ['code'=>0,'msg'=>'添加成功'];
+        }
+    }
 }

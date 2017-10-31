@@ -24,6 +24,21 @@ class CollectController extends BaseController {
     }
 
     /**
+     * 点击收藏商家
+     *
+     */
+    public function collect_shop(Request $request){
+        $data = $request->param();
+        $rule = ['username' => 'require','shop_id'=>'require|number'];
+        $res = $this->validate($data, $rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $colShop = new Collect();
+        return json($colShop->colShop($data));
+    }
+
+    /**
      * 商品收藏列表
      * @return \think\response\Json
      */
