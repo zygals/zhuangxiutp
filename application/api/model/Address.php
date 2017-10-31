@@ -152,7 +152,11 @@ class Address extends Base{
  * zhuangxiu-zyg
  * */
 	public static function read($address_id){
-		return self::find( $address_id );
+		if(!$row_ = self::find( $address_id )){
+			return ['code'=>__LINE__,'msg'=>'address not exists'];
+
+		}
+		return ['code'=>0,'msg'=>'address ok',$row_];
 	}
 
 	public static function getDefault($username){
