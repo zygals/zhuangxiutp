@@ -197,11 +197,11 @@ class Dingdan extends Base{
 		if ( count( $list_order_goods ) == 0 ) {
 			return ['code' => __LINE__ , 'msg' => '订单商品不存在'];
 		}
-		$row_address = [];
+		/*$row_address = [];
 		if ( $row_order->address_id !== 0 ) {
 			$row_address = Address::read( $row_order->address_id );
-		}
-		return ['code' => 0 , 'msg' => 'get order and order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods , 'address' => $row_address]];
+		}*/
+		return ['code' => 0 , 'msg' => 'get order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods ]];
 	}
 
 	/*

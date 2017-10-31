@@ -121,4 +121,20 @@ class AddressController extends BaseController {
 
    }
 
+	/*
+	 * 查询订单地址
+	 * zhuangxiu-zyg
+	 * */
+	public function read(Request $request){
+		$data=$request->param();
+		$rules = [
+			'address_id'=>'require',
+		];
+		$res = $this->validate($data,$rules);
+		if($res !== true){
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json(Address::read($data['address_id']));
+	}
+
 }

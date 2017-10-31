@@ -22,7 +22,7 @@ class OrderGood extends model {
     }
 
     public static  function getGoodOn($good_id){
-        $list_ = self::where("good_id=:good_id  and (st=1 or st=2)",['good_id'=>$good_id])->fetchSql()->find();
+        $list_ = self::where("good_id=:good_id  and (st=1 or st=2)",['good_id'=>$good_id])->find();
       //dump($list_);exit;
         return $list_;
     }
