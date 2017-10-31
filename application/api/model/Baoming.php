@@ -38,7 +38,7 @@ class Baoming extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
-		$list_ = self::where(['user_id'=>$user_id])->select();
+		$list_ = self::where(['user_id'=>$user_id])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
 		if($list_->isEmpty()){
 			return ['code'=>__LINE__,'msg'=>'baoming not exists'];
 		}
