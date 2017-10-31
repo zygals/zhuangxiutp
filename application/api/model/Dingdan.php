@@ -21,9 +21,9 @@ class Dingdan extends Base{
 		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 4 => '用户取消' ,5 => '用户删除'];
 		return $status[$value];
 	}
-
+//订单的商品总状态
 	public function getGoodstAttr($value){
-		$status = [1 => '待发货' , 2 => '待收货' , 3 => '待评价' , 4 => '已评价'];
+		$status = [1 => '没发货' , 2 => '已发货' , 3 => '已收货' , 4 => '已评价',5=>'部分发货'];
 		return $status[$value];
 	}
 	/*
