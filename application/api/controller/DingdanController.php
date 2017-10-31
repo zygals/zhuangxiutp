@@ -61,8 +61,8 @@ class DingdanController extends BaseController {
 
 
     /**
-     * 显示指定的资源 use
-     *
+     * 查询某个商家订单
+     *zhuangxiu-zyg
      * @param  int $id
      * @return \think\Response
      */
