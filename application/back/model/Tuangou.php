@@ -32,7 +32,13 @@ class Tuangou extends model {
 //        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
 //            $order = $data['paixu'] . ' desc';
 //        }
+
         $list_ = self::where($where)->join('shop','shop.id=tuangou.shop_id')->join('good','good.id=tuangou.good_id')->field($field)->order($order)->paginate();
+//        if($list_['end_time']==time()){
+//            if(($list_['attend_pnum'] == $list_['pnum']) || ($list_['already_sales'] >= $list_['sales'])){
+//
+//            }
+//        }
 
         return $list_;
     }
