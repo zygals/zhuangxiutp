@@ -243,9 +243,9 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'paid' ) {
 			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {
-			$row_->good_st = self::GOOT_ST_DAIFANKUI;
+			$row_->goodst = self::GOOT_ST_DAIFANKUI;
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
-			$row_->good_st = self::GOOT_ST_FANKUIOK;
+			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
 			$row_->st = self::ORDER_ST_USER_DELETE;
 		}
