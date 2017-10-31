@@ -56,7 +56,7 @@ class CollectController extends BaseController {
      * 店铺收藏
      * @return \think\response\Json
      */
-    public function shop(Request $request) {
+    public function shop_(Request $request) {
         $data = $request->param();
         $rule = ['username' => 'require'];
         $res = $this->validate($data, $rule);
