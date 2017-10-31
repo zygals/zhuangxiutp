@@ -268,13 +268,13 @@ class Dingdan extends Base{
 	 * @return \think\Response
 	 */
 	public static function updatePaySt($data){
-
         if($data['type_']==Dingdan::ORDER_TYPE_SHOP){
 			$row_order = self::find( ['id' => $data['order_id']] );
 			if ( !$row_order ) {
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];
 			}
 			$row_order->st==self::ORDER_ST_PAID;$row_order->save();
+			return ['code'=>0,'msg'=>'order_shop paid'];
 		}elseif($data['type_']==Dingdan::ORDER_TYPE_CONTACT){
 			$row_order_contact = self::getById($data['order_id'],new OrderContact());
 			if(!$row_order_contact){
@@ -283,6 +283,7 @@ class Dingdan extends Base{
 			$row_order_contact->st = OrderContact::ORDER_CONTACT_PAID;$row_order_contact->save();
 			//且要改下面所有商家订单状态的已支付
 			self::where(['order_contact_id'=>$row_order_contact->id])->update(['st'=>self::ORDER_ST_PAID]);
+			return ['code'=>0,'msg'=>'order_contact paid'];
 		}else{
 			return ['code' => __LINE__ , 'msg' => 'type_ error'];
 		}
