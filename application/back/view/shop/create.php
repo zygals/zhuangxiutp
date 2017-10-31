@@ -44,14 +44,14 @@
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>logo：</label>
                             <div class="col-xs-4 ">
-                                <input type="file" title='' class="form-control  duiqi" id="sOrd1" name="logo" placeholder=""><span style="color:red">尺寸要求（50*50），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd1" name="logo" placeholder=""><span style="color:red">尺寸要求（90*90），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
 
                         </div>
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>列表图：</label>
                             <div class="col-xs-4 ">
-                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（166*114），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（270*270），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
 
                         </div>
