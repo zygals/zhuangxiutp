@@ -150,7 +150,9 @@ class BaomingController extends BaseController{
 	public function delete(Request $request){
 		$data = $request->param();
 
-		if ( $this->deleteStatusById( $data['id'] , new Baoming() ) ) {
+		if ( $row_=$this->deleteStatusById( $data['id'] , new Baoming() ) ) {
+			//删除对应的难房记录
+			(new  Article())->where(['baoming_id'=>$row_->id])->save(['st'=>0]);
 			$this->success( '删除成功' , $data['url'] , '' , 1 );
 		} else {
 			$this->error( '删除失败' , $data['url'] , '' , 3 );

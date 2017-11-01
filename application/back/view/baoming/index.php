@@ -151,7 +151,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid">
-						确定删除数据吗？
+						确定删除数据吗？删除后对应的验房总结也会删除。 	
 					</div>
 				</div>
 				<div class="modal-footer">
