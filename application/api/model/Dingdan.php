@@ -115,7 +115,7 @@ class Dingdan extends Base{
 				$row_good = self::getById($good->good_id,new Good());
 				$sum_price += $row_good->price * $good->num;
 			}
-			$sum_price_all += $row_cart->sum_price;
+			$sum_price_all += $sum_price;
 		}
 		//添加平台订单
 		$new_order_contact_id = 0;
