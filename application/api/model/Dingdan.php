@@ -174,6 +174,7 @@ class Dingdan extends Base{
 			}
 			//删除原购物车
 			$row_cart = self::getById( $shop->cart_id , new Cart );
+			$row_cart->sum_price=0;
 			$row_cart->st = 0;
 			$row_cart->save();
 			 CartGood::where(['cart_id'=>$row_cart->id])->update(['st'=>0]);
