@@ -150,7 +150,7 @@
                             {$row_->tradenum}
                         </div>
                         <div class="col-xs-1" title="{$row_->admin_name}">
-                            <?php if ($row_->admin_st !== 1) { ?>
+                            <?php if ($row_->admin_st != 1) { ?>
                                 <span style="color:red;"> {$row_->admin_name}</span>
                             <?php } else { ?>
                                 {$row_->admin_name}

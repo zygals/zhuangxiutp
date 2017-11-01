@@ -287,7 +287,14 @@ class Dingdan extends Base{
 			if(!$row_order->save()){
 				return ['code' => 0 , 'msg' => 'order_shop paid failed'];
 			}
-			return ['code' => 0 , 'msg' => 'order_shop paid ok'];
+			//订单支付完成，则商家收益也增加
+			$admin_shop = Admin::where(['shop_id'=>$row_order->shop_id,'st'=>1])->find();
+           if(!$admin_shop){
+                 return ['code'=>__LINE__,'msg'=>'shop admin not exsits or not allowed'];
+		   }
+			$admin_shop->income += $row_order->sum_price;
+			$admin_shop->save();
+			return ['code' => 0 , 'msg' => 'order_shop paid ok and shop admin income ok'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
 			if ( !$row_order_contact ) {
@@ -300,7 +307,16 @@ class Dingdan extends Base{
 			if(!$res){
 				return ['code' => __LINE__ , 'msg' => 'order_contact paid failed'];
 			}
-			return ['code' => 0 , 'msg' => 'order_contact paid ok'];
+			$list_order = Order::where(['order_contact_id'=>$row_order_contact->id])->select();
+			foreach($list_order as $order){
+				$admin_shop = Admin::where(['shop_id'=>$order->shop_id,'st'=>1])->find();
+				if(!$admin_shop){
+					return ['code'=>__LINE__,'msg'=>'shop admin not exsits or not allowed'];
+				}
+				$admin_shop->income += $order->sum_price ;
+				$admin_shop->save();
+			}
+			return ['code' => 0 , 'msg' => 'order_contact paid ok and shop admin income ok'];
 		} else {
 			return ['code' => __LINE__ , 'msg' => 'type_ error'];
 		}

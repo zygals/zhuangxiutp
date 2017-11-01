@@ -12,11 +12,11 @@ class Pay extends Base {
 		if(is_array($user_id)){
 			return json($user_id);
 		}
-		if($data['type_']==Dingdan::ORDER_TYPE_SHOP){
+		if($data['type_']==Dingdan::ORDER_TYPE_SHOP){ //单商家订单
 
 			$row_order = Dingdan::where(['id'=>$data['order_id']])->find();
 			$fee = $row_order->sum_price;
-		}elseif($data['type_']==Dingdan::ORDER_TYPE_CONTACT){
+		}elseif($data['type_']==Dingdan::ORDER_TYPE_CONTACT){ //平台多商家订单
 			$row_order = OrderContact::where(['id'=>$data['order_id']])->find();
 			$fee = $row_order->sum_price_all;
 		}
@@ -26,17 +26,6 @@ class Pay extends Base {
 		if($row_order->st=='已支付'){
 			return ['code'=>__LINE__,'msg'=>'order paid'];
 		}
-//		dump($row_order);exit;
-		//库存判断
-		/*    $list_order_good = OrderGood::getGood($row_order->id);
-			if(count($list_order_good) <=0 ){
-				return json(['code' => __LINE__, 'msg' => '商品下架']);
-			}
-			foreach ($list_order_good as $item) {
-			   if( $item->nums > $item->store){
-				   return json(['code' => __LINE__, 'msg' => '订单商品库存不足']);
-			   }
-			}*/
 
 		$appid = config('wx_appid');//如果是公众号 就是公众号的appid
 		$mch_id =  config('wx_mchid');

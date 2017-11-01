@@ -50,8 +50,7 @@ class Shop extends Base {
             $order = $data['paixu'] . ' desc';
         }
         $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->join('admin','admin.id=shop.admin_id','left')->order($order)->field($field)->paginate();
-       // dump($list_);exit;
-
+       // echo ($list_[1]->admin_st);exit;
         return $list_;
     }
     public static function getIndexList(){
