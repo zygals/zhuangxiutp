@@ -109,7 +109,7 @@ class Dingdan extends Base{
 			if ( !$row_cart ) {
 				return ['code' => __LINE__ , 'msg' => 'cart not exists'];
 			}
-			$list_cart_good = CartGood::where(['cart_id'=>$row_cart->id])->select();
+			$list_cart_good = CartGood::where(['cart_id'=>$row_cart->id,'st'=>1])->select();
 			$sum_price=0;
 			foreach($list_cart_good as $good){
 				$row_good = self::getById($good->good_id,new Good());
