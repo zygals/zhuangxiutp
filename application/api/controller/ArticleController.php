@@ -26,6 +26,7 @@ class ArticleController extends BaseController {
     }
     /*
      * index article list
+     * zhuangxiu-zyg
      * */
     public function index_show(Request $request) {
 
@@ -35,7 +36,18 @@ class ArticleController extends BaseController {
         }
         return json(['code'=>0,'msg'=>'article from "article/index_show"','data'=>$list_]);
     }
+	/*
+	 * 验房 article list
+	 * zhuangxiu-zyg
+	 * */
+	public function article_yanfang(Request $request) {
 
+		$list_ = Article::getListIndex(2);
+		if($list_->isEmpty()){
+			return json(['code'=>__LINE__,'msg'=>'article not exists']);
+		}
+		return json(['code'=>0,'msg'=>'article from "article/index_show"','data'=>$list_]);
+	}
     /**
      * 装修百科详情页
      */
