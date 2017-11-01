@@ -39,7 +39,7 @@ class Article extends Base{
 	public static function getListIndex($type = 1){
 		$order = "article.update_time desc";
 		$where = ['article.st' => 1 , 'index_show' => 1 , 'article.type' => $type];
-		$fields = "article.id,article.name,article.img";
+		$fields = "article.id,article.name,article.img,article.charm,left(article.cont,80) cont_limit";
 		if ( $type == 1 ) {
 			$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->limit( 5 )->select();
 		}else{
