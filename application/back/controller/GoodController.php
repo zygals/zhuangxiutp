@@ -79,21 +79,24 @@ class GoodController extends BaseController {
         $file2 = $request->file('img_big');
 
         if (empty($file) || empty($file2)) {
-            $this->error('请上传图片或检查图片大小！');
+            //$this->error('请上传图片或检查图片大小！');
         }
-
-        $size = $file->getSize();
-        $size2 = $file2->getSize();
-        if ($size > config('upload_size') || $size2 > config('upload_size')) {
+      //  $size = $file->getSize();
+		if($file2){
+			//$size2 = $file2->getSize();
+			$path_name2 = 'good_img_big';
+			$arr2 = $this->dealImg($file2, $path_name2);
+			$data['img_big'] = $arr2['save_url_path'];
+		}
+        /*if ($size > config('upload_size') || $size2 > config('upload_size')) {
             $this->error('图片大小超过限定！');
-        }
+        }*/
 
         $path_name = 'good_img';
-        $path_name2 = 'good_img_big';
+
         $arr = $this->dealImg($file, $path_name);
-        $arr2 = $this->dealImg($file2, $path_name2);
+
         $data['img'] = $arr['save_url_path'];
-        $data['img_big'] = $arr2['save_url_path'];
 
         if($data['which_info']==1){
           $data['imgs']='';
