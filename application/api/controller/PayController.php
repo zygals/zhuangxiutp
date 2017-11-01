@@ -9,6 +9,9 @@ use app\api\model\User;
 use think\Request;
 class PayController extends BaseController {
     public function pay_ok(Request $request) {
+		$res =$request->param();
+        $f=fopen('pay.txt','w');
+		fwrite($f,json_encode($res));
 
     }
 	/*
