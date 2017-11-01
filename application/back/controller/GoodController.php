@@ -62,6 +62,7 @@ class GoodController extends BaseController {
      * @return \think\Response
      */
     public function save(Request $request) {
+
         $data = $request->param();
         $res = $this->validate($data, 'GoodValidate');
         if ($res !== true) {
@@ -69,8 +70,11 @@ class GoodController extends BaseController {
         }
        //dump($_FILES);exit;
         $row_shop = $this->findById($data['shop_id'], new Shop());
+		//查询商家管理员
+		if(!Admin::findShopAdmin($row_shop->id)){
+			$this->error('请先添加商家“'.$row_shop->name.'”的管理员或改管理员状态为正常');
+		}
         $data['cate_id'] = $row_shop->cate_id;
-
         $file = $request->file('img');
         $file2 = $request->file('img_big');
 
@@ -90,7 +94,6 @@ class GoodController extends BaseController {
         $arr2 = $this->dealImg($file2, $path_name2);
         $data['img'] = $arr['save_url_path'];
         $data['img_big'] = $arr2['save_url_path'];
-
 
         if($data['which_info']==1){
           $data['imgs']='';

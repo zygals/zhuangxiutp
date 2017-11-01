@@ -86,4 +86,13 @@ class Admin extends Base {
         $benefit = self::where(['id'=>$data])->find();
         return $benefit['income'];
     }
+	/*
+	 * 根据商家id查询相应的管理员，一个商家只有一个管理员
+	 * zhuangxiu-zyg
+	 *
+	 * @return boolean
+	 * */
+	public static function findShopAdmin($shop_id){
+		return self::where(['shop_id'=>$shop_id,'st'=>1])->find();
+	}
 }
