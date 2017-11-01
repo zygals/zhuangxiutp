@@ -64,10 +64,10 @@ class GoodController extends BaseController {
     public function save(Request $request) {
 
         $data = $request->param();
-        $res = $this->validate($data, 'GoodValidate');
+      /*  $res = $this->validate($data, 'GoodValidate');
         if ($res !== true) {
             $this->error($res);
-        }
+        }*/
        //dump($_FILES);exit;
         $row_shop = $this->findById($data['shop_id'], new Shop());
 		//查询商家管理员
@@ -150,10 +150,10 @@ class GoodController extends BaseController {
         $data = $request->param();
         $referer = $data['referer'];
         unset($data['referer']);
-        $res = $this->validate($data, 'GoodValidate');
+        /*$res = $this->validate($data, 'GoodValidate');
         if ($res !== true) {
             $this->error($res);
-        }
+        }*/
         $row_shop = $this->findById($data['shop_id'], new Shop());
         $data['cate_id'] = $row_shop->cate_id;
 

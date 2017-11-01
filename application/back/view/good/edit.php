@@ -155,7 +155,7 @@
         }
     });
     $(function () {
-        $('form').bootstrapValidator({
+        $('form').bootstrapValidator(/*{
             fields: {
                 name: {
                     validators:
@@ -199,7 +199,7 @@
 
 
             }
-        });
+        }*/);
 
     });
 </script>

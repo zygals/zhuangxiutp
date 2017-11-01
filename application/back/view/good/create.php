@@ -134,7 +134,7 @@ $('#imgs_div').hide();
     });
       $(function () {
 
-        $('form').bootstrapValidator({
+        $('form').bootstrapValidator({/*
             fields: {
                 name: {
                     validators:
@@ -190,7 +190,7 @@ $('#imgs_div').hide();
                 },
 
             }
-        });
+        }*/);
 
     });
 
