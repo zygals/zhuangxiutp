@@ -176,7 +176,7 @@ class Dingdan extends Base{
 			$row_cart = self::getById( $shop->cart_id , new Cart );
 			$row_cart->st = 0;
 			$row_cart->save();
-			 OrderGood::where(['cart_id'=>$row_cart->id])->update(['st'=>0]);
+			 CartGood::where(['cart_id'=>$row_cart->id])->update(['st'=>0]);
 		}
 		if ( $new_order_contact_id == 0 ) {//如果是单商家订单
 			return ['code' => 0 , 'msg' => 'dingdan shop order save_all ok' , 'type' => self::ORDER_TYPE_SHOP , 'data' => $new_order_id];
