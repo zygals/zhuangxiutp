@@ -29,17 +29,9 @@ class OrderGood extends model{
 	}
 
 
-	/*
-	 * 更改订单商品状态
-	 * zhuangxiu-zyg
-	 * */
-	public static function updateSt($order_id , $st){
-	        self::where(['order_id'=>$order_id])->select();
-			if ( $st == 'taken' ) {
 
-		}
 
-	}
+
 
 
 }

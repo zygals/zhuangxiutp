@@ -176,7 +176,6 @@ class Dingdan extends Base{
 				if ( !( new OrderGood() )->save( $data_order_good ) ) {
 					return ['code' => __LINE__ , 'msg' => 'add order_good error'];
 				}
-
 			}
 			//删除原购物车
 			$row_cart = self::getById( $shop->cart_id , new Cart );
@@ -263,7 +262,7 @@ class Dingdan extends Base{
 			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
-			OrderGood::updateSt( $data['order_id'] , 'taken' );
+			OrderGood::where( ['order_id'=>$data['order_id'] ])->update(['st'=>OrderGood::ST_TAKEN]);
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
