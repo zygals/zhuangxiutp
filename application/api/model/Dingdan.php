@@ -160,7 +160,7 @@ class Dingdan extends Base{
 					'img' => $row_good->img ,
 					'price' => $row_good->price ,
 					'unit' => $row_good->unit ,
-					'name' => $row_good->name ,
+					'name' => $row_good['name'] ,
 					'good_id' => $row_good->id ,
 					'num' => $good->num ,
 					'st' => OrderGood::ST_PREPARE ,
