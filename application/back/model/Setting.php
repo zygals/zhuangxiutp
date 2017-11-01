@@ -4,7 +4,7 @@ namespace app\back\model;
 
 use think\Model;
 
-class Setting extends model {
+class Setting extends Base {
 
 
     public  function findSets() {
@@ -27,6 +27,11 @@ class Setting extends model {
     public static function getMinBenefit(){
         $minBenefit = self::find();
         return $minBenefit['withdraw_limit'];
+    }
+
+    public static function getSet(){
+        $list = self::find(1);
+        return $list;
     }
 
 

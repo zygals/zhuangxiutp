@@ -36,111 +36,107 @@
 
 </script>
 <!--弹出添加用户窗口-->
-<form class="form-horizontal" action="{:url('update')}" method="post">
-    <input type="hidden" name="id" value="{$row_->id}">
+<form class="form-horizontal" action="{:url($act)}" method="post" enctype="multipart/form-data">
+<?php if(count($list)>0){ ?>
+
     <div class="row">
         <div class="col-xs-8">
             <div class="text-center">
-                <h4 class="modal-title" id="gridSystemModalLabel">网站设置</h4>
+                <h4 class="modal-title" id="gridSystemModalLabel">平台设置</h4>
             </div>
             <div class="">
                 <div class="container-fluid">
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">商户申请最低提现金额：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='withdraw_limit' value="{$list->withdraw_limit}" placeholder="0.00元" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">平台联系人：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='contact' value="{$list->contact}" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">公司地址：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='address' value="{$list->address}" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">平台电话：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='mobile' value="{$list->mobile}" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">平台列表图片：</label>
+                        <div class="col-xs-7 ">
+                            <img src="__IMGURL__{$list->img}" alt="没有上传图片" width="188"/>
+                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（750*350），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
 
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">pc产品中心每个分类显示产品数：</label>
-                        <div class="col-xs-7 ">
-                            <input type="number" class="form-control input-sm duiqi" name='nums_pro' value="{$row_->nums_pro}" ><span style="color:red">0 表示不限定</span></div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">pc产品中心详情页每个分类推荐产品数：</label>
-                        <div class="col-xs-7 ">
-                            <input type="number" class="form-control input-sm duiqi" name='nums_pro_detail' value="{$row_->nums_pro_detail}" ><span style="color:red">0 表示不限定</span>
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">pc新品列表页每页显示产品数：</label>
-                        <div class="col-xs-7 ">
-                            <input type="number" class="form-control input-sm duiqi" name='nums_new' value="{$row_->nums_new}" ><span style="color:red">0 表示不限定</span>
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">网站名称：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm" name='sitename' value="{$row_->sitename}" >
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">400联系电话：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm duiqi" name='phone400' value="{$row_->phone400}" >
-                        </div>
-                    </div><div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">版权：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm" name='cropyright' value="{$row_->cropyright}" >
-                        </div>
-                    </div><div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">备案：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm" name='beian' value="{$row_->beian}" >
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">设计人：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm duiqi" name='designer' value="{$row_->designer}" >
-                        </div>
-                    </div> <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">总部销售咨询电话：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm duiqi" name='consult_phone' value="{$row_->consult_phone}" >
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">传真：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm duiqi" name='fax' value="{$row_->fax}" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="situation" class="col-xs-5 control-label">隐藏分享到新浪，qq等：</label>
-                        <div class="col-xs-7">
-                            <label class="control-label" >
-                                <input type="radio" name="hide_share" id="" value="1" <?php echo $row_->hide_share=='1'?'checked':''?>>是</label> &nbsp;
-                            <label class="control-label">
-                                <input type="radio" name="hide_share" id="" value="0" <?php echo $row_->hide_share=='0'?'checked':''?>> 否</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="situation" class="col-xs-5 control-label">是否隐藏免费服务热线：</label>
-                        <div class="col-xs-7">
-                            <label class="control-label" >
-                                <input type="radio" name="hide_online" id="" value="1" <?php echo $row_->hide_online=='1'?'checked':''?>>是</label> &nbsp;
-                            <label class="control-label">
-                                <input type="radio" name="hide_online" id="" value="0" <?php echo $row_->hide_online=='0'?'checked':''?>> 否</label>
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">联系我们文字：</label>
-                        <div class="col-xs-7 ">
-                            <textarea name="contact" id="contact_area" style="width:450px;height:400px;">{$row_->contact}</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">架车路线：</label>
-                        <div class="col-xs-7 ">
-                            <textarea name="bus" id="bus" style="width:450px;height:400px;">{$row_->bus}</textarea>
-                        </div>
+
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-xs btn-white" data-dismiss="modal">取消</button>
+                        <button type="submit" cla="btn btn-xs btn-green">修  改</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="text-center">
-        <button type="reset" class="btn btn-xs btn-white" data-dismiss="modal">取消</button>
-        <button type="submit" cla="btn btn-xs btn-green">保 存</button>
+
+<?php }else{ ?>
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="text-center">
+                <h4 class="modal-title" id="gridSystemModalLabel">平台设置</h4>
+            </div>
+            <div class="">
+                <div class="container-fluid">
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">商户申请最低提现金额：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='withdraw_limit' value="" placeholder="0.00元" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">平台联系人：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='contact' value="" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">公司地址：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='address' value="" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">平台电话：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='mobile' value="" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">平台列表图片：</label>
+                        <div class="col-xs-7 ">
+                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（750*350），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-xs btn-white" data-dismiss="modal">取消</button>
+                        <button type="submit" cla="btn btn-xs btn-green">保 存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+<?php } ?>
+
 </form>
 
 <script>

@@ -6,13 +6,17 @@ use think\Model;
 
 class Tuangou extends model {
 
-    public function getTypeAttr($value) {
+    public function getTypeAttr($groupalue) {
         $type = [ 1 => '限人团购','2'=>'限时限量'];
-        return $type[$value];
+        return $type[$groupalue];
     }
-    public function getStAttr($value) {
-        $status = [ 0=>'删除',1 => '正在进行',2=>'下架','3'=>'成功',4=>'不成功'];
-        return $status[$value];
+    public function getStAttr($groupalue) {
+        $status = [ 0=>'删除',1 => '正在进行',2=>'下架'];
+        return $status[$groupalue];
+    }
+    public function getGroupStAttr($groupalue){
+        $status = [ 1=>'正在进行',2 => '活动成功',3=>'活动失败'];
+        return $status[$groupalue];
     }
     public static function getListAll(){
         $where = ['st' => ['=',1],'type'=>['=',2]];
@@ -32,14 +36,20 @@ class Tuangou extends model {
 //        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
 //            $order = $data['paixu'] . ' desc';
 //        }
-
+        $list_group = self::select();
+//        dump($row);
+        foreach($list_group as $group){
+                if($group['type']==1){//判断分类  1:限人
+                    //判断条件:活动正在进行,团购人数已满足最低要求
+                    if(($group['end_time']>time()) && ($group['attend_pnum']>=$group['pnum'])){
+                        self::where('id',$group['id'])->update(['group_st'=>2]);
+                    //判断条件:活动到截至日期,团购人数不满足最低要求
+                    }elseif(($group['end_time']<=time()) && ($group['attend_pnum']<$group['pnum'])){
+                        self::where('id',$group['id'])->update(['group_st'=>3]);
+                    }
+                }
+        }
         $list_ = self::where($where)->join('shop','shop.id=tuangou.shop_id')->join('good','good.id=tuangou.good_id')->field($field)->order($order)->paginate();
-//        if($list_['end_time']==time()){
-//            if(($list_['attend_pnum'] == $list_['pnum']) || ($list_['already_sales'] >= $list_['sales'])){
-//
-//            }
-//        }
-
         return $list_;
     }
 
