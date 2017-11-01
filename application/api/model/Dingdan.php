@@ -20,12 +20,13 @@ class Dingdan extends Base{
 	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 4 => '用户取消' ,5 => '用户删除'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
 		return $status[$value];
 	}
+
 //订单的商品总状态
 	public function getGoodstAttr($value){
-		$status = [1 => '没发货' , 2 => '已发货' , 3 => '已收货' , 4 => '已评价',5=>'部分发货'];
+		$status = [1 => '没发货' , 2 => '已发货' , 3 => '已收货' , 4 => '已评价' , 5 => '部分发货'];
 		return $status[$value];
 	}
 	/*
@@ -112,7 +113,7 @@ class Dingdan extends Base{
 		}
 		//添加平台订单
 		$new_order_contact_id = 0;
-		if(count($arr_shop_good_list)>1){
+		if ( count( $arr_shop_good_list ) > 1 ) {
 			$data_order_contact = [
 				'orderno' => $this->makeTradeNo( $data['username'] ) ,
 				'sum_price_all' => $sum_price_all ,
@@ -172,13 +173,14 @@ class Dingdan extends Base{
 
 			}
 			//删除原购物车
-			 $row_cart = self::getById($shop->cart_id,new Cart);
-			 $row_cart->st=0;$row_cart->save();
+			$row_cart = self::getById( $shop->cart_id , new Cart );
+			$row_cart->st = 0;
+			$row_cart->save();
 		}
-		if($new_order_contact_id==0){//如果是单商家订单
-			return ['code' => 0 , 'msg' => 'dingdan shop order save_all ok','type'=>self::ORDER_TYPE_SHOP,'data'=>$new_order_id];
-		}else{
-			return ['code' => 0 , 'msg' => 'dingdan pingtai order save_all ok','type'=>self::ORDER_TYPE_CONTACT,'data'=>$new_order_contact_id];
+		if ( $new_order_contact_id == 0 ) {//如果是单商家订单
+			return ['code' => 0 , 'msg' => 'dingdan shop order save_all ok' , 'type' => self::ORDER_TYPE_SHOP , 'data' => $new_order_id];
+		} else {
+			return ['code' => 0 , 'msg' => 'dingdan pingtai order save_all ok' , 'type' => self::ORDER_TYPE_CONTACT , 'data' => $new_order_contact_id];
 		}
 	}
 
@@ -197,8 +199,8 @@ class Dingdan extends Base{
 	 */
 	public function getOrder($data){
 		$order_id = $data['order_id'];
-		$row_order = self::where(['dingdan.id'=>$order_id])->join('
-		shop','shop.id=dingdan.shop_id')->field('dingdan.*,shop.name shop_name')->find();
+		$row_order = self::where( ['dingdan.id' => $order_id] )->join( '
+		shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->find();
 		if ( !$row_order ) {
 			return ['code' => __LINE__ , 'msg' => 'order is not exists'];
 		}
@@ -210,7 +212,7 @@ class Dingdan extends Base{
 		if ( $row_order->address_id !== 0 ) {
 			$row_address = Address::read( $row_order->address_id );
 		}*/
-		return ['code' => 0 , 'msg' => 'get order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods ]];
+		return ['code' => 0 , 'msg' => 'get order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
 	}
 
 	/*
@@ -253,7 +255,7 @@ class Dingdan extends Base{
 			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
-           OrderGood::updateSt($data['order_id'],'taken');
+			OrderGood::updateSt( $data['order_id'] , 'taken' );
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
@@ -262,29 +264,37 @@ class Dingdan extends Base{
 		$row_->save();
 		return ['code' => 0 , 'msg' => '订单状态更改'];
 	}
+
 	/**
 	 * 更改订单支付状态
 	 *zhuangxiu-zyg
 	 * @return \think\Response
 	 */
 	public static function updatePaySt($data){
-        if($data['type_']==Dingdan::ORDER_TYPE_SHOP){
+		if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP ) {
 			$row_order = self::find( ['id' => $data['order_id']] );
 			if ( !$row_order ) {
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];
 			}
-			$row_order->st==self::ORDER_ST_PAID;$row_order->save();
-			return ['code'=>0,'msg'=>'order_shop paid'];
-		}elseif($data['type_']==Dingdan::ORDER_TYPE_CONTACT){
-			$row_order_contact = self::getById($data['order_id'],new OrderContact());
-			if(!$row_order_contact){
+			$row_order->st = self::ORDER_ST_PAID;
+			if(!$row_order->save()){
+				return ['code' => 0 , 'msg' => 'order_shop paid failed'];
+			}
+			return ['code' => 0 , 'msg' => 'order_shop paid ok'];
+		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
+			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
+			if ( !$row_order_contact ) {
 				return ['code' => __LINE__ , 'msg' => '联合订单不存在'];
 			}
-			$row_order_contact->st = OrderContact::ORDER_CONTACT_PAID;$row_order_contact->save();
+			$row_order_contact->st = OrderContact::ORDER_CONTACT_PAID;
+			$row_order_contact->save();
 			//且要改下面所有商家订单状态的已支付
-			self::where(['order_contact_id'=>$row_order_contact->id])->update(['st'=>self::ORDER_ST_PAID]);
-			return ['code'=>0,'msg'=>'order_contact paid'];
-		}else{
+			$res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID] );
+			if(!$res){
+				return ['code' => __LINE__ , 'msg' => 'order_contact paid failed'];
+			}
+			return ['code' => 0 , 'msg' => 'order_contact paid ok'];
+		} else {
 			return ['code' => __LINE__ , 'msg' => 'type_ error'];
 		}
 	}
