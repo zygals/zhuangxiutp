@@ -153,7 +153,6 @@ class BaomingController extends BaseController{
 		if ( $row_=$this->deleteStatusById( $data['id'] , new Baoming() ) ) {
 			//删除对应的难房记录
            if($row_->article_st==1){
-
 			   Article::where(['baoming_id'=>$row_->id])->update(['st'=>0]);
 		   }
 

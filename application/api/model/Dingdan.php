@@ -109,6 +109,12 @@ class Dingdan extends Base{
 			if ( !$row_cart ) {
 				return ['code' => __LINE__ , 'msg' => 'cart not exists'];
 			}
+			$list_cart_good = CartGood::where(['cart_id'=>$row_cart->id])->select();
+			$sum_price=0;
+			foreach($list_cart_good as $good){
+				$row_good = self::getById($good->good_id,new Good());
+				$sum_price += $row_good->price * $good->num;
+			}
 			$sum_price_all += $row_cart->sum_price;
 		}
 		//添加平台订单
