@@ -3,6 +3,7 @@
 namespace app\back\controller;
 
 use app\back\model\Address;
+use app\back\model\Admin;
 use app\back\model\Base;
 use app\back\model\Dingdan;
 use app\back\model\Cate;
@@ -107,6 +108,17 @@ class DingdanController extends BaseController {
 		}else{
 			$this->error('状态修改失败',$referer, '', 1);
 		}
+	}
+
+	public function order_paid(Request $request){
+		$data = $request->param();
+		$rules = ['pass_admin' => 'require','order_id'=>'require'];
+		$res = $this->validate($data,$rules);
+		if ($res !== true) {
+			return json(['code'=>__LINE__,'msg'=>$res]);
+		}
+		return json(Dingdan::stPaid($data));
+
 	}
 
 
