@@ -158,6 +158,8 @@ class Dingdan extends Base{
 				return ['code' => __LINE__ , 'msg' => 'add order error'];
 			}
 			//添加商家订单表end
+			//给商家订单量增加一个
+			Shop::increaseOrdernum($shop->shop_id);
 			//  添加订单商品
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
@@ -294,6 +296,11 @@ class Dingdan extends Base{
 		   }
 			$admin_shop->income += $row_order->sum_price;
 			$admin_shop->save();
+			//给商家增加交易量
+			Shop::incTradenum($row_order->shop_id);
+
+			//给订单中的商品增加销量
+			OrderGood::increseSales($row_order->id);
 			return ['code' => 0 , 'msg' => 'order_shop paid ok and shop admin income ok'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
@@ -307,6 +314,7 @@ class Dingdan extends Base{
 			if(!$res){
 				return ['code' => __LINE__ , 'msg' => 'order_contact paid failed'];
 			}
+			//给下面商家管理员增加收益
 			$list_order = Order::where(['order_contact_id'=>$row_order_contact->id])->select();
 			foreach($list_order as $order){
 				$admin_shop = Admin::where(['shop_id'=>$order->shop_id,'st'=>1])->find();
@@ -315,6 +323,11 @@ class Dingdan extends Base{
 				}
 				$admin_shop->income += $order->sum_price ;
 				$admin_shop->save();
+
+				//给商家增加交易量
+				Shop::incTradenum($order->shop_id);
+				//给订单中商品增加销量
+				OrderGood::increseSales($order->id);
 			}
 			return ['code' => 0 , 'msg' => 'order_contact paid ok and shop admin income ok'];
 		} else {
