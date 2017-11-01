@@ -173,7 +173,7 @@ class Dingdan extends Base{
 			}
 			//删除原购物车
 			 $row_cart = self::getById($shop->cart_id,new Cart);
-				$row_cart->st=0;$row_cart->save();
+			 $row_cart->st=0;$row_cart->save();
 		}
 		if($new_order_contact_id==0){//如果是单商家订单
 			return ['code' => 0 , 'msg' => 'dingdan shop order save_all ok','type'=>self::ORDER_TYPE_SHOP,'data'=>$new_order_id];
