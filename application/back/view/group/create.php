@@ -49,8 +49,9 @@ $('#cate_name_label').html(cate_name);
                             <div class="col-xs-8">
                                 <select onchange="changeCate(this)" class=" form-control select-duiqi" name="good_id" id="foreachGood">
                                     <option value="">--请选择--</option>
+                                    <input type="hidden" name="good_id" value="" id="no_good_id">
                                 </select>
-                                <input type="hidden" name="good_id" value="" id="no_good_id">
+
                             </div>
                         </div>
 
@@ -127,14 +128,15 @@ $('#cate_name_label').html(cate_name);
                     var a  = '<option>--请选择--</option>';
 
                     $.each(data,function(n,res){
-                        a += '<option id="goodPrice" data_price="'+res.price+'" value="'+res.id+'">'+res.id+':'+res.name+'</option>';
+                        a += '<option  data_price="'+res.price+'" value="'+res.id+'">'+res.id+':'+res.name+'</option>';
                     });
                     $('#foreachGood').html(a);
                 }
             });
         $('#foreachGood').change(function(){
-            var bprice = $('#goodPrice').attr('data_price')+'元';
-            var bid = $('#goodPrice').attr('value');
+            var bprice = $('#foreachGood option:selected').attr('data_price')+'元';
+
+            var bid = $('#foreachGood option:selected').attr('value');
             $('#no_good_id').val(bid);
             $('#price').html(bprice);
         });

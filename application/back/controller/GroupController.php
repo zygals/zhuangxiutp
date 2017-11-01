@@ -76,6 +76,7 @@ class GroupController extends BaseController {
     public function save(Request $request) {
         $data = $request->param();
 //        dump($data);exit;
+//        dump($data);exit;
         $data['end_time']=strtotime($data['end_time']);
 //        $res = $this->validate($data, 'AdValidate');
 //        if ($res !== true) {
@@ -87,7 +88,7 @@ class GroupController extends BaseController {
             $data['pnum'] = 0;
             $data['deposit'] = 0;
         }
-
+//        dump($data);exit;
         $Tuangou = new Tuangou();
         $Tuangou->save($data);
         $this->success('添加成功', 'index', '', 1);
