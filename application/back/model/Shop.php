@@ -53,6 +53,22 @@ class Shop extends Base {
        // echo ($list_[1]->admin_st);exit;
         return $list_;
     }
+
+    /**
+     * 获取所有商家列表的方法
+     * @param array $data
+     * @param string $field
+     * @param array $where
+     * @return \think\Paginator
+     */
+    public static function getShopList($where=['shop.st' => ['=',1]]) {
+        // $where = ['st' => ['<>',0]];
+        $order = "create_time desc";
+        $field='shop.*,cate.name cate_name,admin.id admin_id,admin.name admin_name,admin.st admin_st';
+        $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->join('admin','admin.id=shop.admin_id','left')->order($order)->field($field)->select();
+        // echo ($list_[1]->admin_st);exit;
+        return $list_;
+    }
     public static function getIndexList(){
         $where = ['st' => ['=',1]];
         $list_ = self::where($where)->order('create_time asc')->select();

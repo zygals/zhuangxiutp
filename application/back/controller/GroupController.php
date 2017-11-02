@@ -54,7 +54,7 @@ class GroupController extends BaseController {
     public function create() {
 
         $isShopAdmin = Admin::isShopAdmin();
-        $shop = Shop::getList();
+        $shop = Shop::getShopList();
         return $this->fetch('', ['title'=>'添加团购活动','isShopAdmin'=>$isShopAdmin,'shop'=>$shop,'act'=>'save',]);
 
     }
