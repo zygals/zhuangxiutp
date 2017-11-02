@@ -73,5 +73,9 @@ class Article extends Base{
 	public static function read($id){
 		return self::getById( $id , new self() );
 	}
+	/**
+	 * 获取团购历史活动
+	 */
+
 
 }
