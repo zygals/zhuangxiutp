@@ -50,7 +50,7 @@
          */
         public static function getGoonPnum(){
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
-            $where = ['tuangou.st'=>['=',1],'type'=>['=',1]];
+            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
         }
@@ -60,7 +60,7 @@
          */
         public static function getHistoryPnum(){
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
-            $where = ['tuangou.st'=>['=',3],'type'=>['=',1]];
+            $where = ['tuangou.group_st'=>['=',2],'type'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
         }
