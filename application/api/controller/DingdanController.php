@@ -96,21 +96,23 @@ class DingdanController extends BaseController {
     }
 
     /*
-     * 立即购买，显示订单详情 zyg
+     * 添加订单-团购
+     * zhuangxiu-zyg
      * */
-  /*  public function detail(Request $request){
+  public function save_group(Request $request){
         $data = $request->param();
         $rules = [
-            'good_id' => 'require|number',
-            'num'=>'require|number',
+            'username' => 'require',
+            'group_id'=>'require|number',
+            'address_id'=>'require|number',
         ];
         $res = $this->validate($data, $rules);
         if (true !== $res) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        return json(Dingdan::getDetail($data));
+        return json((new Dingdan)->addOrderGroup($data));
 
-    }*/
+    }
 
 
 

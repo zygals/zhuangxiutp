@@ -62,13 +62,16 @@
             <div class="col-xs-1 ">
                 编号
             </div>
-            <div class="col-xs-2 ">
+            <div class="col-xs-1">
                 联合编号
             </div>
-			<div class="col-xs-2 ">
+			<div class="col-xs-1">
+				类型
+			</div>
+			<div class="col-xs-2">
 				订单编号
 			</div>
-            <div class="col-xs-1 ">
+            <div class="col-xs-1">
                 商户名称
             </div>
             <div class="col-xs-1 ">
@@ -98,13 +101,16 @@
                 <div class="col-xs-1">
                     {$row_->id}
                 </div>
-				<div class="col-xs-2" title=" {$row_->orderno_contact}">
+				<div class="col-xs-1" title=" {$row_->orderno_contact}">
 					<?= $row_->orderno_contact?$row_->orderno_contact:'无'?>
+				</div>
+				<div class="col-xs-1" title=" {$row_->type}">
+					<?= $row_->type;?>
 				</div>
                 <div class="col-xs-2" title=" {$row_->orderno}">
                     {$row_->orderno}
                 </div>
-                <div class="col-xs-1 " title=" {$row_->shop_name}">
+                <div class="col-xs-1" title=" {$row_->shop_name}">
                     {$row_->shop_name}
                 </div>
 				<div class="col-xs-1">
@@ -113,7 +119,7 @@
             <div class="col-xs-1">
                 {$row_->sum_price}
             </div>
-            <div class="col-xs-1">
+            <div class="col-xs-1" title="{$row_->create_time}">
                 {$row_->create_time}
             </div>
 

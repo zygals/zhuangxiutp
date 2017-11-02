@@ -17,14 +17,17 @@ class Dingdan extends model{
 		$status = ['0' => '管理员删除' , 1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
 		return $status[$value];
 	}
-
+	public function getTypeAttr($value){
+		$status = [ 1 => '普通' , 2 => '限量' , 3 => '限人' ];
+		return $status[$value];
+	}
 	public function getGoodstAttr($value){
 		$status = [1 => '未发货' , 2 => '已发货' , 5 => '部分发货' , 3 => '已收货' , 4 => '已评价'];
 		return $status[$value];
 	}
 
 	public static function findOne($order_id){
-		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name' )->find();
+		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->join('order_contact','order_contact.id=dingdan.order_contact_id','left')->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name,order_contact.orderno orderno_contact' )->find();
 
 		return $row_;
 	}

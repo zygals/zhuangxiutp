@@ -23,6 +23,9 @@ class UserController extends BaseController {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $output = curl_exec($ch);
+		if(!$output){
+			return json(['code'=>__LINE__,'msg'=>'登录或注册失败！']);
+		}
         curl_close($ch);
         $open_id = json_decode($output)->openid;
         return json(User::registUserByOpenId($open_id));
