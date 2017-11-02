@@ -29,6 +29,14 @@
             $t_id = $request->param();
             return json(['code'=>0,'msg'=>'group/skim','data'=>TuanGou::getlist($t_id)]);
         }
+        /**
+         * 查看限量团购历史活动总结详情页
+         */
+        public function get_article(Request $request){
+            $data = $request->param();
+            $a_id = $data['a_id'];
+            return json(['code'=>0,'msg'=>'group/get_article','data'=>TuanGou::getArticle($a_id)]);
+        }
 
         /**
          * 获取正在进行限人团购活动
