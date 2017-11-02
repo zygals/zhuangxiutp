@@ -9,7 +9,7 @@ use app\api\model\User;
 use think\Request;
 class PayController extends BaseController {
     public function pay_ok(Request $request) {
-
+		//这个回调方法不能调用成功，不知道什么原因？
     }
 	/*
 	 * 订单支付(可能是多商家的订单)

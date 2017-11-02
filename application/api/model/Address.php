@@ -84,7 +84,7 @@ class Address extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
-		if ( $data['is_default'] == 1 ) {
+		if ( isset( $data['is_default'] ) && $data['is_default'] == 1 ) {
 			$this->where( 'user_id' , $user_id )->update( ['is_default' => 0] );
 		}
 		unset( $data['username'] );
@@ -152,11 +152,11 @@ class Address extends Base{
  * zhuangxiu-zyg
  * */
 	public static function read($address_id){
-		if(!$row_ = self::find( $address_id )){
-			return ['code'=>__LINE__,'msg'=>'address not exists'];
+		if ( !$row_ = self::find( $address_id ) ) {
+			return ['code' => __LINE__ , 'msg' => 'address not exists'];
 
 		}
-		return ['code'=>0,'msg'=>'address ok','data'=>$row_];
+		return ['code' => 0 , 'msg' => 'address ok' , 'data' => $row_];
 	}
 
 	public static function getDefault($username){
