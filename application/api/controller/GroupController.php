@@ -33,8 +33,8 @@
          * 查看限量团购历史活动总结详情页
          */
         public function get_article(Request $request){
-            $id = $request->param();
-            return json(['code'=>0,'msg'=>'group/get_article','data'=>TuanGou::getArticle($id)]);
+            $t_id = $request->param();
+            return json(['code'=>0,'msg'=>'group/get_article','data'=>TuanGou::getArticle($t_id)]);
         }
 
         /**
