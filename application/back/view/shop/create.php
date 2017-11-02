@@ -74,6 +74,12 @@
                                     <input type="text" maxlength="11" class="form-control input-sm duiqi" name='phone' value="" id="" placeholder="">
                                 </div>
                             </div>
+							<div class="form-group ">
+								<label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>座机：</label>
+								<div class="col-xs-8 ">
+									<textarea name="zuoji"  cols="25" rows="5"></textarea>
+								</div>
+							</div>
                             <div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
                                 <div class="col-xs-8 ">
