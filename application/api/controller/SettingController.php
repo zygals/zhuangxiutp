@@ -4,7 +4,7 @@ namespace app\api\controller;
 
 use app\api\model\Setting;
 use app\api\model\User;
-use app\back\controller\BaseController;
+use app\api\controller\BaseController;
 use think\Request;
 
 class SettingController extends BaseController{
