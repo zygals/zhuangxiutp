@@ -40,7 +40,7 @@
          * 获取限量团购总结详情
          */
         public static function getArticle($data){
-            $a_id = $data['a_id'];
+            $a_id = $data;;
             $list = Article::where(['id'=>$a_id])->find();
             return $list;
         }
