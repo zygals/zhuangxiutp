@@ -2,6 +2,7 @@
     namespace app\api\model;
     use app\back\model\Base;
     use think\Model;
+    use app\api\model\Article;
 
     class TuanGou extends Base{
         protected $table = 'tuangou';
@@ -33,6 +34,14 @@
             $t_id = $data['t_id'];
             $field = 'tuangou.id t_id,img_big,good.price good_price,price_group,end_time,name,already_sales,which_info,desc,imgs';
             $list = self::where(['tuangou.id'=>$t_id])->join('good','good.id=tuangou.good_id')->field($field)->find();
+            return $list;
+        }
+        /**
+         * 获取限量团购总结详情
+         */
+        public static function getArticle($data){
+            $id = $data['id'];
+            $list = Article::where(['id'=>$id])->find();
             return $list;
         }
 
