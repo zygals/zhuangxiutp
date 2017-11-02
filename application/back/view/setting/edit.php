@@ -71,6 +71,12 @@
                         </div>
                     </div>
                     <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">客服电话：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='telephone' value="{$list->telephone}" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
                         <label for="sName" class="col-xs-5 control-label">平台列表图片：</label>
                         <div class="col-xs-7 ">
                             <img src="__IMGURL__{$list->img}" alt="没有上传图片" width="188"/>
@@ -118,6 +124,12 @@
                         <label for="sName" class="col-xs-5 control-label">平台电话：</label>
                         <div class="col-xs-7 ">
                             <input type="text" class="form-control input-sm duiqi" name='mobile' value="" >
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-5 control-label">客服电话：</label>
+                        <div class="col-xs-7 ">
+                            <input type="text" class="form-control input-sm duiqi" name='telephone' value="" >
                         </div>
                     </div>
                     <div class="form-group ">

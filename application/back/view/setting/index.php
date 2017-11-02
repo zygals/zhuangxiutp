@@ -36,6 +36,9 @@
                 平台电话
             </div>
             <div class="col-xs-1">
+                平台电话
+            </div>
+            <div class="col-xs-1">
                 平台列表图片
             </div>
             <div class="col-xs-">
