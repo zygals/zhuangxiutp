@@ -13,7 +13,7 @@ class ShopAddress extends Base {
         }
         $data_ = [];
           foreach ($data['name_'] as $k=>$val){
-              $data_[] = ['shop_id'=>$data['shop_id'],'name_'=>$val,'truename_'=>$data['truename_'][$k],'address_'=>$data['address_'][$k],'mobile_'=>$data['mobile_'][$k]];
+              $data_[] = ['shop_id'=>$data['shop_id'],'name_'=>$val,'truename_'=>$data['truename_'][$k],'address_'=>$data['address_'][$k],'mobile_'=>$data['mobile_'][$k],'zuoji'=>$data['zuoji'][$k]];
 
           }
         $this->saveAll($data_);
