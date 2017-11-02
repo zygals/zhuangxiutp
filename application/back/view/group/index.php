@@ -123,7 +123,7 @@
 						<div class="col-xs-1 " title="{$row_->good_id}">
 							{$row_->good_name}
 						</div>
-						<?php if ( $row_->type == '限人团购' ) { ?>
+						<?php if ( $row_->type == '限人' ) { ?>
 							<div class="col-xs-1 " title="已参：{$row_->attend_pnum}人">
 								{$row_->pnum}
 							</div>
@@ -132,7 +132,7 @@
 								无
 							</div>
 						<?php } ?>
-						<?php if ( $row_->type == '限时限量' ) { ?>
+						<?php if ( $row_->type == '限量' ) { ?>
 							<div class="col-xs-1 " title="已售：{$row_->already_sales}人">
 								{$row_->store}
 							</div>
@@ -145,7 +145,7 @@
 						<div class="col-xs-1 " title="{$row_->price_group}">
 							{$row_->price_group}
 						</div>
-						<?php if ( $row_->type == '限人团购' ) { ?>
+						<?php if ( $row_->type == '限人' ) { ?>
 							<div class="col-xs-1 " title="{$row_->deposit}">
 								{$row_->deposit}
 							</div>

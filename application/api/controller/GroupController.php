@@ -39,23 +39,22 @@
         }
 
         /**
-         * 获取正在进行限人团购活动
+         * 获取正在进行限人活动
          */
         public function goon_pnum(){
-
-            return json(['code'=>0,'msg'=>'group/goon_pnum','data'=>TuanGou::getGoonPnum()]);
+            return json(TuanGou::getGoonPnum());
         }
 
         /**
-         * 获取历史限人团购活动
+         * 获取历史限人活动
          */
         public function history_pnum(){
 
-            return json(['code'=>0,'msg'=>'group/history_pnum','data'=>TuanGou::getHistoryPnum()]);
+            return json(TuanGou::getHistoryPnum());
         }
 
         /**
-         * 查看限人团购详情页
+         * 查看限人详情页
          */
         public function pnuminfo(Request $request){
             $t_id = $request->param();

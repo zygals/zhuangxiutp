@@ -81,7 +81,7 @@ $('#cate_name_label').html(cate_name);
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>活动类型：</label>
                             <div class="col-xs-4 action-type">
-                                <label><input type="radio"  class="check_a"  name="type" value="1"  checked>限人团购</label>　　
+                                <label><input type="radio"  class="check_a"  name="type" value="1"  checked>限人</label>　　
                                 <label><input type="radio"  class="check_a"  name="type" value="2" >限量团购</label>
 
                             </div>

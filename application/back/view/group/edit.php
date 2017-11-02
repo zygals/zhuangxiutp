@@ -8,9 +8,7 @@
     .form-group .action-type{
         margin-top: 5px;
     }
-    #div-2{
-        display: none;
-    }
+
 </style>
 <script>
     function  changeCate(obj){
@@ -68,12 +66,12 @@
                     <div class="form-group">
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>活动类型：</label>
                         <div class="col-xs-4 action-type">
-                            <label><input type="radio"  class="check_a"  name="type" value="1"  checked>限人团购</label>　　
-                            <label><input type="radio"  class="check_a"  name="type" value="2" >限量团购</label>
+                            <label><input type="radio"  class="check_a"  name="type" value="1"  <?php echo $row_->type == '限人' ?'checked':''; ?> >限人</label>　　
+                            <label><input type="radio"  class="check_a"  name="type" value="2"  <?php echo $row_->type == '限量' ?'checked':''; ?> >限量团购</label>
 
                         </div>
                     </div>
-                    <div class="form-group" id="div-1">
+                    <div class="form-group" id="div-1" style="display:<?php  echo $row_->type == '限人' ?'block':'none'; ?>;">
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>人数：</label>
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm duiqi" name='pnum' value="{$row_['pnum']}" id="" placeholder="例如:100">　
@@ -82,9 +80,8 @@
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm duiqi" name='deposit' value="{$row_['deposit']}" id="" placeholder="0.00元">　
                         </div>
-
                     </div>
-                    <div class="form-group" id="div-2" >
+                    <div class="form-group" id="div-2" style="display:<?php  echo $row_->type == '限量' ?'block':'none'; ?>;" >
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>数量：</label>
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm duiqi" name='store' value="{$row_['store']}" id="" placeholder="例如:100">　
