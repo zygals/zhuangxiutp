@@ -57,5 +57,22 @@ MODIFY COLUMN `st`  tinyint(4) NULL DEFAULT 1 COMMENT '0删除 1正在进行  2�
 ALTER TABLE `setting`
 ADD COLUMN `img`  varchar(255) NOT NULL COMMENT '平台设置列表图片' AFTER `update_time`;
 
+ALTER TABLE `setting`
+ADD COLUMN `telephone`  varchar(10) NULL COMMENT '座机号码' AFTER `img`;
+
+
+ALTER TABLE `article`
+MODIFY COLUMN `type`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '1为百科 2为验房 3为团购活动' AFTER `update_time`;
+
+ALTER TABLE `article`
+ADD COLUMN `tuangou_id`  int(11) NULL COMMENT '团购活动总结' AFTER `baoming_id`;
+
+ALTER TABLE `tuangou`
+ADD COLUMN `article_st`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否添加了总结   1为加总结   0为没加' AFTER `group_st`;
+
+
+
+
+
 
 

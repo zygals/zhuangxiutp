@@ -20,9 +20,9 @@
          * 查询历史的团购活动
          */
         public static function getHistory(){
-            $field = 'good.id good_id,good.img good_img,good.name good_name,price_group,good.price good_price,tuangou.id';
-            $where = ['tuangou.group_st'=>['=',2],'type'=>['=',2]];
-            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->paginate();
+            $field = 'good.id good_id,good.img good_img,good.name good_name,price_group,good.price good_price,tuangou.id,article.id a_id';
+            $where = ['tuangou.group_st'=>['=',2],'tuangou.type'=>['=',2],'article_st'=>['=',1]];
+            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->join('article','article.tuangou_id=tuangou.id')->field($field)->paginate();
             return $list_;
         }
 

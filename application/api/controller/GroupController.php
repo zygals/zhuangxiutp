@@ -4,6 +4,7 @@
     use app\api\controller\BaseController;
     use think\Request;
     use app\api\model\TuanGou;
+    use app\api\model\Article;
 
     class GroupController extends BaseController{
         /**
