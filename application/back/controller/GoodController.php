@@ -1,18 +1,14 @@
 <?php
 
 namespace app\back\controller;
-
-
 use app\back\model\Base;
 use app\back\model\Good;
 use app\back\model\GoodAttr;
 use app\back\model\Cate;
 use app\back\model\Admin;
-
 use app\back\model\OrderGood;
 use app\back\model\Shop;
 use think\Request;
-
 
 class GoodController extends BaseController {
     /**
@@ -28,7 +24,6 @@ class GoodController extends BaseController {
             $this->error($res);
         }
         $list_ = Good::getList($data);
-//        dump($list_);exit;
         $list_shop = Shop::getListAll();
         $list_cate = Cate::getAllCateByType(1);
         // dump($list_shop);

@@ -5,9 +5,7 @@ namespace app\api\model;
 use think\Model;
 
 class Pay extends Base {
-
-
-	public function requestWxPay($data){
+	public function requestWxPay($data,$request){
 		$user_id = User::getUserIdByName($data['username']);
 		if(is_array($user_id)){
 			return json($user_id);
@@ -26,13 +24,12 @@ class Pay extends Base {
 		if($row_order->st=='已支付'){
 			return ['code'=>__LINE__,'msg'=>'order paid'];
 		}
-
 		$appid = config('wx_appid');//如果是公众号 就是公众号的appid
 		$mch_id =  config('wx_mchid');
 		$body = 'xiaochengxu zhuangxiu zhifu';
 		$nonce_str = $this->nonce_str();//随机字符串
-		$notify_url = url('pay_ok');
-		//dump($notify_url);exit;
+		$notify_url = $request->domain().url('pay_ok');
+//		dump($notify_url);exit;
 		$openid = User::where(['id'=>$user_id])->value('open_id');
 		$out_trade_no = $row_order->orderno;//商户订单号
 		$spbill_create_ip = config('wx_spbill_create_ip');
