@@ -91,7 +91,7 @@
                 订金
             </div>
             <div class="col-xs-1">
-                状态
+                团购状态
             </div>
 
             <div class="col-xs-1">
@@ -130,8 +130,8 @@
                         <div class="col-xs-1 " title="{$row_->deposit}">
                             {$row_->deposit}
                         </div>
-                        <div class="col-xs-1 " title="{$row_->st}">
-                            {$row_->st}
+                        <div class="col-xs-1 " title="{$row_->group_st}">
+                            {$row_->group_st}
                         </div>
                         <div class="col-xs-1" title="{$row_->end_time}">
 

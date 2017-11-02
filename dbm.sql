@@ -42,3 +42,20 @@ ADD COLUMN `already_sales` int(11) NOT NULL DEFAULT 0 COMMENT '目前已经售�
 
 ALTER TABLE `zhuangxiu`.`tuangou` 
 ADD COLUMN `description` varchar(255) NOT NULL COMMENT '团购活动描述' AFTER `already_sales`;
+
+
+2017年11月1日 15:04:19
+ALTER TABLE `tuangou`
+ADD COLUMN `group_st`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '1正在进行  2活动成功  3活动失败' AFTER `description`;
+
+
+ALTER TABLE `tuangou`
+MODIFY COLUMN `st`  tinyint(4) NULL DEFAULT 1 COMMENT '0删除 1正在进行  2下架 ' AFTER `update_time`;
+
+
+2017年11月2日 09:25:04
+ALTER TABLE `setting`
+ADD COLUMN `img`  varchar(255) NOT NULL COMMENT '平台设置列表图片' AFTER `update_time`;
+
+
+
