@@ -34,8 +34,8 @@
          */
         public function get_article(Request $request){
             $data = $request->param();
-            $t_id = $data['t_id'];
-            return json(['code'=>0,'msg'=>'group/get_article','data'=>TuanGou::getArticle($t_id)]);
+            $a_id = $data['a_id'];
+            return json(['code'=>0,'msg'=>'group/get_article','data'=>TuanGou::getArticle($a_id)]);
         }
 
         /**
