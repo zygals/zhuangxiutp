@@ -38,15 +38,26 @@ class Tuangou extends model {
 //        }
         $list_group = self::select();
 //        dump($row);
-        foreach($list_group as $group){
-                if($group['type']==1){//判断分类  1:限人
+        foreach($list_group as $key => $group){
+            switch($group['type']){
+                case '限人团购':
                     //判断条件:活动正在进行,团购人数已满足最低要求
-                    if(($group['end_time']>time()) && ($group['attend_pnum']>=$group['pnum'])){
+                    if($group['end_time']>time() && $group['attend_pnum']>=$group['pnum']){
                         self::where('id',$group['id'])->update(['group_st'=>2]);
-                    //判断条件:活动到截至日期,团购人数不满足最低要求
-                    }elseif(($group['end_time']<=time()) && ($group['attend_pnum']<$group['pnum'])){
+                    //判断条件:活动已结束,团购人数不满足最低要求
+                    }elseif($group['end_time']<=time() && $group['attend_pnum']<$group['pnum']){
                         self::where('id',$group['id'])->update(['group_st'=>3]);
                     }
+                    break;
+                case '限时限量':
+                    //判断条件:活动正在进行,但团购数量已满足最大值
+                    if($group['end_time']>time() && $group['already_sales']>=$group['store']){
+                        self::where('id',$group['id'])->update(['group_st'=>2]);
+                    //判断条件:活动已结束
+                    }elseif($group['end_time']<=time()){
+                        self::where('id',$group['id'])->update(['group_st'=>2]);
+                    }
+                    break;
                 }
         }
         $list_ = self::where($where)->join('shop','shop.id=tuangou.shop_id')->join('good','good.id=tuangou.good_id')->field($field)->order($order)->paginate();
