@@ -136,3 +136,8 @@ drop table if exists baoming;
 alter table article add type tinyint not null default 1 comment '1为百科 2为验房';
 alter table article add baoming_id int default 0 comment '报名id';
 alter table baoming add article_st tinyint default 0 comment '是否添加了总结';
+
+-- 改表7
+alter table shop add zuoji varchar(255) not null default '' comment '座机';
+
+alter table shop_address add zuoji varchar(255) not null default '' comment '座机';

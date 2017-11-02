@@ -66,7 +66,9 @@
             <p id="userName">{php} if(session('admin_zhx'))echo session('admin_zhx')->name{/php} <a
                         href="{:Url('admin/logout')}">&nbsp;&nbsp;&nbsp;&nbsp;退出登录</a></p>
 <!--            <p><a href="{:Url('gshpc/index/index')}" target="_blank">前台</a></p>-->
+			<?php if(\app\back\model\Admin::isAdmin()){?>
             <p><a href="{:Url('menu_admin/index')}">管理菜单</a></p>
+<?php }?>
             <p><a href="{:Url('index/index')}">登录日志</a></p>
             <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
                 <p>我的收益:　<?php echo(\app\back\model\Admin::getBenefit()) ?>元</p>

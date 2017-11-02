@@ -106,6 +106,7 @@
 
 <script>
     $(function () {
+
         $('#select_shop').change(function(){
             $.ajax({
                 url:'{:url("ajax")}',
