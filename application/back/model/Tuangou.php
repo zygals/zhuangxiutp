@@ -7,11 +7,11 @@ use think\Model;
 class Tuangou extends model{
 
 	public static $type_ = [
-		['type_id'=>1,'name'=>'限人团购'],
-		['type_id'=>2,'name'=>'限时限量'],
+		['type_id'=>1,'name'=>'限人'],
+		['type_id'=>2,'name'=>'限量'],
 	];
     public function getTypeAttr($groupalue){
-		$type = [1 => '限人团购' , '2' => '限时限量'];
+		$type = [1 => '限人' , '2' => '限量'];
 		return $type[$groupalue];
 	}
     public function getStAttr($groupalue){
@@ -44,7 +44,7 @@ class Tuangou extends model{
 //        dump($row);
 		foreach ( $list_group as $key => $group ) {
 			switch ( $group['type'] ) {
-				case '限人团购':
+				case '限人':
 					//判断条件:活动正在进行,团购人数已满足最低要求
 					if ( $group['end_time'] > time() && $group['attend_pnum'] >= $group['pnum'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
@@ -53,7 +53,7 @@ class Tuangou extends model{
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 3] );
 					}
 					break;
-				case '限时限量':
+				case '限量':
 					//判断条件:活动正在进行,但团购数量已满足最大值
 					if ( $group['end_time'] > time() && $group['already_sales'] >= $group['store'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );

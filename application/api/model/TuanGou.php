@@ -46,17 +46,20 @@
         }
 
         /**
-         * 获取正在进行限人团购活动
+         * 获取正在进行限人活动
          */
         public static function getGoonPnum(){
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
             $where = ['tuangou.group_st'=>['=',1],'type'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
-            return $list_;
+            if($list_->isEmpty()){
+                return ['code'=>__LINE__,'msg'=>'团购数据不存在'];
+            }
+            return ['code'=>0,'msg'=>'group/goon_pnum','data'=>$list_];
         }
 
         /**
-         * 获取历史限人团购活动
+         * 获取历史限人活动
          */
         public static function getHistoryPnum(){
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
@@ -67,7 +70,7 @@
 
 
         /**
-         * 获取限人团购商品列表
+         * 获取限人商品列表
          */
         public static function getPnumList($data){
             $t_id = $data['t_id'];
