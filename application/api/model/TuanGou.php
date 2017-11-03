@@ -49,9 +49,9 @@
          * 获取正在进行限人活动
          */
         public static function getGoonPnum(){
-            $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum,article.id a_id';
+            $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
             $where = ['tuangou.group_st'=>['=',1],'type'=>['=',1]];
-            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->join('article','article.tuangou_id=tuangou.id')->field($field)->select();
+            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             if($list_->isEmpty()){
                 return ['code'=>__LINE__,'msg'=>'团购数据不存在'];
             }
@@ -62,9 +62,9 @@
          * 获取历史限人活动
          */
         public static function getHistoryPnum(){
-            $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
+            $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum,article.id a_id';
             $where = ['tuangou.group_st'=>['=',2],'tuangou.type'=>['=',1],'article_st'=>['=',1]];
-            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
+            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->join('article','article.tuangou_id=tuangou.id')->field($field)->select();
             if($list_->isEmpty()){
                 return ['code'=>__LINE__,'msg'=>'历史团购数据不存在'];
             }
