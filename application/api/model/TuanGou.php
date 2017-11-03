@@ -12,7 +12,7 @@
          */
         public static function getGoon(){
             $field = 'tuangou.id t_id,good.id good_id,good.img_big good_img,good.name good_name';
-            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',2]];
+            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',2],'good.st'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
         }
