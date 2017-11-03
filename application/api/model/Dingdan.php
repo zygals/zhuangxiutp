@@ -18,6 +18,7 @@ class Dingdan extends Base{
 	const GOOT_ST_FANKUIOK = 4; //已评价
 	const ORDER_TYPE_SHOP = 1; //单商家订单
 	const ORDER_TYPE_CONTACT = 2; //多商家订单
+	const  ORDER_TYPE_LIMIT_=1;
 	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
 
 	public function getStAttr($value){
@@ -68,13 +69,13 @@ class Dingdan extends Base{
         $data_order_good['num'] = 1;
         $data_order_good['st'] = 1;
         $data_order_good['img'] = $row_good->img;
-        $data_order_good['name'] = $row_good->name;
+        $data_order_good['name'] = $row_good['name'];
         $data_order_good['price'] =$row_group->price_group;
         $data_order_good['unit'] =$row_good->unit;
 		if(!(new OrderGood())->save($data_order_good)){
 			return ['code' => __LINE__ , 'msg' => 'save order ok,but save order_good error'];
 		}
-		return ['code' => 0 , 'msg' => 'save group order and order_good ok'];
+		return ['code' => 0 , 'msg' => 'save group order and order_good ok','type_shop'=>self::ORDER_TYPE_SHOP,'type_group'=>''];
 
 	}
 
@@ -82,44 +83,6 @@ class Dingdan extends Base{
 		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name' )->find();
 
 		return $row_;
-	}
-
-	/*
-	 * //分页查询
-	 * */
-	public static function getAlldingdans($data){
-		$where = ['dingdan.st' => ['<>' , 0]];
-		$order = ['create_time desc'];
-		$time_from = isset( $data['time_from'] ) ? $data['time_from'] : '';
-		$time_to = isset( $data['time_to'] ) ? $data['time_from'] : '';
-		if ( Admin::isShopAdmin() ) {
-			$where['dingdan.shop_id'] = session( 'admin_zhx' )->shop_id;
-		}
-		if ( !empty( $time_from ) ) {
-			$where['dingdan.create_time'] = ['gt' , strtotime( $time_from )];
-		}
-		if ( !empty( $time_to ) ) {
-			$where['dingdan.create_time'] = ['lt' , strtotime( $time_to )];
-		}
-		if ( !empty( $time_to ) && !empty( $time_from ) ) {
-			$where['create_time'] = [['gt' , strtotime( $time_from )] , ['lt' , strtotime( $time_to )]];
-		}
-		if ( !empty( $data['orderno'] ) ) {
-			$where['orderno'] = $data['orderno'];
-		}
-		if ( !empty( $data['st'] ) ) {
-			$where['dingdan.st'] = $data['st'];
-		}
-		if ( !empty( $data['paixu'] ) ) {
-			$order = $data['paixu'] . ' asc';
-		}
-		if ( !empty( $data['paixu'] ) && !empty( $data['sort_type'] ) ) {
-			$order = $data['paixu'] . ' desc';
-		}
-		$list = self::where( $where )->join( 'user' , 'user.id=dingdan.user_id' )->join( 'shop' , 'dingdan.shop_id=shop.id' )->field( 'dingdan.*,user.username,shop.name shop_name' )->order( $order )->paginate();
-		//dump($list);
-
-		return $list;
 	}
 
 	/*

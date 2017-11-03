@@ -141,3 +141,7 @@ alter table baoming add article_st tinyint default 0 comment '是否添加了总
 alter table shop add zuoji varchar(255) not null default '' comment '座机';
 
 alter table shop_address add zuoji varchar(255) not null default '' comment '座机';
+-- 改表8
+alter table dingdan add type tinyint default 1 comment '1一般订单 2限量团购订单 3限人团购订单 ';
+
+alter table dingdan add group_id int default 0 comment '0表示不团购订单';
