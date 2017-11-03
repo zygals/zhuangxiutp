@@ -168,7 +168,7 @@ class GroupController extends BaseController {
         $data = $request->param();
         //下架条件：
         $allow_ = true;
-        $res = Dingdan::where(['group_id'=>$data['id'],'goodst'=>['in','3,4']])->select();
+        $res = Dingdan::where(['group_id'=>$data['id'],'goodst'=>['in','1,2,5']])->select();
         if(count($res)>0){
             $allow_ = false;
         }
