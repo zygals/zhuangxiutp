@@ -50,7 +50,7 @@
          */
         public function history_pnum(){
 
-            return json(['code'=>0,'msg'=>'group/history_pnum','data'=>TuanGou::getHistoryPnum()]);
+            return json(TuanGou::getHistoryPnum());
         }
 
         /**

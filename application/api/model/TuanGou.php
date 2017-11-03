@@ -65,7 +65,10 @@
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
             $where = ['tuangou.group_st'=>['=',2],'type'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
-            return $list_;
+            if($list_->isEmpty()){
+                return ['code'=>__LINE__,'msg'=>'历史团购数据不存在'];
+            }
+            return ['code'=>0,'msg'=>'group/history_pnum','data'=>$list_];
         }
 
 
