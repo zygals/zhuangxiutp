@@ -11,8 +11,10 @@
          * 查询正在进行的团购活动
          */
         public static function getGoon(){
-            $field = 'tuangou.id t_id,good.id good_id,good.img_big good_img,good.name good_name';
+
+            $field = 'tuangou.id t_id,good.id good_id,good.img_big good_img,good.name good_name,good.price,good.img';
             $where = ['tuangou.group_st'=>['=',1],'type'=>['=',2],'good.st'=>['=',1]];
+
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
         }
@@ -32,7 +34,7 @@
          */
         public static function getlist($data){
             $t_id = $data['t_id'];
-            $field = 'tuangou.id t_id,img_big,good.price good_price,price_group,end_time,name,already_sales,which_info,desc,imgs';
+            $field = 'tuangou.id t_id,img_big,good.price good_price,price_group,end_time,name,already_sales,which_info,desc,imgs,good.img';
             $list = self::where(['tuangou.id'=>$t_id])->join('good','good.id=tuangou.good_id')->field($field)->find();
             return $list;
         }
