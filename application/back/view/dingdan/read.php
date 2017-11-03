@@ -18,7 +18,15 @@
 			</div>
 			<div class="">
 				<div class="container-fluid">
+					<?php if ( $row_order->order_contact_id > 0 ) { ?>
+						<div class="form-group ">
+							<label for="sName" class="col-xs-3 control-label">联合订单号：</label>
 
+							<div class="col-xs-8 ">
+								<label>{$row_order->orderno_contact}</label>
+							</div>
+						</div>
+					<?php } ?>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">订单号：</label>
 
@@ -31,7 +39,7 @@
 
 						<div class="col-xs-8 ">
 							<label>{$row_order->st}</label>
-							<?php if ( $row_order->st == '未支付' && \app\back\model\Admin::isAdmin()) { ?>
+							<?php if ( $row_order->st == '未支付' && \app\back\model\Admin::isAdmin() ) { ?>
 								<button onclick="order_st_paid('{$row_order->id}')">改为已支付</button>
 							<?php } ?>
 						</div>
@@ -141,19 +149,19 @@
 
 	function order_st_paid(order_id) {
 		//alert()
-		if(confirm('确定更改订单为已支付吗？')){
+		if (confirm('确定更改订单为已支付吗？')) {
 			var pass_admin = prompt('请输入管理员密码：');
 			$.ajax({
 
-				"url":"{:url('order_paid')}",
-               "data":{
-					pass_admin:pass_admin,
-				   order_id:order_id
+				"url": "{:url('order_paid')}",
+				"data": {
+					pass_admin: pass_admin,
+					order_id: order_id
 				},
-				success:function(data){
+				success: function (data) {
 					alert(data.msg)
-					if(data.code==0){
-                         window.location.href='';
+					if (data.code == 0) {
+						window.location.href = '';
 					}
 				}
 
