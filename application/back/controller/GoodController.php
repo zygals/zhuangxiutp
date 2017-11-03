@@ -221,7 +221,7 @@ class GoodController extends BaseController {
         if ($allow_ == false) {
             $this->error('商品被加入订单，不能下架', $data['url']);
         }
-        if(Tuangou::where(['good_id'=>$data['id'],'Tuangou.st'=>1])->find()){
+        if(Tuangou::where(['good_id'=>$data['id'],'tuangou.st'=>1])->find()){
             $allow_ = false;
         }
         if ($allow_ == false) {
