@@ -8,6 +8,7 @@ use app\back\model\Cate;
 use app\back\model\Admin;
 use app\back\model\OrderGood;
 use app\back\model\Shop;
+use app\back\model\Tuangou;
 use think\Request;
 
 class GoodController extends BaseController {
@@ -219,6 +220,12 @@ class GoodController extends BaseController {
         }
         if ($allow_ == false) {
             $this->error('商品被加入订单，不能下架', $data['url']);
+        }
+        if(Tuangou::where(['good_id'=>$data['id'],'Tuangou.st'=>1])->find()){
+            $allow_ = false;
+        }
+        if ($allow_ == false) {
+            $this->error('商品被加入团购，不能下架', $data['url']);
         }
         //可以下架
         $row_ = $this->findById($data['id'], new Good());
