@@ -154,8 +154,6 @@
 								无
 							</div>
 						<?php } ?>
-
-
 						<div class="col-xs-1 " title="{$row_->group_st}">
 							{$row_->group_st}
 						</div>
@@ -172,6 +170,9 @@
 								<button class="btn btn-success btn-xs edit_" title="修改">修</button>
 							</a>
 							<?php if ( $row_->end_time <= time() ) { ?>
+								<a href="{:url('down')}?id={$row_->id}">
+									<button class="btn btn-success btn-xs edit_" title="下架">下</button>
+								</a>
 								<?php if ( $row_->article_st == 0 ) { ?>
 									<a href="{:url('add')}?id={$row_->id}">
 										<button class="btn btn-success btn-xs edit_" title="总结">总结</button>

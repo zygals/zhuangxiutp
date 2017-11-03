@@ -13,7 +13,7 @@
         public static function getGoon(){
 
             $field = 'tuangou.id t_id,good.id good_id,good.img_big good_img,good.name good_name,good.price,good.img';
-            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',2],'good.st'=>['=',1]];
+            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',2],'good.st'=>['=',1],'tuangou.st'=>1];
 
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             return $list_;
@@ -52,7 +52,7 @@
          */
         public static function getGoonPnum(){
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
-            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',1],'good.st'=>1];
+            $where = ['tuangou.group_st'=>['=',1],'type'=>['=',1],'good.st'=>1,'tuangou.st'=>1];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->select();
             if($list_->isEmpty()){
                 return ['code'=>__LINE__,'msg'=>'团购数据不存在'];

@@ -3,6 +3,7 @@
 namespace app\back\controller;
 
 
+use app\api\model\Dingdan;
 use app\back\model\Ad;
 
 use app\back\model\Base;
@@ -165,20 +166,20 @@ class GroupController extends BaseController {
      * */
     public function down(Request $request) {
         $data = $request->param();
-        //   dump($data);exit;
         //下架条件：
         $allow_ = true;
-        if (OrderGood::getGoodOn($data['id'])) {
+        $res = Dingdan::where(['group_id'=>$data['id'],'goodst'=>['in','3,4']])->select();
+        if(count($res)>0){
             $allow_ = false;
         }
         if ($allow_ == false) {
-            $this->error('商品被加入订单，不能下架', $data['url']);
+            $this->error('此团购活动有未完成的订单，不能下架','index');
         }
         //可以下架
-        $row_ = $this->findById($data['id'], new Good());
+        $row_ = $this->findById($data['id'],new Tuangou());
         $row_->st = 2;
         $row_->save();
-        $this->success('下架成功', $data['url'], '', 1);
+        $this->success('下架成功','index', '', 1);
     }
 
     /**
