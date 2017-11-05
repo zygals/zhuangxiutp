@@ -8,7 +8,6 @@ use think\Request;
 
 class DingdanController extends BaseController {
 
-
     /*
      * 取用户订单列表
      * zhuangxiu-zyg
@@ -96,10 +95,10 @@ class DingdanController extends BaseController {
     }
 
     /*
-     * 添加订单-团购
+     * 添加订单-团购  不要了
      * zhuangxiu-zyg
      * */
-  public function save_group(Request $request){
+ /* public function save_group(Request $request){
         $data = $request->param();
         $rules = [
             'username' => 'require',
@@ -112,7 +111,7 @@ class DingdanController extends BaseController {
         }
         return json((new Dingdan)->addOrderGroup($data));
 
-    }
+    }*/
 
 
 

@@ -4,8 +4,6 @@ namespace app\api\model;
 
 use app\back\model\Tuangou;
 use think\Model;
-use app\api\model\Good;
-use app\api\model\OrderGood;
 
 class Dingdan extends Base{
 	const ORDER_ST_DAIZHIFU = 1;
@@ -26,7 +24,7 @@ class Dingdan extends Base{
 		return $status[$value];
 	}
 
-//订单的商品总状态
+    //订单的商品总状态
 	public function getGoodstAttr($value){
 		$status = [1 => '没发货' , 2 => '已发货' , 3 => '已收货' , 4 => '已评价' , 5 => '部分发货'];
 		return $status[$value];
@@ -36,11 +34,10 @@ class Dingdan extends Base{
 		return $status[$value];
 	}
 	/*
-	 * 添加订单-团购
+	 * 添加订单-团购  不要了
 	 * zhuangxiu-zyg
 	 * */
-	public function addOrderGroup($data){
-		//
+	/*public function addOrderGroup($data){
 		$user_id = User::getUserIdByName($data['username']);
 		if(is_array($user_id)){
 			return $user_id;
@@ -77,7 +74,7 @@ class Dingdan extends Base{
 		}
 		return ['code' => 0 , 'msg' => 'save group order and order_good ok','type_shop'=>self::ORDER_TYPE_SHOP,'type_group'=>''];
 
-	}
+	}*/
 
 	public static function findOne($order_id){
 		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name' )->find();
@@ -212,10 +209,7 @@ class Dingdan extends Base{
 		if ( count( $list_order_goods ) == 0 ) {
 			return ['code' => __LINE__ , 'msg' => '订单商品不存在'];
 		}
-		/*$row_address = [];
-		if ( $row_order->address_id !== 0 ) {
-			$row_address = Address::read( $row_order->address_id );
-		}*/
+
 		return ['code' => 0 , 'msg' => 'get order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
 	}
 

@@ -7,9 +7,9 @@
         protected $rule = [
             'truename'=>'require',
             'mobile'=>'require|regex:mobile',
-            'address'=>'require',
+           // 'address'=>'require',
              'username'=>'require',
-            'time_to'=>'date',
+           // 'time_to'=>'date',
         ];
         protected $message = [
 

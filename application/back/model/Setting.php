@@ -29,8 +29,8 @@ class Setting extends Base {
         return $minBenefit['withdraw_limit'];
     }
 
-    public static function getSet(){
-        $list = self::find(1);
+    public static function  getSet(){
+        $list = self::where('')->order('create_time asc')->find();
         return $list;
     }
 

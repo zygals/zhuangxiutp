@@ -166,10 +166,20 @@
                             {$row_->create_time}
                         </div>
                         <div class="col-xs-">
+<?php if($row_->img_big_st==0){?>
+                            <a href="{:url('create_img_bigs')}?id={$row_->id}">
+                                <button class="btn btn-success btn-xs edit_" title="添加大图">加图</button>
+                            </a>
+                        <?php }else{?>
+    <a href="{:url('edit_img_bigs')}?id={$row_->id}">
+        <button class="btn btn-success btn-xs edit_" title="查看大图">查图</button>
+    </a>
+
+<?php }?>
+
                             <a href="{:url('edit')}?id={$row_->id}">
                                 <button class="btn btn-success btn-xs edit_" title="修改商品">修</button>
                             </a>
-
 
                     <?php if ($row_->st == '下架') { ?>
                             <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"

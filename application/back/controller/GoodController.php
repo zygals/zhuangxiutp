@@ -1,6 +1,7 @@
 <?php
 
 namespace app\back\controller;
+
 use app\back\model\Base;
 use app\back\model\Good;
 use app\back\model\GoodAttr;
@@ -9,6 +10,7 @@ use app\back\model\Admin;
 use app\back\model\OrderGood;
 use app\back\model\Shop;
 use app\back\model\Tuangou;
+use think\Db;
 use think\Request;
 
 class GoodController extends BaseController {
@@ -32,7 +34,7 @@ class GoodController extends BaseController {
         $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
         $isShopAdmin = Admin::isShopAdmin();
-        return $this->fetch('index', ['list_' => $list_,'isShopAdmin'=>$isShopAdmin ,'list_shop' => $list_shop, 'list_cate' => $list_cate, 'url' => $url, 'page_str' => $page_str]);
+        return $this->fetch('index', ['list_' => $list_, 'isShopAdmin' => $isShopAdmin, 'list_shop' => $list_shop, 'list_cate' => $list_cate, 'url' => $url, 'page_str' => $page_str]);
     }
 
     /**
@@ -47,7 +49,7 @@ class GoodController extends BaseController {
 //        dump(session('admin_zhx'));exit;
 //        dump($list_shop);exit;
         //$list_cate= Cate::getAllCateByType(1);
-        return $this->fetch('', ['list_shop' => $list_shop,'isShopAdmin'=>$isShopAdmin, 'title' => '添加商品', 'act' => 'save']);
+        return $this->fetch('', ['list_shop' => $list_shop, 'isShopAdmin' => $isShopAdmin, 'title' => '添加商品', 'act' => 'save']);
 
     }
 
@@ -60,16 +62,16 @@ class GoodController extends BaseController {
     public function save(Request $request) {
 
         $data = $request->param();
-      /*  $res = $this->validate($data, 'GoodValidate');
-        if ($res !== true) {
-            $this->error($res);
-        }*/
-       //dump($_FILES);exit;
+        /*  $res = $this->validate($data, 'GoodValidate');
+          if ($res !== true) {
+              $this->error($res);
+          }*/
+        //dump($_FILES);exit;
         $row_shop = $this->findById($data['shop_id'], new Shop());
-		//查询商家管理员
-		if(!Admin::findShopAdmin($row_shop->id)){
-			$this->error('请先添加商家“'.$row_shop->name.'”的管理员或改管理员状态为正常');
-		}
+        //查询商家管理员
+        if (!Admin::findShopAdmin($row_shop->id)) {
+            $this->error('请先添加商家“' . $row_shop->name . '”的管理员或改管理员状态为正常');
+        }
         $data['cate_id'] = $row_shop->cate_id;
         $file = $request->file('img');
         $file2 = $request->file('img_big');
@@ -77,13 +79,13 @@ class GoodController extends BaseController {
         if (empty($file) || empty($file2)) {
             //$this->error('请上传图片或检查图片大小！');
         }
-      //  $size = $file->getSize();
-		if($file2){
-			//$size2 = $file2->getSize();
-			$path_name2 = 'good_img_big';
-			$arr2 = $this->dealImg($file2, $path_name2);
-			$data['img_big'] = $arr2['save_url_path'];
-		}
+        //  $size = $file->getSize();
+        if ($file2) {
+            //$size2 = $file2->getSize();
+            $path_name2 = 'good_img_big';
+            $arr2 = $this->dealImg($file2, $path_name2);
+            $data['img_big'] = $arr2['save_url_path'];
+        }
         /*if ($size > config('upload_size') || $size2 > config('upload_size')) {
             $this->error('图片大小超过限定！');
         }*/
@@ -94,13 +96,13 @@ class GoodController extends BaseController {
 
         $data['img'] = $arr['save_url_path'];
 
-        if($data['which_info']==1){
-          $data['imgs']='';
-        }else{
-           $data['desc']='';
+        if ($data['which_info'] == 1) {
+            $data['imgs'] = '';
+        } else {
+            $data['desc'] = '';
             $file3 = $request->file('imgs');
             $size3 = $file3->getSize();
-           // dump($data);exit;
+            // dump($data);exit;
             if (!empty($file3)) {
                 if ($size3 > config('upload_size')) {
                     $this->error('图片大小超过限定！');
@@ -181,11 +183,11 @@ class GoodController extends BaseController {
             $data['img_big'] = $arr['save_url_path'];
         }
 
-        if($data['which_info']==1){
-           $data['imgs']='';
+        if ($data['which_info'] == 1) {
+            $data['imgs'] = '';
             $this->deleteImg($row_->imgs);
-        }else{
-           $data['desc']='';
+        } else {
+            $data['desc'] = '';
             $file3 = $request->file('imgs');
             if (!empty($file3)) {
                 $size3 = $file3->getSize();
@@ -221,7 +223,7 @@ class GoodController extends BaseController {
         if ($allow_ == false) {
             $this->error('商品被加入订单，不能下架', $data['url']);
         }
-        if(Tuangou::where(['good_id'=>$data['id'],'tuangou.st'=>1])->find()){
+        if (Tuangou::where(['good_id' => $data['id'], 'tuangou.st' => 1])->find()) {
             $allow_ = false;
         }
         if ($allow_ == false) {
@@ -250,5 +252,63 @@ class GoodController extends BaseController {
         }
     }
 
+    /*
+     * 添加商品大图
+     * */
+    public function create_img_bigs(Request $request) {
+        $good_id = $request->param('id');
+        $good = $this->findById($good_id, new Good());
+        $referer = $request->header()['referer'];
+        return $this->fetch('', ['good_id' => $good_id, 'referer' => $referer, 'title' => '添加 ' . $good->name . ' 商品大图', 'act' => 'save_img_bigs']);
 
+    }
+
+    /*
+     * 添加商品大图
+     * */
+    public function save_img_bigs(Request $request) {
+        $good_id = $request->post('good_id');
+        $files = $request->file('img_big');
+        $path_name = 'good_img_big';
+        if (empty($files)) {
+            $this->error('至少一张图片');
+        }
+        $referer = $request->post('referer');
+        $data_imgs['good_id'] = $good_id;
+        foreach ($files as $file) {
+            $arr = $this->dealImg($file, $path_name);
+            $data_imgs['img_big'] = $arr['save_url_path'];
+            if (!Db::table('good_img_bigs')->insert($data_imgs)) {
+                $this->error('大图添加失败', $referer);
+            }
+        }
+        $this->saveById($good_id, new Good(), ['img_big_st' => 1]);
+        $this->success('大图添加好了', $referer, '', 1);
+
+    }
+
+    public function edit_img_bigs(Request $request) {
+        $good_id = $request->get('id');
+        $referer = $request->header()['referer'];
+        $row_good = $this->findById($good_id, new Good());
+        if ($row_good->img_big_st == 0) {
+            $this->error('没有大图');
+        }
+        $list_img_big = Db::table('good_img_bigs')->where(['st' => 1, 'good_id' => $good_id])->select();
+        return $this->fetch('', ['good_id' => $good_id, 'referer' => $referer, 'title' => ' ' . $row_good->name . ' 商品大图', 'act' => 'update_img_bigs', 'list_img_big' => $list_img_big]);
+    }
+
+    public function update_img_bigs(Request $request) {
+        $good_id = $request->post('good_id');
+
+        $list_img_big = Db::table('good_img_bigs')->where(['st' => 1, 'good_id' => $good_id])->select();
+        foreach ($list_img_big as $img_big) {
+            $this->deleteImg($img_big['img_big']);
+        }
+        Db::table('good_img_bigs')->where(['st' => 1, 'good_id' => $good_id])->update(['st' => 0]);
+        $referer = $request->post('referer');
+
+        $this->saveById($good_id, new Good(), ['img_big_st' => 0]);
+        $this->success('清空大图成功', $referer, '', 1);
+    }
 }
