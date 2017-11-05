@@ -145,3 +145,65 @@ alter table shop_address add zuoji varchar(255) not null default '' comment '座
 alter table dingdan add type tinyint default 1 comment '1一般订单 2限量团购订单 3限人团购订单 ';
 
 alter table dingdan add group_id int default 0 comment '0表示不团购订单';
+
+
+-- 改表9
+DROP TABLE IF EXISTS `activity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '活动标题',
+  img varchar(255) default '' comment '图片',
+  `admin_id` int  NOT NULL DEFAULT 1 COMMENT '添加活动管理员',
+  `start_time` int NOT NULL DEFAULT 0 comment '活动开始时间', 
+  `end_time` int NOT NULL DEFAULT 0 comment '活动结束时间', 
+   address varchar(255) default '' comment '活动地址',
+   pnum int default 0 comment '已报名人数', 
+  info text comment '内容',
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+ 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='在线活动（平台发布）';
+alter table activity add img_big varchar(255) default '' comment '大图' after img;
+alter table activity add st tinyint default 1 comment '1正常 0删除';
+alter table activity add charm varchar(255) default '' comment '摘要';
+DROP TABLE IF EXISTS `activity_attend`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activity_attend` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity_id` int NOT NULL COMMENT '活动id',
+   truename varchar(255) not null default '' comment '姓名',
+  `mobile` varchar(50)  NOT NULL DEFAULT '' COMMENT '电话',
+  `xiaoqu` varchar(255) not null default '' comment '小区地址',
+   `nigou` varchar(100) default '' comment '拟购产品',
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+   key (activity_id)
+ 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='活动报名';
+alter table activity_attend add zuoji varchar(50) default '' comment '座机' after mobile;
+alter table setting add baoming_img_big varchar(255) default '' comment '报名宣传图';
+alter table setting add baoming_logan text  comment '报名宣传语';
+alter table setting add baoming_pnum text  comment '报名已参加为数';
+ alter table setting modify img varchar(255) not null default '' comment '平台设置列表图片';
+
+DROP TABLE IF EXISTS `good_img_bigs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `good_img_bigs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `good_id` int NOT NULL COMMENT '商品id',
+   img_big varchar(255) not null default '' comment '大图位置',
+  st tinyint default 1 comment '状态：1正常 0删除',
+  `create_time` int(11) DEFAULT '0',
+  `update_time` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+   key (good_id)
+ 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品大图（多个 ）';
+
+alter table good add img_big_st tinyint not null default 0 comment '0没有大图 1有大图';
