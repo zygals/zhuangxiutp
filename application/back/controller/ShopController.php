@@ -53,10 +53,10 @@ class ShopController extends BaseController {
 
         $data = $request->param();
 
-        $res = $this->validate($data, 'ShopValidate');
+      /*  $res = $this->validate($data, 'ShopValidate');
         if ($res !== true) {
             $this->error($res);
-        }
+        }*/
 
 
         $file = $request->file('img');

@@ -65,36 +65,36 @@
                             </div>
                         </div>
                         <div class="form-group ">
-                            <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>商家信息：</label>
+                            <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->商家信息：</label>
                         </div>
                         <div class="address_wrap" style="padding-left:80px;">
 
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span> 商家姓名：</label>
+                                <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>--> 商家姓名：</label>
                                 <div class="col-xs-8 ">
                                     <input type="text" class="form-control input-sm duiqi" name='truename' value="{$row_->truename}" id="" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>手机：</label>
+                                <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->手机：</label>
                                 <div class="col-xs-8 ">
                                     <input type="number" class="form-control input-sm duiqi" name='phone' value="{$row_->phone}" id="" placeholder="">
                                 </div>
                             </div>
 							<div class="form-group ">
-								<label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>座机：</label>
+								<label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->座机：</label>
 								<div class="col-xs-8 ">
 									<textarea name="zuoji"  cols="25" rows="5">{$row_->zuoji}</textarea>
 								</div>
 							</div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>城市：</label>
+                                <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->城市：</label>
                                 <div class="col-xs-8 ">
                                     <input type="text" class="form-control input-sm duiqi" name='city' value="{$row_->city}" id="" placeholder="如：北京">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>地址：</label>
+                                <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->地址：</label>
                                 <div class="col-xs-8 ">
                                     <input type="text" class="form-control input-sm duiqi" name='addr' value="{$row_->addr}" id="" placeholder="">
                                 </div>
@@ -142,7 +142,7 @@
                         }
 
                 },
-                truename: {
+              /*  truename: {
                     validators:
                         {
                             notEmpty: {
@@ -159,7 +159,7 @@
                             }
                         }
 
-                },
+                },*/
                 cate_id: {
                     validators:
                         {
@@ -169,7 +169,7 @@
                         }
 
                 },
-                city: {
+               /* city: {
                     validators: {
                         notEmpty: {
                             message: '不能为空'
@@ -187,7 +187,7 @@
 
                     }
                 },
-
+*/
 
             }
         });
