@@ -207,3 +207,6 @@ CREATE TABLE `good_img_bigs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品大图（多个 ）';
 
 alter table good add img_big_st tinyint not null default 0 comment '0没有大图 1有大图';
+
+
+
