@@ -27,30 +27,20 @@
 		</div>
 		<div class="col-xs-11">
 			<form method="get" action="{:url('index')}" id="searchForm">
-
 				<div class="col-xs-7">
 					<!-- <input type="text" name="name" value="{$Think.get.name}" class="form-control input-sm"
 							   placeholder="输入名称搜索">-->
-					<select name="type_id" style="color:inherit">
-						<option value="">--请选择类型--</option>
-						<?php foreach ( \app\back\model\Tuangou::$type_ as $row_ ) { ?>
-                            <option value="{$row_['type_id']}" {eq name="Think.get.type_id" value="$row_['type_id']"
-                                    }selected{/eq}>{$row_['name']}</option>
-                        <?php } ?>
-					</select>
-
 				</div>
 				<div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
 					<select class=" form-control" name="paixu">
 						<option value="">--请选择排序字段--</option>
-						<option value="price" {eq name="Think.get.paixu" value="price"
+						<option value="price_group" {eq name="Think.get.paixu" value="price_group"
 								}selected{
 						/eq}>价格</option>
-						<!--<option value="store" {eq name="Think.get.paixu" value="store"
-								}selected{/eq}>库存</option>-->
-						<option value="sales" {eq name="Think.get.paixu" value="sales"
+
+						<option value="attend_pnum" {eq name="Think.get.paixu" value="attend_pnum"
 								}selected{
-						/eq}>销量</option>
+						/eq}>已参加人数</option>
 						<option value="create_time" {eq name="Think.get.paixu" value="create_time"
 								}selected{
 						/eq}>添加时间</option>
@@ -62,9 +52,6 @@
 						<input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"
 							   value="desc"
 							   }checked{/eq}>降序</label>
-					<label class="">
-						<input type="checkbox" name="to_top" id="" value="1" {eq name="Think.get.to_top" value="1"
-							   }checked{/eq}>置顶</label>
 					<label class="">
 						<input type="checkbox" name="st" id="" value="2" {eq name="Think.get.st" value="2"
 							   }checked{/eq}>下架</label>
@@ -87,9 +74,9 @@
 			<div class="col-xs-1">
 				限人数
 			</div>
-			<div class="col-xs-1">
-				限量数
-			</div>
+<!--			<div class="col-xs-1">-->
+<!--				限量数-->
+<!--			</div>-->
 			<div class="col-xs-1">
 				团购价格
 			</div>
@@ -103,9 +90,9 @@
 			<div class="col-xs-1">
 				活动截止时间
 			</div>
-			<div class="col-xs-1">
-				类型
-			</div>
+<!--			<div class="col-xs-1">-->
+<!--				类型-->
+<!--			</div>-->
 			<div class="col-xs-">
 				操 作
 			</div>
@@ -123,7 +110,7 @@
 						<div class="col-xs-1 " title="{$row_->good_id}">
 							{$row_->good_name}
 						</div>
-						<?php if ( $row_->type == '限人' ) { ?>
+						<?php if ( $row_->pnum != '' ) { ?>
 							<div class="col-xs-1 " title="已参：{$row_->attend_pnum}人">
 								{$row_->pnum}
 							</div>
@@ -132,47 +119,58 @@
 								无
 							</div>
 						<?php } ?>
-						<?php if ( $row_->type == '限量' ) { ?>
-							<div class="col-xs-1 " title="已售：{$row_->already_sales}人">
-								{$row_->store}
-							</div>
-						<?php } else { ?>
-							<div class="col-xs-1 ">
-								无
-							</div>
-						<?php } ?>
+<!--						--><?php //if ( $row_->type == '限量' ) { ?>
+<!--							<div class="col-xs-1 " title="已售：{$row_->already_sales}人">-->
+<!--								{$row_->store}-->
+<!--							</div>-->
+<!--						--><?php //} else { ?>
+<!--							<div class="col-xs-1 ">-->
+<!--								无-->
+<!--							</div>-->
+<!--						--><?php //} ?>
 
 						<div class="col-xs-1 " title="{$row_->price_group}">
 							{$row_->price_group}
 						</div>
-						<?php if ( $row_->type == '限人' ) { ?>
+
 							<div class="col-xs-1 " title="{$row_->deposit}">
 								{$row_->deposit}
 							</div>
-						<?php } else { ?>
-							<div class="col-xs-1 ">
-								无
-							</div>
-						<?php } ?>
+
+
 						<div class="col-xs-1 " title="{$row_->group_st}">
 							{$row_->group_st}
 						</div>
-						<div class="col-xs-1" title="{$row_->end_time}">
-
-							<?php echo date( 'Y-m-d' , $row_->end_time ) ?>
-						</div>
-						<div class="col-xs-1">
-							{$row_->type}
-						</div>
+						<?php if($row_->end_time != 0){ ?>
+							<div class="col-xs-1" title="{$row_->end_time}">
+								<?php echo date( 'Y-m-d' , $row_->end_time ) ?>
+							</div>
+						<?php }else{ ?>
+							<div class="col-xs-1" title="{$row_->end_time}">
+								无
+							</div>
+						<?php } ?>
+<!--						<div class="col-xs-1">-->
+<!--							{$row_->type}-->
+<!--						</div>-->
 
 						<div class="col-xs-">
 							<a href="{:url('edit')}?id={$row_->id}">
 								<button class="btn btn-success btn-xs edit_" title="修改">修</button>
 							</a>
+
 							<?php if ( $row_->end_time <= time() ) { ?>
-								<a href="{:url('down')}?id={$row_->id}">
-									<button class="btn btn-success btn-xs edit_" title="下架">下</button>
-								</a>
+
+								<?php if ($row_->st == '下架') { ?>
+									<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
+											data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
+									</button>
+								<?php } else{?>
+									<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
+											data-target="#downSource" data-id="<?= $row_['id'] ?>" onclick="down_(this)" title="下架"> 下
+									</button>
+								<?php }?>
+
 								<?php if ( $row_->article_st == 0 ) { ?>
 									<a href="{:url('add')}?id={$row_->id}">
 										<button class="btn btn-success btn-xs edit_" title="总结">总结</button>
@@ -183,20 +181,6 @@
 									</a>
 								<?php } ?>
 							<?php } ?>
-
-							<!--                    --><?php //if ($row_->st == '下架') { ?>
-							<!--                            <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"-->
-							<!--                                    data-target="#deleteSource" data-id="-->
-							<? //= $row_['id'] ?><!--" onclick="del_(this)"> 删-->
-							<!--                            </button>-->
-							<!--                    --><?php //} else{?>
-							<!--                        <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"-->
-							<!--                                data-target="#downSource" data-id="-->
-							<? //= $row_['id'] ?><!--" onclick="down_(this)" title="下架"> 下-->
-							<!--                        </button>-->
-							<!--                        --><?php //}?>
-							<!-- <a href="{:url('good_attr/create')}?good_id={$row_->id}"><button class="btn <?php /*if($row_->is_add_attr==0){*/ ?>btn-info<?php /*}else{*/ ?>btn-danger<?php /*}*/ ?> btn-xs edit_" ><?php /*if($row_->is_add_attr==0){*/ ?> 完参数<?php /*}else{*/ ?>更参数<?php /*}*/ ?></button></a>-->
-
 						</div>
 					</div>
 				<?php } ?>

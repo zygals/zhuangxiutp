@@ -57,20 +57,28 @@
 
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>结束时间：</label>
-                        <div class="col-xs-8 ">
-                            <input type="date" class="form-control input-sm duiqi" name='end_time' value="<?php echo date('Y-m-d',$row_->end_time)?>" id="" placeholder="">
-                        </div>
+                        <?php if($row_->end_time != 0){ ?>
+                            <div class="col-xs-8 ">
+                                <input type="date" class="form-control input-sm duiqi" name='end_time' value="<?php echo date('Y-m-d',$row_->end_time)?>" id="" placeholder="">
+                            </div>
+                        <?php }else{ ?>
+                            <div class="col-xs-8 ">
+                                <input type="date" class="form-control input-sm duiqi" name='end_time' value="" id="" placeholder="">
+                            </div>
+                        <?php } ?>
                     </div>
 
 
-                    <div class="form-group">
-                        <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>活动类型：</label>
-                        <div class="col-xs-4 action-type">
-                            <label><input type="radio"  class="check_a"  name="type" value="1"  <?php echo $row_->type == '限人' ?'checked':''; ?> >限人</label>　　
-                            <label><input type="radio"  class="check_a"  name="type" value="2"  <?php echo $row_->type == '限量' ?'checked':''; ?> >限量团购</label>
+<!--                    <div class="form-group">-->
+<!--                        <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>活动类型：</label>-->
+<!--                        <div class="col-xs-4 action-type">-->
+<!--                            <label><input type="radio"  class="check_a"  name="type" value="1"  --><?php //echo $row_->type == '限人' ?'checked':''; ?><!-- >限人</label>　　-->
+<!--                            <label><input type="radio"  class="check_a"  name="type" value="2"  --><?php //echo $row_->type == '限量' ?'checked':''; ?><!-- >限量团购</label>-->
+<!---->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <input type="hidden" name="type" value="1">
 
-                        </div>
-                    </div>
                     <div class="form-group" id="div-1" style="display:<?php  echo $row_->type == '限人' ?'block':'none'; ?>;">
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>人数：</label>
                         <div class="col-xs-8 ">
@@ -146,7 +154,6 @@
                             message: '名称不能为空'
                         }
                     }
-
                 },
                 price: {
                     validators:
@@ -157,8 +164,6 @@
                     }
 
                 },
-
-
                 shop_id: {
                     validators: {
                         notEmpty: {
@@ -168,22 +173,27 @@
 
                     }
                 },
-
-                img: {
+                good_id: {
                     validators: {
                         notEmpty: {
-                            message: '请添加缩略图'
+                            message: '请选择'
                         }
                     }
                 },
-                img_big: {
+                price_group: {
                     validators: {
                         notEmpty: {
-                            message: '请添加详情页图'
+                            message: '请输入现价'
                         }
                     }
                 },
-
+                deposit: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入定金'
+                        }
+                    }
+                },
             }
         });
 
