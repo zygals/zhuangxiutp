@@ -6,36 +6,41 @@
 	.pagination li>a, .pagination li>span{color:inherit}
 </style>
 <div role="tabpanel" class="tab-pane" id="user" style="display:block;">
-    <!--  <div class="check-div form-inline row">
-               <div class="col-xs-2">
-                <a href="{:url('create')}"><button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addUser" id="create">添加广告图</button></a>
-		</div>
-		<div class="col-xs-10">
-            <form method="get" action="{:url('index')}" id="searchForm">
-                <div class="col-xs-7">
-                    <input type="text" name="name" value="{$Think.get.title}" class="form-control input-sm"
-                           placeholder="输入名称搜索">
-                </div>
-                <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
-                    <select class=" form-control" name="paixu">
-                        <option value="">--请选择排序字段--</option>
-                        <option value="sort" {eq name="Think.get.paixu" value="sort"
-                                }selected{/eq}>排序</option>
-                        <option value="create_time" {eq name="Think.get.paixu" value="create_time"
-                                }selected{/eq}>添加时间</option>
-                        <option value="update_time" {eq name="Think.get.paixu" value="update_time"
-                                }selected{/eq}>修改时间</option>
-                    </select>
-                    <label class="">
-                        <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type" value="desc"
-                               }checked{/eq}>降序</label>
+	<div class="check-div form-inline">
+		<div class="row">
+			<form method="get" action="{:url('index')}" id="searchForm">
+				<div class="col-xs-8">
+					<input type="text" id="" name="time_from" value="{$Think.get.time_from}"
+						   class="form-control input-sm date_input" placeholder="从？如：2017-02-03">
 
-                    <button class="btn btn-white btn-xs " type="submit">提交</button>
-                </div>
-            </form>
+					<input type="text" id="" name="time_to" value="{$Think.get.time_to}"
+						   class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
+
+
+				</div>
+				<div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
+					<select class=" form-control" name="paixu">
+						<option value="">--请选择排序字段--</option>
+						<option value="bestStar" {eq name="Think.get.paixu" value="bestStar"
+								}selected{/eq}>好评</option>
+						<option value="midStar" {eq name="Think.get.paixu" value="midStar"
+								}selected{/eq}>中评</option>
+						<option value="badStar" {eq name="Think.get.paixu" value="badStar"
+								}selected{/eq}>差评</option>
+					</select>
+
+					<label class="">
+						<input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"
+							   value="desc"
+							   }checked{/eq}>降序
+					</label>
+
+					<button class="btn btn-white btn-xs " type="submit">提交</button>
+				</div>
+			</form>
 		</div>
 
-	</div>-->
+	</div>
 	<div class="data-div">
 		<div class="row tableHeader">
             <div class="col-xs-1 ">
@@ -53,6 +58,9 @@
             <div class="col-xs-1">
                 内容
             </div>
+			<div class="col-xs-1">
+				评价
+			</div>
 
             <div class="col-xs-1">
                 添加时间
@@ -84,6 +92,9 @@
                 <div class="col-xs-1" title="{$row_->cont}">
                     {$row_->cont}
                 </div>
+				<div class="col-xs-1" title="{$row_->star}">
+					{$row_->star}
+				</div>
                 <div class="col-xs-1">
                     {$row_->create_time}
                 </div>
