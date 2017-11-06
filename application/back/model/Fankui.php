@@ -42,13 +42,13 @@ class Fankui extends Base {
             $where['fankui.create_time']=[['gt',strtotime($time_from)],['lt',strtotime($time_to)]];
         }
         if(!empty($data) && $data['paixu']=='bestStar'){
-            $where['star'] = 1;
+            $where['star'] = '好评';
         }
         if(!empty($data) && $data['paixu']=='midStar'){
-            $where['star'] = 2;
+            $where['star'] = '中评';
         }
         if(!empty($data) && $data['paixu']=='badStar'){
-            $where['star'] = 3;
+            $where['star'] = '差评';
         }
 
 

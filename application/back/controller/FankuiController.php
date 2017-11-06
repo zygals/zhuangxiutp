@@ -30,7 +30,6 @@ class FankuiController extends BaseController {
         if ($res !== true) {
             $this->error($res);
         }
-
         $list_ = Fankui::getListPage($data);
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
