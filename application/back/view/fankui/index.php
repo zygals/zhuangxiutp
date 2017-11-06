@@ -93,7 +93,13 @@
                     {$row_->cont}
                 </div>
 				<div class="col-xs-1" title="{$row_->star}">
-					{$row_->star}
+					<?php if($row_->star == '好评'){?>
+						{$row_->star}
+					<?php }elseif($row_->star == '中评'){ ?>
+						<span style="color:orange">{$row_->star}</span>
+					<?php }else{ ?>
+						<span style="color:red">{$row_->star}</span>
+					<?php } ?>
 				</div>
                 <div class="col-xs-1">
                     {$row_->create_time}
