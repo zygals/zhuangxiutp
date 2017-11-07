@@ -68,7 +68,7 @@ class ActivityController extends BaseController {
             return json($user_id);
         }
 
-        $data['user_id'] = $user_id;
+        $data['user_id'] = $user_id;unset($data['username']);
         //is add ?
         $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->find();
         if($row_attend){
