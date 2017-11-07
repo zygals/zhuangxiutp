@@ -4,6 +4,8 @@ namespace app\api\controller;
 
 use app\api\model\Dingdan;
 use app\api\model\Fankui;
+use app\api\model\OrderGood;
+use app\back\model\Shop;
 use think\Request;
 
 
@@ -34,6 +36,7 @@ class FankuiController extends BaseController {
             'user_name' => 'require',
             'order_id' => 'require|number',
             'cont' => 'require',
+            'shop_id'=>'require|number',
         ];
         $res = $this->validate($data, $rules);
         if (true !== $res) {
@@ -41,6 +44,16 @@ class FankuiController extends BaseController {
         }
 
         return json((new Fankui())->addFankui($data));
+    }
+
+    /**
+     * 获取评价商品信息
+     */
+    public function getInfo(Request $request){
+        $data = $request->param();
+        //获取订单信息&店铺信息&商品信息
+        $list_ = OrderGood::getListByOrderId($data['order_id']);
+        return json(['code'=>0,'msg'=>'fankui/getInfo','data'=>$list_]);
     }
 
 

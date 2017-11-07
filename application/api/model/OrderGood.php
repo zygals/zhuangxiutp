@@ -22,7 +22,6 @@ class OrderGood extends Base{
 		$where = ['order_id' => $order_id];
 		$list_ = self::where( $where )->order( 'create_time asc' )->field( 'id,name good_name,good_id,price,num,img,st,unit')->select();
 		return $list_;
-
 	}
 	/*
 	 *
@@ -44,6 +43,14 @@ class OrderGood extends Base{
 			$good->sales += $order_good->num;
 			$good->save();
 		}
+	}
+
+	/**
+	 * 通过order_id获取信息
+	 */
+	public static function getListByOrderId($data){
+		$row_ = self::where(['order_good.order_id'=>$data])->join('shop','shop.id=order_good.shop_id')->select();
+		return $row_;
 	}
 
 

@@ -12,15 +12,16 @@ class Fankui extends Base {
 
     public  function addFankui($data) {
         $good = OrderGood::getGood($data['order_id']);
+//        dump($good);exit;
         $user_id = User::getUserIdByName($data['user_name']);
-
+        unset($data['user_name']);
         $data_['order_id']= $data['order_id'];
         $data_['user_id']= $user_id;
-        $data_['good_id']= $good[0]->good_id;
         $data_['cont']= $data['cont'];
-
+        $data_['shop_id']= $data['shop_id'];
         $this->save($data_);
         Dingdan::updateSt(['st'=>'fankui','order_id'=>$data['order_id']]);
+
         return ['code'=>0,'msg'=>'add fankui ok'];
     }
     public static function getListPage($data=[]){
@@ -44,7 +45,7 @@ class Fankui extends Base {
         $row_->st=0;
         $row_->save();
         return ['code'=>0,'msg'=>'删除成功'];
-
     }
+
 
 }

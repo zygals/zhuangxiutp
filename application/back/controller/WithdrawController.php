@@ -18,7 +18,7 @@ class WithdrawController extends BaseController{
      */
     public function index(Request $request){
         $data = $request->param();
-        dump($data);exit;
+//        dump($data);exit;
         $list_ = Withdraw::getList($data);
         return $this->fetch('index',['list_'=>$list_]);
 

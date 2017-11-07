@@ -264,6 +264,7 @@ if (!function_exists('dump')) {
      */
     function dump($var, $echo = true, $label = null)
     {
+        echo "<meta charset='utf-8'>";
         return Debug::dump($var, $echo, $label);
     }
 }
