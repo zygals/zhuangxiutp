@@ -10,6 +10,10 @@ use think\Request;
 use app\api\model\Ad;
 class AdController extends BaseController
 {
+    /*
+     * ad list
+     * zhuangxiu-zyg
+     * */
 
    public function index() {
         $list_ad=Ad::getList(['paixu'=>'sort'],['st'=>1]);

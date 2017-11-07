@@ -17,7 +17,7 @@ class Ad extends Base {
     public static function getList($data=[],$where = ['st' => ['=', 1]]) {
         $order = "sort asc";
 
-        $list_ = self::where($where)->field('id,name,img')->order($order)->select();
+        $list_ = self::where($where)->field('*')->order($order)->select();
 
         return $list_;
 

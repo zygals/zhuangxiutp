@@ -5,7 +5,7 @@ use think\Validate;
 
 class AdValidate extends Validate{
 	protected $rule = [
-
+        'url_to'=>'number'
 
 	];
 	protected $message  =   [
