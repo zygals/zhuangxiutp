@@ -70,10 +70,10 @@ class ActivityController extends BaseController {
 
         $data['user_id'] = $user_id;unset($data['username']);
         //is add ?
-        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->find();
+        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
         if($row_attend){
-            $data['update_time'] = time();
-            Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->update($data);
+             $data['update_time'] = time();
+            Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->update($data);
             return json(['code'=>'0','msg'=>'update attend ok']);
         }
         $data['create_time'] = time();
