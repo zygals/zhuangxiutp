@@ -25,6 +25,7 @@ class GroupController extends BaseController {
     public function index(Request $request) {
 //        dump(1);exit;
         $data = $request->param();
+//        dump($data);exit;
 //        $isShopAdmin = Admin::isShopAdmin();
         $list_ = Tuangou::getList($data);
 
@@ -154,7 +155,7 @@ class GroupController extends BaseController {
     public function delete(Request $request) {
         $data = $request->param();
 
-        if( $this->deleteStatusById($data['id'],new Ad())){
+        if( $this->deleteStatusById($data['id'],new Tuangou())){
             $this->success('删除成功', $data['url'], '', 1);
         }else{
             $this->error('删除失败', $data['url'], '', 3);
@@ -162,7 +163,7 @@ class GroupController extends BaseController {
     }
 
     /*
-     * 下架商品
+     * 下架团购活动
      * */
     public function down(Request $request) {
         $data = $request->param();
@@ -181,6 +182,11 @@ class GroupController extends BaseController {
         $row_->save();
         $this->success('下架成功','index', '', 1);
     }
+
+    /**
+     * 删除下架的团购活动
+     */
+
 
     /**
      * @param Request $request

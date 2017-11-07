@@ -78,14 +78,14 @@ $('#cate_name_label').html(cate_name);
                         </div>
 
 
-                        <div class="form-group">
-                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>活动类型：</label>
-                            <div class="col-xs-4 action-type">
-                                <label><input type="radio"  class="check_a"  name="type" value="1"  checked>限人</label>　　
-                                <label><input type="radio"  class="check_a"  name="type" value="2" >限量团购</label>
-
-                            </div>
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>活动类型：</label>-->
+<!--                            <div class="col-xs-4 action-type">-->
+<!--                                <label><input type="radio"  class="check_a"  name="type" value="1"  checked>限人</label>　　-->
+<!--                                <label><input type="radio"  class="check_a"  name="type" value="2" >限量团购</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <input type="hidden" name="type" value="1">
                         <div class="form-group" id="div-1">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>人数：</label>
                             <div class="col-xs-8 ">
@@ -162,7 +162,6 @@ $('#cate_name_label').html(cate_name);
                                 message: '名称不能为空'
                             }
                         }
-
                 },
                 price: {
                     validators:
@@ -173,8 +172,6 @@ $('#cate_name_label').html(cate_name);
                         }
 
                 },
-
-
                 shop_id: {
                     validators: {
                         notEmpty: {
@@ -184,22 +181,27 @@ $('#cate_name_label').html(cate_name);
 
                     }
                 },
-
-                img: {
+                good_id: {
                     validators: {
                         notEmpty: {
-                            message: '请添加缩略图'
+                            message: '请选择'
                         }
                     }
                 },
-                img_big: {
+                price_group: {
                     validators: {
                         notEmpty: {
-                            message: '请添加详情页图'
+                            message: '请输入现价'
                         }
                     }
                 },
-
+                deposit: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入定金'
+                        }
+                    }
+                },
             }
         });
 

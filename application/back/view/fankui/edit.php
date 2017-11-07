@@ -26,6 +26,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>评价：</label>
+                        <label for="sName" class="col-xs-1 control-label"><input type="radio" name="star" value="1" <?php echo $row_->star=='好评'?'checked':'' ?>>好评</label>
+                        <label for="sName" class="col-xs-1 control-label"><input type="radio" name="star" value="2" <?php echo $row_->star=='中评'?'checked':'' ?>>中评</label>
+                        <label for="sName" class="col-xs-1 control-label"><input type="radio" name="star" value="3" <?php echo $row_->star=='差评'?'checked':'' ?>>差评</label>
+                    </div>
+                    <div class="form-group">
                         <label for="situation" class="col-xs-3 control-label">状态：</label>
                         <div class="col-xs-8">
                             <label class="control-label" >

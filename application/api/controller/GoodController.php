@@ -5,6 +5,7 @@ namespace app\api\controller;
 use app\api\model\Collect;
 use app\api\model\Good;
 use app\api\model\GoodAttr;
+use app\api\model\GoodImgBigs;
 use think\Request;
 use app\api\model\Cate;
 
@@ -63,6 +64,14 @@ class GoodController extends BaseController {
         }
         return json(Good::findOne($data));
 
+    }
+
+    /**
+     * 商品多图接口
+     */
+    public function images(Request $requset){
+        $data = $requset->param();
+        return json(GoodImgBigs::getImg($data['good_id']));
     }
 
 

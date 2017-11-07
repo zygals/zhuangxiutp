@@ -32,14 +32,20 @@ class Tuangou extends model{
     public static function getList($data = [] , $field = 'tuangou.*,shop.name shop_name,good.name good_name' , $where = ['tuangou.st' => [['<>' , 0] , ['<>' , 2]]]){
 		$order = "tuangou.create_time desc";
       if(!empty($data['type_id'])){
-           $where['tuangou.type'] = $data['type_id'];
+           $where['tuangou.st'] = $data['type_id'];
        }
-//        if (!empty($data['paixu'])) {
-//            $order = $data['paixu'] . ' asc';
-//        }
-//        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
-//            $order = $data['paixu'] . ' desc';
-//        }
+        if (!empty($data['paixu'])) {
+            $order = $data['paixu'] . ' asc';
+        }
+        if (!empty($data['paixu']) && !empty($data['sort_type'])) {
+            $order = $data['paixu'] . ' desc';
+        }
+		if(!empty($data['group_price'])){
+			$order = 'tuangou'.$data['price_group'].'asc';
+		}
+		if(!empty($data['st']) ){
+			$where['tuangou.st']= ['=',2];
+		}
 		$list_group = self::select();
 //        dump($row);
 		foreach ( $list_group as $key => $group ) {
@@ -53,15 +59,15 @@ class Tuangou extends model{
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 3] );
 					}
 					break;
-				case '限量':
-					//判断条件:活动正在进行,但团购数量已满足最大值
-					if ( $group['end_time'] > time() && $group['already_sales'] >= $group['store'] ) {
-						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
-						//判断条件:活动已结束
-					} elseif ( $group['end_time'] <= time() ) {
-						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
-					}
-					break;
+//				case '限量':
+//					//判断条件:活动正在进行,但团购数量已满足最大值
+//					if ( $group['end_time'] > time() && $group['already_sales'] >= $group['store'] ) {
+//						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
+//						//判断条件:活动已结束
+//					} elseif ( $group['end_time'] <= time() ) {
+//						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
+//					}
+//					break;
 			}
 		}
 		$list_ = self::where( $where )->join( 'shop' , 'shop.id=tuangou.shop_id' )->join( 'good' , 'good.id=tuangou.good_id' )->field( $field )->order( $order )->paginate();

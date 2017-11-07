@@ -23,13 +23,13 @@ class FankuiController extends BaseController {
     public function index(Request $request) {
 //return 123;
         $data = $request->param();
+//        dump($data);exit;
         $rules = ['time_from' => 'date', 'time_to' => 'date'];
         $msg = ['time_from' => '日期格式有误', 'time_to' => '日期格式有误'];
         $res = $this->validate($request->get(), $rules, $msg);
         if ($res !== true) {
             $this->error($res);
         }
-
         $list_ = Fankui::getListPage($data);
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);

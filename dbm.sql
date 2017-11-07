@@ -70,6 +70,10 @@ ADD COLUMN `tuangou_id`  int(11) NULL COMMENT '团购活动总结' AFTER `baomin
 ALTER TABLE `tuangou`
 ADD COLUMN `article_st`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否添加了总结   1为加总结   0为没加' AFTER `group_st`;
 
+ALTER TABLE `fankui`
+ADD COLUMN `star`  tinyint(4) NULL DEFAULT 1 COMMENT '1  好评   2中评  3差评' AFTER `update_time`;
+
+
 
 
 

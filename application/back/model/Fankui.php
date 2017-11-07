@@ -9,6 +9,10 @@ class Fankui extends Base {
         $st = [0=>'deleted',1=>'正常','不显示'];
         return $st[$value];
     }
+    public function getStarAttr($value){
+        $star = [1=>'好评',2=>'中评',3=>'差评'];
+        return $star[$value];
+    }
 
     public  function addFankui($data) {
         $good = OrderGood::getGood($data['order_id']);
@@ -24,7 +28,31 @@ class Fankui extends Base {
         return ['code'=>0,'msg'=>'add fankui ok'];
     }
     public static function getListPage($data=[]){
-        $list_ = self::where(['fankui.st'=>['<>',0]])->join('dingdan','fankui.order_id=dingdan.id')->join('user','fankui.user_id=user.id')->join('shop','fankui.shop_id=shop.id')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
+        $order = 'create_time desc';
+        $where = ['fankui.st'=>['<>',0]];
+        $time_from = isset($data['time_from'])?$data['time_from']:'';
+        $time_to = isset($data['time_to'])?$data['time_to']:'';
+        if(!empty($time_from)){
+            $where['fankui.create_time']=['gt',strtotime($time_from)];
+        }
+        if(!empty($time_to)){
+            $where['fankui.create_time']=['lt',strtotime($time_to)];
+        }
+        if(!empty($time_to) && !empty($time_from)){
+            $where['fankui.create_time']=[['gt',strtotime($time_from)],['lt',strtotime($time_to)]];
+        }
+        if(!empty($data) && $data['paixu']=='bestStar'){
+            $where['star'] = '好评';
+        }
+        if(!empty($data) && $data['paixu']=='midStar'){
+            $where['star'] = '中评';
+        }
+        if(!empty($data) && $data['paixu']=='badStar'){
+            $where['star'] = '差评';
+        }
+
+
+        $list_ = self::where($where)->join('dingdan','fankui.order_id=dingdan.id')->join('user','fankui.user_id=user.id')->join('shop','fankui.shop_id=shop.id')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
         return $list_;
     }
     public static function getList($data){
