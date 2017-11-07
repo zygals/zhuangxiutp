@@ -82,6 +82,10 @@
         </div>
     </div>
 </div>
+<!--页码块-->
+<footer class="footer">
+    {$page_str}
+</footer>
 
 <!-- /.modal -->
 <!--弹出删除资源警告窗口-->

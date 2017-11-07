@@ -46,7 +46,10 @@
             $(".date_input").datepicker();
         });
     </script>
-
+    <style>
+        .pagination li.disabled>a, .pagination li.disabled>span{color:inherit;}
+        .pagination li>a, .pagination li>span{color:inherit}
+    </style>
 </head>
 
 <body>

@@ -28,7 +28,7 @@ class Admin extends Base {
 
     public static  function getList($data=[]){
         $order = "create_time asc";
-        $where = ['st'=>['<>',0]];
+        $where = ['st'=>['=',1]];
         if (!empty($data['name_'])) {
             $where[] = ['name|truename'=>'like', '%' . $data['name_'] . '%'];
         }
