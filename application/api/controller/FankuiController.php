@@ -64,6 +64,14 @@ class FankuiController extends BaseController {
         return json(['code'=>0,'msg'=>'fankui/getInfo','data'=>$list_]);
     }
 
+    /**
+     * 获取用户所有评论详情
+     */
+    public function getFankui(Request $request){
+        $data = $request->param();
+        return json(Fankui::getEvalute($data));
+    }
+
 
 
     /**

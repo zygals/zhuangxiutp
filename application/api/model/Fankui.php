@@ -2,6 +2,7 @@
 
 namespace app\api\model;
 
+use app\back\model\User;
 use think\Model;
 
 class Fankui extends Base {
@@ -45,6 +46,22 @@ class Fankui extends Base {
         $row_->st=0;
         $row_->save();
         return ['code'=>0,'msg'=>'删除成功'];
+    }
+    /**
+     * 获取用户所有的评价
+     */
+    public static function getEvalute($data){
+        $user_id = User::getUserIdByName($data['username']);
+        $row_ = self::where('user_id',$user_id)->join('user','user.id=fankui.user_id')->order('create_time desc')->select();
+        if($row_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'暂无评论'];
+        }
+        //获取评价数
+        $evalute['best'] = self::where(['user_id'=>$user_id,'star'=>1])->count();
+        $evalute['mid'] = self::where(['user_id'=>$user_id,'star'=>2])->count();
+        $evalute['bad'] = self::where(['user_id'=>$user_id,'star'=>3])->count();
+        $row_['evalute'] = $evalute;
+        return ['code'=>0,'msg'=>'fankui/getFankui','data'=>$row_];
     }
 
 
