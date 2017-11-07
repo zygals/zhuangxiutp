@@ -59,7 +59,7 @@ class Baoming extends Base {
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_ = self::where(['user_id' => $user_id])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
+        $list_ = self::where(['user_id' => $user_id,'st'=>1])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
         if ($list_->isEmpty()) {
             return ['code' => __LINE__, 'msg' => 'baoming not exists'];
         }
@@ -89,7 +89,7 @@ class Baoming extends Base {
         if (is_array($user_id)) {
             return $user_id;
         }
-        $row_ = self::where(['user_id' => $user_id])->find();
+        $row_ = self::where(['user_id' => $user_id,'st'=>1])->field('truename,mobile,address,id,from_unixtime(time_to,"%Y-%m-%d") time_to')->find();
         if ($row_) {
             return ['code' => 0, 'msg' => 'my baoming ok', 'data' => $row_];
         }
