@@ -33,7 +33,7 @@ class FankuiController extends BaseController {
     public function save(Request $request) {
         $data = $request->param();
         $rules = [
-            'user_name' => 'require',
+            'user_id' => 'require|number',
             'order_id' => 'require|number',
             'cont' => 'require',
             'shop_id'=>'require|number',
@@ -42,8 +42,13 @@ class FankuiController extends BaseController {
         if (true !== $res) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-
-        return json((new Fankui())->addFankui($data));
+        $fankui = new Fankui();
+        $fankui->save($data);
+        if($fankui !== false){
+            return json(['code'=>0,'msg'=>'fankui/save'])
+        }else{
+            return json(['code'=>__LINE__,'msg'=>'save failed'])
+        }
     }
 
     /**
