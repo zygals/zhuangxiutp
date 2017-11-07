@@ -30,7 +30,7 @@ class Dingdan extends Base{
 		return $status[$value];
 	}
 	public function getTypeAttr($value){
-		$status = [ 1 => '普通' , 2 => '限量' , 3 => '限人' ];
+		$status = [ 1 => '普通' , 2 => '限量' , 3 => '限人',4=>'订金',5=>'全款' ];
 		return $status[$value];
 	}
 	/*

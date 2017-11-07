@@ -88,8 +88,8 @@
                             {$row_->name}
                         </div>
 
-                        <div class="col-xs-1 " title="{$row_->url_to}">
-                            {$row_->url_to}
+                        <div class="col-xs-1 " title="{$row_->url_to}-{$row_->url_bianhao}">
+                            {$row_->url_to}-{$row_->url_bianhao}
 
                         </div>
 

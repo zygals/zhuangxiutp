@@ -38,7 +38,7 @@ class Shop extends Base{
 	public static function getList($data = []){
 		$field = 'shop.id shop_id,shop.name shop_name,shop.ordernum,shop.tradenum,shop.img,shop.logo,cate.name cate_name';
 		$where = ['shop.st' => 1];
-		$order = "shop.ordernum desc,shop.tradenum desc,shop.create_time desc";//默认销量排序
+		$order = "shop.ordernum desc,shop.tradenum desc,shop.create_time asc";//默认销量排序,否则按时间
 		if ( !empty( $data['cate_id'] ) ) {
 			$where['cate_id'] = $data['cate_id'];
 		}
