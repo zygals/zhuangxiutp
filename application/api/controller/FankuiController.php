@@ -41,9 +41,13 @@ class FankuiController extends BaseController {
         if (true !== $res) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
+        $data_['order_id'] = $data['order_id'];
+        $data_['st'] = 'fankui';
+
         $fankui = new Fankui();
         $fankui->save($data);
         if($fankui !== false){
+            Dingdan::updateSt($data_);
             return json(['code'=>0,'msg'=>'fankui/save']);
         }else{
             return json(['code'=>__LINE__,'msg'=>'save failed']);
