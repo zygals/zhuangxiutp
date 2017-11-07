@@ -104,7 +104,7 @@ class ActivityController extends BaseController {
         if(is_array($user_id)){
             return json($user_id);
         }
-        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->find();
+        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
         if($row_attend){
             return json(['code' => 0, 'msg' => 'my attend ok','data'=>$row_attend]);
         }
