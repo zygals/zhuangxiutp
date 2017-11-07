@@ -120,10 +120,10 @@ class ShopController extends BaseController {
         $data = $request->param();
         $referer = $data['referer'];
         unset($data['referer']);
-        $res = $this->validate($data, 'ShopValidate');
+    /*    $res = $this->validate($data, 'ShopValidate');
         if ($res !== true) {
             $this->error($res);
-        }
+        }*/
 
         $row_ = $this->findById($data['id'], new Shop());
 //        dump($row_);exit;
