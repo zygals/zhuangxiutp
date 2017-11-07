@@ -45,9 +45,9 @@ class FankuiController extends BaseController {
         $fankui = new Fankui();
         $fankui->save($data);
         if($fankui !== false){
-            return json(['code'=>0,'msg'=>'fankui/save'])
+            return json(['code'=>0,'msg'=>'fankui/save']);
         }else{
-            return json(['code'=>__LINE__,'msg'=>'save failed'])
+            return json(['code'=>__LINE__,'msg'=>'save failed']);
         }
     }
 
