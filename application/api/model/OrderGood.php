@@ -49,7 +49,7 @@ class OrderGood extends Base{
 	 * 通过order_id获取信息
 	 */
 	public static function getListByOrderId($data){
-		$field = 'ordernu,shop.name shop_name,order_good.img,order_good.name,order_good.good_id,order_good.shop_id,dingdan.user_id,dingdang.order_id';
+		$field = 'dingdan.orderno,shop.name shop_name,order_good.img,order_good.name,order_good.good_id,order_good.shop_id,dingdan.user_id,dingdang.order_id';
 		$row_ = self::where(['order_good.order_id'=>$data])->join('dingdan','dingdan.id=order_good.order_id')->join('shop','shop.id=order_good.shop_id')->field($field)->select();
 		return $row_;
 	}
