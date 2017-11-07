@@ -4,6 +4,7 @@ namespace app\api\model;
 
 use app\back\model\User;
 use think\Model;
+use think\Request;
 
 class Fankui extends Base {
     public function getStAttr($value){
@@ -63,6 +64,18 @@ class Fankui extends Base {
         $evalute['bad'] = self::where(['user_id'=>$user_id,'star'=>3])->count();
         $row_['evalute'] = $evalute;
         return ['code'=>0,'msg'=>'fankui/getFankui','data'=>$row_];
+    }
+
+    /**
+     * 获取店铺所有的评价
+     */
+    public static function getShopEvalute($data){
+        $field = 'fankui.*,nickname,vistar';
+        $row_ = self::where('shop_id',$data['shop_id'])->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->select();
+        if($row_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'暂无评论'];
+        }
+        return ['code'=>0,'msg'=>'fankui/getShop','data'=>$row_];
     }
 
 

@@ -72,6 +72,14 @@ class FankuiController extends BaseController {
         return json(Fankui::getEvalute($data));
     }
 
+    /**
+     * 获取店铺所有的评价
+     */
+    public function getShop(Request $request){
+        $data = $request->param();
+        return json(Fankui::getShopEvalute($data));
+    }
+
 
 
     /**
