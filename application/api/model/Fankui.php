@@ -52,7 +52,7 @@ class Fankui extends Base {
      */
     public static function getEvalute($data){
         $user_id = User::getUserIdByName($data['username']);
-        $field = 'fankui.*,user.nickname,user.vistar,';
+        $field = 'fankui.*,nickname,vistar';
         $row_ = self::where('user_id',$user_id)->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->select();
         if($row_->isEmpty()){
             return ['code'=>__LINE__,'msg'=>'暂无评论'];
