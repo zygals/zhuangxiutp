@@ -35,7 +35,6 @@ class FankuiController extends BaseController {
         $rules = [
             'user_id' => 'require|number',
             'order_id' => 'require|number',
-            'cont' => 'require',
             'shop_id'=>'require|number',
         ];
         $res = $this->validate($data, $rules);
