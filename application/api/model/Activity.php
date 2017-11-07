@@ -37,9 +37,9 @@ class Activity extends Base {
         $list_ = self::where($where)->field('id,name,img,charm')->order('create_time desc')->select();
 
         if ($list_->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => 'activity now not exists'];
+            return ['code' => __LINE__, 'msg' => 'activity history not exists'];
         }
-        return ['code' => 0, 'msg' => 'activity now ok', 'data' => $list_];
+        return ['code' => 0, 'msg' => 'activity history ok', 'data' => $list_];
 
     }
 

@@ -69,7 +69,7 @@
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">摘要：</label>
                         <div class="col-xs-8 ">
-                            <textarea name="charm" id="" cols="50" rows="15">{$row_->charm}</textarea>
+                            <textarea name="charm" id="" cols="50" rows="8">{$row_->charm}</textarea>
                         </div>
                     </div>
                 </div>

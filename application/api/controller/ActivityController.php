@@ -5,6 +5,7 @@ namespace app\api\controller;
 
 use app\api\model\Activity;
 
+use app\api\model\User;
 use app\back\model\Base;
 use think\Db;
 use think\Request;
@@ -56,11 +57,24 @@ class ActivityController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-        $rule = ['activity_id' => 'require|number', 'truename' => 'require', 'mobile' => 'require', 'zuoji' => 'require', 'xiaoqu' => 'require'];
+        $rule = ['activity_id' => 'require|number','username'=>'require', 'truename' => 'require', 'mobile' => 'require', 'xiaoqu' => 'require'];
         $res = $this->validate($data, $rule);
         //dump( $res);exit;
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $user_id = User::getUserIdByName($data['username']);
+        if(is_array($user_id)){
+            return json($user_id);
+        }
+
+        $data['user_id'] = $user_id;
+        //is add ?
+        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->find();
+        if($row_attend){
+            $data['update_time'] = time();
+            Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->update($data);
+            return json(['code'=>'0','msg'=>'update attend ok']);
         }
         $data['create_time'] = time();
         $data['update_time'] = time();
@@ -71,5 +85,32 @@ class ActivityController extends BaseController {
         (new Activity())->where('id', $data['activity_id'])->setInc('pnum');
         return json(['code' => 0, 'msg' => 'save attend ok']);
     }
+
+    /**
+     * 取我的报名
+     * zhuangxiu-zyg
+     *
+     * @return \think\Response
+     */
+    public function read_attend(Request $request){
+        $data = $request->param();
+        $rule = ['activity_id' => 'require|number','username'=>'require'];
+        $res = $this->validate($data, $rule);
+        //dump( $res);exit;
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        $user_id = User::getUserIdByName($data['username']);
+        if(is_array($user_id)){
+            return json($user_id);
+        }
+        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'id'=>$data['activity_id']])->find();
+        if($row_attend){
+            return json(['code' => 0, 'msg' => 'my attend ok','data'=>$row_attend]);
+        }
+        return json(['code' => __LINE__, 'msg' => 'my attend not']);
+    }
+
+
 
 }

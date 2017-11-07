@@ -22,7 +22,7 @@ class ShopAddress extends Base {
     }
 
 
-    public static function getAddressByShop($shop_id,$field='id,name_,truename_,mobile_,address_'){
+    public static function getAddressByShop($shop_id,$field='id,name_,truename_,mobile_,address_,zuoji'){
         $list_ = self::where(['shop_id'=>$shop_id,'st'=>1])->field($field)->select();
         return $list_;
     }

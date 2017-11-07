@@ -52,9 +52,7 @@
             <div class="col-xs-1">
                 电话
             </div>
-            <div class="col-xs-1">
-                座机
-            </div>
+
             <div class="col-xs-2">
                 小区地址
             </div>
@@ -85,9 +83,7 @@
                 <div class="col-xs-1" title="{$row_->mobile}">
                     {$row_->mobile}
                 </div>
-                <div class="col-xs-1" title="{$row_->zuoji}">
-                    {$row_->zuoji}
-                </div>
+
                 <div class="col-xs-2" title="{$row_->xiaoqu}">
                     {$row_->xiaoqu}
                 </div>
