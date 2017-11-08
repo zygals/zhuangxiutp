@@ -50,7 +50,7 @@ class Fankui extends Base {
         if(!empty($data) && $data['paixu']=='3'){
             $where['star'] = $data['paixu'];
         }
-        $list_ = self::where($where)->join('dingdan','fankui.order_id=dingdan.id')->join('user','fankui.user_id=user.id')->join('shop','fankui.shop_id=shop.id')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
+        $list_ = self::where($where)->join('dingdan','fankui.order_id=dingdan.id','left')->join('user','fankui.user_id=user.id','left')->join('shop','fankui.shop_id=shop.id','left')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
         return $list_;
     }
     public static function getList($data){
