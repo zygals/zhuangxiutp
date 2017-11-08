@@ -24,8 +24,6 @@
 						<option value="badStar" {eq name="Think.get.paixu" value="badStar"
 								}selected{/eq}>差评</option>
 					</select>
-
-
 				</div>
 				<div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
 
