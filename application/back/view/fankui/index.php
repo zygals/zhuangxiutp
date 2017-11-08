@@ -17,11 +17,11 @@
 						   class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
 					<select class=" form-control" name="paixu">
 						<option value="">--请选择评价--</option>
-						<option value="bestStar" {eq name="Think.get.paixu" value="bestStar"
+						<option value="1" {eq name="Think.get.paixu" value="1"
 								}selected{/eq}>好评</option>
-						<option value="midStar" {eq name="Think.get.paixu" value="midStar"
+						<option value="2" {eq name="Think.get.paixu" value="2"
 								}selected{/eq}>中评</option>
-						<option value="badStar" {eq name="Think.get.paixu" value="badStar"
+						<option value="3" {eq name="Think.get.paixu" value="3"
 								}selected{/eq}>差评</option>
 					</select>
 				</div>
