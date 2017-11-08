@@ -124,6 +124,10 @@ class Dingdan extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
+		//如果已添加不重复
+		if(self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$data['t_id']])->find()){
+			return ['code'=>__LINE__,'msg'=>'不能重复添加'];
+		}
 		$row_group = self::getById($data['t_id'],new Tuangou());
 		if(!$row_group){
 			return ['code'=>__LINE__,'msg'=>'团购数据没有'];
