@@ -55,7 +55,30 @@
 
                         </div>
 
-
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->订金：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='deposit' value="" id="" placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->订金优惠：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='youhui' value="" id="" placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->全款：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='money_all' value="" id="" placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->全款优惠：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='youhui_all' value="" id="" placeholder="">
+							</div>
+						</div>
                       <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->商家信息：</label>
 
