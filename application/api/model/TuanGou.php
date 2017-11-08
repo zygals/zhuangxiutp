@@ -6,7 +6,10 @@
 
     class TuanGou extends Base{
         protected $table = 'tuangou';
-
+		public function getGroupStAttr($groupalue){
+			$status = [1 => '正在进行' , 2 => '活动成功'/* , 3 => '活动失败'*/];
+			return $status[$groupalue];
+		}
         /**
          * 查询正在进行的团购活动
          */
@@ -81,7 +84,7 @@
 
         public static function getPnumList($t_id){
 
-            $field = 'tuangou.id t_id,good.price good_price,price_group,pnum,attend_pnum,which_info,desc,imgs,good.img,good.unit,good.name good_name,shop.name shop_name,tuangou.deposit,img_big_st,good.id good_id';
+            $field = 'tuangou.id t_id,tuangou.group_st,good.price good_price,price_group,pnum,attend_pnum,which_info,desc,imgs,good.img,good.unit,good.name good_name,shop.name shop_name,tuangou.deposit,img_big_st,good.id good_id';
             $list = self::where(['tuangou.id'=>$t_id,'tuangou.st'=>1])->join('good','good.id=tuangou.good_id','left')->join('shop','shop.id=tuangou.shop_id','left')->field($field)->find();
             return $list;
         }
