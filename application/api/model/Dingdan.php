@@ -125,14 +125,16 @@ class Dingdan extends Base{
 			return $user_id;
 		}
 		//如果已添加不重复
-		if(self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$data['t_id']])->find()){
+		if($row=self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$data['t_id']])->find()){
 			return ['code'=>__LINE__,'msg'=>'不能重复添加'];
 		}
+		//dump($row);exit;
 		$row_group = self::getById($data['t_id'],new Tuangou());
 		if(!$row_group){
 			return ['code'=>__LINE__,'msg'=>'团购数据没有'];
 		}
 		$data_order['shop_id'] =$row_group->shop_id;
+		$data_order['group_id'] =$row_group->id;
 		$data_order['sum_price'] =$row_group->deposit;
 		$data_order['orderno'] = $this->makeTradeNo($data['username']);
 		$data_order['type'] = self::ORDER_TYPE_GROUP_DEPOSIT;
