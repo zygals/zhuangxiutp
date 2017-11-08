@@ -350,7 +350,7 @@ class Dingdan extends Base{
 	 * @return \think\Response
 	 */
 	public static function updatePaySt($data){
-		if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP  || $data['type_']==Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_']==Dingdan::ORDER_TYPE_SHOP_MONEY_ALL) {
+		if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP  || $data['type_']==Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_']==Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_']==Dingdan::ORDER_TYPE_GROUP_DEPOSIT ) {
 			$row_order = self::find( ['id' => $data['order_id']] );
 			if ( !$row_order ) {
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];

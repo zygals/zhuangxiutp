@@ -10,7 +10,7 @@ class Pay extends Base {
 		if(is_array($user_id)){
 			return json($user_id);
 		}
-		if($data['type_']==Dingdan::ORDER_TYPE_SHOP || $data['type_']==Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_']==Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
+		if($data['type_']==Dingdan::ORDER_TYPE_SHOP || $data['type_']==Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_']==Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_']==Dingdan::ORDER_TYPE_GROUP_DEPOSIT){
 		//单商家订单
 			$row_order = Dingdan::where(['id'=>$data['order_id']])->find();
 			$fee = $row_order->sum_price;
