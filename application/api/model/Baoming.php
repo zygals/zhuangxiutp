@@ -50,22 +50,7 @@ class Baoming extends Base {
         return ['code' => 0, 'msg' => '修改成功'];
     }
 
-    /**
-     * 查询我的报名
-     *zhuangxiu-zyg
-     */
-    public static function getList($username) {
-        $user_id = User::getUserIdByName($username);
-        if (is_array($user_id)) {
-            return $user_id;
-        }
-        $list_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
-        if ($list_->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => '暂无数据'];
-        }
-        return ['code' => 0, 'msg' => '数据成功', 'data' => $list_];
 
-    }
 
     /**
      *查询报名人数
@@ -84,12 +69,15 @@ class Baoming extends Base {
      *zhuangxiu-zyg
      */
 
-    public static function findOne($username) {
+ public static function findOne($username) {
         $user_id = \app\api\model\User::getUserIdByName($username);
         if (is_array($user_id)) {
             return $user_id;
         }
-        $row_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('truename,mobile,address,id,from_unixtime(time_to,"%Y-%m-%d") time_to')->find();
+        $row_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->order('create_time desc')->field('truename,mobile,address,id,from_unixtime(time_to,"%Y-%m-%d") time_to,st')->find();
+	 if($row_->time_to=='1970-01-01'){
+		 $row_->time_to='';
+	 }
         if ($row_) {
             return ['code' => 0, 'msg' => '获取成功', 'data' => $row_];
         }
