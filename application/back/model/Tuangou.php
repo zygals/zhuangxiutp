@@ -18,8 +18,9 @@ class Tuangou extends model{
 		$status = [0 => '删除' , 1 => '正在进行' , 2 => '下架'];
 		return $status[$groupalue];
 	}
+	//默认失败,当人数达到则成功.
     public function getGroupStAttr($groupalue){
-		$status = [1 => '正在进行' , 2 => '活动成功' , 3 => '活动失败'];
+		$status = [1 => '正在进行' , 2 => '活动成功'/* , 3 => '活动失败'*/];
 		return $status[$groupalue];
 	}
     public static function getListAll(){
@@ -52,11 +53,11 @@ class Tuangou extends model{
 			switch ( $group['type'] ) {
 				case '限人':
 					//判断条件:活动正在进行,团购人数已满足最低要求
-					if ( $group['end_time'] > time() && $group['attend_pnum'] >= $group['pnum'] ) {
+					if ( /*$group['end_time'] > time() &&*/ $group['attend_pnum'] >= $group['pnum'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
 						//判断条件:活动已结束,团购人数不满足最低要求
-					} elseif ( $group['end_time'] <= time() && $group['attend_pnum'] < $group['pnum'] ) {
-						self::where( 'id' , $group['id'] )->update( ['group_st' => 3] );
+					} elseif ( /*$group['end_time'] <= time() &&*/ $group['attend_pnum'] < $group['pnum'] ) {
+						self::where( 'id' , $group['id'] )->update( ['group_st' => 1] );
 					}
 					break;
 //				case '限量':

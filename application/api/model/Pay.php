@@ -19,10 +19,10 @@ class Pay extends Base {
 			$fee = $row_order->sum_price_all;
 		}
 		if(!$row_order){
-			return ['code'=>__LINE__,'msg'=>'order not exists'];
+			return ['code'=>__LINE__,'msg'=>'订单不存在'];
 		}
 		if($row_order->st=='已支付'){
-			return ['code'=>__LINE__,'msg'=>'order paid'];
+			return ['code'=>__LINE__,'msg'=>'订单已支付'];
 		}
 		$appid = config('wx_appid');//如果是公众号 就是公众号的appid
 		$mch_id =  config('wx_mchid');

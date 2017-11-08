@@ -87,9 +87,9 @@
 				团购状态
 			</div>
 
-			<div class="col-xs-1">
+			<!--<div class="col-xs-1">
 				活动截止时间
-			</div>
+			</div>-->
 <!--			<div class="col-xs-1">-->
 <!--				类型-->
 <!--			</div>-->
@@ -142,13 +142,13 @@
 							{$row_->group_st}
 						</div>
 						<?php if($row_->end_time != 0){ ?>
-							<div class="col-xs-1" title="{$row_->end_time}">
-								<?php echo date( 'Y-m-d' , $row_->end_time ) ?>
-							</div>
+							<!--<div class="col-xs-1" title="{$row_->end_time}">
+								<?php /*echo date( 'Y-m-d' , $row_->end_time ) */?>
+							</div>-->
 						<?php }else{ ?>
-							<div class="col-xs-1" title="{$row_->end_time}">
+						<!--	<div class="col-xs-1" title="{$row_->end_time}">
 								无
-							</div>
+							</div>-->
 						<?php } ?>
 <!--						<div class="col-xs-1">-->
 <!--							{$row_->type}-->

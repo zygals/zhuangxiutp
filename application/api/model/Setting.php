@@ -27,7 +27,7 @@ class Setting extends model {
     public static function findOne(){
         $row_ = self::where('id',1)->find();
         if(!$row_){
-            return ['code'=>__LINE__,'msg'=>'Setting not exist'];
+            return ['code'=>__LINE__,'msg'=>'设置项无数据'];
         }
         return ['code'=>0,'msg'=>'setting/get_set','data'=>$row_];
     }

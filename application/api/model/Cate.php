@@ -38,7 +38,7 @@ class Cate extends model {
 
         $list_ = self::where($where)->order($order)->field($field)->select();
         if($list_->isEmpty()){
-            return ['code'=>__LINE__,'msg'=>'cate not exists'];
+            return ['code'=>__LINE__,'msg'=>'分类不存在'];
         }
         return ['code'=>0,'msg'=>'cate ok','data'=>$list_];
     }

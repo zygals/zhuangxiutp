@@ -23,16 +23,16 @@ class CartGood extends model {
         $row_ = self::where(['good_id' => $data['good_id'], 'st' => 1])->find();
         if (!$row_) {
             if (!$this->save($data)) {
-                return ['code' => __LINE__, 'msg' => 'add cart_good error'];
+                return ['code' => __LINE__, 'msg' => '添加失败'];
             }
-            return ['code' => 0, 'msg' => 'add cart_good ok'];
+            return ['code' => 0, 'msg' => '添加成功'];
         }
         //dump($row_);exit;
         $row_->num += $data['num'];
         if (!$row_->save()) {
-            return ['code' => __LINE__, 'msg' => 'update cart_good error'];
+            return ['code' => __LINE__, 'msg' => '修改失败'];
         }
-        return ['code' => 0, 'msg' => 'update cart_good ok'];
+        return ['code' => 0, 'msg' => '修改成功'];
     }
 
     /*

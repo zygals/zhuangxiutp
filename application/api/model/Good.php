@@ -22,7 +22,7 @@ class Good extends Base {
         $row_ = self::where(['id'=>$data['good_id'],'st'=>1])->find();
         $user_id = User::getUserIdByName($data['username']);
         if(!$row_){
-            return ['code'=>__LINE__,'msg'=>'good not exist'];
+            return ['code'=>__LINE__,'msg'=>'商品不存在'];
         }
         $res = Collect::getByDivId(new Collect,$where=['st'=>1,'collect_id'=>$data['good_id'],'user_id'=>$user_id,'type'=>1]);
         if($res){

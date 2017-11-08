@@ -24,9 +24,9 @@ class Baoming extends Base {
             $data['time_to'] = strtotime($data['time_to']);
         }
         if (!$this->save($data)) {
-            return ['code' => __LINE__, 'msg' => 'add baoming error'];
+            return ['code' => __LINE__, 'msg' => '报名失败'];
         }
-        return ['code' => 0, 'msg' => 'add baoming ok'];
+        return ['code' => 0, 'msg' => '报名成功'];
     }
 
     /**
@@ -79,9 +79,9 @@ class Baoming extends Base {
 		 $row_->time_to='';
 	 }
         if ($row_) {
-            return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
+            return ['code' => 0, 'msg' => '获取成功', 'data' => $row_];
         }
-        return ['code' => __LINE__, 'msg' => '暂无数据'];
+        return ['code' => __LINE__, 'msg' => '没有数据'];
     }
 
 
