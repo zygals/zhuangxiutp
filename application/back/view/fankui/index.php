@@ -15,12 +15,8 @@
 
 					<input type="text" id="" name="time_to" value="{$Think.get.time_to}"
 						   class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
-
-
-				</div>
-				<div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
 					<select class=" form-control" name="paixu">
-						<option value="">--请选择排序字段--</option>
+						<option value="">--请选择评价--</option>
 						<option value="bestStar" {eq name="Think.get.paixu" value="bestStar"
 								}selected{/eq}>好评</option>
 						<option value="midStar" {eq name="Think.get.paixu" value="midStar"
@@ -28,6 +24,11 @@
 						<option value="badStar" {eq name="Think.get.paixu" value="badStar"
 								}selected{/eq}>差评</option>
 					</select>
+
+
+				</div>
+				<div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
+
 
 					<label class="">
 						<input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"
