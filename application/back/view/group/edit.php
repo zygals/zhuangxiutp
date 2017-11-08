@@ -55,18 +55,18 @@
                         </div>
                     </div>
 
-                    <div class="form-group ">
+                    <!--<div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>结束时间：</label>
-                        <?php if($row_->end_time != 0){ ?>
+                        <?php /*if($row_->end_time != 0){ */?>
                             <div class="col-xs-8 ">
-                                <input type="date" class="form-control input-sm duiqi" name='end_time' value="<?php echo date('Y-m-d',$row_->end_time)?>" id="" placeholder="">
+                                <input type="date" class="form-control input-sm duiqi" name='end_time' value="<?php /*echo date('Y-m-d',$row_->end_time)*/?>" id="" placeholder="">
                             </div>
-                        <?php }else{ ?>
+                        <?php /*}else{ */?>
                             <div class="col-xs-8 ">
                                 <input type="date" class="form-control input-sm duiqi" name='end_time' value="" id="" placeholder="">
                             </div>
-                        <?php } ?>
-                    </div>
+                        <?php /*} */?>
+                    </div>-->
 
 
 <!--                    <div class="form-group">-->
@@ -84,17 +84,32 @@
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm duiqi" name='pnum' value="{$row_['pnum']}" id="" placeholder="例如:100">　
                         </div>
+                        <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>已参加：</label>
+                        <div class="col-xs-8 ">
+                            <input type="text" class="form-control input-sm duiqi" name='attend_pnum' value="{$row_['attend_pnum']}" id="" placeholder="人数">　
+                        </div>
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>定金：</label>
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm duiqi" name='deposit' value="{$row_['deposit']}" id="" placeholder="0.00元">　
                         </div>
                     </div>
-                    <div class="form-group" id="div-2" style="display:<?php  echo $row_->type == '限量' ?'block':'none'; ?>;" >
+                    <?php if($row_->st=='下架'){?>
+                        <div class="form-group">
+                            <label for="situation" class="col-xs-3 control-label">状态：</label>
+                            <div class="col-xs-8">
+                                <label class="control-label" >
+                                    <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正在进行'?'checked':''?>>正常</label> &nbsp;
+                                <label class="control-label">
+                                    <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='下架'?'checked':''?>> 下架</label>
+                            </div>
+                        </div>
+                    <?php }?>
+                   <!-- <div class="form-group" id="div-2" style="display:<?php /* echo $row_->type == '限量' ?'block':'none'; */?>;" >
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>数量：</label>
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm duiqi" name='store' value="{$row_['store']}" id="" placeholder="例如:100">　
                         </div>
-                    </div>
+                    </div>-->
 
 
 

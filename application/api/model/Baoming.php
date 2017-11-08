@@ -24,9 +24,9 @@ class Baoming extends Base {
             $data['time_to'] = strtotime($data['time_to']);
         }
         if (!$this->save($data)) {
-            return ['code' => __LINE__, 'msg' => 'add baoming error'];
+            return ['code' => __LINE__, 'msg' => '报名失败'];
         }
-        return ['code' => 0, 'msg' => 'add baoming ok'];
+        return ['code' => 0, 'msg' => '报名成功'];
     }
 
     /**
@@ -45,9 +45,9 @@ class Baoming extends Base {
         }
         $row_ = self::where(['user_id' => $user_id])->find();
         if (!$row_->save($data)) {
-            return ['code' => __LINE__, 'msg' => 'update baoming error'];
+            return ['code' => __LINE__, 'msg' => '修改失败'];
         }
-        return ['code' => 0, 'msg' => 'update baoming ok'];
+        return ['code' => 0, 'msg' => '修改成功'];
     }
 
     /**
@@ -91,9 +91,9 @@ class Baoming extends Base {
         }
         $row_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('truename,mobile,address,id,from_unixtime(time_to,"%Y-%m-%d") time_to')->find();
         if ($row_) {
-            return ['code' => 0, 'msg' => 'my baoming ok', 'data' => $row_];
+            return ['code' => 0, 'msg' => '获取成功', 'data' => $row_];
         }
-        return ['code' => __LINE__, 'msg' => 'my baoming no'];
+        return ['code' => __LINE__, 'msg' => '没有数据'];
     }
 
 

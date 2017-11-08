@@ -93,13 +93,13 @@ class Dingdan extends Base{
 		}
 		$arr_shop_good_list = json_decode( $data['shop_good_list'] );
 		if ( !is_array( $arr_shop_good_list ) ) {
-			return ['code' => __LINE__ , 'msg' => 'shop_good_list data error'];
+			return ['code' => __LINE__ , 'msg' => '数据错误'];
 		}
 		$sum_price_all = 0;
 		foreach ( $arr_shop_good_list as $shop ) {
 			$row_cart = self::getById( $shop->cart_id , new Cart );
 			if ( !$row_cart ) {
-				return ['code' => __LINE__ , 'msg' => 'cart not exists'];
+				return ['code' => __LINE__ , 'msg' => '没有数据'];
 			}
 			$list_cart_good = CartGood::where( ['cart_id' => $row_cart->id , 'st' => 1] )->select();
 			$sum_price = 0;
@@ -120,7 +120,7 @@ class Dingdan extends Base{
 				'update_time' => time() ,
 			];
 			if ( !$new_order_contact_id = ( new OrderContact() )->insertGetId( $data_order_contact ) ) {
-				return ['code' => 0 , 'msg' => 'add order_contact error'];
+				return ['code' => 0 , 'msg' => '添加失败'];
 			}
 		}
 
@@ -130,7 +130,7 @@ class Dingdan extends Base{
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
 				if ( !$row_good ) {
-					return ['code' => __LINE__ , 'msg' => 'good not exits'];
+					return ['code' => __LINE__ , 'msg' => '商品不存在'];
 				}
 				$sum_price += $row_good->price * $good->num;
 			}
@@ -147,7 +147,7 @@ class Dingdan extends Base{
 				'update_time' => time() ,
 			];
 			if ( !$new_order_id = $this->insertGetId( $data_order ) ) {
-				return ['code' => __LINE__ , 'msg' => 'add order error'];
+				return ['code' => __LINE__ , 'msg' => '添加失败'];
 			}
 			//添加商家订单表end
 			//给商家订单量增加一个
@@ -168,7 +168,7 @@ class Dingdan extends Base{
 
 				];
 				if ( !( new OrderGood() )->save( $data_order_good ) ) {
-					return ['code' => __LINE__ , 'msg' => 'add order_good error'];
+					return ['code' => __LINE__ , 'msg' => '添加失败'];
 				}
 			}
 			//删除原购物车
@@ -203,14 +203,14 @@ class Dingdan extends Base{
 		$row_order = self::where( ['dingdan.id' => $order_id] )->join( '
 		shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->find();
 		if ( !$row_order ) {
-			return ['code' => __LINE__ , 'msg' => 'order is not exists'];
+			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
 		$list_order_goods = OrderGood::getGood( $order_id );
 		if ( count( $list_order_goods ) == 0 ) {
 			return ['code' => __LINE__ , 'msg' => '订单商品不存在'];
 		}
 
-		return ['code' => 0 , 'msg' => 'get order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
+		return ['code' => 0 , 'msg' => '查询订单成功' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
 	}
 
 	/*
@@ -226,14 +226,14 @@ class Dingdan extends Base{
 		$where2 = ['dingdan.st' => ['neq' , self::ORDER_ST_USER_DELETE]];
 		$list_order = self::where( $where )->where( $where2 )->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
 		if ( $list_order->isEmpty() ) {
-			return ['code' => __LINE__ , 'msg' => 'order not exists'];
+			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
 		foreach ( $list_order as $k => $row_order ) {
 			$list_order_good = OrderGood::getGood( $row_order->id );
 			$list_order[$k]['goods'] = $list_order_good;
 			$list_order[$k]['good_num'] = count( $list_order_good );
 		}
-		return ['code' => 0 , 'msg' => 'get order and order_goods ok' , 'data' => $list_order];
+		return ['code' => 0 , 'msg' => '获取订单列表成功' , 'data' => $list_order];
 
 	}
 
@@ -281,7 +281,7 @@ class Dingdan extends Base{
 			//订单支付完成，则商家收益也增加
 			$admin_shop = Admin::where( ['shop_id' => $row_order->shop_id , 'st' => 1] )->find();
 			if ( !$admin_shop ) {
-				return ['code' => __LINE__ , 'msg' => 'shop admin not exsits or not allowed'];
+				return ['code' => __LINE__ , 'msg' => '店铺管理员不存在或没有权限'];
 			}
 			$admin_shop->income += $row_order->sum_price;
 			$admin_shop->save();
@@ -290,7 +290,7 @@ class Dingdan extends Base{
 
 			//给订单中的商品增加销量
 			OrderGood::increseSales( $row_order->id );
-			return ['code' => 0 , 'msg' => 'order_shop paid ok and shop admin income ok'];
+			return ['code' => 0 , 'msg' => '增加销量成功'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
 			if ( !$row_order_contact ) {
@@ -301,14 +301,14 @@ class Dingdan extends Base{
 			//且要改下面所有商家订单状态的已支付
 			$res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID] );
 			if ( !$res ) {
-				return ['code' => __LINE__ , 'msg' => 'order_contact paid failed'];
+				return ['code' => __LINE__ , 'msg' => '联合订单状态修改失败'];
 			}
 			//给下面商家管理员增加收益
 			$list_order = Order::where( ['order_contact_id' => $row_order_contact->id] )->select();
 			foreach ( $list_order as $order ) {
 				$admin_shop = Admin::where( ['shop_id' => $order->shop_id , 'st' => 1] )->find();
 				if ( !$admin_shop ) {
-					return ['code' => __LINE__ , 'msg' => 'shop admin not exsits or not allowed'];
+					return ['code' => __LINE__ , 'msg' => '店铺管理员不存在或没有权限'];
 				}
 				$admin_shop->income += $order->sum_price;
 				$admin_shop->save();
@@ -318,9 +318,9 @@ class Dingdan extends Base{
 				//给订单中商品增加销量
 				OrderGood::increseSales( $order->id );
 			}
-			return ['code' => 0 , 'msg' => 'order_contact paid ok and shop admin income ok'];
+			return ['code' => 0 , 'msg' => '更改成功'];
 		} else {
-			return ['code' => __LINE__ , 'msg' => 'type_ error'];
+			return ['code' => __LINE__ , 'msg' => '更改失败'];
 		}
 	}
 

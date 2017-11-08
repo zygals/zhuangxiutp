@@ -80,7 +80,7 @@ class GroupController extends BaseController {
         $data = $request->param();
 //        dump($data);exit;
 //        dump($data);exit;
-        $data['end_time']=strtotime($data['end_time']);
+      //  $data['end_time']=strtotime($data['end_time']);
 //        $res = $this->validate($data, 'AdValidate');
 //        if ($res !== true) {
 //            $this->error($res);
@@ -122,7 +122,7 @@ class GroupController extends BaseController {
     public function update(Request $request) {
 //        dump($request->param());exit;
         $data = $request->param();
-        $data['end_time']=strtotime($data['end_time']);
+       // $data['end_time']=strtotime($data['end_time']);
         if($data['type']==1){
             $data['store'] = 0;
         }else{

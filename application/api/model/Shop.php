@@ -55,7 +55,7 @@ class Shop extends Base{
 		$list_ = self::where( $where )->join( 'cate' , 'shop.cate_id=cate.id' )->order( $order )->field( $field )->paginate();
 		// dump($list_);exit;
 		if ( $list_->isEmpty() ) {
-			return ['code' => __LINE__ , 'msg' => 'shop not exists'];
+			return ['code' => __LINE__ , 'msg' => '暂无数据'];
 		}
 		return ['code' => 0 , 'msg' => 'shop list ok' , 'data' => $list_];
 	}
