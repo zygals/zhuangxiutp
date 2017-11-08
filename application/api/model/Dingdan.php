@@ -33,7 +33,7 @@ class Dingdan extends Base{
 
 	public function getTypeAttr($value){
 		$status = [1 => '普通' ,/* 2 => '限量' ,*/
-				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款'];
+				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款',6=>'限人尾款'];
 		return $status[$value];
 	}
 	/*
@@ -103,9 +103,12 @@ class Dingdan extends Base{
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
 		$data_order['beizhu'] = $data['beizhu'];
+		$data_order['shop_youhui'] = $data['shop_youhui'];
 		if ( !$this->save( $data_order ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加失败'];
 		}
+		//给商家订单量增加一个
+		Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功','order_id'=>$this->id,'type'=>$data['type_']];
 	}
 

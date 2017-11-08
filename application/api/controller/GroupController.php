@@ -57,7 +57,14 @@
          * 查看限人详情页
          */
         public function pnuminfo(Request $request){
-            $t_id = $request->param();
+			$rules = ['t_id' => 'require'];
+			$data = $request->param();
+			$res = $this->validate($data, $rules);
+			if ($res !== true) {
+				return json(['code' => __LINE__, 'msg' => $res]);
+			}
+            $t_id = $request->param('t_id');
+//			echo $t_id;exit;
             return json(['code'=>0,'msg'=>'group/pnuminfo','data'=>TuanGou::getPnumList($t_id)]);
         }
     }
