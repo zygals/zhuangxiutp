@@ -85,7 +85,6 @@ class DingdanController extends BaseController {
 			'type_'=>'require|in:4,5',
 			'username' => 'require',
 			'shop_id' => 'require',
-			'shop_youhui' => 'require',
 			'sum_price' => 'require|float',
 			'address_id' => 'require|number',
 		];
@@ -94,6 +93,29 @@ class DingdanController extends BaseController {
 			return json(['code' => __LINE__, 'msg' => $res]);
 		}
 		return json((new Dingdan)->addOrderDeposit($data));
+	}
+
+	/**
+	 * 添加订单--团购订金
+	 * zhunagxiu- zyg
+	 *
+	 */
+	public function save_group_deposit(Request $request) {
+		$data = $request->param();
+		$rules = [
+			't_id'=>'require',
+			'username' => 'require',
+			//'shop_id' => 'require',
+			//'good_id'=>'require',
+			//'price_group' => 'require',
+			//'sum_price' => 'require|float',//订金
+			'address_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json((new Dingdan)->addOrderGroupDeposit($data));
 	}
 
     /**
