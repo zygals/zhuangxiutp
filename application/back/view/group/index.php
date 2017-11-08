@@ -53,8 +53,8 @@
 							   value="desc"
 							   }checked{/eq}>降序</label>
 					<label class="">
-<!--						<input type="checkbox" name="st" id="" value="2" {eq name="Think.get.st" value="2"-->
-<!--							   }checked{/eq}>下架</label>-->
+						<input type="checkbox" name="st" id="" value="2" {eq name="Think.get.st" value="2"
+							   }checked{/eq}>下架</label>
 					<button class="btn btn-white btn-xs " type="submit">提交</button>
 				</div>
 			</form>
@@ -168,18 +168,18 @@
 								</a>
 							<?php } ?>
 
-<!--							--><?php //if ( $row_->end_time <= time() ) { ?>
-<!---->
-<!--								--><?php //if ($row_->st == '下架') { ?>
-<!--									<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"-->
-<!--											data-target="#deleteSource" data-id="--><?//= $row_['id'] ?><!--" onclick="del_(this)"> 删-->
-<!--									</button>-->
-<!--								--><?php //} else{?>
-<!--									<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"-->
-<!--											data-target="#downSource" data-id="--><?//= $row_['id'] ?><!--" onclick="down_(this)" title="下架"> 下-->
-<!--									</button>-->
-<!--								--><?php //}?>
-<!--							--><?php //} ?>
+							<?php if ( $row_->end_time <= time() ) { ?>
+
+								<?php if ($row_->st == '下架') { ?>
+									<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
+											data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
+									</button>
+								<?php } else{?>
+									<button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
+											data-target="#downSource" data-id="<?= $row_['id'] ?>" onclick="down_(this)" title="下架"> 下
+									</button>
+								<?php }?>
+							<?php } ?>
 						</div>
 					</div>
 				<?php } ?>
