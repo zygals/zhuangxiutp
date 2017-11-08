@@ -100,7 +100,7 @@
          * 判断是否参加团购
          */
         public static function isAttend($data){
-            $res = self::where(['shop_id',$data])->find();
+            $res = self::where(['shop_id'=> $data])->find();
             if(!$res){
                 return ['code'=>__LINE__,'msg'=>'没参加团购','data'=>'0'];
             }
