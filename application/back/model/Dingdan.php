@@ -19,7 +19,7 @@ class Dingdan extends model{
 	}
 	public function getTypeAttr($value){
 		$status = [1 => '普通' ,/* 2 => '限量' ,*/
-				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款'];
+				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款',6=>'限人尾款'];
 		return $status[$value];
 	}
 	public function getGoodstAttr($value){
