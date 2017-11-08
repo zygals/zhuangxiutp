@@ -98,7 +98,7 @@ class Dingdan extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
-		if($row=self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_SHOP_DEPOSIT,'shop_id'=>$data['shop_id']])->find()){
+		if($row=self::where(['user_id'=>$user_id,'type'=>$data['type_'],'shop_id'=>$data['shop_id']])->find()){
 			return ['code'=>__LINE__,'msg'=>'不能重复添加'];
 		}
 		$data_order['shop_id'] = $data['shop_id'];
