@@ -57,6 +57,9 @@ class Dingdan extends model{
 		if ( !empty( $data['orderno'] ) ) {
 			$where['orderno'] = $data['orderno'];
 		}
+		if ( !empty( $data['shop_id'] ) ) {
+			$where['shop_id'] = $data['shop_id'];
+		}
 		if ( !empty( $data['st'] ) ) {
 			$where['dingdan.st'] = $data['st'];
 		}

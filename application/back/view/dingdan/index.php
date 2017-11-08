@@ -23,6 +23,8 @@
                            class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
                     <input type="text" name="orderno" value="{$Think.get.orderno}" class="form-control input-sm"
                            placeholder="输入订单编号">
+                    <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
+                           placeholder="输入店铺ID">
                     <select name="st" id="" class="form-control">
                         <option value="">－－选择状态－－</option>
                         <?php foreach (app\back\model\Dingdan::$arrStatus as $k => $v) { ?>
