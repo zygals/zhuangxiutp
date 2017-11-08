@@ -116,6 +116,17 @@ class Dingdan extends Base{
 		Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功','order_id'=>$this->id,'type'=>$data['type_']];
 	}
+
+	/*
+	 * 我的订单-团购订金
+	 * */
+
+	public static function hasOrderGroupDeposit($data){
+		if($row=self::where(['user_id'=>$data['user_id'],'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$data['t_id']])->find()){
+			return ['code'=>0,'msg'=>'有订金订单','data'=>$row];
+		}
+		return ['code'=>__LINE__,'msg'=>'无订金订单'];
+	}
 	/**
 	 * 添加订单--团购订金
 	 * zhunagxiu
