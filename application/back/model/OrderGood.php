@@ -16,7 +16,7 @@ class OrderGood extends model {
     public static function getGood($order_id) {
 
         $where = ['order_id' => $order_id];
-        $list_ = self::where($where)->order('create_time asc')->field('id,name good_name,good_id,price,num,img,st')->select();
+        $list_ = self::where($where)->order('create_time asc')->field('id,name good_name,good_id,price,num,img,st,price_group,group_deposit')->select();
         return $list_;
     }
 

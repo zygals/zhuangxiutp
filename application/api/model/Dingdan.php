@@ -134,9 +134,11 @@ class Dingdan extends Base{
 		$data_order['type'] = self::ORDER_TYPE_GROUP_DEPOSIT;
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
-//				$data_order['beizhu'] = $data['beizhu'];
+		if(!empty($data['beizhu'])){
+			$data_order['beizhu'] = $data['beizhu'];
+		}
 
-		if ( !$new_id=$this->save( $data_order ) ) {
+		if ( !$this->save( $data_order ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加订单失败'];
 		}
 		//给商家订单量增加一个
@@ -146,14 +148,15 @@ class Dingdan extends Base{
 		if(!$row_good){
 			return ['code' => __LINE__ , 'msg' => '团购商品没有'];
 		}
-         $data_order_good['order_id']= $new_id;
+         $data_order_good['order_id']= $this->id; //new order_id
          $data_order_good['shop_id']= $row_group->shop_id;
          $data_order_good['good_id']= $row_good->id;
          $data_order_good['name']= $row_good['name'];
          $data_order_good['img']= $row_good->img;
          $data_order_good['unit']= $row_good->unit;
          $data_order_good['price']= $row_good->price;
-         $data_order_good['price_group']= $row_good->price_group;
+         $data_order_good['price_group']= $row_group->price_group;
+         $data_order_good['group_deposit']= $row_group->deposit;
          if(!(new OrderGood())->save($data_order_good)){
 			 return ['code' => __LINE__ , 'msg' => '添加订单成功，商品添加失败'];
 		 }
