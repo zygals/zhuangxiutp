@@ -73,7 +73,7 @@ class BaomingController extends BaseController {
 	 *查询报名人数
 	 *zhuangxiu-zyg
 	 */
-	public function getnum(Request $request){
+/*	public function getnum(Request $request){
 		$data = $request->param();
 		$rule = ['username'=>'require'];
 		$res = $this->validate($data,$rule);
@@ -82,7 +82,7 @@ class BaomingController extends BaseController {
 		}
 		return json((new Baoming)->getNum($data));
 
-	}
+	}*/
 
 
 

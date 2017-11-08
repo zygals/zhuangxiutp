@@ -5,6 +5,7 @@ namespace app\api\controller;
 
 use app\api\model\Activity;
 
+use app\api\model\ActivityAttend;
 use app\api\model\User;
 use app\back\model\Base;
 use think\Db;
@@ -109,6 +110,21 @@ class ActivityController extends BaseController {
             return json(['code' => 0, 'msg' => 'my attend ok','data'=>$row_attend]);
         }
         return json(['code' => __LINE__, 'msg' => 'my attend not']);
+    }
+    /*
+     * 取我的在线报名
+     * zhuangxiu-zyg
+     * */
+
+    public function my_attend(Request $request) {
+        $data=$request->param();
+        $rule = ['username'=>'require'];
+        $res = $this->validate($data, $rule);
+        //dump( $res);exit;
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json(ActivityAttend::getMyAttend($data['username']));
     }
 
 
