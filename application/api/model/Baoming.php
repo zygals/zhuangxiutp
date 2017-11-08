@@ -59,11 +59,14 @@ class Baoming extends Base {
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
-        if ($list_->isEmpty()) {
+		$row_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->find();
+        if (!$row_) {
             return ['code' => __LINE__, 'msg' => '暂无数据'];
         }
-        return ['code' => 0, 'msg' => '数据成功', 'data' => $list_];
+		if($row_->time_to=='1970-01-01'){
+			$row_->time_to='';
+		}
+        return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
 
     }
 
@@ -84,16 +87,19 @@ class Baoming extends Base {
      *zhuangxiu-zyg
      */
 
-    public static function findOne($username) {
+ public static function findOne($username) {
         $user_id = \app\api\model\User::getUserIdByName($username);
         if (is_array($user_id)) {
             return $user_id;
         }
         $row_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('truename,mobile,address,id,from_unixtime(time_to,"%Y-%m-%d") time_to')->find();
+	 if($row_->time_to=='1970-01-01'){
+		 $row_->time_to='';
+	 }
         if ($row_) {
-            return ['code' => 0, 'msg' => 'my baoming ok', 'data' => $row_];
+            return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
         }
-        return ['code' => __LINE__, 'msg' => 'my baoming no'];
+        return ['code' => __LINE__, 'msg' => '暂无数据'];
     }
 
 
