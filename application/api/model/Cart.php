@@ -28,7 +28,7 @@ class Cart extends Base {
 
         $row_good = self::getById($data['good_id'],new Good);
         if(!$row_good){
-            return ['code' => __LINE__, 'msg' => 'good not exsits'];
+            return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
         if (is_array($row_good)) {
@@ -64,7 +64,7 @@ class Cart extends Base {
         }
         $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
         if ($list_cart->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => 'cart good not exsits'];
+            return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $sum_price_all = 0;
         foreach ($list_cart as $k => $cart) {
@@ -87,18 +87,18 @@ class Cart extends Base {
 
         $row_cart_good = self::getById($data['cart_good_id'], new CartGood());
         if (!$row_cart_good) {
-            return ['code' => __LINE__, 'msg' => 'cart_good not exsits'];
+            return ['code' => __LINE__, 'msg' => '无商品'];
         }
 
         //
         $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
         if(!$row_good){
-            return ['code' => __LINE__, 'msg' => 'good not exsits'];
+            return ['code' => __LINE__, 'msg' => '商品不存在'];
         }
         $minus_price = $row_cart_good->num * $row_good->price;
         $row_cart = self::getById($row_cart_good->cart_id, new Cart);
         if(!$row_cart_good){
-            return ['code' => __LINE__, 'msg' => 'cart not exsits'];
+            return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $row_cart->sum_price -= $minus_price;
         if ($row_cart->sum_price == 0) {
@@ -107,7 +107,7 @@ class Cart extends Base {
         $row_cart->save();
         $row_cart_good->st = 0;
         $row_cart_good->save();
-        return ['code' => 0, 'msg' => 'del cart_good ok'];
+        return ['code' => 0, 'msg' => '删除成功'];
 
     }
 
