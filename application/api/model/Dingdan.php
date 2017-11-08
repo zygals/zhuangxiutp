@@ -122,7 +122,11 @@ class Dingdan extends Base{
 	 * */
 
 	public static function hasOrderGroupDeposit($data){
-		if($row=self::where(['user_id'=>$data['user_id'],'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$data['t_id']])->find()){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		if($row=self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$data['t_id']])->find()){
 			return ['code'=>0,'msg'=>'有订金订单','data'=>$row];
 		}
 		return ['code'=>__LINE__,'msg'=>'无订金订单'];

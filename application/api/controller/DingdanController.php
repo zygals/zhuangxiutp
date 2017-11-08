@@ -137,10 +137,14 @@ class DingdanController extends BaseController {
         return json($m_->getOrder($data));
 
     }
+	/*
+	 * 我是否下过些团购订金订单？
+	 * zhuangxiu-zyg
+	 * */
 	public function has_order_group_deposit(Request $request){
 		$data = $request->param();
 		$rules = [
-			'user_id' => 'require|number',
+			'username' => 'require',
 			't_id' => 'require|number',
 		];
 		$res = $this->validate($data, $rules);
