@@ -41,13 +41,7 @@ class Fankui extends Base {
         if(!empty($time_to) && !empty($time_from)){
             $where['fankui.create_time']=[['gt',strtotime($time_from)],['lt',strtotime($time_to)]];
         }
-        if(!empty($data) && $data['paixu']=='1'){
-            $where['star'] = $data['paixu'];
-        }
-        if(!empty($data) && $data['paixu']=='2'){
-            $where['star'] = $data['paixu'];
-        }
-        if(!empty($data) && $data['paixu']=='3'){
+        if(!empty($data['paixu'])){
             $where['star'] = $data['paixu'];
         }
         $list_ = self::where($where)->join('dingdan','fankui.order_id=dingdan.id','left')->join('user','fankui.user_id=user.id','left')->join('shop','fankui.shop_id=shop.id','left')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
