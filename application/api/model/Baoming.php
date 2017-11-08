@@ -59,11 +59,11 @@ class Baoming extends Base {
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_ = self::where(['user_id' => $user_id,'st'=>1])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
+        $list_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->select();
         if ($list_->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => 'baoming not exists'];
+            return ['code' => __LINE__, 'msg' => '暂无数据'];
         }
-        return ['code' => 0, 'msg' => 'baoming ok', 'data' => $list_];
+        return ['code' => 0, 'msg' => '数据成功', 'data' => $list_];
 
     }
 
@@ -71,13 +71,13 @@ class Baoming extends Base {
      *查询报名人数
      *zhuangxiu-zyg
      */
-    public function getNum() {
+/*    public function getNum() {
         $num = $this->count();
         if (!$num) {
             return ['code' => __LINE__, 'msg' => 'baoming num error'];
         }
         return ['code' => 0, 'data' => $num];
-    }
+    }*/
 
     /**
      * 取我报名

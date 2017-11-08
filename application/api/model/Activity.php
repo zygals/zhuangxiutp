@@ -19,9 +19,9 @@ class Activity extends Base {
         $list_ = self::where($where)->field('id,name,img,img_big,charm')->order('create_time desc')->select();
 
         if ($list_->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => 'activity now not exists'];
+            return ['code' => __LINE__, 'msg' => '暂无数据'];
         }
-        return ['code' => 0, 'msg' => 'activity now ok', 'data' => $list_];
+        return ['code' => 0, 'msg' => '数据成功', 'data' => $list_];
 
     }
 
@@ -37,9 +37,9 @@ class Activity extends Base {
         $list_ = self::where($where)->field('id,name,img,charm')->order('create_time desc')->select();
 
         if ($list_->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => 'activity history not exists'];
+            return ['code' => __LINE__, 'msg' => '暂无数据'];
         }
-        return ['code' => 0, 'msg' => 'activity history ok', 'data' => $list_];
+        return ['code' => 0, 'msg' => '数据成功', 'data' => $list_];
 
     }
 
@@ -52,9 +52,9 @@ class Activity extends Base {
     public static function findOne($id) {
 
         if (!$row_ = self::getById($id, new self, "id,name,img_big,address,from_unixtime(start_time,'%Y-%m-%d') start_time ,from_unixtime(end_time,'%Y-%m-%d') end_time,info")) {
-            return ['code' => __LINE__, 'msg' => 'activity not exists'];
+            return ['code' => __LINE__, 'msg' => '暂无数据'];
         }
-        return ['code' => 0, 'msg' => 'activity ok', 'data' => $row_];
+        return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
     }
 
 
