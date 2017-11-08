@@ -73,6 +73,27 @@ class DingdanController extends BaseController {
         return json((new Dingdan)->addOrder($data));
     }
 
+	/**
+	 * 添加订单--商家订金或是全款
+	 * zhunagxiu
+	 * submit order
+	 * zyg
+	 */
+	public function save_deposit(Request $request) {
+		$data = $request->param();
+		$rules = [
+			'type_'=>'require|in:4,5',
+			'username' => 'require',
+			'shop_id' => 'require',
+			'sum_price' => 'require|float',
+			'address_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json((new Dingdan)->addOrderDeposit($data));
+	}
 
     /**
      * 查询某个商家订单

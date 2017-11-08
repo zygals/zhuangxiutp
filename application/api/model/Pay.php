@@ -10,11 +10,12 @@ class Pay extends Base {
 		if(is_array($user_id)){
 			return json($user_id);
 		}
-		if($data['type_']==Dingdan::ORDER_TYPE_SHOP){ //单商家订单
-
+		if($data['type_']==Dingdan::ORDER_TYPE_SHOP || $data['type_']==Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_']==Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
+		//单商家订单
 			$row_order = Dingdan::where(['id'=>$data['order_id']])->find();
 			$fee = $row_order->sum_price;
-		}elseif($data['type_']==Dingdan::ORDER_TYPE_CONTACT){ //平台多商家订单
+		}elseif($data['type_']==Dingdan::ORDER_TYPE_CONTACT){
+		//平台多商家订单
 			$row_order = OrderContact::where(['id'=>$data['order_id']])->find();
 			$fee = $row_order->sum_price_all;
 		}

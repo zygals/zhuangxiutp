@@ -71,7 +71,7 @@ class Shop extends Base{
 
 	public static function read($data){
 		$shop_id = $data['shop_id'];
-		$row_ = self::getById( $shop_id , new self() , 'name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand,zuoji,deposit,youhui,money_all,youhui_all' );
+		$row_ = self::getById( $shop_id , new self() , 'id shop_id,name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand,zuoji,deposit,youhui,money_all,youhui_all' );
 		$user_id = User::getUserIdByName( $data['username'] );
 		if ( !$row_ ) {
 			return ['code' => __LINE__ , 'msg' => 'good not exist'];

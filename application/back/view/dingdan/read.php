@@ -44,13 +44,17 @@
 							<?php } ?>
 						</div>
 					</div>
-					<div class="form-group ">
-						<label for="sName" class="col-xs-3 control-label">商品状态：</label>
+					<?php if($row_order->type=='普通' || $row_order->type=='限人'){?>
+						<div class="form-group ">
+							<label for="sName" class="col-xs-3 control-label">商品状态：</label>
 
-						<div class="col-xs-8 ">
-							<label>{$row_order->goodst}</label>
+							<div class="col-xs-8 ">
+								<label>{$row_order->goodst}</label>
+							</div>
 						</div>
-					</div>
+					<?php }?>
+
+
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">会员用户名：</label>
 
@@ -117,6 +121,13 @@
 								<span>地址：</span>
 								<span>{$row_order->pcd} {$row_order->info}</span>
 							</div>
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="sName" class="col-xs-3 control-label">备注：</label>
+
+						<div class="col-xs-8 ">
+							<label>{$row_order->beizhu}</label>
 						</div>
 					</div>
 					<div class="form-group ">

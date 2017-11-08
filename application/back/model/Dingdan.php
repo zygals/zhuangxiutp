@@ -18,7 +18,8 @@ class Dingdan extends model{
 		return $status[$value];
 	}
 	public function getTypeAttr($value){
-		$status = [ 1 => '普通' , 2 => '限量' , 3 => '限人' ];
+		$status = [1 => '普通' ,/* 2 => '限量' ,*/
+				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款'];
 		return $status[$value];
 	}
 	public function getGoodstAttr($value){
@@ -27,7 +28,8 @@ class Dingdan extends model{
 	}
 
 	public static function findOne($order_id){
-		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->join('order_contact','order_contact.id=dingdan.order_contact_id','left')->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name,order_contact.orderno orderno_contact' )->find();
+		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id'
+,'left')->join('order_contact','order_contact.id=dingdan.order_contact_id','left')->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name,order_contact.orderno orderno_contact' )->find();
 
 		return $row_;
 	}
@@ -179,7 +181,14 @@ class Dingdan extends model{
 		$row_order = self::where(['id'=>$data['order_id']])->find();
 		$row_order->st=2;
 		$row_order->save();
-		return ['code'=>0,'msg'=>'状态改为已支付'];
+		//同时增加商家收益
+		$admin_shop = Admin::where( ['shop_id' => $row_order->shop_id , 'st' => 1] )->find();
+		if ( !$admin_shop ) {
+			return ['code' => __LINE__ , 'msg' => '店铺管理员不存在或没有权限'];
+		}
+		$admin_shop->income += $row_order->sum_price;
+		$admin_shop->save();
+		return ['code'=>0,'msg'=>'状态改为已支付,且商家收益增加'];
 
 	}
 }
