@@ -209,4 +209,15 @@ CREATE TABLE `good_img_bigs` (
 alter table good add img_big_st tinyint not null default 0 comment '0没有大图 1有大图';
 
 
+-- 改表2017-11-7=1
+
+alter table ad add url_to tinyint default 0  comment '链接到哪里：0无 1活动详情 2商品详情 3店铺详情 4店铺列表';
+alter table ad add url_bianhao int default 0 comment '商品编号等';
+-- 改表2017-11-7=2
+alter table shop add deposit decimal(10,2) default 0 comment '订金';
+alter table shop add money_all decimal(10,2) default '0' comment '全款';
+
+alter table shop add youhui decimal(10,2) default '0' comment '优惠';
+alter table shop add youhui_all decimal(10,2) default '0' comment '全款优惠';
+alter table activity_attend add user_id int not null  after activity_id;
 
