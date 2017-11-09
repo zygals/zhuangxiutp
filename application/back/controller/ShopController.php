@@ -62,21 +62,30 @@ class ShopController extends BaseController{
 
 		$file = $request->file( 'img' );
 		$file2 = $request->file( 'logo' );
+		$file3 = $request->file( 'qrcode' );
 
 		if ( empty( $file ) || empty( $file2 ) ) {
 			$this->error( '请上传图片或检查图片大小！' );
 		}
 		$size = $file->getSize();
 		$size2 = $file2->getSize();
-		if ( $size > config( 'upload_size' ) || $size2 > config( 'upload_size' ) ) {
+		if ( $size > config( 'upload_size' ) || $size2 > config( 'upload_size' )  ) {
 			$this->error( '图片大小超过限定！' );
 		}
-
 		$path_name = 'shop';
 		$arr = $this->dealImg( $file , $path_name );
 		$arr2 = $this->dealImg( $file2 , $path_name );
 		$data['img'] = $arr['save_url_path'];
 		$data['logo'] = $arr2['save_url_path'];
+
+		if ( !empty( $file3 ) ) {
+			$size3 = $file3->getSize();
+			if ( $size3 > config( 'upload_size' ) ) {
+				$this->error( '图片大小超过限定！' );
+			}
+			$arr3 = $this->dealImg( $file3 , $path_name );
+			$data['qrcode'] = $arr3['save_url_path'];
+		}
 		if ( !empty( $data['cate_ids'] ) ) {
 			$data['cate_ids'] = implode( ',' , $data['cate_ids'] );
 		}
@@ -136,6 +145,7 @@ class ShopController extends BaseController{
 //        dump($row_);exit;
 		$file = $request->file( 'img' );
 		$file2 = $request->file( 'logo' );
+		$file3 = $request->file( 'qrcode' );
 		$path_name = 'shop';
 
 
@@ -156,6 +166,15 @@ class ShopController extends BaseController{
 			$this->deleteImg( $row_->logo );
 			$arr = $this->dealImg( $file2 , $path_name );
 			$data['logo'] = $arr['save_url_path'];
+		}
+		if ( !empty( $file3 ) ) {
+			$size = $file3->getSize();
+			if ( $size > config( 'upload_size' ) ) {
+				$this->error( '图片大小超过限定！' );
+			}
+			$this->deleteImg( $row_->qrcode );
+			$arr = $this->dealImg( $file3 , $path_name );
+			$data['qrcode'] = $arr['save_url_path'];
 		}
 		if ( $this->saveById( $data['id'] , new Shop() , $data ) ) {
 
