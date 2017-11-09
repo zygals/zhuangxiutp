@@ -83,4 +83,13 @@
             $list = self::where(['tuangou.id'=>$t_id])->join('good','good.id=tuangou.good_id')->field($field)->find();
             return $list;
         }
+
+        /**
+         * 获取多图
+         */
+        public static function getImg($data){
+            $res = self::where(['id'=>$data])->select();
+            $imgList = GoodImgBigs::getImg($res['good_id']);
+            return $imgList;
+        }
     }
