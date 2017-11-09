@@ -48,12 +48,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>二维码：</label>
-                            <div class="col-xs-4 ">
-                                <input type="file" title='' class="form-control  duiqi" id="sOrd1" name="qrcode" placeholder=""><span style="color:red">尺寸要求（180*180），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>列表图：</label>
                             <div class="col-xs-4 ">
                                 <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（270*270），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
@@ -109,6 +103,12 @@
 									<textarea name="zuoji"  cols="25" rows="5"></textarea>
 								</div>
 							</div>
+                            <div class="form-group">
+                                <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>二维码：</label>
+                                <div class="col-xs-4 ">
+                                    <input type="file" title='' class="form-control  duiqi" id="sOrd1" name="qrcode" placeholder=""><span style="color:red">尺寸要求（180*180），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                                </div>
+                            </div>
                             <div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->城市：</label>
                                 <div class="col-xs-8 ">
