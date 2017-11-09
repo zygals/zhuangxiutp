@@ -417,7 +417,12 @@ class Dingdan extends Base{
 				//给订单中的商品增加销量
 				OrderGood::increseSales( $row_order->id );
 			}
-			return ['code' => 0 , 'msg' => '增加销量成功'];
+			//将用户团购订金订单取消
+			$user_id=User::getUserIdByName('username');
+			if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL){
+               self::where(['user_id'=>$user_id,'type'=>3,'group_id'=>$row_order->group_id])->update(['st'=>self::ORDER_ST_USER_CANCEL]);
+			}
+			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
 			if ( !$row_order_contact ) {
