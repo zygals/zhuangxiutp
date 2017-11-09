@@ -99,9 +99,9 @@ class Dingdan extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
-		if ( $row = self::where( ['user_id' => $user_id , 'type' => $data['type_'] , 'shop_id' => $data['shop_id'],'st'=>1] )->find() ) {
+		/*if ( $row = self::where( ['user_id' => $user_id , 'type' => $data['type_'] , 'shop_id' => $data['shop_id'],'st'=>1] )->find() ) {
 			return ['code' => __LINE__ , 'msg' => '不能重复添加'];
-		}
+		}*/
 		$data_order['shop_id'] = $data['shop_id'];
 		$data_order['sum_price'] = $data['sum_price'];
 		$data_order['orderno'] = $this->makeTradeNo( $data['username'] );
@@ -159,7 +159,7 @@ class Dingdan extends Base{
 			return $user_id;
 		}
 		//如果已添加不重复
-		if ( $row = self::where( ['user_id' => $user_id , 'type' => $data['type_'] , 'group_id' => $data['t_id'],'st'=>1] )->find() ) {
+		if ( $row = self::where( ['user_id' => $user_id , 'type' => $data['type_'] , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
 			return ['code' => __LINE__ , 'msg' => '不能重复添加'];
 		}
 		//dump($row);exit;

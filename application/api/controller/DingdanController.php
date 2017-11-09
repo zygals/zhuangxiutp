@@ -98,7 +98,7 @@ class DingdanController extends BaseController {
 	/**
 	 * 添加订单--团购订金或尾款订单
 	 * zhunagxiu- zyg
-	 *
+	 *确定添加？前去
 	 */
 	public function save_group_deposit(Request $request) {
 		$data = $request->param();
