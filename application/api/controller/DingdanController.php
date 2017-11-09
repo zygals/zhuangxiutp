@@ -85,6 +85,7 @@ class DingdanController extends BaseController {
 			'type_'=>'require|in:4,5',
 			'username' => 'require',
 			'shop_id' => 'require',
+			'shop_youhui' => 'require',
 			'sum_price' => 'require|float',
 			'address_id' => 'require|number',
 		];
