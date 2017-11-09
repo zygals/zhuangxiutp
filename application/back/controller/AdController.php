@@ -135,13 +135,13 @@ class AdController extends BaseController {
         $data['url_bianhao'] = $data['url'];
         switch ($data['url_to']) {
             case Ad::URL_TO_ACTIVITY_DETAIL:
-                $data['url'] = '/pages/activity_detail/activity_detail?id=' . $data['url'];
+				$data['url'] = '/pages/groupPurchase/groupPurchase?activity_id=' .$data['url_bianhao'];
                 break;
             case Ad::URL_TO_GOOD_DETAIL:
-                $data['url'] = '/pages/bDetail/bDetail?good_id=' . $data['url'];
+                $data['url'] = '/pages/bDetail/bDetail?good_id=' . $data['url_bianhao'];
                 break;
             case Ad::URL_TO_SHOP_DETAIL:
-                $data['url'] = '/pages/store/store?shop_id=' . $data['url'];
+                $data['url'] = '/pages/store/store?shop_id=' .  $data['url_bianhao'];
                 break;
             case Ad::URL_TO_SHOP_LIST:
                 $data['url'] = '/pages/goods/goods';
