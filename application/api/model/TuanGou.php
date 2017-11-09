@@ -89,8 +89,9 @@
          * 获取多图
          */
         public static function getImg($data){
-            $res = self::where(['id'=>$data])->select();
-            dump($res);exit;
+            $res = self::where(['id'=>$data])->field('good_id')->select();
+            $good_id = $res[0]->good_id;
+            $imgList = GoodImgBigs::getImg($good_id);
             return $imgList;
         }
     }
