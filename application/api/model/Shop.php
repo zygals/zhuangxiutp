@@ -76,6 +76,7 @@ class Shop extends Base{
 		if ( !$row_ ) {
 			return ['code' => __LINE__ , 'msg' => 'good not exist'];
 		}
+		$row_['isGroup'] = TuanGou::isAttend($shop_id);
 		$res = Collect::getByDivId( new Collect , $where = ['st' => 1 , 'collect_id' => $data['shop_id'] , 'user_id' => $user_id , 'type' => 2] );
 		if ( $res ) {
 			return ['code' => 0 , 'is_collect' => 'true' , 'data' => $row_];
