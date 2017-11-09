@@ -90,7 +90,7 @@
          */
         public static function getImg($data){
             $res = self::where(['id'=>$data])->select();
-            $imgList = GoodImgBigs::getImg($res['good_id']);
+            $imgList = GoodImgBigs::getImg($res->good_id);
             return $imgList;
         }
     }
