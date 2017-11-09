@@ -2,6 +2,7 @@
 
 namespace app\api\model;
 
+use app\back\model\OrderGood;
 use app\back\model\Tuangou;
 use think\Model;
 
@@ -16,6 +17,7 @@ class Dingdan extends Base{
 	const GOOT_ST_FANKUIOK = 4; //已评价
 	const ORDER_TYPE_SHOP = 1; //单商家订单
 	const ORDER_TYPE_CONTACT = 2; //多商家订单
+	const ORDER_TYPE_GROUP_DEPOSIT = 3; //限人订金
 	const  ORDER_TYPE_SHOP_DEPOSIT = 4; //商家订金订单
 	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
 	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
@@ -103,13 +105,62 @@ class Dingdan extends Base{
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
 		$data_order['beizhu'] = $data['beizhu'];
-		$data_order['shop_youhui'] = $data['shop_youhui'];
+
 		if ( !$this->save( $data_order ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加失败'];
 		}
 		//给商家订单量增加一个
 		Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功','order_id'=>$this->id,'type'=>$data['type_']];
+	}
+	/**
+	 * 添加订单--团购订金
+	 * zhunagxiu
+	 * submit order
+	 * zyg
+	 */
+	public function addOrderGroupDeposit($data){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		$row_group = self::getById($data['t_id'],new Tuangou());
+		if(!$row_group){
+			return ['code'=>__LINE__,'msg'=>'团购数据没有'];
+		}
+		$data_order['shop_id'] =$row_group->shop_id;
+		$data_order['sum_price'] =$row_group->deposit;
+		$data_order['orderno'] = $this->makeTradeNo($data['username']);
+		$data_order['type'] = self::ORDER_TYPE_GROUP_DEPOSIT;
+		$data_order['user_id'] = $user_id;
+		$data_order['address_id'] = $data['address_id'];
+		if(!empty($data['beizhu'])){
+			$data_order['beizhu'] = $data['beizhu'];
+		}
+
+		if ( !$this->save( $data_order ) ) {
+			return ['code' => __LINE__ , 'msg' => '添加订单失败'];
+		}
+		//给商家订单量增加一个
+		Shop::increaseOrdernum( $data_order['shop_id'] );
+		//添加订单商品
+		$row_good=self::getById($row_group->good_id,new Good());
+		if(!$row_good){
+			return ['code' => __LINE__ , 'msg' => '团购商品没有'];
+		}
+         $data_order_good['order_id']= $this->id; //new order_id
+         $data_order_good['shop_id']= $row_group->shop_id;
+         $data_order_good['good_id']= $row_good->id;
+         $data_order_good['name']= $row_good['name'];
+         $data_order_good['img']= $row_good->img;
+         $data_order_good['unit']= $row_good->unit;
+         $data_order_good['price']= $row_good->price;
+         $data_order_good['price_group']= $row_group->price_group;
+         $data_order_good['group_deposit']= $row_group->deposit;
+         if(!(new OrderGood())->save($data_order_good)){
+			 return ['code' => __LINE__ , 'msg' => '添加订单成功，商品添加失败'];
+		 }
+		return ['code' => 0 , 'msg' => '添加成功','order_id'=>$this->id];
 	}
 
 	/*

@@ -55,7 +55,7 @@ class Dingdan extends model{
 			$where['create_time'] = [['gt' , strtotime( $time_from )] , ['lt' , strtotime( $time_to )]];
 		}
 		if ( !empty( $data['orderno'] ) ) {
-			$where['orderno'] = $data['orderno'];
+			$where['dingdan.orderno'] = $data['orderno'];
 		}
 		if ( !empty( $data['shop_id'] ) ) {
 			$where['shop_id'] = $data['shop_id'];
@@ -74,87 +74,7 @@ class Dingdan extends model{
 
 		return $list;
 	}
-	// 添加订单 wx
-	/*public function addOrder($data) {
-		$user_id = User::getUserIdByName($data['username']);
-		if (is_array($user_id)) {
-			return $user_id;
-		}
-		$row_good = Good::read($data['good_id']);
-		//库存判断
-		if($row_good->store < $data['nums']){
-			return ['code'=>__LINE__,'msg'=>'库存不足'];
-		}
-		if(!$row_good){
-			return ['code'=>__LINE__,'msg'=>'商品暂不存在'];
-		}
-		$sum_price = $row_good->price * $data['nums'];
-		$data_order['user_id'] = $user_id;
-		$data_order['st'] = 1;
-		$data_order['goodst'] = 1;
-		$data_order['orderno'] = $this->makeTradeNo($data['username']);
-		$address = Address::getUserDefaultAddress($user_id);
 
-		$data_order['address_id'] = $address->id;
-
-		$data_order['sum_price'] = $sum_price ;
-
-		if (!$this->save($data_order)) {
-			return ['code' => __LINE__, 'msg' => '订单添加失败'];
-		}
-		$new_order_id = $this->getLastInsID();
-			$data_order_good['order_id'] = $new_order_id;
-			$data_order_good['good_id'] = $row_good->id;
-			$data_order_good['nums'] = $data['nums'];
-			(new OrderGood())->save($data_order_good);
-
-		return ['code' => 0, 'msg' => 'add order and add order_good ok', 'data' => $new_order_id];
-	}*/
-	//生成订单号 wx
-	/* public function makeTradeNo($username) {
-			return date('mdHis', time()) . mt_rand(10, 99) . '_' . $username;
-		}*/
-	//wx
-	/*public function getOrder($data) {
-		$order_id = $data['order_id'];
-		$row_order = self::find($order_id);
-		if (!$row_order) {
-			return ['code' => __LINE__, 'msg' => 'order is not exists'];
-		}
-		$list_order_goods = (new OrderGood)->alias('og')->where('order_id', $order_id)->join('good', 'good.id=og.good_id')->field("og.nums,good.id good_id,good.title,good.price,good.img")->select();
-		if (count($list_order_goods) == 0) {
-			return ['code' => __LINE__, 'msg' => '订单商品不存在'];
-		}
-		$row_address = [];
-		if($row_order->address_id!==0){
-			$row_address = Address::read($row_order->address_id);
-		}
-		return ['code' => 0, 'msg' => 'get order and order_goods ok', 'data' => ['order' => $row_order, 'order_goods' => $list_order_goods,'address'=>$row_address]];
-	}
-	public function getOrderAdress($data) {
-		$row_ = Address::get(['id' => $data['address_id']]);
-		if (!$row_) {
-			return ['code' => __LINE__, 'msg' => 'address not exists'];
-		}
-		return ['code' => 0, 'msg' => 'get new address ok', 'data' => $row_];
-	}*/
-	//wx
-	/*public static function getMyOrders($data) {
-		$user_id = User::getUserIdByName($data['user_name']);
-		if (is_array($user_id)) {
-			return $user_id;
-		}
-		$where = ['st' => ['neq',0],'user_id'=>$user_id];
-		$where2 = ['st' => ['neq',5]];
-		//return ['code' => 3, 'msg' => 'dfsgdsg'];
-		$list_order = self::where($where)->where($where2)->order('create_time desc')->paginate();
-		foreach ($list_order as $k => $row_order) {
-			$list_order_good =  OrderGood::getGood($row_order->id);
-			$list_order[$k]['goods'] = $list_order_good;
-		}
-		return ['code' => 0, 'msg' => 'get order and order_goods ok', 'data' => $list_order];
-
-	}*/
 
 	/*
 	 * 更改订单发货状态

@@ -80,6 +80,7 @@
          */
 
         public static function getPnumList($t_id){
+
             $field = 'tuangou.id t_id,good.price good_price,price_group,pnum,attend_pnum,which_info,desc,imgs,good.img,good.unit,good.name good_name,shop.name shop_name,tuangou.deposit,img_big_st,good.id good_id';
             $list = self::where(['tuangou.id'=>$t_id,'tuangou.st'=>1])->join('good','good.id=tuangou.good_id','left')->join('shop','shop.id=tuangou.shop_id','left')->field($field)->find();
             return $list;
@@ -95,6 +96,7 @@
             return $imgList;
         }
 
+<<<<<<< HEAD
         /**
          * 判断是否参加团购
          */
@@ -105,4 +107,6 @@
             }
             return ['code'=>0,'msg'=>'参加团购','data'=>'1'];
         }
+=======
+>>>>>>> c3539f43becab18d181179895fb1657820f4851b
     }
