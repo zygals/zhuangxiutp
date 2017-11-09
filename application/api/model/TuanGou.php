@@ -79,7 +79,7 @@
          */
         public static function getPnumList($data){
             $t_id = $data['t_id'];
-            $field = 'tuangou.id t_id,img_big,good.price good_price,price_group,end_time,name,pnum,attend_pnum,which_info,desc,imgs';
+            $field = 'tuangou.id t_id,img_big,good.price good_price,price_group,end_time,name,pnum,attend_pnum,which_info,desc,imgs,img_big_st,good.id good_id';
             $list = self::where(['tuangou.id'=>$t_id])->join('good','good.id=tuangou.good_id')->field($field)->find();
             return $list;
         }
