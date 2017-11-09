@@ -96,7 +96,7 @@ class DingdanController extends BaseController {
 	}
 
 	/**
-	 * 添加订单--团购订金
+	 * 添加订单--团购订金或尾款订单
 	 * zhunagxiu- zyg
 	 *
 	 */
@@ -105,10 +105,7 @@ class DingdanController extends BaseController {
 		$rules = [
 			't_id'=>'require',
 			'username' => 'require',
-			//'shop_id' => 'require',
-			//'good_id'=>'require',
-			//'price_group' => 'require',
-			//'sum_price' => 'require|float',//订金
+			'type_' => 'require|number',
 			'address_id' => 'require|number',
 		];
 		$res = $this->validate($data, $rules);

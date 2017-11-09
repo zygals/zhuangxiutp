@@ -89,7 +89,7 @@
 									<p>编号：{$row_good->good_id}</p>
 									<p>商品：{$row_good->good_name}</p>
 									<p>单价*数量：{$row_good->price} * {$row_good->num}</p>
-<?php if($row_order->getData('type')==3){?>
+<?php if($row_order->getData('type')==3 ||$row_order->getData('type')==6){?>
 	<p>团购价：{$row_good->price_group}</p>
 	<p>团购订金：{$row_good->group_deposit}</p>
 									<?php }?>
