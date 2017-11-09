@@ -6,7 +6,7 @@ use think\Validate;
 class CateValidate extends Validate{
 	protected $rule = [
 		'name'  =>  'require',
-		'cate_id'  =>  'require',
+
 		'type' =>  'require|number',
         'sort'=>'number',
 

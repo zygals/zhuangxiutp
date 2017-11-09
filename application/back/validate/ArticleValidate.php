@@ -9,7 +9,7 @@ class ArticleValidate extends Validate{
 		'cont' =>  'require',
 		'sort' =>  'number',
 		'index_show' =>  'boolean',
-
+		'cate_id'  =>  'require',
 
 	];
 	protected $message  =   [
