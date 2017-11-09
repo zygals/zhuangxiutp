@@ -49,7 +49,7 @@ class Shop extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->join('admin','admin.id=shop.admin_id','left')->order($order)->field($field)->paginate();
+        $list_ = self::where($where)->join('cate','shop.cate_id=cate.id')->join('admin','admin.id=shop.admin_id','left')->order($order)->field($field)->paginate(10);
        // echo ($list_[1]->admin_st);exit;
         return $list_;
     }

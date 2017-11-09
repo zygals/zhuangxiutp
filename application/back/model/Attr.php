@@ -25,7 +25,7 @@ class Attr extends model {
         if(!empty($data['type_id'])){
             $where['type_id']=$data['type_id'];
         }
-        $list_ = self::where($where)->order('create_time asc')->paginate();
+        $list_ = self::where($where)->order('create_time asc')->paginate(10);
 
 
         return $list_;

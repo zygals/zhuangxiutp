@@ -53,9 +53,9 @@ class Article extends Base {
         }
 
 
-        $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->field($filed)->order($order)->paginate();
+        $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->field($filed)->order($order)->paginate(10);
 //        dump($list_);exit;
-//        $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->join('school', 'article.school_id=school.id', 'left')->field($filed)->order($order)->paginate();
+//        $list_ = self::where($where)->join('cate', 'article.cate_id=cate.id', 'left')->join('school', 'article.school_id=school.id', 'left')->field($filed)->order($order)->paginate(10);
         foreach($list_ as $k=>$value){
              if(mb_strlen($value->cont,"UTF8")>40){
                  $list_[$k]->cont = mb_substr($value->cont, 0, 100, 'utf-8').'...';

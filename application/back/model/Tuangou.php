@@ -71,7 +71,7 @@ class Tuangou extends model{
 //					break;
 			}
 		}
-		$list_ = self::where( $where )->join( 'shop' , 'shop.id=tuangou.shop_id' )->join( 'good' , 'good.id=tuangou.good_id' )->field( $field )->order( $order )->paginate();
+		$list_ = self::where( $where )->join( 'shop' , 'shop.id=tuangou.shop_id' )->join( 'good' , 'good.id=tuangou.good_id' )->field( $field )->order( $order )->paginate(10);
 		return $list_;
 	}
 
