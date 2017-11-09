@@ -43,7 +43,6 @@ class Article extends Base {
         if(!empty($data['index_show'])){
             $where['index_show'] = $data['index_show'];
         }
-
         if (!empty($data['paixu'])) {
             $order = 'article.'.$data['paixu'] . ' asc';
         }
