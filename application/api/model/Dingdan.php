@@ -132,6 +132,20 @@ class Dingdan extends Base{
 		}
 		return ['code' => __LINE__ , 'msg' => '无订金订单'];
 	}
+	/*
+		 * 我是否下过些团购尾款订单？
+		 * zhuangxiu-zyg
+		 * */
+	public static function hasOrderGroupFinal($data){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_FINAL , 'group_id' => $data['t_id']] )->find() ) {
+			return ['code' => 0 , 'msg' => '有尾款订单' , 'data' => $row];
+		}
+		return ['code' => __LINE__ , 'msg' => '无尾款订单'];
+	}
 
 	/**
 	 * 添加订单--团购订金或是尾款
