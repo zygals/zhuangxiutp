@@ -73,6 +73,10 @@ ADD COLUMN `article_st`  tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否添加了�
 ALTER TABLE `fankui`
 ADD COLUMN `star`  tinyint(4) NULL DEFAULT 1 COMMENT '1  好评   2中评  3差评' AFTER `update_time`;
 
+二〇一七年十一月九日 15:32:34
+ALTER TABLE `shop`
+ADD COLUMN `qrcode`  varchar(255) NULL COMMENT '二维码';
+
 
 
 
