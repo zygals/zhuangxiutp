@@ -78,20 +78,13 @@
 
 <script>
 
-    $(function () {
-        $('form').bootstrapValidator({
-            img: {
-                validators: {
-                    notEmpty: {
-                        message: '请添加广告图'
-                    }
-                }
-            }
-
-        }
-    });
-
-    });
+	$('.url_to').click(function () {
+		if(this.value==0 || this.value==4){
+			$('#url_id_div').hide();
+		}else{
+			$('#url_id_div').show();
+		}
+	})
 
 </script>
 
