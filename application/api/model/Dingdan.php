@@ -190,7 +190,7 @@ class Dingdan extends Base{
 		if ( !( new OrderGood() )->save( $data_order_good ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加订单成功，商品添加失败'];
 		}
-		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id];
+		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id,'type'=>$data['type_']];
 	}
 
 	/*
