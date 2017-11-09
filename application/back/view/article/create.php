@@ -102,7 +102,15 @@
                         }
 
                 },
+				cate_id: {
+					validators:
+					{
+						notEmpty: {
+							message: '不能为空'
+						}
+					}
 
+				},
 
                 img: {
                     validators: {
