@@ -334,7 +334,6 @@ class Dingdan extends Base{
 		if ( count( $list_order_goods ) == 0 ) {
 			return ['code' => __LINE__ , 'msg' => '订单商品不存在'];
 		}
-
 		return ['code' => 0 , 'msg' => '查询订单成功' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
 	}
 
