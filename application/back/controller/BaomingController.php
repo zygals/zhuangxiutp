@@ -135,9 +135,7 @@ class BaomingController extends BaseController{
 		$Ad = new Article();
 		$Ad->save($data);
 		$this->saveById($data['baoming_id'],new Baoming(),['article_st'=>1]);
-
 		$this->success('添加成功', 'index', '', 1);
-
 	}
 
 	/**

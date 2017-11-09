@@ -11,6 +11,10 @@ class Article extends Base{
 		$status = [0 => 'deleted' , 1 => '正常' , 2 => '不显示'];
 		return $status[$value];
 	}
+	public function getTypeAttr($value){
+		$status = [ 1 => '百科', 2 => '验房', 3 => '限人团购'];
+		return $status[$value];
+	}
 
 	public function getIndexShowAttr($value){
 		$status = [0 => '否' , 1 => '是'];
@@ -36,26 +40,23 @@ class Article extends Base{
 	 * index article list;验房 article list
 	 * zhuangxiu-zyg
 	 * */
-	public static function getListIndex($type = 1){
+	public static function getListIndex(){
 		$order = "article.update_time desc";
-		$where = ['article.st' => 1 , 'index_show' => 1 , 'article.type' => $type];
+		$where = ['article.st' => 1 , 'index_show' => 1 , 'article.type' => 1];
 		$fields = "article.id,article.name,article.img,article.charm,left(article.cont,80) cont_limit";
-		if ( $type == 1 ) {
-			$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->limit( 5 )->select();
-		}else{
-			$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->paginate();
-		}
-		if ( $list_->isEmpty() ) {
-			$order = "article.create_time desc";
-			$where = ['article.st' => 1 , 'article.type' => $type];
-			if ( $type == 1 ) {
-				$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->limit( 5 )->select();
-			}else{
-				$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->paginate();
-			}
-		}
-
-		return $list_;
+		$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->limit( 5 )->select();
+		return ['code'=>0,'msg'=>'百科成功','data'=>$list_];
+	}
+	/*
+	 * index article list;验房 article list
+	 * zhuangxiu-zyg
+	 * */
+	public static function getListYanfang(){
+		$order = "article.update_time desc";
+		$where = ['article.st' => 1 , 'index_show' => 1 , 'article.type' => 2];
+		$fields = "article.id,article.name,article.img,article.charm,left(article.cont,80) cont_limit";
+		$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->paginate();
+		return ['code'=>0,'msg'=>'验房文章成功','data'=>$list_];
 	}
 
 	//wx
