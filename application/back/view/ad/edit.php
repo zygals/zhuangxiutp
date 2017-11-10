@@ -41,6 +41,8 @@
                             <label ><input class="url_to" type="radio" name ='url_to' <?= $row_->url_to=='商品详情'?'checked':'';?>  value="2">商品详情</label>
                             <label ><input class="url_to" type="radio" name ='url_to' <?= $row_->url_to=='店铺详情'?'checked':'';?>  value="3">店铺详情</label>
                             <label ><input class="url_to" type="radio" name ='url_to' <?= $row_->url_to=='店铺列表'?'checked':'';?>  value="4">店铺列表</label>
+                            <label ><input class="url_to" type="radio" name ='url_to' <?= $row_->url_to=='线上拼团'?'checked':'';?>  value="5">线上拼团</label>
+                            <label ><input class="url_to" type="radio" name ='url_to' <?= $row_->url_to=='公益验房'?'checked':'';?>  value="6">公益验房</label>
                             <label ><input class="url_to" type="radio" name ='url_to' <?= $row_->url_to=='无'?'checked':'';?>  value="0">无</label>
                         </div>
                     </div>
