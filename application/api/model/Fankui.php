@@ -52,10 +52,9 @@ class Fankui extends Base {
      * 获取用户所有的评价
      */
     public static function getEvalute($data){
-        $user_id = User::getUserIdByName($data['username']);
+        $user_id = User::getUserIdByName($data);
         $field = 'fankui.*,nickname,vistar';
-        $listRows = 4;
-        $row_ = self::where('user_id',$user_id)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate($listRows);
+        $row_ = self::where('user_id',$user_id)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->select();
         if($row_->isEmpty()){
             return ['code'=>__LINE__,'msg'=>'暂无评论'];
         }
