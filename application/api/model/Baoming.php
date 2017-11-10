@@ -76,7 +76,7 @@ class Baoming extends Base {
         }
         $row_ = self::where(['user_id' => $user_id,'st'=>['<>',0]])->order('create_time desc')->field('truename,mobile,address,id,from_unixtime(time_to,"%Y-%m-%d") time_to,st')->find();
         if (!$row_) {
-			return ['code' => __LINE__, 'msg' => '没有数据'];
+			return ['code' => __LINE__];
 
         }
 	 if($row_->time_to=='1970-01-01'){
