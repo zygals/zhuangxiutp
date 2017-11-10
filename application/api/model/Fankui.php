@@ -55,7 +55,7 @@ class Fankui extends Base {
         $user_id = User::getUserIdByName($data['username']);
         $field = 'fankui.*,nickname,vistar';
         $listRows = 4;
-        $row_ = self::where('user_id',$user_id)->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->paginate($listRows);
+        $row_ = self::where('user_id',$user_id)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate($listRows);
         if($row_->isEmpty()){
             return ['code'=>__LINE__,'msg'=>'暂无评论'];
         }
