@@ -152,6 +152,12 @@ class AdController extends BaseController {
             case Ad::URL_TO_SHOP_LIST:
                 $data['url'] = '/pages/goods/goods';
                 break;
+            case Ad::URL_TO_ONLINEGROUP_LIST:
+                $data['url'] = '/pages/goodDetail/goodDetail?t_id=' .$data['url_bianhao'];
+                break;
+            case Ad::URL_TO_CHECKROOM_LIST:
+                $data['url'] = '/pages/house/house';
+                break;
             default:
                 $data['url'] = '';
 
