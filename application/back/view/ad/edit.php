@@ -81,7 +81,7 @@
 <script>
 
 	$('.url_to').click(function () {
-		if(this.value==0 || this.value==4){
+		if(this.value==0 || this.value==4 || this.value==6 ){
 			$('#url_id_div').hide();
 		}else{
 			$('#url_id_div').show();
