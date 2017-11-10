@@ -44,7 +44,7 @@ class Fankui extends Base {
         if(!empty($data['paixu'])){
             $where['star'] = $data['paixu'];
         }
-        $list_ = self::where($where)->join('dingdan','fankui.order_id=dingdan.id','left')->join('user','fankui.user_id=user.id','left')->join('shop','fankui.shop_id=shop.id','left')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
+        $list_ = self::where($where)->join('dingdan','fankui.order_id=dingdan.id','left')->join('user','fankui.user_id=user.id','left')->join('shop','fankui.shop_id=shop.id','left')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate(10);
         return $list_;
     }
     public static function getList($data){
@@ -52,7 +52,7 @@ class Fankui extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where(['user_id'=>$user_id,'fankui.st'=>1])->join('good','good.id=fankui.good_id')->join('user','fankui.user_id=user.id')->field('fankui.*,good.img,good.title,cont,nickname,vistar')->paginate();
+        $list_ = self::where(['user_id'=>$user_id,'fankui.st'=>1])->join('good','good.id=fankui.good_id')->join('user','fankui.user_id=user.id')->field('fankui.*,good.img,good.title,cont,nickname,vistar')->paginate(10);
         return ['code'=>0,'msg'=>'get fankui ok','data'=>$list_];
     }
     //wx

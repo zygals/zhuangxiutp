@@ -30,7 +30,7 @@ class Base extends model {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->order($order)->paginate();
+        $list_ = self::where($where)->order($order)->paginate(10);
 
         return $list_;
     }

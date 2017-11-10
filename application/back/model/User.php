@@ -35,7 +35,7 @@ class User extends Base
             $order = $data['paixu'] . ' desc';
         }
 
-        $list=$this->where($where)->order($order)->paginate(config('paginate.list_rows'));
+        $list=$this->where($where)->order($order)->paginate(10);
 
 		return $list;
 	}

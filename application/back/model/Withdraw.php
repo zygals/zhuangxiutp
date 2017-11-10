@@ -47,7 +47,7 @@ class Withdraw extends Base{
             $where['withdraw.cash_st']= $data['cash_st'];
         }
 //        dump($where);exit;
-        $list_ = self::where($where)->join('admin','admin.id=withdraw.admin_id')->field($field)->order($order)->paginate();
+        $list_ = self::where($where)->join('admin','admin.id=withdraw.admin_id')->field($field)->order($order)->paginate(10);
         return $list_;
     }
 

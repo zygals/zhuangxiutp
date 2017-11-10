@@ -69,7 +69,7 @@ class Dingdan extends model{
 		if ( !empty( $data['paixu'] ) && !empty( $data['sort_type'] ) ) {
 			$order = $data['paixu'] . ' desc';
 		}
-		$list = self::where( $where )->join( 'user' , 'user.id=dingdan.user_id' )->join( 'shop' , 'dingdan.shop_id=shop.id' )->join( 'order_contact' , 'dingdan.order_contact_id=order_contact.id' , 'left' )->field( 'dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact' )->order( $order )->paginate();
+		$list = self::where( $where )->join( 'user' , 'user.id=dingdan.user_id' )->join( 'shop' , 'dingdan.shop_id=shop.id' )->join( 'order_contact' , 'dingdan.order_contact_id=order_contact.id' , 'left' )->field( 'dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact' )->order( $order )->paginate(10);
 		//dump($list);
 
 		return $list;

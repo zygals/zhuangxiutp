@@ -96,19 +96,16 @@ class DingdanController extends BaseController {
 	}
 
 	/**
-	 * 添加订单--团购订金
+	 * 添加订单--团购订金或尾款订单
 	 * zhunagxiu- zyg
-	 *
+	 *确定添加？前去
 	 */
 	public function save_group_deposit(Request $request) {
 		$data = $request->param();
 		$rules = [
 			't_id'=>'require',
 			'username' => 'require',
-			//'shop_id' => 'require',
-			//'good_id'=>'require',
-			//'price_group' => 'require',
-			//'sum_price' => 'require|float',//订金
+			'type_' => 'require|number',
 			'address_id' => 'require|number',
 		];
 		$res = $this->validate($data, $rules);
@@ -153,7 +150,22 @@ class DingdanController extends BaseController {
 		}
        return json(Dingdan::hasOrderGroupDeposit($data));
 	}
-
+	/*
+		 * 我是否下过些团购尾款订单？
+		 * zhuangxiu-zyg
+		 * */
+	public function has_order_group_final(Request $request){
+		$data = $request->param();
+		$rules = [
+			'username' => 'require',
+			't_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json(Dingdan::hasOrderGroupFinal($data));
+	}
     /*
      * 添加订单-团购  不要了
      * zhuangxiu-zyg
