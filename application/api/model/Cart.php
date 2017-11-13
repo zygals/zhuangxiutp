@@ -104,19 +104,16 @@ class Cart extends Base {
         }
         $minus_price = $row_cart_good->num * $row_good->price;
         $row_cart = self::getById($row_cart_good->cart_id, new Cart);
-        if (!$row_cart_good) {
-            return ['code' => __LINE__, 'msg' => '无商品'];
-        }
         $row_cart->sum_price -= $minus_price;
 
         if ($row_cart->sum_price == 0) {
             $row_cart->st = 0;
         }
-        $list_good=CartGood::where(['cart_id'=>$row_cart->id])->select();
-        if($list_good->isEmpty()){
-            $row_cart->sum_price=0;
-            $row_cart->st = 0;
-        }
+//        $list_good=CartGood::where(['cart_id'=>$row_cart->id])->select();
+//        if($list_good->isEmpty()){
+//            $row_cart->sum_price=0;
+//            $row_cart->st = 0;
+//        }
         $row_cart->save();
         $row_cart_good->st = 0;
         $row_cart_good->save();
