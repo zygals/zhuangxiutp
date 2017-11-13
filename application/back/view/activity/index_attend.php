@@ -87,10 +87,10 @@
                 <div class="col-xs-2" title="{$row_->xiaoqu}">
                     {$row_->xiaoqu}
                 </div>
-                <div class="col-xs-1" title="{$row_->mobile}">
+                <div class="col-xs-1" title="{$row_->nigou}">
                     {$row_->nigou}
                 </div>
-                <div class="col-xs-2" title="{$row_->mobile}">
+                <div class="col-xs-2" title="{$row_->create_time}">
                     {$row_->create_time}
                 </div>
                <!--<div class="col-xs-">
