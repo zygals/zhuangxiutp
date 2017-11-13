@@ -44,21 +44,21 @@
             <div class="col-xs-1 ">
                 编 号
             </div>
-			<div class="col-xs-2 ">
-				用　户　名
+			<div class="col-xs-1 ">
+				用户名
 			</div>
-			<div class="col-xs-1">
+			<div class="col-xs-2">
 				昵称
 			</div>
             <div class="col-xs-1">
                 头像
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-">
                 注册时间
             </div>
-            <div class="col-xs-">
-                修改时间
-            </div>
+<!--            <div class="col-xs-">-->
+<!--                修改时间-->
+<!--            </div>-->
 			<!--<div class="col-xs-1">
 				状 态
 			</div>
@@ -69,20 +69,20 @@
 		<div class="tablebody">
 			<?php if(count($list)>0){?>
 			<?php foreach($list as $key=>$user){?>
-			<div class="row">
+			<div class="row cont_nowrap">
                 <div class="col-xs-1">
                     {$user->id}
                 </div>
-				<div class="col-xs-2 ">
+				<div class="col-xs-1 " title="{$user->username}">
 					{$user->username}
 				</div>
-              <div class="col-xs-1">
+              <div class="col-xs-2" title="{$user->nickname}">
                     {$user->nickname}
                 </div>
                 <div class="col-xs-1">
                     <img src="{$user->vistar}" width="50" height="50" alt="没有头像">
                 </div>
-				<div class="col-xs-6">
+				<div class="col-xs-">
 					{$user->create_time}
 				</div>
 			</div>
