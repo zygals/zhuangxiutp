@@ -67,17 +67,20 @@ class Cart extends Base {
             return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $sum_price_all = 0;
-        foreach ($list_cart as $k => $cart) {
-            $list_good = CartGood::getGoodsByShop($cart->shop_id);
-            if ($list_good->isEmpty()) {
-                $list_cart[$k]->sum_price=0;
-                $list_cart[$k]->st=0;
-                $list_cart[$k]->save();
-                unset( $list_cart[$k]);
+        if(!$list_cart->isEmpty()){
+            foreach ($list_cart as $k => $cart) {
+                $list_good = CartGood::getGoodsByShop($cart->shop_id);
+                if ($list_good->isEmpty()) {
+                    $list_cart[$k]->sum_price=0;
+                    $list_cart[$k]->st=0;
+                    $list_cart[$k]->save();
+                    unset( $list_cart[$k]);
+                }
+                $sum_price_all += $cart->sum_price;
+                $list_cart[$k]['shop_goods'] = $list_good;
             }
-            $sum_price_all += $cart->sum_price;
-            $list_cart[$k]['shop_goods'] = $list_good;
         }
+
         return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all' => $sum_price_all, 'data' => $list_cart];
 
     }
