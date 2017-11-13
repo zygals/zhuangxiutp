@@ -100,10 +100,9 @@ class GoodController extends BaseController {
             $data['imgs'] = '';
         } else {
             $data['desc'] = '';
-            $file3 = $request->file('imgs');
-            $size3 = $file3->getSize();
-            // dump($data);exit;
+			$file3 = $request->file('imgs');
             if (!empty($file3)) {
+				$size3 = $file3->getSize();
                 if ($size3 > config('upload_size')) {
                     $this->error('图片大小超过限定！');
                 }

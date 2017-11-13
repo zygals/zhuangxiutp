@@ -62,12 +62,12 @@ class CateController extends BaseController {
 
     public function delete(Request $request) {
         $data = $request->param();
-        // $list_shop = Shop::getListByCateId($data['id']);
-         $list_good = Good::getListByCateId($data['id']);
+        $list_shop = Shop::getListByCateId($data['id']);
+        $list_good = Good::getListByCateId($data['id']);
 
-        //if(count($list_good)>0 || count($list_shop)>0){
-       //     $this->error('分类下有商品或商户，不能直接删除');
-       // }
+        if(count($list_good)>0 || count($list_shop)>0){
+          $this->error('分类下有商品或商户，不能直接删除');
+       }
         if ($this->deleteStatusById($data['id'], new Cate())) {
             $this->success('删除成功', $data['url'], '', 1);
         } else {

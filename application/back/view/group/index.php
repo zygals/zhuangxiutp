@@ -87,9 +87,9 @@
 				团购状态
 			</div>
 
-			<div class="col-xs-1">
+			<!--<div class="col-xs-1">
 				活动截止时间
-			</div>
+			</div>-->
 <!--			<div class="col-xs-1">-->
 <!--				类型-->
 <!--			</div>-->
@@ -104,8 +104,8 @@
 						<div class="col-xs-1 ">
 							{$row_->id}
 						</div>
-						<div class="col-xs-1 " title="{$row_->shop_id}">
-							{$row_->shop_name}
+						<div class="col-xs-1 " title="{$row_->shop_id}:{$row_->shop_name}">
+							{$row_->shop_id}:{$row_->shop_name}
 						</div>
 						<div class="col-xs-1 " title="{$row_->good_id}">
 							{$row_->good_name}
@@ -142,13 +142,13 @@
 							{$row_->group_st}
 						</div>
 						<?php if($row_->end_time != 0){ ?>
-							<div class="col-xs-1" title="{$row_->end_time}">
-								<?php echo date( 'Y-m-d' , $row_->end_time ) ?>
-							</div>
+							<!--<div class="col-xs-1" title="{$row_->end_time}">
+								<?php /*echo date( 'Y-m-d' , $row_->end_time ) */?>
+							</div>-->
 						<?php }else{ ?>
-							<div class="col-xs-1" title="{$row_->end_time}">
+						<!--	<div class="col-xs-1" title="{$row_->end_time}">
 								无
-							</div>
+							</div>-->
 						<?php } ?>
 <!--						<div class="col-xs-1">-->
 <!--							{$row_->type}-->
@@ -158,6 +158,15 @@
 							<a href="{:url('edit')}?id={$row_->id}">
 								<button class="btn btn-success btn-xs edit_" title="修改">修</button>
 							</a>
+							<?php if ( $row_->article_st == 0 ) { ?>
+								<a href="{:url('add')}?id={$row_->id}">
+									<button class="btn btn-success btn-xs edit_" title="总结">总结</button>
+								</a>
+							<?php } else { ?>
+								<a href="{:url('edit_article')}?id={$row_->id}">
+									<button class="btn btn-success btn-xs edit_" title="修改总结">改总结</button>
+								</a>
+							<?php } ?>
 
 							<?php if ( $row_->end_time <= time() ) { ?>
 
@@ -170,16 +179,6 @@
 											data-target="#downSource" data-id="<?= $row_['id'] ?>" onclick="down_(this)" title="下架"> 下
 									</button>
 								<?php }?>
-
-								<?php if ( $row_->article_st == 0 ) { ?>
-									<a href="{:url('add')}?id={$row_->id}">
-										<button class="btn btn-success btn-xs edit_" title="总结">总结</button>
-									</a>
-								<?php } else { ?>
-									<a href="{:url('edit_article')}?id={$row_->id}">
-										<button class="btn btn-success btn-xs edit_" title="修改总结">改总结</button>
-									</a>
-								<?php } ?>
 							<?php } ?>
 						</div>
 					</div>

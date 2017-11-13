@@ -73,6 +73,47 @@ class DingdanController extends BaseController {
         return json((new Dingdan)->addOrder($data));
     }
 
+	/**
+	 * 添加订单--商家订金或是全款
+	 * zhunagxiu
+	 * submit order
+	 * zyg
+	 */
+	public function save_deposit(Request $request) {
+		$data = $request->param();
+		$rules = [
+			'type_'=>'require|in:4,5',
+			'username' => 'require',
+			'shop_id' => 'require',
+			'sum_price' => 'require|float',
+			'address_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json((new Dingdan)->addOrderDeposit($data));
+	}
+
+	/**
+	 * 添加订单--团购订金或尾款订单
+	 * zhunagxiu- zyg
+	 *确定添加？前去
+	 */
+	public function save_group_deposit(Request $request) {
+		$data = $request->param();
+		$rules = [
+			't_id'=>'require',
+			'username' => 'require',
+			'type_' => 'require|number',
+			'address_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json((new Dingdan)->addOrderGroupDeposit($data));
+	}
 
     /**
      * 查询某个商家订单
@@ -93,7 +134,38 @@ class DingdanController extends BaseController {
         return json($m_->getOrder($data));
 
     }
-
+	/*
+	 * 我是否下过些团购订金订单？
+	 * zhuangxiu-zyg
+	 * */
+	public function has_order_group_deposit(Request $request){
+		$data = $request->param();
+		$rules = [
+			'username' => 'require',
+			't_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+       return json(Dingdan::hasOrderGroupDeposit($data));
+	}
+	/*
+		 * 我是否下过些团购尾款订单？
+		 * zhuangxiu-zyg
+		 * */
+	public function has_order_group_final(Request $request){
+		$data = $request->param();
+		$rules = [
+			'username' => 'require',
+			't_id' => 'require|number',
+		];
+		$res = $this->validate($data, $rules);
+		if (true !== $res) {
+			return json(['code' => __LINE__, 'msg' => $res]);
+		}
+		return json(Dingdan::hasOrderGroupFinal($data));
+	}
     /*
      * 添加订单-团购  不要了
      * zhuangxiu-zyg

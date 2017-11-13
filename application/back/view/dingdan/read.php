@@ -35,6 +35,13 @@
 						</div>
 					</div>
 					<div class="form-group ">
+						<label for="sName" class="col-xs-3 control-label">订单类型：</label>
+
+						<div class="col-xs-8 ">
+							<label>{$row_order->type}</label>
+						</div>
+					</div>
+					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">状态：</label>
 
 						<div class="col-xs-8 ">
@@ -44,13 +51,17 @@
 							<?php } ?>
 						</div>
 					</div>
-					<div class="form-group ">
-						<label for="sName" class="col-xs-3 control-label">商品状态：</label>
+					<?php if($row_order->type=='普通' || $row_order->type=='限人'){?>
+						<div class="form-group ">
+							<label for="sName" class="col-xs-3 control-label">商品状态：</label>
 
-						<div class="col-xs-8 ">
-							<label>{$row_order->goodst}</label>
+							<div class="col-xs-8 ">
+								<label>{$row_order->goodst}</label>
+							</div>
 						</div>
-					</div>
+					<?php }?>
+
+
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">会员用户名：</label>
 
@@ -76,13 +87,14 @@
 								</div>
 								<div class="col-xs-6">
 									<p>编号：{$row_good->good_id}</p>
-
-									<p>{$row_good->good_name}</p>
-
-									<p>{$row_good->price} * {$row_good->num}</p>
-
+									<p>商品：{$row_good->good_name}</p>
+									<p>单价*数量：{$row_good->price} * {$row_good->num}</p>
+<?php if($row_order->getData('type')==3 ||$row_order->getData('type')==6){?>
+	<p>团购价：{$row_good->price_group}</p>
+	<p>团购订金：{$row_good->group_deposit}</p>
+									<?php }?>
 									<p>{$row_good->st}</p>
-									<?php if ( $row_order->st == '已支付' && $row_good->st == '没发货' ) { ?>
+									<?php if ( $row_order->st == '已支付' && $row_good->st == '没发货' && $row_order->getData('type')!==3) { ?>
 										<a href="javascript:if(confirm('确认已发货了吗？'))window.location.href='{:url('change_goodst')}?order_good_id={$row_good->id}'">确认发货</a>
 									<?php } ?>
 									<!--<p>状态：<label><input type="radio" name="st" <? /*= $row_good->st=='1'?'checked':'';*/ ?>/>待发货</label>
@@ -117,6 +129,13 @@
 								<span>地址：</span>
 								<span>{$row_order->pcd} {$row_order->info}</span>
 							</div>
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="sName" class="col-xs-3 control-label">备注：</label>
+
+						<div class="col-xs-8 ">
+							<label>{$row_order->beizhu}</label>
 						</div>
 					</div>
 					<div class="form-group ">

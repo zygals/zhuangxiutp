@@ -25,6 +25,9 @@ class User extends Base
  		 if(!empty($data['time_from']) && !empty($data['time_to'])){
             $where['create_time']=[['gt',strtotime($data['time_from'])],['lt',strtotime($data['time_to'])]];
         }
+		if (!empty($data['username'])) {
+			$where['username'] = ['like','%'.$data['username'].'%'];
+		}
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';
         }
@@ -32,7 +35,7 @@ class User extends Base
             $order = $data['paixu'] . ' desc';
         }
 
-        $list=$this->where($where)->order($order)->paginate(config('paginate.list_rows'));
+        $list=$this->where($where)->order($order)->paginate(10);
 
 		return $list;
 	}

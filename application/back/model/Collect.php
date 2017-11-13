@@ -33,7 +33,7 @@ class Collect extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where(['collect.st'=>1,'user_id'=>$user_id])->join('good','good.id=collect.good_id')->field('collect.*,title,img,price,type')->order('create_time desc')->paginate();
+        $list_ = self::where(['collect.st'=>1,'user_id'=>$user_id])->join('good','good.id=collect.good_id')->field('collect.*,title,img,price,type')->order('create_time desc')->paginate(10);
         return $list_;
    }
    //wx

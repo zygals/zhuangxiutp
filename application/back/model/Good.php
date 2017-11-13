@@ -66,7 +66,7 @@ class Good extends Base {
         if(!empty($data['st']) ){
             $where['good.st']= ['=',2];
         }
-        $list_ = self::where($where)->join('shop','shop.id=good.shop_id')->join('cate', 'shop.cate_id=cate.id', 'left')->field($field)->order($order)->paginate();
+        $list_ = self::where($where)->join('shop','shop.id=good.shop_id')->join('cate', 'shop.cate_id=cate.id', 'left')->field($field)->order($order)->paginate(10);
 //        dump($list_);exit;
         return $list_;
     }

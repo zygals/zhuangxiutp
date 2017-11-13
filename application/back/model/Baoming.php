@@ -23,7 +23,7 @@ class Baoming extends Base{
 		if (!empty($data['paixu']) && !empty($data['sort_type'])) {
 			$order = $data['paixu'] . ' desc';
 		}
-		$list_ = self::where($where)->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->order($order)->paginate();
+		$list_ = self::where($where)->field('id,truename,mobile,address,create_time,from_unixtime(time_to) time_to,st,article_st')->order($order)->paginate(10);
 
 		return $list_;
 

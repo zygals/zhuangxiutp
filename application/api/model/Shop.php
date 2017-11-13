@@ -55,7 +55,7 @@ class Shop extends Base{
 		$list_ = self::where( $where )->join( 'cate' , 'shop.cate_id=cate.id' )->order( $order )->field( $field )->paginate();
 		// dump($list_);exit;
 		if ( $list_->isEmpty() ) {
-			return ['code' => __LINE__ , 'msg' => 'shop not exists'];
+			return ['code' => __LINE__ , 'msg' => '暂无数据'];
 		}
 		return ['code' => 0 , 'msg' => 'shop list ok' , 'data' => $list_];
 	}
@@ -71,11 +71,12 @@ class Shop extends Base{
 
 	public static function read($data){
 		$shop_id = $data['shop_id'];
-		$row_ = self::getById( $shop_id , new self() , 'name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand,zuoji' );
+		$row_ = self::getById( $shop_id , new self() , 'id shop_id,name,city,addr,truename,phone,ordernum,tradenum,fankuinum,img,logo,info,brand,zuoji,deposit,youhui,money_all,youhui_all' );
 		$user_id = User::getUserIdByName( $data['username'] );
 		if ( !$row_ ) {
 			return ['code' => __LINE__ , 'msg' => 'good not exist'];
 		}
+		$row_['isGroup'] = TuanGou::isAttend($shop_id);
 		$res = Collect::getByDivId( new Collect , $where = ['st' => 1 , 'collect_id' => $data['shop_id'] , 'user_id' => $user_id , 'type' => 2] );
 		if ( $res ) {
 			return ['code' => 0 , 'is_collect' => 'true' , 'data' => $row_];

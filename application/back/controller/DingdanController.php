@@ -29,7 +29,6 @@ class DingdanController extends BaseController {
         if ($res !== true) {
             $this->error($res);
         }
-
         $list_ = Dingdan::getAlldingdans($data);
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
@@ -46,6 +45,7 @@ class DingdanController extends BaseController {
     public function read(Request $request) {
         $data = $request->param();
         $row_order = Dingdan::findOne($data['id']);
+		//dump($row_order);
         $list_good =  OrderGood::getGood($row_order->id);
         return $this->fetch('', ['row_order' => $row_order, 'list_good'=>$list_good,'title'=>'订单详情 '.$row_order->orderno]);
     }
@@ -109,7 +109,9 @@ class DingdanController extends BaseController {
 			$this->error('状态修改失败',$referer, '', 1);
 		}
 	}
-
+/*
+ * 管理员改为已支付
+ * */
 	public function order_paid(Request $request){
 		$data = $request->param();
 		$rules = ['pass_admin' => 'require','order_id'=>'require'];

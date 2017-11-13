@@ -33,7 +33,7 @@ class Activity extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->field('name,id,img,FROM_UNIXTIME(start_time,"%Y-%m-%d") start_time,FROM_UNIXTIME(end_time,"%Y-%m-%d") end_time,address,pnum,create_time')->order($order)->paginate();
+        $list_ = self::where($where)->field('name,id,img,FROM_UNIXTIME(start_time,"%Y-%m-%d") start_time,FROM_UNIXTIME(end_time,"%Y-%m-%d") end_time,address,pnum,create_time')->order($order)->paginate(10);
 
         return $list_;
 

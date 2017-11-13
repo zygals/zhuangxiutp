@@ -2,6 +2,7 @@
 
 namespace app\api\model;
 
+use app\back\model\OrderGood;
 use app\back\model\Tuangou;
 use think\Model;
 
@@ -16,7 +17,10 @@ class Dingdan extends Base{
 	const GOOT_ST_FANKUIOK = 4; //已评价
 	const ORDER_TYPE_SHOP = 1; //单商家订单
 	const ORDER_TYPE_CONTACT = 2; //多商家订单
-	const  ORDER_TYPE_LIMIT_=1;
+	const ORDER_TYPE_GROUP_DEPOSIT = 3; //限人订金
+	const ORDER_TYPE_GROUP_FINAL = 6; //限人订金
+	const  ORDER_TYPE_SHOP_DEPOSIT = 4; //商家订金订单
+	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
 	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
 
 	public function getStAttr($value){
@@ -24,13 +28,15 @@ class Dingdan extends Base{
 		return $status[$value];
 	}
 
-    //订单的商品总状态
+	//订单的商品总状态
 	public function getGoodstAttr($value){
 		$status = [1 => '没发货' , 2 => '已发货' , 3 => '已收货' , 4 => '已评价' , 5 => '部分发货'];
 		return $status[$value];
 	}
+
 	public function getTypeAttr($value){
-		$status = [ 1 => '普通' , 2 => '限量' , 3 => '限人',4=>'订金',5=>'全款' ];
+		$status = [1 => '普通' ,/* 2 => '限量' ,*/
+				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款' , 6 => '限人尾款'];
 		return $status[$value];
 	}
 	/*
@@ -82,6 +88,125 @@ class Dingdan extends Base{
 		return $row_;
 	}
 
+	/**
+	 * 添加订单--商家订金或商家全款
+	 * zhunagxiu
+	 * submit order
+	 * zyg
+	 */
+	public function addOrderDeposit($data){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		/*if ( $row = self::where( ['user_id' => $user_id , 'type' => $data['type_'] , 'shop_id' => $data['shop_id'],'st'=>1] )->find() ) {
+			return ['code' => __LINE__ , 'msg' => '不能重复添加'];
+		}*/
+		$data_order['shop_id'] = $data['shop_id'];
+		$data_order['sum_price'] = $data['sum_price'];
+		$data_order['orderno'] = $this->makeTradeNo( $data['username'] );
+		$data_order['type'] = $data['type_'];//订金类型4 ，全款类型=5
+		$data_order['user_id'] = $user_id;
+		$data_order['address_id'] = $data['address_id'];
+		$data_order['beizhu'] = $data['beizhu'];
+
+		if ( !$this->save( $data_order ) ) {
+			return ['code' => __LINE__ , 'msg' => '添加失败'];
+		}
+		//给商家订单量增加一个
+		Shop::increaseOrdernum( $data_order['shop_id'] );
+		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id , 'type' => $data['type_']];
+	}
+
+	/*
+	 * 我的订单-团购订金
+	 * */
+
+	public static function hasOrderGroupDeposit($data){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_DEPOSIT , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
+			return ['code' => 0 , 'msg' => '有订金订单' , 'data' => $row];
+		}
+		return ['code' => __LINE__ , 'msg' => '无订金订单'];
+	}
+	/*
+		 * 我是否下过些团购尾款订单？
+		 * zhuangxiu-zyg
+		 * */
+	public static function hasOrderGroupFinal($data){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_FINAL , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
+			return ['code' => 0 , 'msg' => '有尾款订单' , 'data' => $row];
+		}
+		return ['code' => __LINE__ , 'msg' => '无尾款订单'];
+	}
+
+	/**
+	 * 添加订单--团购订金或是尾款
+	 * zhunagxiu
+	 * submit order
+	 * zyg
+	 */
+	public function addOrderGroupDeposit($data){
+		$user_id = User::getUserIdByName( $data['username'] );
+		if ( is_array( $user_id ) ) {
+			return $user_id;
+		}
+		//如果已添加不重复
+		if ( $row = self::where( ['user_id' => $user_id , 'type' => $data['type_'] , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
+			return ['code' => __LINE__ , 'msg' => '不能重复添加'];
+		}
+		//dump($row);exit;
+		$row_group = self::getById( $data['t_id'] , new Tuangou() );
+		if ( !$row_group ) {
+			return ['code' => __LINE__ , 'msg' => '团购数据没有'];
+		}
+		$data_order['shop_id'] = $row_group->shop_id;
+		$data_order['group_id'] = $row_group->id;
+		$data_order['orderno'] = $this->makeTradeNo( $data['username'] );
+		$data_order['type'] = $data['type_'];
+		$data_order['user_id'] = $user_id;
+		$data_order['address_id'] = $data['address_id'];
+		if ( $data['type_'] == self::ORDER_TYPE_GROUP_DEPOSIT ) {
+			$data_order['sum_price'] = $row_group->deposit;
+		} else {
+			$data_order['sum_price'] = $row_group->price_group - $row_group->deposit;
+		}
+		if ( !empty( $data['beizhu'] ) ) {
+			$data_order['beizhu'] = $data['beizhu'];
+		}
+
+		if ( !$this->save( $data_order ) ) {
+			return ['code' => __LINE__ , 'msg' => '添加订单失败'];
+		}
+		//给商家订单量增加一个
+		Shop::increaseOrdernum( $data_order['shop_id'] );
+		//添加订单商品
+		$row_good = self::getById( $row_group->good_id , new Good() );
+		if ( !$row_good ) {
+			return ['code' => __LINE__ , 'msg' => '团购商品没有'];
+		}
+		$data_order_good['order_id'] = $this->id; //new order_id
+		$data_order_good['shop_id'] = $row_group->shop_id;
+		$data_order_good['good_id'] = $row_good->id;
+		$data_order_good['name'] = $row_good['name'];
+		$data_order_good['img'] = $row_good->img;
+		$data_order_good['unit'] = $row_good->unit;
+		$data_order_good['price'] = $row_good->price;
+		$data_order_good['price_group'] = $row_group->price_group;
+		$data_order_good['group_deposit'] = $row_group->deposit;
+		if ( !( new OrderGood() )->save( $data_order_good ) ) {
+			return ['code' => __LINE__ , 'msg' => '添加订单成功，商品添加失败'];
+		}
+		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id,'type'=>$data['type_']];
+	}
+
 	/*
 	 * 添加订单 zhuangxiu - zyg
 	 *
@@ -93,13 +218,13 @@ class Dingdan extends Base{
 		}
 		$arr_shop_good_list = json_decode( $data['shop_good_list'] );
 		if ( !is_array( $arr_shop_good_list ) ) {
-			return ['code' => __LINE__ , 'msg' => 'shop_good_list data error'];
+			return ['code' => __LINE__ , 'msg' => '数据错误'];
 		}
 		$sum_price_all = 0;
 		foreach ( $arr_shop_good_list as $shop ) {
 			$row_cart = self::getById( $shop->cart_id , new Cart );
 			if ( !$row_cart ) {
-				return ['code' => __LINE__ , 'msg' => 'cart not exists'];
+				return ['code' => __LINE__ , 'msg' => '没有数据'];
 			}
 			$list_cart_good = CartGood::where( ['cart_id' => $row_cart->id , 'st' => 1] )->select();
 			$sum_price = 0;
@@ -120,7 +245,7 @@ class Dingdan extends Base{
 				'update_time' => time() ,
 			];
 			if ( !$new_order_contact_id = ( new OrderContact() )->insertGetId( $data_order_contact ) ) {
-				return ['code' => 0 , 'msg' => 'add order_contact error'];
+				return ['code' => 0 , 'msg' => '添加失败'];
 			}
 		}
 
@@ -130,7 +255,7 @@ class Dingdan extends Base{
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
 				if ( !$row_good ) {
-					return ['code' => __LINE__ , 'msg' => 'good not exits'];
+					return ['code' => __LINE__ , 'msg' => '商品不存在'];
 				}
 				$sum_price += $row_good->price * $good->num;
 			}
@@ -147,7 +272,7 @@ class Dingdan extends Base{
 				'update_time' => time() ,
 			];
 			if ( !$new_order_id = $this->insertGetId( $data_order ) ) {
-				return ['code' => __LINE__ , 'msg' => 'add order error'];
+				return ['code' => __LINE__ , 'msg' => '添加失败'];
 			}
 			//添加商家订单表end
 			//给商家订单量增加一个
@@ -168,7 +293,7 @@ class Dingdan extends Base{
 
 				];
 				if ( !( new OrderGood() )->save( $data_order_good ) ) {
-					return ['code' => __LINE__ , 'msg' => 'add order_good error'];
+					return ['code' => __LINE__ , 'msg' => '添加失败'];
 				}
 			}
 			//删除原购物车
@@ -203,14 +328,13 @@ class Dingdan extends Base{
 		$row_order = self::where( ['dingdan.id' => $order_id] )->join( '
 		shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->find();
 		if ( !$row_order ) {
-			return ['code' => __LINE__ , 'msg' => 'order is not exists'];
+			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
 		$list_order_goods = OrderGood::getGood( $order_id );
 		if ( count( $list_order_goods ) == 0 ) {
 			return ['code' => __LINE__ , 'msg' => '订单商品不存在'];
 		}
-
-		return ['code' => 0 , 'msg' => 'get order_goods ok' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
+		return ['code' => 0 , 'msg' => '查询订单成功' , 'data' => ['order' => $row_order , 'order_goods' => $list_order_goods]];
 	}
 
 	/*
@@ -226,14 +350,14 @@ class Dingdan extends Base{
 		$where2 = ['dingdan.st' => ['neq' , self::ORDER_ST_USER_DELETE]];
 		$list_order = self::where( $where )->where( $where2 )->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
 		if ( $list_order->isEmpty() ) {
-			return ['code' => __LINE__ , 'msg' => 'order not exists'];
+			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
 		foreach ( $list_order as $k => $row_order ) {
 			$list_order_good = OrderGood::getGood( $row_order->id );
 			$list_order[$k]['goods'] = $list_order_good;
 			$list_order[$k]['good_num'] = count( $list_order_good );
 		}
-		return ['code' => 0 , 'msg' => 'get order and order_goods ok' , 'data' => $list_order];
+		return ['code' => 0 , 'msg' => '获取订单列表成功' , 'data' => $list_order];
 
 	}
 
@@ -269,28 +393,35 @@ class Dingdan extends Base{
 	 * @return \think\Response
 	 */
 	public static function updatePaySt($data){
-		if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP ) {
+		if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP || $data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
 			$row_order = self::find( ['id' => $data['order_id']] );
 			if ( !$row_order ) {
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];
 			}
 			$row_order->st = self::ORDER_ST_PAID;
 			if ( !$row_order->save() ) {
-				return ['code' => 0 , 'msg' => 'order_shop paid failed'];
+				return ['code' => 0 , 'msg' => '支付状态失败'];
 			}
 			//订单支付完成，则商家收益也增加
 			$admin_shop = Admin::where( ['shop_id' => $row_order->shop_id , 'st' => 1] )->find();
 			if ( !$admin_shop ) {
-				return ['code' => __LINE__ , 'msg' => 'shop admin not exsits or not allowed'];
+				return ['code' => __LINE__ , 'msg' => '店铺管理员不存在或没有权限'];
 			}
 			$admin_shop->income += $row_order->sum_price;
 			$admin_shop->save();
+
 			//给商家增加交易量
 			Shop::incTradenum( $row_order->shop_id );
-
-			//给订单中的商品增加销量
-			OrderGood::increseSales( $row_order->id );
-			return ['code' => 0 , 'msg' => 'order_shop paid ok and shop admin income ok'];
+			if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL) {
+				//给订单中的商品增加销量
+				OrderGood::increseSales( $row_order->id );
+			}
+			//将用户团购订金订单取消
+			$user_id=User::getUserIdByName($data['username']);
+			if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL){
+               self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
+			}
+			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
 			if ( !$row_order_contact ) {
@@ -301,14 +432,14 @@ class Dingdan extends Base{
 			//且要改下面所有商家订单状态的已支付
 			$res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID] );
 			if ( !$res ) {
-				return ['code' => __LINE__ , 'msg' => 'order_contact paid failed'];
+				return ['code' => __LINE__ , 'msg' => '联合订单状态修改失败'];
 			}
 			//给下面商家管理员增加收益
 			$list_order = Order::where( ['order_contact_id' => $row_order_contact->id] )->select();
 			foreach ( $list_order as $order ) {
 				$admin_shop = Admin::where( ['shop_id' => $order->shop_id , 'st' => 1] )->find();
 				if ( !$admin_shop ) {
-					return ['code' => __LINE__ , 'msg' => 'shop admin not exsits or not allowed'];
+					return ['code' => __LINE__ , 'msg' => '店铺管理员不存在或没有权限'];
 				}
 				$admin_shop->income += $order->sum_price;
 				$admin_shop->save();
@@ -318,14 +449,11 @@ class Dingdan extends Base{
 				//给订单中商品增加销量
 				OrderGood::increseSales( $order->id );
 			}
-			return ['code' => 0 , 'msg' => 'order_contact paid ok and shop admin income ok'];
+			return ['code' => 0 , 'msg' => '更改成功'];
 		} else {
-			return ['code' => __LINE__ , 'msg' => 'type_ error'];
+			return ['code' => __LINE__ , 'msg' => '更改失败'];
 		}
 	}
-
-
-
 
 
 }

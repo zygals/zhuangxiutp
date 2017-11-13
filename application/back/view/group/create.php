@@ -70,12 +70,12 @@ $('#cate_name_label').html(cate_name);
                             </div>
                         </div>
 
-                        <div class="form-group ">
+                       <!-- <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>结束时间：</label>
                             <div class="col-xs-8 ">
                                 <input type="date" class="form-control input-sm duiqi" name='end_time' value="" id="" placeholder="">
                             </div>
-                        </div>
+                        </div>-->
 
 
 <!--                        <div class="form-group">-->

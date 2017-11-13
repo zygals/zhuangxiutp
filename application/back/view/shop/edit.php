@@ -52,9 +52,31 @@
                                 <img src="__IMGURL__{$row_->logo}" alt="" width="60">
                                 <input type="file" title='' class="form-control  duiqi" id="sOrd" name="logo" placeholder=""><span style="color:red">尺寸要求（90*90），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
                             </div>
-
                         </div>
-
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->订金：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='deposit' value="{$row_->deposit}" id="" placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->订金优惠：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='youhui' value="{$row_->youhui}" id="" placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->全款：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='money_all' value="{$row_->money_all}" id="" placeholder="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="sKnot" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->全款优惠：</label>
+							<div class="col-xs-8">
+								<input type="text" class="form-control input-sm duiqi" name='youhui_all' value="{$row_->youhui_all}" id="" placeholder="">
+							</div>
+						</div>
                         <div class="form-group">
                             <label for="situation" class="col-xs-3 control-label">置顶：</label>
                             <div class="col-xs-8">
@@ -87,6 +109,13 @@
 									<textarea name="zuoji"  cols="25" rows="5">{$row_->zuoji}</textarea>
 								</div>
 							</div>
+                            <div class="form-group">
+                                <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>二维码：</label>
+                                <div class="col-xs-4 ">
+                                    <img src="__IMGURL__{$row_->qrcode}" alt="" width="60">
+                                    <input type="file" title='' class="form-control  duiqi" id="sOrd" name="qrcode" placeholder=""><span style="color:red">尺寸要求（180*180），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                                </div>
+                            </div>
                             <div class="form-group ">
                                 <label for="sName" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->城市：</label>
                                 <div class="col-xs-8 ">

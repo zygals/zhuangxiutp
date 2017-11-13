@@ -48,9 +48,9 @@ class Address extends Base{
 		if ( !$res ) {
 			$data['is_default'] = 1;
 			if ( $this->save( $data ) ) {
-				return ['code' => 0 , 'msg' => 'add address success' , 'data' => $this->id];
+				return ['code' => 0 , 'msg' => '添加成功' , 'data' => $this->id];
 			} else {
-				return ['code' => __LINE__ , 'add address failed'];
+				return ['code' => __LINE__ , '添加失败'];
 			}
 		}
 		/* if($data['is_default']==1){
@@ -58,9 +58,9 @@ class Address extends Base{
 			}*/
 
 		if ( $this->save( $data ) ) {
-			return ['code' => 0 , 'msg' => 'add address success' , 'data' => $this->id];
+			return ['code' => 0 , 'msg' => '添加成功' , 'data' => $this->id];
 		} else {
-			return ['code' => __LINE__ , 'add address failed'];
+			return ['code' => __LINE__ , '添加失败'];
 		}
 	}
 
@@ -89,9 +89,9 @@ class Address extends Base{
 		}
 		unset( $data['username'] );
 		if ( $this->save( $data , ['id' => $data['id']] ) ) {
-			return ['code' => 0 , 'msg' => 'add address success' , 'data' => $this->id];
+			return ['code' => 0 , 'msg' => '添加成功' , 'data' => $this->id];
 		} else {
-			return ['code' => __LINE__ , 'add address failed'];
+			return ['code' => __LINE__ , '添加失败'];
 		}
 
 	}
