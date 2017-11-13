@@ -71,9 +71,9 @@ class Cart extends Base {
             foreach ($list_cart as $k => $cart) {
                 $list_good = CartGood::getGoodsByShop($cart->shop_id);
                 if ($list_good->isEmpty()) {
-                    $list_cart[$k]->sum_price=0;
-                    $list_cart[$k]->st=0;
-                    $list_cart[$k]->save();
+                  //  $list_cart[$k]->sum_price=0;
+                  //  $list_cart[$k]->st=0;
+                  //  $list_cart[$k]->save();
                     unset( $list_cart[$k]);
                 }
                 $sum_price_all += $cart->sum_price;
