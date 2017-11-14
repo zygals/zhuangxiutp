@@ -47,8 +47,11 @@
 						<div class="col-xs-8 ">
 							<label>{$row_order->st}</label>
 							<?php if ( $row_order->st == '未支付' && \app\back\model\Admin::isAdmin() ) { ?>
-								<button onclick="order_st_paid('{$row_order->id}')">改为已支付</button>
+								<button onclick="order_st_paid('{$row_order->id}','paid')">改为已支付</button>
 							<?php } ?>
+                            <?php if ( $row_order->st == '已支付' && \app\back\model\Admin::isAdmin() ) { ?>
+                                <button onclick="order_st_paid('{$row_order->id}','tuikuan')">改为已退款</button>
+                            <?php } ?>
 						</div>
 					</div>
 					<?php if($row_order->type=='普通' || $row_order->type=='限人'){?>
@@ -166,7 +169,7 @@
 
 <script>
 
-	function order_st_paid(order_id) {
+	function order_st_paid(order_id,st) {
 		//alert()
 		if (confirm('确定更改订单为已支付吗？')) {
 			var pass_admin = prompt('请输入管理员密码：');
@@ -175,7 +178,8 @@
 				"url": "{:url('order_paid')}",
 				"data": {
 					pass_admin: pass_admin,
-					order_id: order_id
+					order_id: order_id,
+                    st:st
 				},
 				success: function (data) {
 					alert(data.msg)

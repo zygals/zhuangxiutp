@@ -11,10 +11,10 @@ class Dingdan extends model{
 	const GOODST_YIFAHUO = 2;
 	const GOODST_BUFEN_FAHUO = 5;
 
-	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
+	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 3=>'已退款',4 => '用户取消' , 5 => '用户删除'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
+		$status = ['0' => '管理员删除' , 1 => '未支付' , 2 => '已支付' ,3=>'已退款', 4 => '用户取消' , 5 => '用户删除'];
 		return $status[$value];
 	}
 	public function getTypeAttr($value){
@@ -102,7 +102,12 @@ class Dingdan extends model{
 			return ['code'=>__LINE__,'msg'=>'密码有误！'];
 		}
 		$row_order = self::where(['id'=>$data['order_id']])->find();
-		$row_order->st=2;
+		if($data['st']=='paid'){
+
+            $row_order->st=2;
+        }elseif($data['st']=='tuikuan'){
+            $row_order->st=3;
+        }
 		$row_order->save();
 		//同时增加商家收益
 		$admin_shop = Admin::where( ['shop_id' => $row_order->shop_id , 'st' => 1] )->find();
