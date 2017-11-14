@@ -55,7 +55,7 @@ class Dingdan extends model{
 			$where['create_time'] = [['gt' , strtotime( $time_from )] , ['lt' , strtotime( $time_to )]];
 		}
 		if ( !empty( $data['orderno'] ) ) {
-			$where['dingdan.orderno'] = $data['orderno'];
+			$where['dingdan.orderno'] = ['like','%'.$data['orderno'].'%'];
 		}
 		if ( !empty( $data['shop_id'] ) ) {
 			$where['shop_id'] = $data['shop_id'];
