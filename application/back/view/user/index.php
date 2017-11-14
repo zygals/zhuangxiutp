@@ -14,10 +14,9 @@
                     <input type="text" id="" name="time_from" value="{$Think.get.time_from}" class="form-control input-sm date_input" placeholder="从？如：2017-02-03">
 
                     <input type="text" id="" name="time_to" value="{$Think.get.time_to}" class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
-                    <input type="text" name="username" value="{$Think.get.username}" class="form-control input-sm"
-                           placeholder="输入用户名搜索">
-                    <input type="text" name="nickname" value="{$Think.get.nickname}" class="form-control input-sm"
-                           placeholder="输入昵称搜索">
+                    <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
+                           placeholder="输入用户名/昵称搜索">
+
                    <!-- <input type="text" name="mobile" value="{$Think.get.mobile}" class="form-control input-sm"
                            placeholder="输入手机搜索">-->
                 </div>
