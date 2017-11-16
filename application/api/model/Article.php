@@ -44,7 +44,7 @@ class Article extends Base{
 		$order = "article.update_time desc";
 		$where = ['article.st' => 1 , 'index_show' => 1 , 'article.type' => 1];
 		$fields = "article.id,article.name,article.img,article.charm,left(article.cont,80) cont_limit";
-		$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->limit( 5 )->select();
+		$list_ = self::where( $where )->join( 'cate' , 'article.cate_id=cate.id' , 'left' )->field( $fields )->order( $order )->limit( 5 )->cache()->select();
 		return ['code'=>0,'msg'=>'百科成功','data'=>$list_];
 	}
 	/*
