@@ -24,7 +24,7 @@ class Fankui extends Base {
         $this->save($data_);
         Dingdan::updateSt(['st'=>'fankui','order_id'=>$data['order_id']]);
 
-        return ['code'=>0,'msg'=>'add fankui ok'];
+        return ['code'=>0,'msg'=>'添加成功'];
     }
     public static function getListPage($data=[]){
         $list_ = self::where(['fankui.st'=>['<>',0]])->join('dingdan','fankui.order_id=dingdan.id')->join('user','fankui.user_id=user.id')->join('shop','fankui.shop_id=shop.id')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
@@ -36,7 +36,7 @@ class Fankui extends Base {
             return $user_id;
         }
         $list_ = self::where(['user_id'=>$user_id,'fankui.st'=>1])->join('good','good.id=fankui.good_id')->join('user','fankui.user_id=user.id')->field('fankui.*,good.img,good.title,cont,nickname,vistar')->paginate();
-        return ['code'=>0,'msg'=>'get fankui ok','data'=>$list_];
+        return ['code'=>0,'msg'=>'数据成功','data'=>$list_];
     }
     //wx
     public static function delRow($data){
@@ -63,7 +63,7 @@ class Fankui extends Base {
         $evalute['mid'] = self::where(['user_id'=>$user_id,'star'=>2])->count();
         $evalute['bad'] = self::where(['user_id'=>$user_id,'star'=>3])->count();
         $row_['evalute'] = $evalute;
-        return ['code'=>0,'msg'=>'fankui/getFankui','data'=>$row_];
+        return ['code'=>0,'msg'=>'数据成功','data'=>$row_];
     }
 
     /**
@@ -74,9 +74,9 @@ class Fankui extends Base {
         $listRows = 4;
         $row_ = self::where('shop_id',$data['shop_id'])->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->paginate($listRows);
         if($row_->isEmpty()){
-            return ['code'=>__LINE__,'msg'=>'暂无评论'];
+            return ['code'=>__LINE__];
         }
-        return ['code'=>0,'msg'=>'fankui/getShop','data'=>$row_];
+        return ['code'=>0,'msg'=>'数据成功','data'=>$row_];
     }
 
 
