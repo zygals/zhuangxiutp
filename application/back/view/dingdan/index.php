@@ -33,7 +33,14 @@
                             </option>
                         <?php } ?>
                     </select>
-
+                    <select name="type" id="" class="form-control">
+                        <option value="">－－选择类型－－</option>
+                        <?php foreach (app\back\model\Dingdan::$arrType as $k => $v) { ?>
+                            <option value="{$k}" <?php echo isset($_GET['type']) ? $k === (int)$_GET['type'] ? 'selected' : '' : ''; ?>>
+                                {$v}
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
@@ -113,7 +120,7 @@
                     {$row_->orderno}
                 </div>
                 <div class="col-xs-1" title=" {$row_->shop_name}">
-                    {$row_->shop_name}
+                    {$row_->shop_id}:{$row_->shop_name}
                 </div>
 				<div class="col-xs-1">
                 {$row_->username}

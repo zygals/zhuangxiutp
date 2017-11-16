@@ -170,8 +170,13 @@
 <script>
 
 	function order_st_paid(order_id,st) {
+	    if(st=='paid'){
+           alertstr='确定更改订单为已支付吗？商家收益也会相应增加';
+        }else {
+            alertstr='确定已经退过款了吗？商家收益也会相应减少';
+        }
 		//alert()
-		if (confirm('确定更改订单为已支付吗？')) {
+		if (confirm(alertstr)) {
 			var pass_admin = prompt('请输入管理员密码：');
 			$.ajax({
 

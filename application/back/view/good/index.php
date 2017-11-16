@@ -34,7 +34,7 @@
                         <option value="">--请选择商户--</option>
                         <?php foreach ($list_shop as $row_) { ?>
                             <option value="{$row_['id']}" {eq name="Think.get.shop_id" value="$row_['id']"
-                                    }selected{/eq}>{$row_['name']}</option>
+                                    }selected{/eq}>{$row_['id']}:{$row_['name']}</option>
                         <?php } ?>
                     </select>
                     <select name="cate_id" style="color:inherit">
