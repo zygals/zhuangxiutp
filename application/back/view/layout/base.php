@@ -53,7 +53,7 @@
 </head>
 
 <body>
-<div id="wrap" style="height:10000px;">
+<div id="wrap" style="padding-bottom: 30px;/*height:10000px;*/">
     <!-- 左侧菜单栏目块 -->
     {block name="menu_left"}
     <div class="leftMeun" id="leftMeun">
