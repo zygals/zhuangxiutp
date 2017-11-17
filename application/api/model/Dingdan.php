@@ -7,6 +7,7 @@ use app\back\model\Tuangou;
 use think\Model;
 
 class Dingdan extends Base{
+    protected $dateFormat='Y-m-d H:i:s';
 	const ORDER_ST_DAIZHIFU = 1;
 	const ORDER_ST_PAID = 2;
 	const ORDER_ST_REFUNDED = 3;
