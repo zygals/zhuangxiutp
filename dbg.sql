@@ -224,4 +224,5 @@ alter table activity_attend add user_id int not null  after activity_id;
 --2017-11-17
 alter table shop add sort int default 100000 comment '排序';
 alter table dingdan add refundno varchar(50) default '' comment '退款号'  ;
+alter table dingdan add orderno_youhui varchar(255)  comment '抵扣单号(商品订单号)或是被抵扣单号(多个订金或是全款订单):多个以逗号分开';
 

@@ -94,6 +94,9 @@ class Pay extends Base {
         return ($data_return);
     }
 
+    /*
+     * 退款
+     * */
     public function refundToUser($data) {
         $admin = Admin::where(['type' => 1])->find();
         //dump($admin);exit;
@@ -104,11 +107,11 @@ class Pay extends Base {
         if (!$row_order) {
             return ['code' => __LINE__, 'msg' => '订单在！'];
         }
-        if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
+        if ($row_order->st == \app\api\model\Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
         if(empty($row_order->refund_no)){
-            $refund_no= Dingdan::makeRefundNo();
+            $refund_no= \app\api\model\Dingdan::makeRefundNo();
 
         }
         $fee = $row_order->sum_price;
@@ -145,7 +148,7 @@ class Pay extends Base {
         $array = $this->xml($xml);//全要大写
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
-                $row_order->st = Dingdan::ORDER_ST_REFUNDED;
+                $row_order->st = \app\api\model\Dingdan::ORDER_ST_REFUNDED;
                 $row_order->refundno = $refund_no;
                 $row_order->save();
                 Dingdan::udpateShouyi($row_order->shop_id,-$total_fee);
@@ -224,7 +227,7 @@ class Pay extends Base {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-        curl_setopt($ch, CURLOPT_SSLCERT, getcwd() . '/../all.pem');
+        curl_setopt($ch, CURLOPT_SSLCERT, getcwd() . '/../all_zhuangxiu.pem');
 
         if (count($aHeader) >= 1) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);

@@ -23,10 +23,10 @@ class Dingdan extends Base{
 	const ORDER_TYPE_GROUP_FINAL = 6; //限人订金
 	const  ORDER_TYPE_SHOP_DEPOSIT = 4; //商家订金订单
 	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
-	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
+	//public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'优惠抵扣'];
 		return $status[$value];
 	}
 
@@ -461,6 +461,22 @@ class Dingdan extends Base{
 			return ['code' => __LINE__ , 'msg' => '更改失败'];
 		}
 	}
+	/*
+	 *  * 取订金订单或全款
+	 * zhugnxiu-zyg
+	 * */
+	public static function getOrderUserDeposit($data){
+        $user_id = User::getUserIdByName( $data['username'] );
+        if ( is_array( $user_id ) ) {
+            return $user_id;
+        }
+        $list_= self::where(['user_id'=>$user_id,'st'=>self::ORDER_ST_PAID,'type'=>$data['type_']])->select();
+        if($list_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'暂无订金优惠订单'];
+        }
+        return ['code'=>0,'data'=>$list_];
+
+    }
 
 
 }
