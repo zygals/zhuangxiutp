@@ -421,12 +421,12 @@ class Dingdan extends Base{
 			Shop::incTradenum( $row_order->shop_id );
 			if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL) {
 				//给订单中的商品增加销量
-				OrderGood::increseSales( $row_order->id );
+				\app\api\model\OrderGood::increseSales( $row_order->id );
 			}
 			//将用户团购订金订单取消
-			$user_id=User::getUserIdByName($data['username']);
-			if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL){
-               self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
+            if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL){
+                $user_id=User::getUserIdByName($data['username']);
+                self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
 			}
 			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {

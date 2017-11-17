@@ -31,7 +31,7 @@ class Pay extends Base {
         }
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
-        $body = 'xiaochengxu zhuangxiu zhifu';
+        $body = '55家收款';
         $nonce_str = $this->nonce_str();//随机字符串
         $notify_url = $request->domain() . url('pay_ok');
 //		dump($notify_url);exit;
