@@ -58,7 +58,7 @@
 							<?php if ( $row_order->st == '未支付' && \app\back\model\Admin::isAdmin() ) { ?>
 								<button onclick="order_st_paid('{$row_order->id}','paid')">改为已支付</button>
 							<?php } ?>
-                            <?php if ( $row_order->st == '已支付' && \app\back\model\Admin::isAdmin() ) { ?>
+                            <?php if ( $row_order->st == '申请退款' && \app\back\model\Admin::isAdmin() ) { ?>
                                 <button onclick="order_st_paid('{$row_order->id}','tuikuan')">改为已退款</button>
                             <?php } ?>
 						</div>
@@ -182,7 +182,7 @@
 	    if(st=='paid'){
            alertstr='确定更改订单为已支付吗？商家收益也会相应增加';
         }else {
-            alertstr='确定已经退过款了吗？商家收益也会相应减少';
+            alertstr='确定已经在商户平台给用户退过款了吗？确定后商家收益也会相应减少';
         }
 		//alert()
 		if (confirm(alertstr)) {
