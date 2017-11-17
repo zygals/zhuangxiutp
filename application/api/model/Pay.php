@@ -7,17 +7,18 @@ use app\back\model\Admin;
 use app\back\model\Dingdan;
 use think\Model;
 
+
 class Pay extends Base {
     public function requestWxPay($data, $request) {
         $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return json($user_id);
         }
-        if ($data['type_'] == Dingdan::ORDER_TYPE_SHOP || $data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL) {
+        if ($data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_SHOP || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_GROUP_FINAL) {
             //单商家订单
             $row_order = Dingdan::where(['id' => $data['order_id']])->find();
             $fee = $row_order->sum_price;
-        } elseif ($data['type_'] == Dingdan::ORDER_TYPE_CONTACT) {
+        } elseif ($data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_CONTACT) {
             //平台多商家订单
             $row_order = OrderContact::where(['id' => $data['order_id']])->find();
             $fee = $row_order->sum_price_all;

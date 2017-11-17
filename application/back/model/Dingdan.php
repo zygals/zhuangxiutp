@@ -11,6 +11,7 @@ class Dingdan extends model {
     const GOODST_YIFAHUO = 2;
     const GOODST_BUFEN_FAHUO = 5;
 
+
     public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'优惠抵扣'];
     public static $arrType = [1 => '普通', 3 => '限人', 4 => '商家订金', 5 => '商家全款', 6 => '限人尾款'];
 
