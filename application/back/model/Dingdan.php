@@ -97,7 +97,7 @@ class Dingdan extends model {
     }
 
     /*
-     *管理员改订单状态为已支付
+     *管理员改订单状态为已支付或是已退款
      *
      * zhuangxiu-zyg
      * */

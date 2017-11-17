@@ -44,18 +44,16 @@
                 <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
                         <option value="">--排序字段--</option>
+                        <option value="sort" {eq name="Think.get.paixu" value="sort"
+                                }selected{/eq}>排序</option>
                         <option value="ordernum" {eq name="Think.get.paixu" value="ordernum"
-                                }selected{
-                        /eq}>订单数</tion>
+                                }selected{/eq}>订单数</tion>
                         <option value="tradenum" {eq name="Think.get.paixu" value="tradenum"
-                                }selected{
-                        /eq}>交易数</option>
+                                }selected{/eq}>交易数</option>
                         <option value="create_time" {eq name="Think.get.paixu" value="create_time"
-                                }selected{
-                        /eq}>添加时间</option>
+                                }selected{/eq}>添加时间</option>
                         <option value="update_time" {eq name="Think.get.paixu" value="update_time"
-                                }selected{
-                        /eq}>修改时间</option>
+                                }selected{/eq}>修改时间</option>
                     </select>
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"

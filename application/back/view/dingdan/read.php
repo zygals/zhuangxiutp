@@ -34,6 +34,15 @@
 							<label>{$row_order->orderno}</label>
 						</div>
 					</div>
+<?php if($row_order->refundno!=''){?>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-3 control-label">退款号：</label>
+
+                        <div class="col-xs-8 ">
+                            <label>{$row_order->refundno}</label>
+                        </div>
+                    </div>
+           <?php }?>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">订单类型：</label>
 

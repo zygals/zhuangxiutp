@@ -9,6 +9,7 @@ use think\Model;
 class Dingdan extends Base{
 	const ORDER_ST_DAIZHIFU = 1;
 	const ORDER_ST_PAID = 2;
+	const ORDER_ST_REFUNDED = 3;
 	const ORDER_ST_USER_CANCEL = 4;
 	const ORDER_ST_USER_DELETE = 5;
 	const ORDER_ST_USER_REFUND = 6;
@@ -25,7 +26,7 @@ class Dingdan extends Base{
 	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 		return $status[$value];
 	}
 
@@ -315,6 +316,9 @@ class Dingdan extends Base{
 	public function makeTradeNo($username){
 		return date( 'mdHis' , time() ) . mt_rand( 10 , 99 ) . '_' . $username;
 	}
+    public static function makeRefundNo() {
+        return date('mdHis', time()) . mt_rand(10, 99) .'_refund';
+    }
 
 	/**
 	 * 查询某个商家订单

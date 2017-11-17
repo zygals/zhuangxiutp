@@ -221,3 +221,7 @@ alter table shop add youhui decimal(10,2) default '0' comment '优惠';
 alter table shop add youhui_all decimal(10,2) default '0' comment '全款优惠';
 alter table activity_attend add user_id int not null  after activity_id;
 
+--2017-11-17
+alter table shop add sort int default 100000 comment '排序';
+alter table dingdan add refundno varchar(50) default '' comment '退款号'  ;
+

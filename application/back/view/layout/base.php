@@ -53,7 +53,7 @@
 </head>
 
 <body>
-<div id="wrap" style="padding-bottom: 50px;/*height:10000px;*/">
+<div id="wrap" style="padding-bottom: 50px;height:15000px;">
     <!-- 左侧菜单栏目块 -->
     {block name="menu_left"}
     <div class="leftMeun" id="leftMeun">
@@ -100,7 +100,6 @@
                 <?php } ?>
             <?php } ?>
         <?php }?>
-
 
         <p style="color:white;margin-top:30px;text-align:left;">@weilaihexun</p>
 

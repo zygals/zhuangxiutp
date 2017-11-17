@@ -34,6 +34,7 @@ class Shop extends Base {
         if(session('admin_zhx')->type=='商户'){
             $where['shop.id'] = session('admin_zhx')->shop_id;
         }
+
         if(!empty($data['cate_id'])){
             $where['cate_id'] = $data['cate_id'];
         }

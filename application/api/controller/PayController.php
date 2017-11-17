@@ -31,6 +31,16 @@ class PayController extends BaseController {
 		return json((new Pay)->requestWxPay($data,$request));
 
     }
+    public function refund(Request $request){
+        $rules = ['order_id' => 'require', 'admin_pass' => 'require'];
+        $data = $request->param();
+        $res = $this->validate($data, $rules);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json((new Pay)->refundToUser($data));
+
+    }
 
 
 }
