@@ -200,6 +200,10 @@ class DingdanController extends BaseController {
         return json((new Dingdan)->addOrderGroup($data));
 
     }*/
+ public function test(){
+     return (new Dingdan())->makeTradeNo('lllooo');
+
+ }
 
 
 

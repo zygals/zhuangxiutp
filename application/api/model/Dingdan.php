@@ -315,7 +315,7 @@ class Dingdan extends Base{
 
 	//生成订单号 wx
 	public function makeTradeNo($username){
-		return date( 'mdHis' , time() ) . mt_rand( 10 , 99 ) . '_' . $username;
+		return date( 'mdHis' , time() ) .mt_rand(1,99). mt_rand( 10 , 999 ) . '_' . $username;
 	}
     public static function makeRefundNo() {
         return date('mdHis', time()) . mt_rand(10, 99) .'_refund';
