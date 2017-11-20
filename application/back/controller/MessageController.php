@@ -24,14 +24,23 @@ class MessageController extends BaseController{
      */
     public function edit(Request $request){
         $data = $request->param();
-        $list = Message::getListById($data['id']);
+        $list = Message::getListById($data);
+        if($list->isEmpty()){
+            $this->error('暂无数据');
+        }
         $page_str = $list->render();
         $page_str = Base::getPageStr($data,$page_str);
         $url = $request->url();
 //        dump($list);exit;
-        return $this->fetch('info',['list'=>$list,'page_str' => $page_str,'url'=>$url]);
+        return $this->fetch('info',['list_'=>$list,'page_str' => $page_str,'title'=>'留言列表','url'=>$url]);
     }
 
+    public function save(Request $request){
+        $data['type']=2;
+         $back = $data['url'];unset ($data['url']);
+        (new Message())->save($data);
+        $this->success('成功',$back,'',1);
+    }
     /**
      * 商家回复留言
      */

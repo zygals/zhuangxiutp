@@ -87,10 +87,10 @@
 					{$row_->status}
 				</div>
 				<div class="col-xs-">
-                    <a href="{:url('edit')}?id={$row_->id}"><button class="btn btn-success btn-xs edit_" >查看</button></a>
-                    <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
-							data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删除
-                    </button>
+                    <a href="{:url('edit')}?user_id={$row_->user_id}&shop_id={$row_->shop_id}"><button class="btn btn-success btn-xs edit_" >查看</button></a>
+                   <!-- <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
+							data-target="#deleteSource" data-id="<?/*= $row_['id'] */?>" onclick="del_(this)"> 删除
+                    </button>-->
 				</div>
 			</div>
 			<?php }?>
