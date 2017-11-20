@@ -74,6 +74,9 @@
                 <div class="col-xs-1" title="{$row_->nickname}">
                     {$row_->nickname}
                 </div>
+                <div class="col-xs-1" title="{$row_->shop_name}">
+                    {$row_->shop_name}
+                </div>
 				<div class="col-xs-2" title="{$row_->message}">
 					{$row_->message}
 				</div>

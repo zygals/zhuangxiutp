@@ -3,6 +3,7 @@
 namespace app\back\model;
 use think\Model;
 class Message extends Base{
+    protected  $dateFormat='Y-m-d H:i:s';
     public function getStatusAttr($value){
         $status = [0 => '删除', 1 => '未读',2=>'已读'];
         return $status[$value];
