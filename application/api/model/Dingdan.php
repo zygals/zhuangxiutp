@@ -7,10 +7,13 @@ use app\back\model\Tuangou;
 use think\Model;
 
 class Dingdan extends Base{
+    protected $dateFormat='Y-m-d H:i:s';
 	const ORDER_ST_DAIZHIFU = 1;
 	const ORDER_ST_PAID = 2;
+	const ORDER_ST_REFUNDED = 3;
 	const ORDER_ST_USER_CANCEL = 4;
 	const ORDER_ST_USER_DELETE = 5;
+	const ORDER_ST_USER_REFUND = 6;
 	const ORDER_ST_ADMIN_DELETE = 0;
 	const GOOT_ST_DAIFAHUO = 1;
 	const GOOT_ST_DAIFANKUI = 3; //已收货
@@ -21,10 +24,10 @@ class Dingdan extends Base{
 	const ORDER_TYPE_GROUP_FINAL = 6; //限人订金
 	const  ORDER_TYPE_SHOP_DEPOSIT = 4; //商家订金订单
 	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
-	public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
+	//public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'优惠抵扣'];
 		return $status[$value];
 	}
 
@@ -312,8 +315,11 @@ class Dingdan extends Base{
 
 	//生成订单号 wx
 	public function makeTradeNo($username){
-		return date( 'mdHis' , time() ) . mt_rand( 10 , 99 ) . '_' . $username;
+		return date( 'mdHis' , time() ) .mt_rand(1,99). mt_rand( 10 , 999 ) . '_' . $username;
 	}
+    public static function makeRefundNo() {
+        return date('mdHis', time()) . mt_rand(10, 99) .'_refund';
+    }
 
 	/**
 	 * 查询某个商家订单
@@ -382,7 +388,9 @@ class Dingdan extends Base{
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
 			$row_->st = self::ORDER_ST_USER_DELETE;
-		}
+		}elseif ( $data['st'] == 'refundByUser' ) {
+            $row_->st = self::ORDER_ST_USER_REFUND;
+        }
 		$row_->save();
 		return ['code' => 0 , 'msg' => '订单状态更改'];
 	}
@@ -414,12 +422,12 @@ class Dingdan extends Base{
 			Shop::incTradenum( $row_order->shop_id );
 			if ( $data['type_'] == Dingdan::ORDER_TYPE_SHOP || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL) {
 				//给订单中的商品增加销量
-				OrderGood::increseSales( $row_order->id );
+				\app\api\model\OrderGood::increseSales( $row_order->id );
 			}
 			//将用户团购订金订单取消
-			$user_id=User::getUserIdByName($data['username']);
-			if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL){
-               self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
+            if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL){
+                $user_id=User::getUserIdByName($data['username']);
+                self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
 			}
 			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
@@ -454,6 +462,22 @@ class Dingdan extends Base{
 			return ['code' => __LINE__ , 'msg' => '更改失败'];
 		}
 	}
+	/*
+	 *  * 取订金订单或全款
+	 * zhugnxiu-zyg
+	 * */
+	public static function getOrderUserDeposit($data){
+        $user_id = User::getUserIdByName( $data['username'] );
+        if ( is_array( $user_id ) ) {
+            return $user_id;
+        }
+        $list_= self::where(['user_id'=>$user_id,'st'=>self::ORDER_ST_PAID,'type'=>$data['type_']])->select();
+        if($list_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'暂无订金优惠订单'];
+        }
+        return ['code'=>0,'data'=>$list_];
+
+    }
 
 
 }

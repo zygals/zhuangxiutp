@@ -26,8 +26,8 @@ class Cart extends Base {
             return $user_id;
         }
 
-        $row_good = self::getById($data['good_id'],new Good);
-        if(!$row_good){
+        $row_good = self::getById($data['good_id'], new Good);
+        if (!$row_good) {
             return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
@@ -67,10 +67,17 @@ class Cart extends Base {
             return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $sum_price_all = 0;
-        foreach ($list_cart as $k => $cart) {
-            $sum_price_all += $cart->sum_price;
-            $list_cart[$k]['shop_goods'] = CartGood::getGoodsByShop($cart->shop_id);
+        if(!$list_cart->isEmpty()){
+            foreach ($list_cart as $k => $cart) {
+                $list_good = CartGood::getGoodsByShop($cart->shop_id);
+                if (!$list_good->isEmpty()) {
+                    $sum_price_all += $cart->sum_price;
+                    $list_cart[$k]['shop_goods'] = $list_good;
+                }
+
+            }
         }
+
         return ['code' => 0, 'msg' => 'get cart shop and goods ok', 'sum_price_all' => $sum_price_all, 'data' => $list_cart];
 
     }
@@ -92,18 +99,21 @@ class Cart extends Base {
 
         //
         $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
-        if(!$row_good){
+        if (!$row_good) {
             return ['code' => __LINE__, 'msg' => '商品不存在'];
         }
         $minus_price = $row_cart_good->num * $row_good->price;
         $row_cart = self::getById($row_cart_good->cart_id, new Cart);
-        if(!$row_cart_good){
-            return ['code' => __LINE__, 'msg' => '无商品'];
-        }
         $row_cart->sum_price -= $minus_price;
+
         if ($row_cart->sum_price == 0) {
             $row_cart->st = 0;
         }
+//        $list_good=CartGood::where(['cart_id'=>$row_cart->id])->select();
+//        if($list_good->isEmpty()){
+//            $row_cart->sum_price=0;
+//            $row_cart->st = 0;
+//        }
         $row_cart->save();
         $row_cart_good->st = 0;
         $row_cart_good->save();

@@ -3,9 +3,17 @@
 {block name="content"}
 <div role="tabpanel" class="tab-pane active" id="sour">
     <div class="check-div form-inline">
-        <a href="{:url('create_')}">
-            <button class="btn btn-yellow btn-xs">添加平台管理员</button>
-        </a>
+        <div class="col-xs-4">
+            <a href="{:url('create_')}">
+                <button class="btn btn-yellow btn-xs">添加平台管理员</button>
+            </a>
+        </div>
+        <div class="col-xs-">
+            <form method="get" action="{:url('index')}" id="searchForm">
+                <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
+                       placeholder="输入商家编号进行搜索">
+            </form>
+        </div>
 
     </div>
     <div class="data-div">
@@ -21,6 +29,9 @@
             </div>
             <div class=" col-sm-1 ">
                 身份
+            </div>
+            <div class=" col-sm-1 ">
+                商家编号
             </div>
             <div class=" col-sm-1 ">
                 收益
@@ -49,6 +60,9 @@
                     </div>
                     <div class="col-sm-1">
                         <?= $admin['type'] ?>
+                    </div>
+                    <div class="col-sm-1" title="{$admin->shop_id}">
+                        <?= $admin['shop_id'] ?>
                     </div>
                     <div class="col-sm-1" title="{$admin->income}">
                         {$admin->income}

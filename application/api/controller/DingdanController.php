@@ -166,6 +166,22 @@ class DingdanController extends BaseController {
 		}
 		return json(Dingdan::hasOrderGroupFinal($data));
 	}
+	/*
+	 * 取订金订单或全款
+	 * */
+	public function order_user_deposit(Request $request){
+        $data = $request->param();
+        $rules = [
+            'username' => 'require',
+            'type_'=>'require|number',
+
+        ];
+        $res = $this->validate($data, $rules);
+        if (true !== $res) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json(Dingdan::getOrderUserDeposit($data));
+    }
     /*
      * 添加订单-团购  不要了
      * zhuangxiu-zyg
@@ -184,6 +200,10 @@ class DingdanController extends BaseController {
         return json((new Dingdan)->addOrderGroup($data));
 
     }*/
+ public function test(){
+     return (new Dingdan())->makeTradeNo('lllooo');
+
+ }
 
 
 

@@ -25,8 +25,8 @@ class User extends Base
  		 if(!empty($data['time_from']) && !empty($data['time_to'])){
             $where['create_time']=[['gt',strtotime($data['time_from'])],['lt',strtotime($data['time_to'])]];
         }
-		if (!empty($data['username'])) {
-			$where['username'] = ['like','%'.$data['username'].'%'];
+		if (!empty($data['name_'])) {
+			$where['username|nickname'] = ['like','%'.$data['name_'].'%'];
 		}
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

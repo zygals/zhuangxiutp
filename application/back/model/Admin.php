@@ -29,9 +29,14 @@ class Admin extends Base {
     public static  function getList($data=[]){
         $order = "create_time asc";
         $where = ['st'=>['=',1]];
-        if (!empty($data['name_'])) {
-            $where[] = ['name|truename'=>'like', '%' . $data['name_'] . '%'];
+       // dump($data['shop_id']);exit;
+        if (!empty($data['shop_id'])) {
+            $where['shop_id'] = $data['shop_id'];
         }
+       // dump($where);exit;
+       /* if (!empty($data['name_'])) {
+            $where[] = ['name|truename'=>'like', '%' . $data['name_'] . '%'];
+        }*/
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';
         }

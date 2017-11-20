@@ -34,7 +34,7 @@
                         <option value="">--请选择商户--</option>
                         <?php foreach ($list_shop as $row_) { ?>
                             <option value="{$row_['id']}" {eq name="Think.get.shop_id" value="$row_['id']"
-                                    }selected{/eq}>{$row_['name']}</option>
+                                    }selected{/eq}>{$row_['id']}:{$row_['name']}</option>
                         <?php } ?>
                     </select>
                     <select name="cate_id" style="color:inherit">
@@ -53,19 +53,15 @@
                     <select class=" form-control" name="paixu">
                         <option value="">--请选择排序字段--</option>
                         <option value="price" {eq name="Think.get.paixu" value="price"
-                                }selected{
-                        /eq}>价格</option>
+                                }selected{/eq}>价格</option>
                         <!--<option value="store" {eq name="Think.get.paixu" value="store"
                                 }selected{/eq}>库存</option>-->
                         <option value="sales" {eq name="Think.get.paixu" value="sales"
-                                }selected{
-                        /eq}>销量</option>
+                                }selected{/eq}>销量</option>
                         <option value="create_time" {eq name="Think.get.paixu" value="create_time"
-                                }selected{
-                        /eq}>添加时间</option>
+                                }selected{/eq}>添加时间</option>
                         <option value="update_time" {eq name="Think.get.paixu" value="update_time"
-                                }selected{
-                        /eq}>修改时间</option>
+                                }selected{/eq}>修改时间</option>
                     </select>
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"

@@ -53,17 +53,17 @@
 </head>
 
 <body>
-<div id="wrap" style="height:10000px;">
+<div id="wrap" style="padding-bottom: 50px;height:15000px;">
     <!-- 左侧菜单栏目块 -->
     {block name="menu_left"}
     <div class="leftMeun" id="leftMeun">
         <div id="logoDiv">
             欢迎使用装修后台
-            <!--<p id="logoP">
+            <p id="logoP">
 
-                <a href="__IMGURL__wx.php/index/clear_cache">
+                <a href="{:url('index/clear_cache')}">
                     <button class="alert btn-xs">清理前台缓存</button>
-                </a></p>-->
+                </a></p>
         </div>
         <div id="personInfor">
             <p id="userName">{php} if(session('admin_zhx'))echo session('admin_zhx')->name{/php} <a
@@ -100,7 +100,6 @@
                 <?php } ?>
             <?php } ?>
         <?php }?>
-
 
         <p style="color:white;margin-top:30px;text-align:left;">@weilaihexun</p>
 

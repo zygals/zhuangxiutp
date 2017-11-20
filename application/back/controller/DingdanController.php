@@ -114,7 +114,7 @@ class DingdanController extends BaseController {
  * */
 	public function order_paid(Request $request){
 		$data = $request->param();
-		$rules = ['pass_admin' => 'require','order_id'=>'require'];
+		$rules = ['pass_admin' => 'require','order_id'=>'require','st'=>'require'];
 		$res = $this->validate($data,$rules);
 		if ($res !== true) {
 			return json(['code'=>__LINE__,'msg'=>$res]);
