@@ -1,0 +1,61 @@
+<?php
+
+namespace app\back\controller;
+use app\back\model\Message;
+use think\Request;
+use app\back\model\Base;
+
+class MessageController extends BaseController{
+    /**
+     * 展示留言主页
+     * @param Request $request
+     */
+    public function index(Request $request){
+        $data = $request->param();
+        $list_ = Message::getList($data);
+        $page_str = $list_->render();
+        $page_str = Base::getPageStr($data, $page_str);
+        $url = $request->url();
+        return $this->fetch('index', ['list_' => $list_,'title'=>'查看留言','page_str' => $page_str,'url'=>$url]);
+    }
+
+    /**
+     * 查看留言(更改留言状态为已查看)
+     */
+    public function edit(Request $request){
+        $data = $request->param();
+        $list = Message::getListById($data['id']);
+        $page_str = $list->render();
+        $page_str = Base::getPageStr($data,$page_str);
+        $url = $request->url();
+//        dump($list);exit;
+        return $this->fetch('info',['list'=>$list,'page_str' => $page_str,'url'=>$url]);
+    }
+
+    /**
+     * 商家回复留言
+     */
+    public function reply(Request $request){
+        $data = $request->param();
+        $url = $request->url();
+        $message = new Message();
+        $res = $message->save($data);
+        if($res){
+            $this->success('回复成功','index','','1');
+        }else{
+            $this->error('回复失败');
+        }
+    }
+
+    /**
+     * 删除留言
+     */
+    public function delete(Request $request){
+        $data = $request->param();
+        if ($this->deleteStatusById($data['id'], new Message())) {
+            $this->success('删除成功',  $data['url'], '', 1);
+        } else {
+            $this->error('删除失败',  $data['url'], '', 3);
+        }
+    }
+}

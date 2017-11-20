@@ -78,6 +78,48 @@ ALTER TABLE `shop`
 ADD COLUMN `qrcode`  varchar(255) NULL COMMENT '二维码';
 
 
+//二〇一七年十一月十六日 16:34:02
+CREATE TABLE `message` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`user_id`  int(11) NOT NULL ,
+`shop_id`  int(11) NOT NULL ,
+`message`  varchar(255) NOT NULL ,
+`send_time`  int(11) NOT NULL ,
+`read_time`  int(11) NULL ,
+`status`  tinyint(4) NOT NULL COMMENT '留言状态  0删除 1未读 2已读' ,
+`type`  tinyint(4) NOT NULL COMMENT '类型  1用户发  2商户发' ,
+PRIMARY KEY (`id`)
+)
+;
+
+ALTER TABLE `message`
+ADD COLUMN `update_time`  int(11) NOT NULL AFTER `type`;
+
+ALTER TABLE `message`
+CHANGE COLUMN `send_time` `create_time`  int(11) NOT NULL AFTER `message`,
+ADD COLUMN `update_time`  int(11) NOT NULL AFTER `type`;
+
+ALTER TABLE `message`
+MODIFY COLUMN `status`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '留言状态  0删除 1未读 2已读' AFTER `read_time`;
+
+ALTER TABLE `message`
+MODIFY COLUMN `status`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '留言状态  0删除 1未读 2已读' AFTER `read_time`,
+ADD COLUMN `pid`  int(11) NOT NULL DEFAULT 0 COMMENT '父id  0为第一条信息' AFTER `update_time`;
+
+
+ALTER TABLE `ts_order`
+MODIFY COLUMN `preset_time`  varchar(100) NOT NULL COMMENT '预约时间';
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -95,7 +95,7 @@ class BaseController extends Controller {
         if (!$row) {
             $this->error('对象不存在');
         }
-        $row->st = 0;
+        $row->status = 0;
         if ($row->save()) {
             return $row;
         }

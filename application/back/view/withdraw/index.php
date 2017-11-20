@@ -76,9 +76,6 @@
             <div class="col-xs-1 ">
                 真实姓名
                 </div>
-            <div class="col-xs-2 ">
-                名称
-            </div>
             <div class="col-xs-1 ">
                 申请金额
             </div>
@@ -107,7 +104,7 @@
                         <div class="col-xs-1" title="admin_id">
                             {$row_->admin_name}
                         </div>
-                        <div class="col-xs-2" title="admin_truename">
+                        <div class="col-xs-1" title="admin_truename">
                             {$row_->admin_truename}
                         </div>
                         <div class="col-xs-1 " title=" ">
