@@ -55,6 +55,9 @@
                 发送时间
 			</div>
             <div class="col-xs-1">
+                回复数
+            </div>
+            <div class="col-xs-1">
 				状 态
 			</div>
 			<div class="col-xs-">
@@ -82,6 +85,9 @@
 				</div>
                 <div class="col-xs-2">
 					{$row_->create_time}
+                </div>
+                <div class="col-xs-1">
+                    {$row_->sum}
                 </div>
 				<div class="col-xs-1">
 					{$row_->status}
