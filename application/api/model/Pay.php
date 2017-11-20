@@ -2,10 +2,8 @@
 
 namespace app\api\model;
 
-use app\back\model\Ad;
 use app\back\model\Admin;
-use app\back\model\Dingdan;
-use think\Model;
+
 
 
 class Pay extends Base {
@@ -14,11 +12,11 @@ class Pay extends Base {
         if (is_array($user_id)) {
             return json($user_id);
         }
-        if ($data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_SHOP || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_GROUP_FINAL) {
+        if ($data['type_'] == Dingdan::ORDER_TYPE_SHOP || $data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $data['type_'] == Dingdan::ORDER_TYPE_GROUP_FINAL) {
             //单商家订单
             $row_order = Dingdan::where(['id' => $data['order_id']])->find();
             $fee = $row_order->sum_price;
-        } elseif ($data['type_'] == \app\api\model\Dingdan::ORDER_TYPE_CONTACT) {
+        } elseif ($data['type_'] == Dingdan::ORDER_TYPE_CONTACT) {
             //平台多商家订单
             $row_order = OrderContact::where(['id' => $data['order_id']])->find();
             $fee = $row_order->sum_price_all;
@@ -108,11 +106,11 @@ class Pay extends Base {
         if (!$row_order) {
             return ['code' => __LINE__, 'msg' => '订单在！'];
         }
-        if ($row_order->st == \app\api\model\Dingdan::ORDER_ST_REFUNDED) {
+        if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
         if(empty($row_order->refund_no)){
-            $refund_no= \app\api\model\Dingdan::makeRefundNo();
+            $refund_no= Dingdan::makeRefundNo();
 
         }
         $fee = $row_order->sum_price;
@@ -149,8 +147,8 @@ class Pay extends Base {
         $array = $this->xml($xml);//全要大写
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
-                Dingdan::udpateShouyi($row_order->shop_id,-$fee);
-                $row_order->st = \app\api\model\Dingdan::ORDER_ST_REFUNDED;
+                \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);
+                $row_order->st = Dingdan::ORDER_ST_REFUNDED;
                 $row_order->refundno = $refund_no;
                 $row_order->save();
 
