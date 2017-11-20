@@ -15,5 +15,15 @@ class Message extends Base{
           }
         return ['code'=>0,'msg'=>'添加成功'];
     }
+    public static function getList($data){
+        $user_id=User::getUserIdByName($data['username']);
+
+        $list_=self::where(['user_id'=>$user_id])->order('create_time desc')->paginate(10);
+
+        if($list_->isEmpty()){
+            return ['code'=>__LINE__,'msg'=>'暂无对话'];
+        }
+        return ['code'=>0,'msg'=>'数据成功','data'=>$list_];
+    }
 
 }

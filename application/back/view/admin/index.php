@@ -12,6 +12,9 @@
             <form method="get" action="{:url('index')}" id="searchForm">
                 <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
                        placeholder="输入商家编号进行搜索">
+                <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
+                       placeholder="输入账号/姓名进行搜索">
+                <button class="btn btn-white btn-xs " type="submit">提交</button>
             </form>
         </div>
 

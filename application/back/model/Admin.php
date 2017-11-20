@@ -34,9 +34,9 @@ class Admin extends Base {
             $where['shop_id'] = $data['shop_id'];
         }
        // dump($where);exit;
-       /* if (!empty($data['name_'])) {
-            $where[] = ['name|truename'=>'like', '%' . $data['name_'] . '%'];
-        }*/
+      if (!empty($data['name_'])) {
+            $where['name|truename']=['like', '%' . $data['name_'] . '%'];
+        }
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';
         }
