@@ -13,7 +13,7 @@
     <div class="col-xs-10">
 <?php foreach($list_ as $k=>$msg){?>
         <p class="<?php echo $msg->type=='1'?'from-user':'from-me';?>">
-            <?php if($msg->type==1){?>{$msg->user_id}:{$msg->username} ({$msg->nickname})<?php }else{?>{$msg->shop_id}:{$msg->shop_name}<?php }?>：{$msg->message} [{$msg->create_time}]
+            <?php if($msg->type==1){?>{$msg->user_id}:{$msg->username} ({$msg->nickname})<?php }else{?>{$msg->shop_id}:{$msg->shop_name}<?php }?>：{$msg->message}  「{$msg->create_time}」
         </p>
         <?php }?>
           </div>
