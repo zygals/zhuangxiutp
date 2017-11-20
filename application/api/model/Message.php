@@ -18,7 +18,7 @@ class Message extends Base{
     public static function getList($data){
         $user_id=User::getUserIdByName($data['username']);
 
-        $list_=self::where(['user_id'=>$user_id])->order('create_time desc')->paginate(10);
+        $list_=self::where(['user_id'=>$user_id])->order('create_time asc')->paginate(10);
 
         if($list_->isEmpty()){
             return ['code'=>__LINE__,'msg'=>'暂无对话'];
