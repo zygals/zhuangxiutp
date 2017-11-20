@@ -36,6 +36,7 @@ class MessageController extends BaseController{
     }
 
     public function save(Request $request){
+        $data=$request->post();
         $data['type']=2;
          $back = $data['url'];unset ($data['url']);
         (new Message())->save($data);
