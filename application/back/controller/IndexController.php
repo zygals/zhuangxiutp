@@ -17,7 +17,10 @@ class IndexController extends BaseController
     * */
    public function clear_cache(Request $request){
        Cache::clear();
-       $back=$request->header()['referer'];
+       $back='index/index';
+       if(!empty($request->header()['referer'])){
+           $back=$request->header()['referer'];
+       }
        $this->success('缓存清理成功',$back,'',1);
 
    }

@@ -58,7 +58,7 @@
 							<?php if ( $row_order->st == '未支付' && \app\back\model\Admin::isAdmin() ) { ?>
 								<button onclick="order_st_paid('{$row_order->id}','paid')">改为已支付</button>
 							<?php } ?>
-                            <?php if ( $row_order->st == '申请退款' && \app\back\model\Admin::isAdmin() ) { ?>
+                            <?php if ( ($row_order->st == '申请退款' ||$row_order->st == '已支付')&& \app\back\model\Admin::isAdmin() ) { ?>
                                 <button onclick="order_st_paid('{$row_order->id}','tuikuan')">改为已退款</button>
                             <?php } ?>
 						</div>

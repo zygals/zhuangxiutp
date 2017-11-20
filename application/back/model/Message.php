@@ -13,9 +13,9 @@ class Message extends Base{
      * 处理主页资源列表
      */
     public static function getList($data=[],$where=['message.status' => ['<>',0],'message.type' => '1']){
-        $order = 'create_time desc';
+       // $order = 'create_time desc';
         $fields = 'message.*,user.nickname,shop.name';
-        $list_ = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->field($fields)->order($order)->paginate(10);
+        $list_ = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->field($fields)->order('')->paginate(10);
         return $list_;
     }
 

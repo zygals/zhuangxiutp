@@ -60,9 +60,8 @@
         <div id="logoDiv">
             欢迎使用装修后台
             <p id="logoP">
-
                 <a href="{:url('index/clear_cache')}">
-                    <button class="alert btn-xs">清理前台缓存</button>
+                    <button class="alert btn-xs">清理服务器缓存</button>
                 </a></p>
         </div>
         <div id="personInfor">
