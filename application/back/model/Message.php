@@ -16,7 +16,7 @@ class Message extends Base{
     public static function getList($where=['message.status' => ['<>',0]]){
        $order = 'message.create_time desc';
         $fields = 'message.*,user.nickname,user.username ,shop.name shop_name';
-        $list_ = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->field($fields)->order($order)->group('message.id,message.user_id,message.shop_id')->paginate(10);
+        $list_ = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->field($fields)->order($order)->group('message.user_id,message.shop_id')->paginate(10);
         return $list_;
     }
 
@@ -26,15 +26,7 @@ class Message extends Base{
     public static function getListById($data){
         $order = 'message.create_time asc';
         $fields = 'message.*,user.nickname,user.username,shop.name shop_name';
-        $list_ = self::where(['user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']])->join('user','message.user_id=user.id')->join('shop','shop.id=message.shop_id')->paginate(5);
-//        if($list_->status == '未读'){
-//            $message = new Message();
-//            $message->save(['status'=>2,'read_time'=>time()],['id'=>$data]);
-//        }
-       /* $where['user_id'] = array('eq',$list_['user_id']);
-        $where['shop_id'] = array('eq',$list_['shop_id']);
-        $where['status'] = array('<>',0);
-        $list = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->order($order)->field($fields)->paginate(10);*/
+        $list_ = self::where(['user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']])->join('user','message.user_id=user.id')->join('shop','shop.id=message.shop_id')->field($fields)->order($order)->paginate(5);
         return $list_;
     }
 
