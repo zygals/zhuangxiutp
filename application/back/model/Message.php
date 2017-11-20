@@ -16,7 +16,7 @@ class Message extends Base{
     public static function getList($where=['message.status' => ['<>',0]]){
        $order = 'message.create_time desc';
         $fields = 'message.*,user.nickname,user.id user_id,user.username ,shop.name shop_name';
-        $list_ = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->field($fields)->order($order)->group('message.id,message.user_id,message.shop_id')->paginate(10);
+        $list_ = self::where($where)->join('shop','shop.id=message.shop_id')->join('user','user.id=message.user_id')->field($fields)->order($order)->group('message.user_id,message.shop_id')->paginate(10);
         return $list_;
     }
 
