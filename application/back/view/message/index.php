@@ -42,6 +42,9 @@
             <div class="col-xs-1 ">
                 用户名
             </div>
+            <div class="col-xs-1 ">
+                用户昵称
+            </div>
             <div class="col-xs-1">
                 店铺名
             </div>
@@ -65,13 +68,13 @@
                 <div class="col-xs-1 ">
                     {$row_->id}
                 </div>
-                <div class="col-xs-1 " title="">
-					{$row_->nickname}
+                <div class="col-xs-1 " title="{$row_->username}">
+					{$row_->user_id}:{$row_->username}
                 </div>
-                <div class="col-xs-1">
-                    {$row_->name}
+                <div class="col-xs-1" title="{$row_->nickname}">
+                    {$row_->nickname}
                 </div>
-				<div class="col-xs-2">
+				<div class="col-xs-2" title="{$row_->message}">
 					{$row_->message}
 				</div>
                 <div class="col-xs-2">
