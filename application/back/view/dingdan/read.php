@@ -34,6 +34,15 @@
 							<label>{$row_order->orderno}</label>
 						</div>
 					</div>
+                    <?php if($row_order->orderno_youhui!=''){?>
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label">抵扣订单：</label>
+
+                            <div class="col-xs-8 ">
+                                <label>{$row_order->orderno_youhui}</label>
+                            </div>
+                        </div>
+                    <?php }?>
 <?php if($row_order->refundno!=''){?>
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">退款号：</label>
@@ -121,10 +130,18 @@
 						<label for="sName" class="col-xs-3 control-label">总额：</label>
 
 						<div class="col-xs-8 ">
-							<label>{$row_order->sum_price}</label>
+							<label>{$row_order->sum_price}元</label>
 						</div>
 					</div>
+<?php if($row_order->sum_price_youhui>0){?>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-3 control-label">用订金：</label>
 
+                        <div class="col-xs-8 ">
+                            <label>{$row_order->sum_price_youhui}元</label>
+                        </div>
+                    </div>
+<?php }?>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">收货人信息：</label>
 
