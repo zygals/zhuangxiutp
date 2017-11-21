@@ -21,9 +21,13 @@
     }  .pagediv{
 
     }
+    .msgs_div {
+        width: 70%;
+        margin: 0 auto;
+    }
 </style>
 <div class="row msgs_div">
-    <div class="col-xs-8 msglist">
+    <div class="col-xs-12 msglist">
         <?php foreach ($list_ as $k => $msg) { ?>
             <p class="<?php echo $msg->type == '1' ? 'from-user' : 'from-me'; ?>">
                 <?php if ($msg->type == 1) { ?>{$msg->user_id}:{$msg->username} ({$msg->nickname})<?php } else { ?>{$msg->shop_id}:{$msg->shop_name}<?php } ?>
