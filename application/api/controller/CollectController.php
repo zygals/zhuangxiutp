@@ -64,7 +64,7 @@ class CollectController extends BaseController {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
 
-        return json(['code' => 0, 'msg' => 'collect/shop', 'data' => Collect::getShop($data)]);
+        return json(Collect::getShop($data));
     }
 
 //    public function delete(Request $request){
