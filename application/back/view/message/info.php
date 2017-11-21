@@ -29,7 +29,7 @@
 <div class="msgs_div">
     <div class="row msglist">
         <?php foreach ($list_ as $k => $msg) { ?>
-            <p class="<?php echo $msg->type == '1' ? 'from-user col-xs-6' : 'from-me col-xs-6'; ?>">
+            <p class="<?php echo $msg->type == '1' ? 'from-user ' : 'from-me'; ?>">
                 <?php if ($msg->type == 1) { ?>{$msg->user_id}:{$msg->username} ({$msg->nickname})<?php } else { ?>{$msg->shop_id}:{$msg->shop_name}<?php } ?>
                 ：{$msg->message} 「{$msg->create_time}」<button onclick="delMsg('{$msg->id}')" class="delmsg btn btn-danger btn-xs">删除</button>
             </p>
