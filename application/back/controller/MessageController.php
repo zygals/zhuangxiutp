@@ -51,9 +51,9 @@ class MessageController extends BaseController{
     public function delete(Request $request){
         $data = $request->param();
         if ($this->deleteStatusById($data['id'], new Message())) {
-            $this->success('删除成功',  $data['url'], '', 1);
+            return json(['code'=>0]);
         } else {
-            $this->error('删除失败',  $data['url'], '', 3);
+            return json(['code'=>1,'msg'=>'删除失败']);
         }
     }
 }

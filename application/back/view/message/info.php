@@ -26,10 +26,10 @@
         margin: 0 auto;
     }
 </style>
-<div class="row msgs_div">
-    <div class="col-xs-12 msglist">
+<div class="msgs_div">
+    <div class="row msglist">
         <?php foreach ($list_ as $k => $msg) { ?>
-            <p class="<?php echo $msg->type == '1' ? 'from-user' : 'from-me'; ?>">
+            <p class="<?php echo $msg->type == '1' ? 'from-user col-xs-6' : 'from-me col-xs-6'; ?>">
                 <?php if ($msg->type == 1) { ?>{$msg->user_id}:{$msg->username} ({$msg->nickname})<?php } else { ?>{$msg->shop_id}:{$msg->shop_name}<?php } ?>
                 ：{$msg->message} 「{$msg->create_time}」<button onclick="delMsg('{$msg->id}')" class="delmsg btn btn-danger btn-xs">删除</button>
             </p>
@@ -58,8 +58,7 @@ function delMsg($msg_id) {
             url:"{:url('delete')}",
             data:{
                 id:$msg_id,
-                url:'{$url}'
-            },
+             },
             success:function (res) {
                 if(res.code==0){
                     window.location.reload()
