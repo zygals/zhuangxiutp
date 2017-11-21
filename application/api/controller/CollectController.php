@@ -49,7 +49,7 @@ class CollectController extends BaseController {
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        return json(Collect::getList($data));
+        return json(['code'=>0,'data'=>Collect::getList($data)]);
     }
 
     /**

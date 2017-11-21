@@ -44,7 +44,7 @@ class Collect extends Base {
        if(count($list_)==0){
            return ['code'=>__LINE__,'msg'=>'没数据啊!'];
        }
-       return ['code'=>0,'data'=>$list_];
+       return $list_;
    }
 
     /**
