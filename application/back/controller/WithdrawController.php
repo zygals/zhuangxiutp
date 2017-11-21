@@ -2,7 +2,6 @@
 
 namespace app\back\controller;
 
-use app\back\model\Base;
 use app\back\model\Setting;
 use think\Request;
 use app\back\model\Admin;

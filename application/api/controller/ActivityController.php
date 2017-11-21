@@ -107,9 +107,9 @@ class ActivityController extends BaseController {
         }
         $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
         if($row_attend){
-            return json(['code' => 0, 'msg' => 'my attend ok','data'=>$row_attend]);
+            return json(['code' => 0, 'msg' => '数据成功','data'=>$row_attend]);
         }
-        return json(['code' => __LINE__, 'msg' => 'my attend not']);
+        return json(['code' => __LINE__]);
     }
     /*
      * 取我的在线报名
