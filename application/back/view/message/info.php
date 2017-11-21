@@ -48,7 +48,7 @@
                 <input type="text" name="message" class="form-control input-sm">
             </div>
             <div class="col-xs-4">
-                <button class="btn btn-white btn-xs " type="submit">提交</button>
+                <button class="btn btn-white btn-xs " type="submit">提交</button><a href="{:url('index')}"><button type="button" class="btn btn-xs btn-white" data-dismiss="modal">返回列表 </button></a>
             </div>
         </form>
     </div>
