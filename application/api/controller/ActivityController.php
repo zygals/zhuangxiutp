@@ -97,7 +97,6 @@ class ActivityController extends BaseController {
         $data = $request->param();
         $rule = ['activity_id' => 'require|number','username'=>'require'];
         $res = $this->validate($data, $rule);
-        //dump( $res);exit;
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
