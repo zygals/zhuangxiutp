@@ -114,15 +114,15 @@ class Dingdan extends Base{
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
 		$data_order['beizhu'] = $data['beizhu'];
-        if($youhui_order_id=$data['order_id_deposit']>0 && $data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL){
+       /* if($data['order_id_deposit']>0 && $data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL){
             //用了订金
-            $row_deposit=self::where(['id'=>$youhui_order_id,'st'=>self::ORDER_ST_PAID])->find();
+            $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
             $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
             $row_deposit->orderno_youhui = $data_order['orderno'];
             $data_order['sum_price_youhui'] = $row_deposit->sum_price;
-            $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
+            $a_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
             $row_deposit->save();
-        }
+        }*/
 		if ( !$this->save( $data_order ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加失败'];
 		}
@@ -418,6 +418,17 @@ class Dingdan extends Base{
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];
 			}
 			$row_order->st = self::ORDER_ST_PAID;
+			//全款被订金优惠
+            if($data['order_id_deposit']>0 && $data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL){
+                //用了订金
+                $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
+
+                $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
+                $row_deposit->orderno_youhui = $row_order->orderno;
+                $row_order->sum_price_youhui = $row_deposit->sum_price;
+                $row_order->orderno_youhui= $row_deposit->orderno;//被优惠订单
+                $row_deposit->save();
+            }
 			if ( !$row_order->save() ) {
 				return ['code' => 0 , 'msg' => '支付状态失败'];
 			}
@@ -440,6 +451,8 @@ class Dingdan extends Base{
                 $user_id=User::getUserIdByName($data['username']);
                 self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
 			}
+
+
 			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
