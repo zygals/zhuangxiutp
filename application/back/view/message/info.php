@@ -53,7 +53,8 @@ function delMsg($msg_id) {
         $.ajax({
             url:"{:url('delete')}",
             data:{
-                id:$msg_id
+                id:$msg_id,
+                url:'{$url}'
             },
             success:function (res) {
                 if(res.code==0){
