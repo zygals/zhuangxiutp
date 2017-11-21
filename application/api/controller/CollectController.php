@@ -84,13 +84,12 @@ class CollectController extends BaseController {
      */
     public function delete(Request $request){
         $data = $request -> param();
-        $rule = ['username' => 'require','id'=>'require|number'];
+        $rule = ['id'=>'require|number'];
         $res = $this->validate($data, $rule);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        Collect::delRow($data);
-
+        return json(Collect::delRow($data));
     }
 
 }
