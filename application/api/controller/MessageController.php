@@ -36,5 +36,21 @@ class MessageController extends BaseController
        }
        return json((new Message)->addMessage($data));
    }
+    /*
+* 用户删除留言
+*
+* zhuangxiu-zyg
+* */
+    public function del_by_user(Request $request) {
+        $data=$request->post();
+        $rule=[
+            'msg_id'=>'require|number',
+        ];
+        $res = $this->validate($data,$rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json((new Message)->delMsg($data['msg_id']));
+    }
 
 }
