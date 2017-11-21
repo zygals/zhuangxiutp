@@ -156,7 +156,7 @@ class Pay extends Base {
                 $ret['msg'] = "退款申请成功";
             } else {
                 $ret['code'] = __LINE__;
-                $ret['msg'] = "提交业务失败";
+                $ret['msg'] = $array['RETURN_MSG'];
             }
 
         } else {
