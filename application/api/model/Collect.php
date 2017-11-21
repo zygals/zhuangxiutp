@@ -41,7 +41,7 @@ class Collect extends Base {
             return $user_id;
         }
 
-        $list_ = self::where(['collect.st'=>1,'collect.type'=>1,'user_id'=>$user_id])->join('good','good.id=collect.collect_id')->field('collect_id,name,img,price')->order('collect.create_time desc')->paginate();
+        $list_ = self::where(['collect.st'=>1,'collect.type'=>1,'user_id'=>$user_id])->join('good','good.id=collect.collect_id')->field('collect.id c_id,collect_id,name,img,price')->order('collect.create_time desc')->paginate();
        if(count($list_)==0){
            return ['code'=>__LINE__,'msg'=>'没数据啊!'];
        }
@@ -59,7 +59,7 @@ class Collect extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where(['collect.st'=>1,'collect.type'=>2,'user_id'=>$user_id])->join('shop','shop.id=collect.collect_id')->field('collect_id,name,img')->order('collect.create_time desc')->select();
+        $list_ = self::where(['collect.st'=>1,'collect.type'=>2,'user_id'=>$user_id])->join('shop','shop.id=collect.collect_id')->field('collect.id c_id,collect_id,name,img')->order('collect.create_time desc')->select();
         return $list_;
     }
    //wx
@@ -76,18 +76,14 @@ class Collect extends Base {
    }
    //wx
     public static function delRow($data){
-        $user_id = User::getUserIdByName($data['user_name']);
-        if(is_array($user_id)){
-            return $user_id;
-        }
-        $row_ = self::where(['user_id'=>$user_id,'good_id'=>$data['good_id'],'st'=>1])->find();
+        $id = $data['id'];
+        $row_ = self::where(['id'=>$id])->find();
         if(!$row_){
             return ['code'=>__LINE__,'msg'=>'不存在'];
         }
         $row_->st=0;
         $row_->save();
         return ['code'=>0,'msg'=>'删除成功'];
-
     }
 
     /**

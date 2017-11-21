@@ -67,14 +67,28 @@ class CollectController extends BaseController {
         return json(['code' => 0, 'msg' => 'collect/shop', 'data' => Collect::getShop($data)]);
     }
 
+//    public function delete(Request $request){
+//        $data = $request->param();
+//        $rule = ['user_name' => 'require','good_id'=>'require|number'];
+//        $res = $this->validate($data, $rule);
+//        if ($res !== true) {
+//            return json(['code' => __LINE__, 'msg' => $res]);
+//        }
+//
+//        return json(Collect::delRow($data));
+//    }
+
+    /**
+     * 长按删除收藏
+     *
+     */
     public function delete(Request $request){
-        $data = $request->param();
-        $rule = ['user_name' => 'require','good_id'=>'require|number'];
+        $data = $request -> param();
+        $rule = ['id'=>'require|number'];
         $res = $this->validate($data, $rule);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-
         return json(Collect::delRow($data));
     }
 
