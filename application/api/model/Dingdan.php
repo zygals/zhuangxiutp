@@ -15,6 +15,8 @@ class Dingdan extends Base{
 	const ORDER_ST_USER_DELETE = 5;
 	const ORDER_ST_USER_REFUND = 6;
 	const ORDER_ST_ADMIN_DELETE = 0;
+	const ORDER_ST_YOUHUI_GOOD = 7;
+	const ORDER_ST_YOUHUI_QUANKUAN = 8;
 	const GOOT_ST_DAIFAHUO = 1;
 	const GOOT_ST_DAIFANKUI = 3; //已收货
 	const GOOT_ST_FANKUIOK = 4; //已评价
@@ -112,10 +114,19 @@ class Dingdan extends Base{
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
 		$data_order['beizhu'] = $data['beizhu'];
-
+        if($youhui_order_id=$data['order_id_deposit']>0 && $data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL){
+            //用了订金
+            $row_deposit=self::where(['id'=>$youhui_order_id,'st'=>self::ORDER_ST_PAID])->find();
+            $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
+            $row_deposit->orderno_youhui = $data_order['orderno'];
+            $data_order['sum_price_youhui'] = $row_deposit->sum_price;
+            $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
+            $row_deposit->save();
+        }
 		if ( !$this->save( $data_order ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加失败'];
 		}
+
 		//给商家订单量增加一个
 		Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id , 'type' => $data['type_']];
