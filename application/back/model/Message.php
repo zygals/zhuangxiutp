@@ -26,7 +26,7 @@ class Message extends Base{
     public static function getListById($data){
         $order = 'message.create_time asc';
         $fields = 'message.*,user.nickname,user.username,shop.name shop_name';
-        $list_ = self::where(['user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']])->join('user','message.user_id=user.id')->join('shop','shop.id=message.shop_id')->field($fields)->order($order)->paginate(20);
+        $list_ = self::where(['user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']])->join('user','message.user_id=user.id')->join('shop','shop.id=message.shop_id')->field($fields)->order($order)->paginate(5);
         return $list_;
     }
 
