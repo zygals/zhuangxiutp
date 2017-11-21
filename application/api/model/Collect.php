@@ -43,7 +43,7 @@ class Collect extends Base {
 
         $list_ = self::where(['collect.st'=>1,'collect.type'=>1,'user_id'=>$user_id])->join('good','good.id=collect.collect_id')->field('collect.id c_id,collect_id,name,img,price')->order('collect.create_time desc')->paginate();
        if($list_->isEmpty()){
-           return ['code'=>__LINE__];
+           return ['code'=>__LINE__,'msg'=>'没数据啊!'];
        }
        return ['code'=>0,'data'=>$list_];
    }
@@ -59,7 +59,7 @@ class Collect extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
-        $list_ = self::where(['collect.st'=>1,'collect.type'=>2,'user_id'=>$user_id])->join('shop','shop.id=collect.collect_id')->field('collect.id c_id,collect_id,name,img')->order('collect.create_time desc')->select();
+        $list_ = self::where(['collect.st'=>1,'collect.type'=>2,'user_id'=>$user_id])->join('shop','shop.id=collect.collect_id')->field('collect.id c_id,collect_id,name,img')->order('collect.create_time desc')->paginate();
         return $list_;
     }
    //wx
