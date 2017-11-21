@@ -215,7 +215,7 @@ class GoodController extends BaseController {
         $data = $request->param();
         //   dump($data);exit;
         //下架条件：
-        $allow_ = true;
+        /*$allow_ = true;
         if (OrderGood::getGoodOn($data['id'])) {
             $allow_ = false;
         }
@@ -227,7 +227,7 @@ class GoodController extends BaseController {
         }
         if ($allow_ == false) {
             $this->error('商品被加入团购，不能下架', $data['url']);
-        }
+        }*/
         //可以下架
         $row_ = $this->findById($data['id'], new Good());
         $row_->st = 2;
