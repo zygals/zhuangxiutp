@@ -486,11 +486,11 @@ class Dingdan extends Base{
         if ( is_array( $user_id ) ) {
             return $user_id;
         }
-        $row_ = self::where(['user_id'=>$user_id,'shop_id'=>$data['shop_id'],'st'=>self::ORDER_ST_PAID])->order('create_time desc')->field('sum_price')->find();
+        $row_ = self::where(['user_id'=>$user_id,'shop_id'=>$data['shop_id'],'st'=>self::ORDER_ST_PAID])->order('create_time desc')->field('id,sum_price')->find();
         if(!$row_){
             return ['code'=>__LINE__];
         }
-        return ['code'=>0,'data'=>$row_->sum_price];
+        return ['code'=>0,'data'=>$row_];
 
     }
 
