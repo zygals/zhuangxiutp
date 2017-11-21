@@ -481,7 +481,7 @@ class Dingdan extends Base{
     /*
      * 取用户在某个商过的订金订单
      * */
-    public function getShopDeposit($data){
+    public static function getShopDeposit($data){
         $user_id = User::getUserIdByName( $data['username'] );
         if ( is_array( $user_id ) ) {
             return $user_id;
