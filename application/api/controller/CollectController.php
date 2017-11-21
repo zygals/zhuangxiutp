@@ -49,7 +49,7 @@ class CollectController extends BaseController {
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
-        return json(['code'=>0,'data'=>Collect::getList($data)]);
+        return json(Collect::getList($data));
     }
 
     /**
@@ -64,7 +64,7 @@ class CollectController extends BaseController {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
 
-        return json(Collect::getShop($data));
+        return json(['code' => 0, 'msg' => 'collect/shop', 'data' => Collect::getShop($data)]);
     }
 
 //    public function delete(Request $request){

@@ -40,6 +40,7 @@ class Collect extends Base {
         if(is_array($user_id)){
             return $user_id;
         }
+
         $list_ = self::where(['collect.st'=>1,'collect.type'=>1,'user_id'=>$user_id])->join('good','good.id=collect.collect_id')->field('collect.id c_id,collect_id,name,img,price')->order('collect.create_time desc')->paginate();
        if($list_->isEmpty()){
            return ['code'=>__LINE__,'msg'=>'没数据啊!'];
