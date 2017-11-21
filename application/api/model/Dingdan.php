@@ -27,7 +27,7 @@ class Dingdan extends Base{
 	//public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
 	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'优惠抵扣'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款'];
 		return $status[$value];
 	}
 
@@ -478,6 +478,20 @@ class Dingdan extends Base{
         return ['code'=>0,'data'=>$list_];
 
     }
+    /*
+     * 取用户在某个商过的订金订单
+     * */
+    public static function getShopDeposit($data){
+        $user_id = User::getUserIdByName( $data['username'] );
+        if ( is_array( $user_id ) ) {
+            return $user_id;
+        }
+        $row_ = self::where(['user_id'=>$user_id,'shop_id'=>$data['shop_id'],'st'=>self::ORDER_ST_PAID])->order('create_time desc')->field('sum_price')->find();
+        if(!$row_){
+            return ['code'=>__LINE__];
+        }
+        return ['code'=>0,'data'=>$row_->sum_price];
 
+    }
 
 }

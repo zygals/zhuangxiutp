@@ -200,8 +200,18 @@ class DingdanController extends BaseController {
         return json((new Dingdan)->addOrderGroup($data));
 
     }*/
- public function test(){
-     return (new Dingdan())->makeTradeNo('lllooo');
+ public function my_shop_deposit(Request $request){
+     $data = $request->get();
+     $rules = [
+         'username' => 'require',
+         'shop_id'=>'require|number',
+
+     ];
+     $res = $this->validate($data, $rules);
+     if (true !== $res) {
+         return json(['code' => __LINE__, 'msg' => $res]);
+     }
+     return json(Dingdan::getShopDeposit($data));
 
  }
 

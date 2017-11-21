@@ -106,7 +106,12 @@ ALTER TABLE `message`
 MODIFY COLUMN `status`  tinyint(4) NOT NULL DEFAULT 1 COMMENT '留言状态  0删除 1未读 2已读' AFTER `read_time`,
 ADD COLUMN `pid`  int(11) NOT NULL DEFAULT 0 COMMENT '父id  0为第一条信息' AFTER `update_time`;
 
+alter table message add create_time int default 0;
+alter table message modify type tinyint default 1 comment '1 用户发 2管理员发';
+alter table message drop send_time;
+alter table message change status st tinyint default 1 comment '0 管理员删除 1正常 2用户删除';
 
+alter table dingdan add sum_price_youhui decimal(10,2) default 0  comment '总额优惠(订金作为优惠)' after sum_price;
 
 
 
