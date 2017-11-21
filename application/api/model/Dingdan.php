@@ -419,7 +419,7 @@ class Dingdan extends Base{
 			}
 			$row_order->st = self::ORDER_ST_PAID;
 			//全款被订金优惠
-            if($data['order_id_deposit']>0 && $data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL){
+            if($data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL && !empty($data['order_id_deposit']) && $data['order_id_deposit']>0  ){
                 //用了订金
                 $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
 
