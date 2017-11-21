@@ -122,7 +122,7 @@
                         <div class="col-xs-">
                             <?php if(!\app\back\model\Admin::isShopAdmin()){ ?>
                                 <a href="{:url('editSt')}?id={$row_->id}">
-                                    <button class="btn btn-success btn-xs edit_" title="修改商品">修改</button>
+                                    <button class="btn btn-success btn-xs edit_" title="修改">修改</button>
                                 </a>
                             <?php }?>
 

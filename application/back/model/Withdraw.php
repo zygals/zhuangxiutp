@@ -52,7 +52,7 @@ class Withdraw extends Base{
     }
 
     public static function getListByWithdrawId($id,$field='withdraw.*,admin.truename admin_truename'){
-        $row_ = self::join('admin','admin.id=withdraw.admin_id')->where(['withdraw.id'=>$id])->find();
+        $row_ = self::join('admin','admin.id=withdraw.admin_id')->field($field)->where(['withdraw.id'=>$id])->find();
         return $row_;
     }
 }

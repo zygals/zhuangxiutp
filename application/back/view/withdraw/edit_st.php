@@ -28,7 +28,7 @@
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>申请用户：</label>
                         <div class="col-xs-8 ">
-                            <label>{$row_['truename']}</label>
+                            <label>{$row_['admin_truename']}</label>
                             <input type="hidden" name="id" value="{$row_['id']}">
                             <input type="hidden" name="referer" value="{$referer}">
                         </div>
@@ -85,8 +85,8 @@
 
 <script>
     $(function () {
-        var maxBenefit = {$benefit};
-        var minBenefit = {$minBenefit};
+        var maxBenefit = '{$benefit}';
+        var minBenefit = '{$minBenefit}';
         $('form').bootstrapValidator({
 
             fields: {
