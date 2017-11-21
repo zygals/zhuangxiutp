@@ -34,27 +34,15 @@ class MessageController extends BaseController{
 //        dump($list);exit;
         return $this->fetch('info',['list_'=>$list,'page_str' => $page_str,'title'=>'留言列表','url'=>$url]);
     }
-
+/*
+ * 管理员回复
+ * */
     public function save(Request $request){
         $data=$request->post();
         $data['type']=2;
          $back = $data['url'];unset ($data['url']);
         (new Message())->save($data);
         $this->success('成功',$back,'',1);
-    }
-    /**
-     * 商家回复留言
-     */
-    public function reply(Request $request){
-        $data = $request->param();
-        $url = $request->url();
-        $message = new Message();
-        $res = $message->save($data);
-        if($res){
-            $this->success('回复成功','index','','1');
-        }else{
-            $this->error('回复失败');
-        }
     }
 
     /**

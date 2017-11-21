@@ -4,8 +4,8 @@ namespace app\back\model;
 use think\Model;
 class Message extends Base{
     protected  $dateFormat='Y-m-d H:i:s';
-    public function getStatusAttr($value){
-        $status = [0 => '删除', 1 => '未读',2=>'已读'];
+    public function getStAttr($value){
+        $status = [0 => '删除', 1 => '正常',2=>'用户删除'];
         return $status[$value];
     }
     /**
@@ -13,7 +13,7 @@ class Message extends Base{
      * @param array $where
      * 处理主页资源列表
      */
-    public static function getList($data=[],$where=['message.status' => ['<>',0]]){
+    public static function getList($data=[],$where=['message.st' => ['<>',0]]){
         if(Admin::isShopAdmin()){
             $where['message.shop_id']=session('admin_zhx')->shop_id;
         }
@@ -32,7 +32,7 @@ class Message extends Base{
     public static function getListById($data){
         $order = 'message.create_time asc';
         $fields = 'message.*,user.nickname,user.username,shop.name shop_name';
-        $list_ = self::where(['user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']])->join('user','message.user_id=user.id')->join('shop','shop.id=message.shop_id')->field($fields)->order($order)->paginate(5);
+        $list_ = self::where(['st'=>1,'user_id'=>$data['user_id'],'shop_id'=>$data['shop_id']])->join('user','message.user_id=user.id')->join('shop','shop.id=message.shop_id')->field($fields)->order($order)->paginate(5);
         return $list_;
     }
 
