@@ -14,8 +14,9 @@
 		</div>
         <div class="col-xs-10">
             <form method="get" action="{:url('index')}" id="searchForm">
-
-                <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
+                <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
+                       placeholder="输入商家编号搜索">
+                <!--<div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
                         <option value="">--请选择排序字段--</option>
 						<option value="sort" {eq name="Think.get.paixu" value="sort"
@@ -30,7 +31,7 @@
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type" value="desc"
                                }checked{/eq}>降序</label>
                     <button class="btn btn-white btn-xs " type="submit">提交</button>
-                </div>
+                </div>-->
             </form>
         </div>
 	</div>
@@ -77,8 +78,8 @@
                 <div class="col-xs-1" title="{$row_->nickname}">
                     {$row_->nickname}
                 </div>
-                <div class="col-xs-1" title="{$row_->shop_name}">
-                    {$row_->shop_name}
+                <div class="col-xs-1" title="{$row_->shop_id}:{$row_->shop_name}">
+                    {$row_->shop_id}:{$row_->shop_name}
                 </div>
 				<div class="col-xs-2" title="{$row_->message}">
 					{$row_->message}
