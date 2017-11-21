@@ -19,11 +19,12 @@
     }  .huifu{
 
     }  .pagediv{
-
+        display: flex;
+        justify-content: flex-end;
     }
     .msgs_div {
         width: 70%;
-        margin: 0 auto;
+        margin: 50px auto;
     }
 </style>
 <div class="msgs_div">
