@@ -293,6 +293,7 @@ class Dingdan extends Base{
                 $row_deposit->orderno_youhui = $data_order['orderno'];
                 $data_order['sum_price_youhui'] = $row_deposit->sum_price;
                 $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
+                $data_order['sum_price'] -= $row_deposit->sum_price;
                 $row_deposit->save();
             }
 			if ( !$new_order_id = $this->insertGetId( $data_order ) ) {
