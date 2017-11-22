@@ -114,12 +114,13 @@ class Dingdan extends Base{
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
 		$data_order['beizhu'] = $data['beizhu'];
+		$data_order['sum_price_youhui'] = $data['youhui']; //订金或全款优惠
        if($data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL && $data['order_id_deposit']>0 ){
             //用了订金
             $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
             $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
             $row_deposit->orderno_youhui = $data_order['orderno'];
-            $data_order['sum_price_youhui'] = $row_deposit->sum_price;
+            $data_order['sum_price_youhui'] = $data['youhui']+$row_deposit->sum_price+$row_deposit->sum_price_youhui;
             $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
             $row_deposit->save();
         }
@@ -286,14 +287,14 @@ class Dingdan extends Base{
 				'create_time' => time() ,
 				'update_time' => time() ,
 			];
-            //是否用了订金？
+            //是否用了订金
             if(!empty($data['order_id_deposit']) && $data['order_id_deposit']){
                 $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
                 $row_deposit->st=self::ORDER_ST_YOUHUI_GOOD;
                 $row_deposit->orderno_youhui = $data_order['orderno'];
-                $data_order['sum_price_youhui'] = $row_deposit->sum_price;
+                $data_order['sum_price_youhui'] = $row_deposit->sum_price+ $row_deposit->sum_price_youhui;
                 $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
-                $data_order['sum_price'] -= $row_deposit->sum_price;
+                $data_order['sum_price'] -= ($row_deposit->sum_price+ $row_deposit->sum_price_youhui);
                 $row_deposit->save();
             }
 			if ( !$new_order_id = $this->insertGetId( $data_order ) ) {
@@ -521,7 +522,7 @@ class Dingdan extends Base{
         if ( is_array( $user_id ) ) {
             return $user_id;
         }
-        $row_ = self::where(['user_id'=>$user_id,'shop_id'=>$data['shop_id'],'st'=>self::ORDER_ST_PAID,'type'=>self::ORDER_TYPE_SHOP_DEPOSIT])->order('create_time asc')->field('id,sum_price')->find();
+        $row_ = self::where(['user_id'=>$user_id,'shop_id'=>$data['shop_id'],'st'=>self::ORDER_ST_PAID,'type'=>self::ORDER_TYPE_SHOP_DEPOSIT])->order('create_time asc')->field('id,sum_price,sum_price_youhui')->find();
         if(!$row_){
             return ['code'=>__LINE__];
         }
