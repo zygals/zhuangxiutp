@@ -36,7 +36,7 @@
             </form>
 			<form action="{:url('export')}" method="post">
 				<input type="hidden" value="{$list_[0]->activity_id}" name="activity_id">
-				<input type="submit" value="导出excle文件">
+				<input type="submit" class="btn btn-white btn-xs" value="导出excle文件">
 			</form>
 		</div>
 
