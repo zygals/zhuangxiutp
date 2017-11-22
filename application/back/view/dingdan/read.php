@@ -135,7 +135,7 @@
 					</div>
 <?php if($row_order->sum_price_youhui>0){?>
                     <div class="form-group ">
-                        <label for="sName" class="col-xs-3 control-label">用订金：</label>
+                        <label for="sName" class="col-xs-3 control-label">用订金/优惠：</label>
 
                         <div class="col-xs-8 ">
                             <label>{$row_order->sum_price_youhui}元</label>
