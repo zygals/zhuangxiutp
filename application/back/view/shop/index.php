@@ -62,6 +62,9 @@
                     <label class="">
                         <input type="checkbox" name="to_top" id="" value="1" {eq name="Think.get.to_top" value="1"
                                }checked{/eq}>置顶</label>
+                    <label class="">
+                        <input type="checkbox" name="down" id="" value="1" {eq name="Think.get.down" value="1"
+                               }checked{/eq}>关</label>
                     <button class="btn btn-white btn-xs " type="submit">提交</button>
                 </div>
             </form>
@@ -182,10 +185,14 @@
                                 </a>
                             <?php } ?>
 
-                            <?php if ($row_->admin_st !== 1) { ?>
+                            <?php if ($row_->st == '关') { ?>
                                 <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
-                                        data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
+                                        data-target="#deleteSource" data-id="<?= $row_['id'] ?>" onclick="del_(this)" title="删除"> 删
                                 </button>
+                            <?php } else{?>
+                                <a href="{:url('edit_guan')}?id={$row_->id}">
+                                    <button class="btn btn-danger btn-xs" title="前台不显示">关</button>
+                                </a>
                             <?php } ?>
                         </div>
                     </div>

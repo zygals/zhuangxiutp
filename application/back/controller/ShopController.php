@@ -268,6 +268,18 @@ class ShopController extends BaseController{
 		$this->success( '修改成功' , $referer , '' , 1 );
 
 	}
+	/*
+	 * 关商家
+	 * zhuangxiu-zyg
+	 * */
+    public function edit_guan(Request $request) {
+        $data=$request->get();
+        $back = $request->header()['referer'];
+        $row_=$this->findById($data['id'],new shop());
+        $row_->st=2; //不显示前台
+        $row_->save();
+        $this->success( '修改成功' , $back, '' , 1 );
+	}
 
 
 }
