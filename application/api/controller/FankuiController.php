@@ -115,6 +115,6 @@ class FankuiController extends BaseController {
         return json($m_->getOrder($data));
 
     }
-    
+
 
 }
