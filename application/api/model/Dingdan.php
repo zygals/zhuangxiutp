@@ -114,13 +114,13 @@ class Dingdan extends Base{
 		$data_order['user_id'] = $user_id;
 		$data_order['address_id'] = $data['address_id'];
 		$data_order['beizhu'] = $data['beizhu'];
-       if($data['order_id_deposit']>0 && $data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL){
+       if($data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL && $data['order_id_deposit']>0 ){
             //用了订金
             $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
             $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
             $row_deposit->orderno_youhui = $data_order['orderno'];
             $data_order['sum_price_youhui'] = $row_deposit->sum_price;
-            $a_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
+            $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
             $row_deposit->save();
         }
 		if ( !$this->save( $data_order ) ) {
