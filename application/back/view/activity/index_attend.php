@@ -34,6 +34,10 @@
                     <button class="btn btn-white btn-xs " type="submit">提交</button>
                 </div>-->
             </form>
+			<form action="{:url('export')}" method="post">
+				<input type="hidden" value="{$list_[0]->activity_id}" name="activity_id">
+				<input type="submit" class="btn btn-white btn-xs" value="导出excle文件">
+			</form>
 		</div>
 
 	</div>

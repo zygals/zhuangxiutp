@@ -190,6 +190,46 @@ class ActivityController extends BaseController {
         }
     }
 
+    /**
+     * 导出excle
+     *
+     */
+    public function export(Request $request){
+        $data = $request->param();
+        $activity_id = $data['activity_id'];
+        $fields = 'activity.name,activity_attend.*';
+        $res = db('activity_attend')->where('activity_id',$activity_id)->join('activity','activity.id=activity_attend.activity_id')->field($fields)->select();
+//        dump(date('Y-m-d H:i:s',$res[0]['create_time']));exit;
+        $excel = new \PHPExcel();
+        $excel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '编号')
+            ->setCellValue('B1', '标题')
+            ->setCellValue('C1', '姓名')
+            ->setCellValue('D1', '电话')
+            ->setCellValue('E1', '小区地址')
+            ->setCellValue('F1', '报名时间');
+        foreach($res as $key=>$value){
+            $key += 2; //从第二行开始填充
+            $excel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
+            $excel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['name']);
+            $excel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['truename']);
+            $excel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['mobile']);
+            $excel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['xiaoqu']);
+            $excel->setActiveSheetIndex(0)->setCellValue('F'.$key,date('Y-m-d H:i:s',$value['create_time']));
+        }
+        $excel->getActiveSheet() -> setTitle('在线活动');
+        $excel-> setActiveSheetIndex(0);
+
+        $objWriter=\PHPExcel_IOFactory::createWriter($excel,'Excel2007');
+        $filename = '在线活动.xlsx';
+        ob_end_clean();//清除缓存以免乱码出现
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter -> save('php://output');
+    }
+
 
 
 }
