@@ -289,7 +289,7 @@ class Dingdan extends Base{
             //是否用了订金？
             if(!empty($data['order_id_deposit']) && $data['order_id_deposit']){
                 $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
-                $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
+                $row_deposit->st=self::ORDER_ST_YOUHUI_GOOD;
                 $row_deposit->orderno_youhui = $data_order['orderno'];
                 $data_order['sum_price_youhui'] = $row_deposit->sum_price;
                 $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
