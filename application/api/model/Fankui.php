@@ -40,7 +40,8 @@ class Fankui extends Base {
     }
     //wx
     public static function delRow($data){
-        $row_ = self::where(['order_id'=>$data['order_id'],'good_id'=>$data['good_id'],'st'=>1])->find();
+        $id = $data['id'];
+        $row_ = self::where(['id'=>$id])->find();
         if(!$row_){
             return ['code'=>__LINE__,'msg'=>'不存在'];
         }

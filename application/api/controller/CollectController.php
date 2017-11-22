@@ -83,14 +83,13 @@ class CollectController extends BaseController {
      *
      */
     public function delete(Request $request){
-        $id = $data['id'];
-        $row_ = self::where(['id'=>$id])->find();
-        if(!$row_){
-            return ['code'=>__LINE__,'msg'=>'不存在'];
+        $data = $request -> param();
+        $rule = ['id'=>'require|number'];
+        $res = $this->validate($data, $rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
         }
-        $row_->st=0;
-        $row_->save();
-        return ['code'=>0,'msg'=>'删除成功'];
+        return json(Collect::delRow($data));
     }
 
 }
