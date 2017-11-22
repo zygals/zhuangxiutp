@@ -39,7 +39,7 @@ $('#cate_name_label').html(cate_name);
                                 <div class="col-xs-8">
                                     <select onchange="changeCate(this)" class=" form-control select-duiqi" name="shop_id" id="">
                                         <?php foreach ($list_shop as $row_) { ?>
-                                            <option data_cate_name="{$row_->cate_name}" value="{$row_['id']}" >{$row_['name']}</option>
+                                            <option data_cate_name="{$row_->cate_name}" value="{$row_['id']}" >{$row_['id']}:{$row_['name']}</option>
                                         <?php } ?>
                                     </select>
                                 </div>

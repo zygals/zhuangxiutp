@@ -222,7 +222,7 @@ class Dingdan extends Base{
 	}
 
 	/*
-	 * 添加订单 zhuangxiu - zyg
+	 * 添加商品订单 zhuangxiu - zyg
 	 *
 	 * */
 	public function addOrder($data){
@@ -273,6 +273,7 @@ class Dingdan extends Base{
 				}
 				$sum_price += $row_good->price * $good->num;
 			}
+
 			$data_order = [
 				'order_contact_id' => $new_order_contact_id ,
 				'shop_id' => $shop->shop_id ,
@@ -285,6 +286,15 @@ class Dingdan extends Base{
 				'create_time' => time() ,
 				'update_time' => time() ,
 			];
+            //是否用了订金？
+            if(!empty($data['order_id_deposit']) && $data['order_id_deposit']){
+                $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
+                $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
+                $row_deposit->orderno_youhui = $data_order['orderno'];
+                $data_order['sum_price_youhui'] = $row_deposit->sum_price;
+                $data_order['orderno_youhui'] = $row_deposit->orderno;//被优惠订单
+                $row_deposit->save();
+            }
 			if ( !$new_order_id = $this->insertGetId( $data_order ) ) {
 				return ['code' => __LINE__ , 'msg' => '添加失败'];
 			}
