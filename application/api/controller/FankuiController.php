@@ -115,16 +115,6 @@ class FankuiController extends BaseController {
         return json($m_->getOrder($data));
 
     }
-
-    public function delete(Request $request){
-        $data = $request->param();
-        $rule = ['order_id' => 'require','good_id'=>'require|number'];
-        $res = $this->validate($data, $rule);
-        if ($res !== true) {
-            return json(['code' => __LINE__, 'msg' => $res]);
-        }
-
-        return json(Fankui::delRow($data));
-    }
+    
 
 }
