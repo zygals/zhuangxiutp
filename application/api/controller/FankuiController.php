@@ -73,6 +73,20 @@ class FankuiController extends BaseController {
     }
 
     /**
+     * 长按删除用户评价
+     *
+     */
+    public function delete(Request $request){
+        $data = $request -> param();
+        $rule = ['id'=>'require|number'];
+        $res = $this->validate($data, $rule);
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json(Fankui::delRow($data));
+    }
+
+    /**
      * 获取店铺所有的评价
      */
     public function getShop(Request $request){
@@ -102,15 +116,5 @@ class FankuiController extends BaseController {
 
     }
 
-    public function delete(Request $request){
-        $data = $request->param();
-        $rule = ['order_id' => 'require','good_id'=>'require|number'];
-        $res = $this->validate($data, $rule);
-        if ($res !== true) {
-            return json(['code' => __LINE__, 'msg' => $res]);
-        }
-
-        return json(Fankui::delRow($data));
-    }
 
 }
