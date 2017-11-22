@@ -217,7 +217,7 @@ class ActivityController extends BaseController {
             $excel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['xiaoqu']);
             $excel->setActiveSheetIndex(0)->setCellValue('F'.$key,date('Y-m-d H:i:s',$value['create_time']));
         }
-        $excel->getActiveSheet() -> setTitle('订单列表');
+        $excel->getActiveSheet() -> setTitle('在线活动');
         $excel-> setActiveSheetIndex(0);
 
         $objWriter=\PHPExcel_IOFactory::createWriter($excel,'Excel2007');
