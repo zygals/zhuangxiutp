@@ -62,8 +62,7 @@ class Fankui extends Base {
         $evalute['best'] = self::where(['user_id'=>$user_id,'star'=>1])->count();
         $evalute['mid'] = self::where(['user_id'=>$user_id,'star'=>2])->count();
         $evalute['bad'] = self::where(['user_id'=>$user_id,'star'=>3])->count();
-        $row_['evalute'] = $evalute;
-        return ['code'=>0,'msg'=>'数据成功','data'=>$row_];
+        return ['code'=>0,'msg'=>'数据成功','data'=>$row_,'evalute'=>$evalute];
     }
 
     /**
