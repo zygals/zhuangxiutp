@@ -145,7 +145,6 @@ class Pay extends Base {
         $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
         $xml = $this->http_post($url, $post_xml);
         $array = $this->xml($xml);//全要大写
-        dump($array);
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
                 \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);
@@ -157,8 +156,8 @@ class Pay extends Base {
                 $ret['code'] = 0;
                 $ret['msg'] = "退款申请成功";
             } else {
-                $ret['code'] = __LINE__;
-                $ret['msg'] = '退款申请失败';
+                $ret['code'] = $array['ERR_CODE'];
+                $ret['msg'] = $array['ERR_CODE_DES'];
             }
 
         } else {
