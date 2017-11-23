@@ -62,16 +62,20 @@
             <p id="logoP">
                 <a href="{:url('index/clear_cache')}">
                     <button class="alert btn-xs">清理服务器缓存</button>
-                </a></p>
+                </a>
+            </p>
         </div>
         <div id="personInfor">
             <p id="userName">{php} if(session('admin_zhx'))echo session('admin_zhx')->name{/php} <a
                         href="{:Url('admin/logout')}">&nbsp;&nbsp;&nbsp;&nbsp;退出登录</a></p>
 <!--            <p><a href="{:Url('gshpc/index/index')}" target="_blank">前台</a></p>-->
-			<?php if(\app\back\model\Admin::isAdmin()){?>
+			<?php /*if(\app\back\model\Admin::isAdmin()){*/?><!--
             <p><a href="{:Url('menu_admin/index')}">管理菜单</a></p>
-<?php }?>
+--><?php /*}*/?>
             <p><a href="{:Url('index/index')}">登录日志</a></p>
+            <?php if(\app\back\model\Admin::isAdmin()){?>
+            <p> <a href="__PUBLIC__bake.php">备份数据库</a></p>
+<?php }?>
             <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
                 <p>我的收益:　<?php echo(\app\back\model\Admin::getBenefit()) ?>元</p>
                 <p><a href="{:Url('withdraw/edit')}">申请提现</a></p>
