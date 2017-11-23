@@ -89,9 +89,14 @@ class Shop extends Base{
 	 *给商家订单量增加一个
 	 * zhuangxiu-zyg
 	 * */
-	public static function increaseOrdernum($shop_id){
+	public static function increaseOrdernum($shop_id,$add=true){
 		$row_shop = self::where( ['id' => $shop_id , 'st' => 1] )->find();
-		$row_shop->setInc('ordernum');
+		if($add){
+
+            $row_shop->setInc('ordernum');
+        }else{
+            $row_shop->setDec('ordernum');
+        }
 	}
 	/*
 	 *给商家增加交易量
