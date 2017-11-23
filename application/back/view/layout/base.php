@@ -74,7 +74,7 @@
 --><?php /*}*/?>
             <p><a href="{:Url('index/index')}">登录日志</a></p>
             <?php if(\app\back\model\Admin::isAdmin()){?>
-            <p> <a href="__PUBLIC__bake.php">备份数据库</a></p>
+            <p> <a href="__PUBLIC__/bake.php">备份数据库</a></p>
 <?php }?>
             <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
                 <p>我的收益:　<?php echo(\app\back\model\Admin::getBenefit()) ?>元</p>

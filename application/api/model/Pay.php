@@ -148,6 +148,7 @@ class Pay extends Base {
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
                 \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);
+                Shop::incTradenum( $row_order->shop_id ,false);//交易量－
                 $row_order->st = Dingdan::ORDER_ST_REFUNDED;
                 $row_order->refundno = $refund_no;
                 $row_order->save();

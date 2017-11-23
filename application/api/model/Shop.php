@@ -97,8 +97,12 @@ class Shop extends Base{
 	 *给商家增加交易量
 	 * zhuangxiu-zyg
 	 * */
-	public static function incTradenum($shop_id){
+	public static function incTradenum($shop_id,$add=true){
 		$row_shop = self::where( ['id' => $shop_id , 'st' => 1] )->find();
-		$row_shop->setInc('tradenum');
+		if($add){
+            $row_shop->setInc('tradenum');
+        }else{
+            $row_shop->setDec('tradenum');
+        }
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace app\back\model;
 
+use app\api\model\Shop;
 use think\Model;
 use app\back\model\Good;
 use app\back\model\OrderGood;
@@ -116,6 +117,7 @@ class Dingdan extends model {
         } elseif ($data['st'] == 'tuikuan') {
             $row_order->st = 3;
             self::udpateShouyi($row_order->shop_id,-$row_order->sum_price);
+            Shop::incTradenum( $row_order->shop_id ,false);//交易量－
         }
         $row_order->save();
 
