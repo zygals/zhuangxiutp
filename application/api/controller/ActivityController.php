@@ -58,7 +58,7 @@ class ActivityController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-       
+
         $res = $this->validate($data, 'AttendValidate');
         //dump( $res);exit;
         if ($res !== true) {

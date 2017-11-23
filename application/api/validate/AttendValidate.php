@@ -15,7 +15,7 @@
         protected $message = [
             'truename.require'=>'真实姓名必须',
             'mobile.require'=>'手机号必须',
-            'mobile.regex'=>'手机号正确',
+            'mobile.regex'=>'手机号不正确',
             'xiaoqu.require'=>'小区必须',
         ];
     }
