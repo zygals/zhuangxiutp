@@ -402,8 +402,7 @@ class Dingdan extends Base{
 		}
 		if ( $data['st'] == 'cancel' ) {
 			$row_->st = self::ORDER_ST_USER_CANCEL;
-			//
-            Shop::increaseOrdernum( $row_->shop_id ,false);
+
 		} elseif ( $data['st'] == 'paid' ) {
 			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {

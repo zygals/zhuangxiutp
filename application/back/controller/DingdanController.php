@@ -2,6 +2,7 @@
 
 namespace app\back\controller;
 
+use app\api\model\Shop;
 use app\back\model\Address;
 use app\back\model\Admin;
 use app\back\model\Base;
@@ -92,7 +93,9 @@ class DingdanController extends BaseController {
      */
     public function delete(Request $request) {
         $data = $request->param();
-        if ($this->deleteStatusById($data['id'], new Dingdan())) {
+        if ($row_=$this->deleteStatusById($data['id'], new Dingdan())) {
+            //删除订单后
+            Shop::increaseOrdernum( $row_->shop_id ,false);
             $this->success('删除成功',  $data['url'], '', 1);
         } else {
             $this->error('删除失败',  $data['url'], '', 3);

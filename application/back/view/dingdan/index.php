@@ -153,9 +153,9 @@
                     </a>
 
               <?php } ?>
-                <?php if ($row_->st == '用户取消' || $row_->st == '用户删除') { ?>
+                <?php if ($row_->st == '已退款' || $row_->st == '用户删除') { ?>
                     <button class="btn btn-danger btn-xs del_cate" data-toggle="modal" data-target="#deleteSource"
-                            data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删除
+                            data-id="<?= $row_['id'] ?>" onclick="del_(this)"> 删
                     </button>
                 <?php } ?>
             </div>
