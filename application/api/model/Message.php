@@ -17,7 +17,7 @@ class Message extends Base {
         $list_ = self::where(['st' => 1, 'user_id' => $user_id, 'shop_id' => $data['shop_id']])->order('create_time asc')->select();
 
         if ($list_->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => '暂无对话'];
+            return ['code' => __LINE__];
         }
         return ['code' => 0, 'msg' => '数据成功', 'data' => $list_];
     }

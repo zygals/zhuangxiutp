@@ -24,4 +24,8 @@ class IndexController extends BaseController
        $this->success('缓存清理成功',$back,'',1);
 
    }
+
+    public function bake() {
+
+   }
 }

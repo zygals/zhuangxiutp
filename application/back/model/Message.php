@@ -13,7 +13,7 @@ class Message extends Base{
      * @param array $where
      * 处理主页资源列表
      */
-    public static function getList($data=[],$where=['message.st' => ['<>',0]]){
+    public static function getList($data=[],$where=['message.st' => ['=',1]]){
         if(Admin::isShopAdmin()){
             $where['message.shop_id']=session('admin_zhx')->shop_id;
         }

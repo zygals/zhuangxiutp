@@ -149,7 +149,7 @@
                 </button>
               <?php if($row_->st=='申请退款' && \app\api\model\Admin::isAdmin()) { ?>
                     <a href="javascript:allow_refund({$row_->id})">
-                        <button class="btn btn-danger btn-xs" title="同意退款?">同意</button>
+                        <button class="btn btn-danger btn-xs" title="同意退款?">退</button>
                     </a>
 
               <?php } ?>
