@@ -4,6 +4,7 @@ namespace app\api\model;
 
 use app\back\model\OrderGood;
 use app\back\model\Tuangou;
+use think\Db;
 use think\Model;
 
 class Dingdan extends Base{
@@ -235,6 +236,7 @@ class Dingdan extends Base{
 		if ( !is_array( $arr_shop_good_list ) ) {
 			return ['code' => __LINE__ , 'msg' => '数据错误'];
 		}
+
 		$sum_price_all = 0;
 		foreach ( $arr_shop_good_list as $shop ) {
 			$row_cart = self::getById( $shop->cart_id , new Cart );
@@ -529,6 +531,25 @@ class Dingdan extends Base{
         }
         return ['code'=>0,'data'=>$row_];
 
+    }
+
+    public static function testshiwu(){
+        $data = ['orderno' => 'orderno5'];
+        Db::startTrans();
+        try{
+            $id= (new  Dingdan2)->insertGetId($data);
+            //$id=Db::table('dingdan2')->insertGetId($data);
+            $data2 = ['order_id' => $id,'good_id'=>$id];
+           // Db::table('dingdan_good2')->insert($data2);
+            (new Dingdan_good2())->insert($data2);
+            // 提交事务
+            Db::commit();
+            echo 'tijiao';
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            echo 'hui';
+        }
     }
 
 }

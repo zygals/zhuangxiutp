@@ -58,8 +58,8 @@ class ActivityController extends BaseController {
      */
     public function save(Request $request) {
         $data = $request->param();
-        $rule = ['activity_id' => 'require|number','username'=>'require', 'truename' => 'require', 'mobile' => 'require', 'xiaoqu' => 'require'];
-        $res = $this->validate($data, $rule);
+       
+        $res = $this->validate($data, 'AttendValidate');
         //dump( $res);exit;
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
