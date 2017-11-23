@@ -129,14 +129,13 @@
                         <div class="col-xs-1 " title="{$row_->name}">
                             {$row_->name}
                         </div>
-
                         <div class="col-xs-1 " title="{$row_->cate_name}">
                             {$row_->cate_name}
                         </div>
-                        <div class="col-xs-1 " title="{$row_->cate_name}">
+                        <div class="col-xs-1 " title="{$row_->price}">
                             {$row_->price}
                         </div>
-                        <div class="col-xs-1 " title="{$row_->cate_name}">
+                        <div class="col-xs-1 " title="{$row_->sales}">
                             {$row_->sales}
                         </div>
                         <div class="col-xs-1">
