@@ -6,7 +6,7 @@ use think\Model;
 
 class ActivityAttend extends Base {
 
-
+  protected $dateFormat='Y-m-d H:i:s';
 
     public function getStAttr($value) {
         $status = [0 => 'deleted', 1 => '正常', 2 => '不显示'];
