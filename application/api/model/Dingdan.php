@@ -375,9 +375,9 @@ class Dingdan extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
-		$where = ['dingdan.st' => ['neq' , 0] , 'user_id' => $user_id];
-		$where2 = ['dingdan.st' => ['neq' , self::ORDER_ST_USER_DELETE]];
-		$list_order = self::where( $where )->where( $where2 )->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
+		//$where = ['dingdan.st' => ['neq' , 0] , 'user_id' => $user_id];
+		$where2 = ['dingdan.st' => ['neq' , self::ORDER_ST_USER_DELETE], 'user_id' => $user_id];
+		$list_order = self::where( $where2 )->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
 		if ( $list_order->isEmpty() ) {
 			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
