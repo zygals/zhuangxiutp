@@ -103,20 +103,18 @@ class Cart extends Base {
             return ['code' => __LINE__, 'msg' => '商品不存在'];
         }
         $minus_price = $row_cart_good->num * $row_good->price;
+
+        $row_cart_good->st = 0;
+        $row_cart_good->save();
+
         $row_cart = self::getById($row_cart_good->cart_id, new Cart);
         $row_cart->sum_price -= $minus_price;
 
-        if ($row_cart->sum_price == 0) {
+        $row_cart_good = CartGood::where(['cart_id'=>$row_cart->id,'st'=>1])->find();
+        if (!$row_cart_good) {
             $row_cart->st = 0;
         }
-//        $list_good=CartGood::where(['cart_id'=>$row_cart->id])->select();
-//        if($list_good->isEmpty()){
-//            $row_cart->sum_price=0;
-//            $row_cart->st = 0;
-//        }
         $row_cart->save();
-        $row_cart_good->st = 0;
-        $row_cart_good->save();
         return ['code' => 0, 'msg' => '删除成功'];
 
     }

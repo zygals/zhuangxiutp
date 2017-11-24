@@ -84,7 +84,7 @@
                         <div class="col-xs-1 ">
                             {$row_->id}
                         </div>
-                        <div class="col-xs-1 " title="{$row_->name}">
+                         <div class="col-xs-1 " title="{$row_->name}">
                             {$row_->name}
                         </div>
 
