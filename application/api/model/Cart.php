@@ -113,11 +113,14 @@ class Cart extends Base {
 
             $row_cart_good = CartGood::where(['cart_id'=>$row_cart->id,'st'=>1])->find();
             if (!$row_cart_good) {
+                $row_cart->sum_price =0;
                 $row_cart->st = 0;
             }
             $row_cart->save();
+            Db::commit();
             return ['code' => 0, 'msg' => '删除成功'];
         }catch (\Exception $e){
+            Db::rollback();
             return ['code' => __LINE__, 'msg' => '删除失败'];
         }
 
