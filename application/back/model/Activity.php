@@ -20,10 +20,14 @@ class Activity extends Base {
             $where['name'] = ['like', '%' . $data['name'] . '%'];
         }
         if (!empty($data['type'])) {
-            if($data['type']=='now'){
+            $where['type'] = $data['type'];
+        }
+
+        if (!empty($data['online'])) {
+            if($data['online']=='now'){
                 $where['end_time'] = ['>' ,time()];
                 $where['start_time'] = ['<' ,time()];
-            }else if($data['type']=='end'){
+            }else if($data['type']=='online'){
                 $where['end_time'] = ['<' ,time()];
             }
         }

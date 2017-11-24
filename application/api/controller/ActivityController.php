@@ -32,7 +32,24 @@ class ActivityController extends BaseController {
     public function history_activity(Request $request) {
         return json(Activity::getListHistory());
     }
-
+    /**
+     *前台正在验房
+     * zhuangxiu-zyg
+     *
+     * @return \think\Response
+     */
+    public function activity_yanfang(Request $request) {
+        return json(Activity::getListYanfangNow());
+    }
+    /**
+     *前台lishi验房
+     * zhuangxiu-zyg
+     *
+     * @return \think\Response
+     */
+    public function activity_yanfang_lishi(Request $request) {
+        return json(Activity::getListYanfangHistory());
+    }
     /**
      *活动内页
      * zhuangxiu-zyg

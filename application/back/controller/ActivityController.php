@@ -21,9 +21,9 @@ class ActivityController extends BaseController {
 
         $list_ = Activity::getList($data);
         $page_str = $list_->render();
-        $page_str =Base::getPageStr($data,$page_str);
+        $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
-        return $this->fetch('index', ['list_' => $list_, 'page_str'=>$page_str,'url'=>$url]);
+        return $this->fetch('index', ['list_' => $list_, 'page_str' => $page_str, 'url' => $url]);
     }
 
     /**
@@ -35,19 +35,19 @@ class ActivityController extends BaseController {
     public function index_attend(Request $request) {
 
         $data = $request->param();
-        $rule = ['activity_id'=>'require'];
+        $rule = ['activity_id' => 'require'];
         $res = $this->validate($data, $rule);
-       if ($res !== true) {
-           $this->error($res);
-       }
+        if ($res !== true) {
+            $this->error($res);
+        }
         $list_ = ActivityAttend::getList($data);
-       if($list_->isEmpty()){
-           $this->error('暂无数据','','',1);
-       }
+        if ($list_->isEmpty()) {
+            $this->error('暂无数据', '', '', 1);
+        }
         $page_str = $list_->render();
-        $page_str =Base::getPageStr($data,$page_str);
+        $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
-        return $this->fetch('index_attend', ['list_' => $list_, 'page_str'=>$page_str,'url'=>$url]);
+        return $this->fetch('index_attend', ['list_' => $list_, 'page_str' => $page_str, 'url' => $url]);
     }
 
 
@@ -59,7 +59,7 @@ class ActivityController extends BaseController {
     public function create() {
 
 
-        return $this->fetch('', ['title'=>'添加活动','act'=>'save']);
+        return $this->fetch('', ['title' => '添加活动', 'act' => 'save']);
 
     }
 
@@ -72,28 +72,13 @@ class ActivityController extends BaseController {
     public function save(Request $request) {
         $data = $request->param();
 
-       /* $res = $this->validate($data, 'ActivityValidate');
-        if ($res !== true) {
-            $this->error($res);
-        }*/
-        $file = $request->file('img');
+        /* $res = $this->validate($data, 'ActivityValidate');
+         if ($res !== true) {
+             $this->error($res);
+         }*/
+        $Activity = new Activity();
         $file2 = $request->file('img_big');
-
-        if (empty($file)) {
-            //$this->error('请上传图片或检查图片大小！');
-        }
-        if(!empty($file)){
-            $size = $file->getSize();
-            if ($size > config('upload_size')) {
-                $this->error('图片大小超过限定！');
-            }
-            $path_name = 'activity';
-
-            $arr = $this->dealImg($file, $path_name);
-
-            $data['img'] = $arr['save_url_path'];
-        }
-        if(!empty($file2)){
+        if (!empty($file2)) {
             $size = $file2->getSize();
             if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
@@ -102,14 +87,42 @@ class ActivityController extends BaseController {
 
             $arr = $this->dealImg($file2, $path_name);
 
-            $data['img_big'] = $arr['save_url_path'];
+            $data_['img_big'] =$data['img_big'] = $arr['save_url_path'];
         }
-         $data['start_time'] = strtotime( $data['start_time']);
-         $data['end_time'] = strtotime( $data['end_time']);
+        //dump($data);
+        if ($data['type'] == 1) {
+            $file = $request->file('img');
+            if (empty($file)) {
+                //$this->error('请上传图片或检查图片大小！');
+            }
+            if (!empty($file)) {
+                $size = $file->getSize();
+                if ($size > config('upload_size')) {
+                    $this->error('图片大小超过限定！');
+                }
+                $path_name = 'activity';
 
-        $Activity = new Activity();
-        $Activity->save($data);
-        $this->success('添加成功', 'index', '', 1);
+                $arr = $this->dealImg($file, $path_name);
+
+                $data['img'] = $arr['save_url_path'];
+            }
+
+            $data['start_time'] = strtotime($data['start_time']);
+            $data['end_time'] = strtotime($data['end_time']);
+            $Activity->save($data);
+            $this->success('添加成功', 'index', '', 1);
+        } else {
+            $data_['name'] = $data['name'];
+            $data_['type'] = 2;
+            $data_['start_time'] = strtotime($data['start_time']);
+            $data_['end_time'] = strtotime($data['end_time']);
+            $data_['charm'] = $data['charm'];
+            $data_['info'] = $data['info'];
+            $Activity->save($data_);
+            $this->success('添加成功', 'index', '', 1);
+        }
+
+
     }
 
     /**
@@ -120,9 +133,9 @@ class ActivityController extends BaseController {
      */
     public function edit(Request $request) {
         $data = $request->param();
-        $referer=$request->header()['referer'];
-        $row_ = $this->findById($data['id'],new Activity());
-        return $this->fetch('',['row_'=>$row_,'referer'=>$referer,'title'=>'修改活动 '.$row_->name,'act'=>'update']);
+        $referer = $request->header()['referer'];
+        $row_ = $this->findById($data['id'], new Activity());
+        return $this->fetch('', ['row_' => $row_, 'referer' => $referer, 'title' => '修改活动 ' . $row_->name, 'act' => 'update']);
     }
 
 
@@ -136,25 +149,17 @@ class ActivityController extends BaseController {
     public function update(Request $request) {
         //dump($request->param());exit;
         $data = $request->param();
-        $referer = $data['referer'];unset($data['referer']);
+        $referer = $data['referer'];
+        unset($data['referer']);
         /*$res = $this->validate($data, 'ActivityValidate');
         if ($res !== true) {
             $this->error($res);
         }*/
-        $file = $request->file('img');
+
         $file2 = $request->file('img_big');
-        $row_ = $this->findById($data['id'],new Activity());
-        if(!empty($file)){
-            $path_name = 'activity';
-            $size = $file->getSize();
-            if ($size > config('upload_size') ) {
-                $this->error('图片大小超过限定！');
-            }
-            $this->deleteImg($row_->img);
-            $arr = $this->dealImg($file, $path_name);
-            $data['img'] = $arr['save_url_path'];
-        }
-        if(!empty($file2)){
+        $row_ = $this->findById($data['id'], new Activity());
+
+        if (!empty($file2)) {
             $size = $file2->getSize();
             if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
@@ -162,15 +167,44 @@ class ActivityController extends BaseController {
             $path_name = 'activity';
             $this->deleteImg($row_->img_big);
             $arr = $this->dealImg($file2, $path_name);
-            $data['img_big'] = $arr['save_url_path'];
+            $data_['img_big'] = $data['img_big'] = $arr['save_url_path'];
+
         }
-        $data['start_time'] = strtotime( $data['start_time']);
-        $data['end_time'] = strtotime( $data['end_time']);
-        if($this->saveById($data['id'],new Activity(),$data)){
-            $this->success('编辑成功', $referer, '', 1);
-        }else{
-            $this->error('没有修改', $referer, '', 1);
+        if ($data['type'] == 1) {
+            $file = $request->file('img');
+            if (!empty($file)) {
+                $path_name = 'activity';
+                $size = $file->getSize();
+                if ($size > config('upload_size')) {
+                    $this->error('图片大小超过限定！');
+                }
+                $this->deleteImg($row_->img);
+                $arr = $this->dealImg($file, $path_name);
+                $data['img'] = $arr['save_url_path'];
+            }
+            $data['start_time'] = strtotime($data['start_time']);
+            $data['end_time'] = strtotime($data['end_time']);
+            if ($this->saveById($data['id'], new Activity(), $data)) {
+                $this->success('编辑成功', $referer, '', 1);
+            } else {
+                $this->error('没有修改', $referer, '', 1);
+            }
+
+        } else {
+            $data_['name'] = $data['name'];
+            $data_['type'] = 2;
+            $data_['start_time'] = strtotime($data['start_time']);
+            $data_['end_time'] = strtotime($data['end_time']);
+            $data_['charm'] = $data['charm'];
+            $data_['info'] = $data['info'];
+            if ($this->saveById($data['id'], new Activity(), $data_)) {
+                $this->success('编辑成功', $referer, '', 1);
+            } else {
+                $this->error('没有修改', $referer, '', 1);
+            }
         }
+
+
     }
 
 
@@ -183,9 +217,9 @@ class ActivityController extends BaseController {
     public function delete(Request $request) {
         $data = $request->param();
 
-        if( $this->deleteStatusById($data['id'],new Activity())){
+        if ($this->deleteStatusById($data['id'], new Activity())) {
             $this->success('删除成功', $data['url'], '', 1);
-        }else{
+        } else {
             $this->error('删除失败', $data['url'], '', 3);
         }
     }
@@ -194,11 +228,11 @@ class ActivityController extends BaseController {
      * 导出excle
      *
      */
-    public function export(Request $request){
+    public function export(Request $request) {
         $data = $request->param();
         $activity_id = $data['activity_id'];
         $fields = 'activity.name,activity_attend.*';
-        $res = db('activity_attend')->where('activity_id',$activity_id)->join('activity','activity.id=activity_attend.activity_id')->field($fields)->select();
+        $res = db('activity_attend')->where('activity_id', $activity_id)->join('activity', 'activity.id=activity_attend.activity_id')->field($fields)->select();
 //        dump(date('Y-m-d H:i:s',$res[0]['create_time']));exit;
         $excel = new \PHPExcel();
         $excel->setActiveSheetIndex(0)
@@ -208,28 +242,27 @@ class ActivityController extends BaseController {
             ->setCellValue('D1', '电话')
             ->setCellValue('E1', '小区地址')
             ->setCellValue('F1', '报名时间');
-        foreach($res as $key=>$value){
+        foreach ($res as $key => $value) {
             $key += 2; //从第二行开始填充
-            $excel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
-            $excel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['name']);
-            $excel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['truename']);
-            $excel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['mobile']);
-            $excel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['xiaoqu']);
-            $excel->setActiveSheetIndex(0)->setCellValue('F'.$key,date('Y-m-d H:i:s',$value['create_time']));
+            $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
+            $excel->setActiveSheetIndex(0)->setCellValue('B' . $key, $value['name']);
+            $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['truename']);
+            $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['mobile']);
+            $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['xiaoqu']);
+            $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, date('Y-m-d H:i:s', $value['create_time']));
         }
-        $excel->getActiveSheet() -> setTitle('在线活动');
-        $excel-> setActiveSheetIndex(0);
+        $excel->getActiveSheet()->setTitle('在线活动');
+        $excel->setActiveSheetIndex(0);
 
-        $objWriter=\PHPExcel_IOFactory::createWriter($excel,'Excel2007');
+        $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $filename = '在线活动.xlsx';
         ob_end_clean();//清除缓存以免乱码出现
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
-        $objWriter -> save('php://output');
+        $objWriter->save('php://output');
     }
-
 
 
 }

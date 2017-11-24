@@ -14,10 +14,17 @@
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-7">
                     <select name="type"  class=" form-control">
+                        <option value="">--请选择类型--</option>
+                        <option value="1" {eq name="Think.get.type" value="1"
+                                }selected{/eq}>在线</option>
+                        <option value="2" {eq name="Think.get.type" value="2"
+                                }selected{/eq}>验房</option>
+                    </select>
+                    <select name="online"  class=" form-control">
                         <option value="">--请选择活动时间--</option>
-                        <option value="now" {eq name="Think.get.type" value="now"
+                        <option value="now" {eq name="Think.get.online" value="now"
                                 }selected{/eq}>进行</option>
-                        <option value="end" {eq name="Think.get.type" value="end"
+                        <option value="end" {eq name="Think.get.online" value="end"
                                 }selected{/eq}>结束</option>
                     </select>
                     <input type="text" name="name" value="{$Think.get.name}" class="form-control input-sm"
@@ -84,7 +91,6 @@
 					{$row_->name}
 				</div>
 
-
 				<div class="col-xs-1">
                     <a href="__IMGURL__{$row_->img}" target="_blank">
                         <img src="__IMGURL__{$row_->img}" style="height:65px;max-width:175px;"  alt="没有">
@@ -107,7 +113,7 @@
                     <a href="{:url('index_attend')}?activity_id={$row_->id}"><button title="已报名（{$row_->pnum}）" class="btn btn-success btn-xs edit_" >报名</button></a>
                    <?php }?>
                     <a href="{:url('edit')}?id={$row_->id}"><button class="btn btn-success btn-xs edit_" >改</button></a>
-                    <button class="btn btn-danger btn-xs del_cate" data-toggle="modal" data-target="#deleteSource" data-id="<?= $row_['id']?>" onclick="del_(this)"> 删</button>
+                    <button class="btn btn-danger btn-xs del_cate" data-toggle="modal" data-target="#deleteSource" data-id="<?= $row_['id']?>" onclick="del_(this)">删</button>
 
 				</div>
 

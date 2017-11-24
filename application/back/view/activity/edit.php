@@ -2,15 +2,15 @@
 {block name="title"}{$title}{/block}
 {block name="content"}
 <style>
-    .control-label{
-        padding-right:10px;
+    .control-label {
+        padding-right: 10px;
     }
 </style>
-
-<!--弹出添加用户窗口--><form class="form-horizontal" action="{:url($act)}" method="post" enctype="multipart/form-data" >
+<!--弹出添加用户窗口-->
+<form class="form-horizontal" action="{:url($act)}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="{$row_->id}">
     <input type="hidden" name="referer" value="{$referer}">
-    <div class="row" >
+    <div class="row">
         <div class="col-xs-8">
             <div class="text-center">
                 <!---->
@@ -20,34 +20,58 @@
                 <div class="container-fluid">
 
                     <div class="form-group ">
+                        <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>类型：</label>
+                        <div class="col-xs-8 ">
+                            <label class="control-label">
+                                <input type="radio" name="type" id="" class="type_radio" value="1" <?php echo $row_->type==1?'checked':''?>>在线</label>
+                            &nbsp;
+                            <label class="control-label">
+                                <input type="radio" name="type" id="" class="type_radio" <?php echo $row_->type==2?'checked':''?> value="2">验房</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="sName" class="col-xs-3 control-label">名称：</label>
                         <div class="col-xs-8 ">
-                            <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
+                            <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}"
+                                   id="" placeholder="">
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-3 control-label">活动地址：</label>
-                        <div class="col-xs-8 ">
-                            <input type="text" class="form-control input-sm" name='address' value="{$row_->address}" id="" placeholder="">
-                        </div>
-                    </div>
+
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">活动开始：</label>
                         <div class="col-xs-8 ">
-                            <input type="date" class="form-control input-sm duiqi" name='start_time' value="<?= date('Y-m-d',$row_->start_time)?>" id="" placeholder="">
+                            <input type="date" class="form-control input-sm duiqi" name='start_time'
+                                   value="<?= date('Y-m-d', $row_->start_time) ?>" id="" placeholder="">
                         </div>
                     </div>
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">活动结束：</label>
                         <div class="col-xs-8 ">
-                            <input type="date" class="form-control input-sm duiqi" name='end_time' value="<?= date('Y-m-d',$row_->end_time)?>" id="" placeholder="">
+                            <input type="date" class="form-control input-sm duiqi" name='end_time'
+                                   value="<?= date('Y-m-d', $row_->end_time) ?>" id="" placeholder="">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>列表图:</label>
-                        <div class="col-xs-4 ">
-                            <img src="__IMGURL__{$row_->img}" alt="没有上传图片" width="188"/>
-                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（750*400），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。不上传表示不改</span>
+                    <div id="zaixian" style="display:<?php echo $row_->type==1?'block':'none';?>">
+                        <div class="form-group ">
+                            <label for="sName" class="col-xs-3 control-label">活动地址：</label>
+                            <div class="col-xs-8 ">
+                                <input type="text" class="form-control input-sm" name='address' value="{$row_->address}"
+                                       id="" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sOrd" class="col-xs-3 control-label"><span
+                                        style="color:red;">*&nbsp;&nbsp;</span>列表图:</label>
+                            <div class="col-xs-4 ">
+                                <img src="__IMGURL__{$row_->img}" alt="没有上传图片" width="188"/>
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img"
+                                       placeholder=""><span
+                                        style="color:red">尺寸要求（750*400），大小不超过<?php echo floor(config('upload_size') / 1024 / 1024); ?>
+                                    M。不上传表示不改</span>
+                            </div>
+
                         </div>
 
                     </div>
@@ -55,9 +79,18 @@
                         <label for="sOrd" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>详情大图:</label>
                         <div class="col-xs-4 ">
                             <img src="__IMGURL__{$row_->img_big}" alt="没有上传图片" width="188"/>
-                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img_big" placeholder=""><span style="color:red">尺寸要求（750*400），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。不上传表示不改</span>
+                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img_big"
+                                   placeholder=""><span
+                                    style="color:red">尺寸要求（750*400），大小不超过<?php echo floor(config('upload_size') / 1024 / 1024); ?>
+                                M。不上传表示不改</span>
                         </div>
 
+                    </div>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-3 control-label">摘要：</label>
+                        <div class="col-xs-8 ">
+                            <textarea name="charm" id="" cols="50" rows="8">{$row_->charm}</textarea>
+                        </div>
                     </div>
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">活动内容：</label>
@@ -66,12 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-3 control-label">摘要：</label>
-                        <div class="col-xs-8 ">
-                            <textarea name="charm" id="" cols="50" rows="8">{$row_->charm}</textarea>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="text-center">
                     <a href="javascript:history.back()">
@@ -85,20 +113,14 @@
 
 <script>
 
-    $(function () {
-        $('form').bootstrapValidator({
-            img: {
-                validators: {
-                    notEmpty: {
-                        message: '请添加广告图'
-                    }
-                }
-            }
 
+    $('.type_radio').click(function () {
+        if($(this).val()==1){
+            $('#zaixian').show()
+        }else{
+            $('#zaixian').hide()
         }
-    });
-
-    });
+    })
 
 </script>
 

@@ -56,7 +56,6 @@
             <div class="col-xs-1">
                 电话
             </div>
-
             <div class="col-xs-2">
                 小区地址
             </div>
