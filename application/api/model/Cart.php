@@ -97,25 +97,32 @@ class Cart extends Base {
             return ['code' => __LINE__, 'msg' => '无商品'];
         }
 
-        //
         $row_good = self::getById($row_cart_good->good_id, new Good(), 'price');
         if (!$row_good) {
             return ['code' => __LINE__, 'msg' => '商品不存在'];
         }
-        $minus_price = $row_cart_good->num * $row_good->price;
+        Db::startTrans();
+        try{
+            $minus_price = $row_cart_good->num * $row_good->price;
 
-        $row_cart_good->st = 0;
-        $row_cart_good->save();
+            $row_cart_good->st = 0;
+            $row_cart_good->save();
 
-        $row_cart = self::getById($row_cart_good->cart_id, new Cart);
-        $row_cart->sum_price -= $minus_price;
+            $row_cart = self::getById($row_cart_good->cart_id, new Cart);
+            $row_cart->sum_price -= $minus_price;
 
-        $row_cart_good = CartGood::where(['cart_id'=>$row_cart->id,'st'=>1])->find();
-        if (!$row_cart_good) {
-            $row_cart->st = 0;
+            $row_cart_good = CartGood::where(['cart_id'=>$row_cart->id,'st'=>1])->find();
+            if (!$row_cart_good) {
+                $row_cart->st = 0;
+            }
+            $row_cart->save();
+            return ['code' => 0, 'msg' => '删除成功'];
+        }catch (\Exception $e){
+            return ['code' => __LINE__, 'msg' => '删除失败'];
         }
-        $row_cart->save();
-        return ['code' => 0, 'msg' => '删除成功'];
+
+
+
 
     }
 
