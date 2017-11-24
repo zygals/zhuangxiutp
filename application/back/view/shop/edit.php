@@ -23,6 +23,19 @@
                                 <input type="text" class="form-control input-sm duiqi" name='name' value="{$row_->name}" id="" placeholder="">
                             </div>
                         </div>
+                        <?php if($row_->st=='关'){?>
+                            <div class="form-group">
+                                <label for="situation" class="col-xs-3 control-label">状态：</label>
+                                <div class="col-xs-8">
+                                    <label class="control-label" >
+                                        <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
+                                    <label class="control-label">
+                                        <input type="radio" name="st" id="" value="0" <?php echo $row_->st=='关'?'checked':''?>> 关</label>
+                                </div>
+                            </div>
+                        <?php }?>
+
+
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label">排序：</label>
                             <div class="col-xs-8 ">
