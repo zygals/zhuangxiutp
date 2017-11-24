@@ -39,7 +39,7 @@ class CartGood extends model {
      * useing
      * */
     public static function getGoodsByShop($shop_id) {
-        $list_ = self::where(['cart_good.shop_id'=>$shop_id,'cart_good.st'=>1,'good.st'=>1])->join('good','cart_good.good_id=good.id')->field('cart_good.id cart_good_id,cart_id,cart_good.shop_id,good_id,num,good.name good_name,good.img,good.price,good.unit')->select();
+        $list_ = self::where(['cart_good.shop_id'=>$shop_id,'cart_good.st'=>1,'good.st'=>1])->join('good','cart_good.good_id=good.id')->field('cart_good.id cart_good_id,cart_id,cart_good.shop_id,good_id,num,good.name good_name,good.img,good.price,good.unit')->cache(true,60)->select();
         return $list_;
     }
 
