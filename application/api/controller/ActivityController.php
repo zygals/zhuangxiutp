@@ -119,8 +119,12 @@ class ActivityController extends BaseController {
             return json($user_id);
         }
                $row_attend = ActivityAttend::where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
-        $row_attend->time_to = date('Y-m-d H:i:s', $row_attend->time_to);
+
         if($row_attend){
+            if($row_attend->type==2){
+
+                $row_attend->time_to = date('Y-m-d H:i:s', $row_attend->time_to);
+            }
             return json(['code' => 0, 'msg' => '数据成功','data'=>$row_attend]);
         }
         return json(['code' => __LINE__]);
