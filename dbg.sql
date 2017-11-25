@@ -231,3 +231,8 @@ alter table dingdan add orderno_youhui varchar(255)  comment '抵扣单号(商�
 alter table activity add type tinyint default 1 comment '1在线活动 2验房活动';
 
 alter table activity add attend_num int default 0 comment '验房活动已参加人数';
+alter table setting drop baoming_img_big;
+
+alter table setting drop baoming_logan;
+alter table setting drop baoming_pnum;
+alter table setting drop wode_baoming_img;
