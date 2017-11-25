@@ -45,19 +45,19 @@ class Dingdan extends model {
     public static function getAlldingdans($data) {
         $where = ['dingdan.st' => ['<>', 0]];
         $order = ['create_time desc'];
-        $time_from = isset($data['time_from']) ? $data['time_from'] : '';
-        $time_to = isset($data['time_to']) ? $data['time_from'] : '';
+        //$time_from = isset($data['time_from']) ? $data['time_from'] : '';
+       // $time_to = isset($data['time_to']) ? $data['time_from'] : '';
         if (Admin::isShopAdmin()) {
             $where['dingdan.shop_id'] = session('admin_zhx')->shop_id;
         }
-        if (!empty($time_from)) {
-            $where['dingdan.create_time'] = ['gt', strtotime($time_from)];
+        if (!empty($data['time_from'])) {
+            $where['dingdan.create_time'] = ['gt', strtotime($data['time_from'])];
         }
-        if (!empty($time_to)) {
-            $where['dingdan.create_time'] = ['lt', strtotime($time_to)];
+        if (!empty($data['time_to'])) {
+            $where['dingdan.create_time'] = ['lt', strtotime($data['time_to'])];
         }
-        if (!empty($time_to) && !empty($time_from)) {
-            $where['dingdan.create_time'] = [['gt', strtotime($time_from)], ['lt', strtotime($time_to)]];
+        if (!empty($data['time_from']) && !empty($data['time_to'])) {
+            $where['dingdan.create_time'] = [['gt', strtotime($data['time_from'])], ['lt', strtotime($data['time_to'])]];
         }
         if (!empty($data['orderno'])) {
             $where['dingdan.orderno'] = ['like', '%' . $data['orderno'] . '%'];
