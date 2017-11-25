@@ -78,13 +78,12 @@ class ActivityController extends BaseController {
          }*/
         $Activity = new Activity();
         $file2 = $request->file('img_big');
+        $path_name = 'activity';
         if (!empty($file2)) {
             $size = $file2->getSize();
             if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
             }
-            $path_name = 'activity';
-
             $arr = $this->dealImg($file2, $path_name);
 
             $data['img_big'] = $arr['save_url_path'];
@@ -98,11 +97,22 @@ class ActivityController extends BaseController {
             if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
             }
-            $path_name = 'activity';
-
             $arr = $this->dealImg($file, $path_name);
 
             $data['img'] = $arr['save_url_path'];
+        }
+        $file = $request->file('imgs');
+        if (empty($file)) {
+            //$this->error('请上传图片或检查图片大小！');
+        }
+        if (!empty($file)) {
+            $size = $file->getSize();
+            if ($size > config('upload_size')) {
+                $this->error('图片大小超过限定！');
+            }
+
+            $arr = $this->dealImg($file, $path_name);
+            $data['imgs'] = $arr['save_url_path'];
         }
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
@@ -143,6 +153,7 @@ class ActivityController extends BaseController {
         }*/
 
         $file2 = $request->file('img_big');
+        $path_name = 'activity';
         $row_ = $this->findById($data['id'], new Activity());
 
         if (!empty($file2)) {
@@ -150,7 +161,6 @@ class ActivityController extends BaseController {
             if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
             }
-            $path_name = 'activity';
             $this->deleteImg($row_->img_big);
             $arr = $this->dealImg($file2, $path_name);
             $data['img_big'] = $arr['save_url_path'];
@@ -158,7 +168,7 @@ class ActivityController extends BaseController {
         }
         $file = $request->file('img');
         if (!empty($file)) {
-            $path_name = 'activity';
+
             $size = $file->getSize();
             if ($size > config('upload_size')) {
                 $this->error('图片大小超过限定！');
@@ -166,6 +176,19 @@ class ActivityController extends BaseController {
             $this->deleteImg($row_->img);
             $arr = $this->dealImg($file, $path_name);
             $data['img'] = $arr['save_url_path'];
+        }
+        $file = $request->file('imgs');
+        if (empty($file)) {
+            //$this->error('请上传图片或检查图片大小！');
+        }
+        if (!empty($file)) {
+            $size = $file->getSize();
+            if ($size > config('upload_size')) {
+                $this->error('图片大小超过限定！');
+            }
+            $this->deleteImg($row_->imgs);
+            $arr = $this->dealImg($file, $path_name);
+            $data['imgs'] = $arr['save_url_path'];
         }
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);

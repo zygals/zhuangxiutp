@@ -90,7 +90,7 @@
                     <div class="form-group ">
                         <label for="sName" class="col-xs-3 control-label">摘要：</label>
                         <div class="col-xs-8 ">
-                            <textarea name="charm" id="" cols="50" rows="8">{$row_->charm}</textarea>
+                            <textarea name="charm" id="" cols="50" rows="6">{$row_->charm}</textarea>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -99,6 +99,14 @@
                             <textarea name="info" id="" cols="50" rows="15">{$row_->info}</textarea>
                         </div>
                     </div>.
+                    <div class="form-group">
+                        <label for="sOrd" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->内容长图：</label>
+                        <div class="col-xs-4 ">
+                            <img src="__IMGURL__{$row_->imgs}" alt="没有上传图片" width="188"/>
+                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="imgs" placeholder=""><span style="color:red">尺寸要求（750*x），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                        </div>
+
+                    </div>
                     <div class="form-group " style="display:<?php /* echo $row_->type==2?'block':'none';*/?>">
                         <label for="sName" class="col-xs-3 control-label">已参加人数：</label>
                         <div class="col-xs-8 ">

@@ -59,7 +59,6 @@ class Activity extends Base {
 
     }
 
-
     /**
      *前台lishi验房
      * zhuangxiu-zyg

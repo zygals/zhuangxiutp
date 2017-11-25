@@ -236,3 +236,4 @@ alter table setting drop baoming_img_big;
 alter table setting drop baoming_logan;
 alter table setting drop baoming_pnum;
 alter table setting drop wode_baoming_img;
+alter table activity add imgs varchar(100) default '' comment '内容长图';
