@@ -102,7 +102,7 @@
                 </div>
                 <?php if($row_->type==2){?>
                 <div class="col-xs-2" title="{$row_->time_to}">
-                    {$row_->time_to}
+                    <?php echo date('Y-m-d H:i:s',$row_->time_to) ;?>
                 </div>
                 <?php }?>
                <!--<div class="col-xs-">
