@@ -65,6 +65,9 @@
             <div class="col-xs-">
                 报名时间
             </div>
+            <div class="col-xs-">
+                验房时间
+            </div>
 			<!--<div class="col-xs-">
 				操 作
 			</div>-->
@@ -94,6 +97,9 @@
                 </div>
                 <div class="col-xs-2" title="{$row_->create_time}">
                     {$row_->create_time}
+                </div>
+                <div class="col-xs-2" title="{$row_->time_to}">
+                    {$row_->time_to}
                 </div>
                <!--<div class="col-xs-">
 
