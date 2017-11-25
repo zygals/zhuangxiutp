@@ -50,7 +50,7 @@ class Activity extends Base {
     public static function getListYanfangNow() {
         $where = ['type'=>2,'st' => ['=', 1], 'start_time' => ['<', time()], 'end_time' => ['>', time()]];
 
-        $list_ = self::where($where)->field('id,name,img_big,info,attent_num')->order('create_time desc')->find();
+        $list_ = self::where($where)->field('id,name,img_big,info,attend_num')->order('create_time desc')->find();
 
         if (!$list_) {
             return ['code' => __LINE__];
