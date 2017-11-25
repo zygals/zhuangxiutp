@@ -86,9 +86,11 @@ class Activity extends Base {
      */
     public static function findOne($id) {
 
-        if (!$row_ = self::getById($id, new self, "id,name,img_big,address,from_unixtime(start_time,'%Y-%m-%d') start_time ,from_unixtime(end_time,'%Y-%m-%d') end_time,info,create_time")) {
+        if (!$row_ = self::getById($id, new self)) {
             return ['code' => __LINE__];
         }
+        $row_->start_time = date('Y-m-d');
+        $row_->end_time = date('Y-m-d');
         return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
     }
 
