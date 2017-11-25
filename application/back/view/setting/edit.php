@@ -57,26 +57,7 @@
 
                         </div>
                     </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">报名宣传语：</label>
-                        <div class="col-xs-7 ">
-                            <textarea name="baoming_logan" id="" cols="50" rows="8">{$list->baoming_logan|default=''}</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">报名宣传图：</label>
-                        <div class="col-xs-7 ">
-                            <img src="__IMGURL__{$list->baoming_img_big|default=''}" alt="没有上传图片" width="188"/>
-                            <input type="file" title='' class="form-control  duiqi" id="sOrd" name="baoming_img_big" placeholder=""><span style="color:red">尺寸要求（750*350），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
 
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label for="sName" class="col-xs-5 control-label">报名已参加人数：</label>
-                        <div class="col-xs-7 ">
-                            <input type="text" class="form-control input-sm duiqi" name='baoming_pnum' value="{$list->baoming_pnum|default=''}" >
-                        </div>
-                    </div>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-5 control-label">用户中心报名小图：</label>
 						<div class="col-xs-7 ">

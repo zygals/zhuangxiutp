@@ -226,3 +226,8 @@ alter table shop add sort int default 100000 comment '排序';
 alter table dingdan add refundno varchar(50) default '' comment '退款号'  ;
 alter table dingdan add orderno_youhui varchar(255)  comment '抵扣单号(商品订单号)或是被抵扣单号(多个订金或是全款订单):多个以逗号分开';
 
+
+--
+alter table activity add type tinyint default 1 comment '1在线活动 2验房活动';
+
+alter table activity add attend_num int default 0 comment '验房活动已参加人数';

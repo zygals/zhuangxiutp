@@ -118,6 +118,7 @@ class ActivityController extends BaseController {
             $data_['end_time'] = strtotime($data['end_time']);
             $data_['charm'] = $data['charm'];
             $data_['info'] = $data['info'];
+            $data_['attend_num'] = $data['attend_num'];
             $Activity->save($data_);
             $this->success('添加成功', 'index', '', 1);
         }
@@ -197,6 +198,7 @@ class ActivityController extends BaseController {
             $data_['end_time'] = strtotime($data['end_time']);
             $data_['charm'] = $data['charm'];
             $data_['info'] = $data['info'];
+            $data_['attend_num'] = $data['attend_num'];
             if ($this->saveById($data['id'], new Activity(), $data_)) {
                 $this->success('编辑成功', $referer, '', 1);
             } else {

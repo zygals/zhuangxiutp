@@ -81,7 +81,12 @@
                                 <textarea name="info" id="" cols="50" rows="15"></textarea>
                             </div>
                         </div>
-
+                        <div class="form-group " id="yicanji" style="display: none;">
+                            <label for="sName" class="col-xs-3 control-label">已参加人数：</label>
+                            <div class="col-xs-8 ">
+                                <input type="number" class="form-control input-sm duiqi" name='attend_num' value="" id="" placeholder="">
+                            </div>
+                        </div>
 
                     </div>
 				<div class="text-center">
@@ -99,8 +104,10 @@
     $('.type_radio').click(function () {
         if($(this).val()==1){
             $('#zaixian').show()
+            $('#yicanji').hide()
         }else{
             $('#zaixian').hide()
+            $('#yicanji').show()
         }
     })
    /* $(function () {
