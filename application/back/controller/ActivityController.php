@@ -42,7 +42,7 @@ class ActivityController extends BaseController {
         }
         $list_ = ActivityAttend::getList($data);
         if ($list_->isEmpty()) {
-            $this->error('暂无数据', '', '', 1);
+            $this->error('暂无数据', 'index', '', 1);
         }
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
@@ -174,23 +174,6 @@ class ActivityController extends BaseController {
         } else {
             $this->error('没有修改', $referer, '', 1);
         }
-       /* if ($data['type'] == 1) {
-
-
-        } else {
-            $data_['name'] = $data['name'];
-            $data_['type'] = 2;
-            $data_['start_time'] = strtotime($data['start_time']);
-            $data_['end_time'] = strtotime($data['end_time']);
-            $data_['charm'] = $data['charm'];
-            $data_['info'] = $data['info'];
-            $data_['attend_num'] = $data['attend_num'];
-            if ($this->saveById($data['id'], new Activity(), $data_)) {
-                $this->success('编辑成功', $referer, '', 1);
-            } else {
-                $this->error('没有修改', $referer, '', 1);
-            }
-        }*/
 
 
     }
@@ -219,31 +202,53 @@ class ActivityController extends BaseController {
     public function export(Request $request) {
         $data = $request->param();
         $activity_id = $data['activity_id'];
-        $fields = 'activity.name,activity_attend.*';
-        $res = db('activity_attend')->where('activity_id', $activity_id)->join('activity', 'activity.id=activity_attend.activity_id')->field($fields)->select();
+        $fields = 'activity.name,activity.type,activity_attend.*,FROM_UNIXTIME( activity_attend.time_to, "%Y-%m-%d %H:%i:%S" ) time_to';
+        $res = ActivityAttend::where('activity_id', $activity_id)->join('activity', 'activity.id=activity_attend.activity_id')->field($fields)->select();
 //        dump(date('Y-m-d H:i:s',$res[0]['create_time']));exit;
         $excel = new \PHPExcel();
-        $excel->setActiveSheetIndex(0)
-            ->setCellValue('A1', '编号')
-            ->setCellValue('B1', '标题')
-            ->setCellValue('C1', '姓名')
-            ->setCellValue('D1', '电话')
-            ->setCellValue('E1', '小区地址')
-            ->setCellValue('F1', '报名时间');
-        foreach ($res as $key => $value) {
-            $key += 2; //从第二行开始填充
-            $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
-            $excel->setActiveSheetIndex(0)->setCellValue('B' . $key, $value['name']);
-            $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['truename']);
-            $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['mobile']);
-            $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['xiaoqu']);
-            $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, date('Y-m-d H:i:s', $value['create_time']));
+        if ($res[0]->type == 1) {
+            $excel->setActiveSheetIndex(0)
+                ->setCellValue('A1', '编号')
+                ->setCellValue('B1', '标题')
+                ->setCellValue('C1', '姓名')
+                ->setCellValue('D1', '电话')
+                ->setCellValue('E1', '小区名称')
+                ->setCellValue('G1', '报名时间');
+            foreach ($res as $key => $value) {
+                $key += 2; //从第二行开始填充
+                $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
+                $excel->setActiveSheetIndex(0)->setCellValue('B' . $key, $value['name']);
+                $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['truename']);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['mobile']);
+                $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['xiaoqu']);
+                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['create_time']);
+            }
+        } else {
+            $excel->setActiveSheetIndex(0)
+                ->setCellValue('A1', '编号')
+                ->setCellValue('B1', '标题')
+                ->setCellValue('C1', '姓名')
+                ->setCellValue('D1', '电话')
+                ->setCellValue('E1', '地址')
+                ->setCellValue('F1', '验房时间')
+                ->setCellValue('G1', '报名时间');
+            foreach ($res as $key => $value) {
+                $key += 2; //从第二行开始填充
+                $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
+                $excel->setActiveSheetIndex(0)->setCellValue('B' . $key, $value['name']);
+                $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['truename']);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['mobile']);
+                $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['xiaoqu']);
+                $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, $value['time_to']);
+                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['create_time']);
+            }
         }
-        $excel->getActiveSheet()->setTitle('在线活动');
+
+        $excel->getActiveSheet()->setTitle('活动报名');
         $excel->setActiveSheetIndex(0);
 
         $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-        $filename = '在线活动.xlsx';
+        $filename = $res[0]->name . " 活动报名.xlsx";
         ob_end_clean();//清除缓存以免乱码出现
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/octet-stream');

@@ -12,10 +12,11 @@
 		</div>
 		<div class="col-xs-10">
             <form method="get" action="{:url('index_attend')}" id="searchForm">
-                <div class="col-xs-7">
+                <div class="col-xs-4">
                     <input type="hidden" name="activity_id" value="{$list_[0]->activity_id}">
                     <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
                            placeholder="电话/姓名进行搜索">
+                    <button class="btn btn-white btn-xs " type="submit">提交</button>
                 </div>
               <!--  <div class=" col-xs-5" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
@@ -37,6 +38,7 @@
 			<form action="{:url('export')}" method="post">
 				<input type="hidden" value="{$list_[0]->activity_id}" name="activity_id">
 				<input type="submit" class="btn btn-white btn-xs" value="导出excle文件">
+
 			</form>
 		</div>
 
