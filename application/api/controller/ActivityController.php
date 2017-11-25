@@ -88,18 +88,16 @@ class ActivityController extends BaseController {
 
         $data['user_id'] = $user_id;unset($data['username']);
         //is add ?
-        $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
-        if($row_attend){
-             $data['update_time'] = time();
-            Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->update($data);
+
+        $row_attend = ActivityAttend::where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
+        if($row_attend){//not add
+            $row_attend->save($data);
             return json(['code'=>'0','msg'=>'update attend ok']);
         }
-        $data['create_time'] = time();
-        $data['update_time'] = time();
-        if (!Db::table('activity_attend')->insert($data)) {
+        if (!(new ActivityAttend())->save($data)) {
             return json(['code' => __LINE__, 'msg' => 'save attend error']);
         }
-        //增加活动人数
+        //增加实际活动人数
         (new Activity())->where('id', $data['activity_id'])->setInc('pnum');
         return json(['code' => 0, 'msg' => 'save attend ok']);
     }
