@@ -87,6 +87,7 @@ class ActivityController extends BaseController {
         }
 
         $data['user_id'] = $user_id;unset($data['username']);
+        $data['time_to'] = strtotime($data['time_to']);
         //is add ?
 
         $row_attend = ActivityAttend::where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();

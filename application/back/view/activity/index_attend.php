@@ -59,9 +59,9 @@
             <div class="col-xs-2">
                 小区地址
             </div>
-      <div class="col-xs-1">
+<!--      <div class="col-xs-1">
                 购买商
-            </div>
+            </div>-->
             <div class="col-xs-2">
                 报名时间
             </div>
@@ -94,9 +94,9 @@
                 <div class="col-xs-2" title="{$row_->xiaoqu}">
                     {$row_->xiaoqu}
                 </div>
-                <div class="col-xs-1" title="{$row_->nigou}">
+          <!--      <div class="col-xs-1" title="{$row_->nigou}">
                     {$row_->nigou}
-                </div>
+                </div>-->
                 <div class="col-xs-2" title="{$row_->create_time}">
                     {$row_->create_time}
                 </div>
