@@ -27,7 +27,7 @@ class ActivityAttend extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->join('activity','activity.id=activity_attend.activity_id','left')->field('activity_attend.*,activity.name activity_name')->order($order)->paginate(10);
+        $list_ = self::where($where)->join('activity','activity.id=activity_attend.activity_id','left')->field('activity_attend.*,activity.name activity_name,activity.type')->order($order)->paginate(10);
 
         return $list_;
 

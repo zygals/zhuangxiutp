@@ -62,12 +62,14 @@
       <div class="col-xs-1">
                 购买商
             </div>
-            <div class="col-xs-">
+            <div class="col-xs-2">
                 报名时间
             </div>
-            <div class="col-xs-">
+<?php if($list_[0]->type==2){?>
+            <div class="col-xs-2">
                 验房时间
             </div>
+            <?php }?>
 			<!--<div class="col-xs-">
 				操 作
 			</div>-->
@@ -98,9 +100,11 @@
                 <div class="col-xs-2" title="{$row_->create_time}">
                     {$row_->create_time}
                 </div>
+                <?php if($row_->type==2){?>
                 <div class="col-xs-2" title="{$row_->time_to}">
                     {$row_->time_to}
                 </div>
+                <?php }?>
                <!--<div class="col-xs-">
 
                     <a href="{:url('edit')}?id={$row_->id}"><button class="btn btn-success btn-xs edit_" >改</button></a>
