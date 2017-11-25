@@ -85,7 +85,6 @@ class ActivityController extends BaseController {
         if(is_array($user_id)){
             return json($user_id);
         }
-
         $data['user_id'] = $user_id;unset($data['username']);
         $data['time_to'] = strtotime($data['time_to']);
         //is add ?
@@ -120,6 +119,7 @@ class ActivityController extends BaseController {
             return json($user_id);
         }
         $row_attend = Db::table('activity_attend')->where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
+        $row_attend->time_to = date('Y-m-d H:i:s', $row_attend->time_to);
         if($row_attend){
             return json(['code' => 0, 'msg' => '数据成功','data'=>$row_attend]);
         }
