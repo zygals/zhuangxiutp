@@ -32,6 +32,7 @@ class ActivityController extends BaseController {
     public function history_activity(Request $request) {
         return json(Activity::getListHistory());
     }
+
     /**
      *前台正在验房
      * zhuangxiu-zyg
@@ -41,6 +42,7 @@ class ActivityController extends BaseController {
     public function activity_yanfang(Request $request) {
         return json(Activity::getListYanfangNow());
     }
+
     /**
      *前台lishi验房
      * zhuangxiu-zyg
@@ -50,6 +52,7 @@ class ActivityController extends BaseController {
     public function activity_yanfang_lishi(Request $request) {
         return json(Activity::getListYanfangHistory());
     }
+
     /**
      *活动内页
      * zhuangxiu-zyg
@@ -82,20 +85,21 @@ class ActivityController extends BaseController {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
         $user_id = User::getUserIdByName($data['username']);
-        if(is_array($user_id)){
+        if (is_array($user_id)) {
             return json($user_id);
         }
-        $data['user_id'] = $user_id;unset($data['username']);
-        if(!empty($data['time_to'])){
+        $data['user_id'] = $user_id;
+        unset($data['username']);
+        if (!empty($data['time_to'])) {
 
             $data['time_to'] = strtotime($data['time_to']);
         }
 
         //is add ?
-        $row_attend = ActivityAttend::where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
-        if($row_attend){//not add
+        $row_attend = ActivityAttend::where(['user_id' => $user_id, 'activity_id' => $data['activity_id']])->find();
+        if ($row_attend) {//not add
             $row_attend->save($data);
-            return json(['code'=>'0','msg'=>'update attend ok']);
+            return json(['code' => '0', 'msg' => 'update attend ok']);
         }
         if (!(new ActivityAttend())->save($data)) {
             return json(['code' => __LINE__, 'msg' => 'save attend error']);
@@ -111,36 +115,34 @@ class ActivityController extends BaseController {
      *
      * @return \think\Response
      */
-    public function read_attend(Request $request){
+    public function read_attend(Request $request) {
         $data = $request->param();
-        $rule = ['activity_id' => 'require|number','username'=>'require'];
+        $rule = ['activity_id' => 'require|number', 'username' => 'require'];
         $res = $this->validate($data, $rule);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
         $user_id = User::getUserIdByName($data['username']);
-        if(is_array($user_id)){
+        if (is_array($user_id)) {
             return json($user_id);
         }
-               $row_attend = ActivityAttend::where(['user_id'=>$user_id,'activity_id'=>$data['activity_id']])->find();
+        $row_attend = ActivityAttend::where(['user_id' => $user_id, 'activity_id' => $data['activity_id']])->find();
 
-        if($row_attend){
-            if($row_attend->type==2){
-
-                $row_attend->time_to = date('Y-m-d H:i:s', $row_attend->time_to);
-            }
-            return json(['code' => 0, 'msg' => '数据成功','data'=>$row_attend]);
+        if ($row_attend) {
+            $row_attend->time_to = date('Y-m-d H:i:s', $row_attend->time_to);
+            return json(['code' => 0, 'msg' => '数据成功', 'data' => $row_attend]);
         }
         return json(['code' => __LINE__]);
     }
+
     /*
      * 取我的报名列表
      * zhuangxiu-zyg
      * */
 
     public function my_attend(Request $request) {
-        $data=$request->param();
-        $rule = ['username'=>'require'];
+        $data = $request->param();
+        $rule = ['username' => 'require'];
         $res = $this->validate($data, $rule);
         //dump( $res);exit;
         if ($res !== true) {
@@ -148,7 +150,6 @@ class ActivityController extends BaseController {
         }
         return json(ActivityAttend::getMyAttend($data['username']));
     }
-
 
 
 }
