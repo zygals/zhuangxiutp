@@ -126,7 +126,7 @@ class ActivityController extends BaseController {
         return json(['code' => __LINE__]);
     }
     /*
-     * 取我的在线报名
+     * 取我的报名列表
      * zhuangxiu-zyg
      * */
 
