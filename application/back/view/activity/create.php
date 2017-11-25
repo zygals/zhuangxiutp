@@ -40,13 +40,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="sOrd" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->列表图片：</label>
-                                <div class="col-xs-4 ">
-                                    <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（100*150），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
-                                </div>
 
-                            </div>
 
 
                         </div>
@@ -61,6 +55,13 @@
                             <div class="col-xs-8 ">
                                 <input type="date" class="form-control input-sm duiqi" name='end_time' value="" id="" placeholder="">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sOrd" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->列表图片：</label>
+                            <div class="col-xs-4 ">
+                                <input type="file" title='' class="form-control  duiqi" id="sOrd" name="img" placeholder=""><span style="color:red">尺寸要求（100*150），大小不超过<?php echo floor(config('upload_size')/1024/1024);?>M。</span>
+                            </div>
+
                         </div>
                         <div class="form-group">
                             <label for="sOrd" class="col-xs-3 control-label"><!--<span style="color:red;">*&nbsp;&nbsp;</span>-->详情大图：</label>

@@ -87,42 +87,27 @@ class ActivityController extends BaseController {
 
             $arr = $this->dealImg($file2, $path_name);
 
-            $data_['img_big'] =$data['img_big'] = $arr['save_url_path'];
+            $data['img_big'] = $arr['save_url_path'];
         }
-        //dump($data);
-        if ($data['type'] == 1) {
-            $file = $request->file('img');
-            if (empty($file)) {
-                //$this->error('请上传图片或检查图片大小！');
-            }
-            if (!empty($file)) {
-                $size = $file->getSize();
-                if ($size > config('upload_size')) {
-                    $this->error('图片大小超过限定！');
-                }
-                $path_name = 'activity';
-
-                $arr = $this->dealImg($file, $path_name);
-
-                $data['img'] = $arr['save_url_path'];
-            }
-
-            $data['start_time'] = strtotime($data['start_time']);
-            $data['end_time'] = strtotime($data['end_time']);
-            $Activity->save($data);
-            $this->success('添加成功', 'index', '', 1);
-        } else {
-            $data_['name'] = $data['name'];
-            $data_['type'] = 2;
-            $data_['start_time'] = strtotime($data['start_time']);
-            $data_['end_time'] = strtotime($data['end_time']);
-            $data_['charm'] = $data['charm'];
-            $data_['info'] = $data['info'];
-            $data_['attend_num'] = $data['attend_num'];
-            $Activity->save($data_);
-            $this->success('添加成功', 'index', '', 1);
+        $file = $request->file('img');
+        if (empty($file)) {
+            //$this->error('请上传图片或检查图片大小！');
         }
+        if (!empty($file)) {
+            $size = $file->getSize();
+            if ($size > config('upload_size')) {
+                $this->error('图片大小超过限定！');
+            }
+            $path_name = 'activity';
 
+            $arr = $this->dealImg($file, $path_name);
+
+            $data['img'] = $arr['save_url_path'];
+        }
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        $Activity->save($data);
+        $this->success('添加成功', 'index', '', 1);
 
     }
 
@@ -168,28 +153,29 @@ class ActivityController extends BaseController {
             $path_name = 'activity';
             $this->deleteImg($row_->img_big);
             $arr = $this->dealImg($file2, $path_name);
-            $data_['img_big'] = $data['img_big'] = $arr['save_url_path'];
+            $data['img_big'] = $arr['save_url_path'];
 
         }
-        if ($data['type'] == 1) {
-            $file = $request->file('img');
-            if (!empty($file)) {
-                $path_name = 'activity';
-                $size = $file->getSize();
-                if ($size > config('upload_size')) {
-                    $this->error('图片大小超过限定！');
-                }
-                $this->deleteImg($row_->img);
-                $arr = $this->dealImg($file, $path_name);
-                $data['img'] = $arr['save_url_path'];
+        $file = $request->file('img');
+        if (!empty($file)) {
+            $path_name = 'activity';
+            $size = $file->getSize();
+            if ($size > config('upload_size')) {
+                $this->error('图片大小超过限定！');
             }
-            $data['start_time'] = strtotime($data['start_time']);
-            $data['end_time'] = strtotime($data['end_time']);
-            if ($this->saveById($data['id'], new Activity(), $data)) {
-                $this->success('编辑成功', $referer, '', 1);
-            } else {
-                $this->error('没有修改', $referer, '', 1);
-            }
+            $this->deleteImg($row_->img);
+            $arr = $this->dealImg($file, $path_name);
+            $data['img'] = $arr['save_url_path'];
+        }
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        if ($this->saveById($data['id'], new Activity(), $data)) {
+            $this->success('编辑成功', $referer, '', 1);
+        } else {
+            $this->error('没有修改', $referer, '', 1);
+        }
+       /* if ($data['type'] == 1) {
+
 
         } else {
             $data_['name'] = $data['name'];
@@ -204,7 +190,7 @@ class ActivityController extends BaseController {
             } else {
                 $this->error('没有修改', $referer, '', 1);
             }
-        }
+        }*/
 
 
     }
