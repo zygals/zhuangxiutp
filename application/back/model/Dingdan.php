@@ -114,6 +114,7 @@ class Dingdan extends model {
             header('Cache-Control: max-age=0');
             $objWriter->save('php://output');
         }
+        dump('dayinwan.....');
         return $list;
     }
 
