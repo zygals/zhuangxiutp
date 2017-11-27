@@ -44,8 +44,6 @@ class Dingdan extends model {
     public static function getAlldingdans($data) {
         $where = ['dingdan.st' => ['<>', 0]];
         $order = ['create_time desc'];
-        //$time_from = isset($data['time_from']) ? $data['time_from'] : '';
-       // $time_to = isset($data['time_to']) ? $data['time_from'] : '';
         if (Admin::isShopAdmin()) {
             $where['dingdan.shop_id'] = session('admin_zhx')->shop_id;
         }
@@ -78,9 +76,7 @@ class Dingdan extends model {
         }
 
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
-        //dump($list);
         if(!empty($data['excel']) && $data['excel']==1){ //导出表格
-
             $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address','dingdan.address_id=address.id')->order($order)->select();
             $excel=  new \PHPExcel();
             $excel->setActiveSheetIndex(0)
@@ -107,12 +103,11 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['pcd'].' '.$value['info']);
                 $excel->setActiveSheetIndex(0)->setCellValue('K' . $key, $value['sum_price']);
             }
-            $excel->getActiveSheet()->setTitle('order_list');
+            $excel->getActiveSheet()->setTitle('订单列表');
             $excel->setActiveSheetIndex(0);
             $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-            $filename = "order_list.xlsx";
-
-            //ob_end_clean();//清除缓存以免乱码出现
+            $filename = "订单列表.xlsx";
+            ob_end_clean();//清除缓存以免乱码出现
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
