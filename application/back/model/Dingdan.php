@@ -93,8 +93,7 @@ class Dingdan extends model {
                 ->setCellValue('H1', '姓名')
                 ->setCellValue('I1', '电话')
                 ->setCellValue('J1', '地址')
-                ->setCellValue('K1', '')
-                ->setCellValue('L1', '总 价');
+                ->setCellValue('K1', '总 价');
             foreach ($list_ as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -105,9 +104,8 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['username']);
                 $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['truename']);
                 $excel->setActiveSheetIndex(0)->setCellValue('I' . $key, $value['mobile']);
-                $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['pcd']);
-                $excel->setActiveSheetIndex(0)->setCellValue('k' . $key, $value['info']);
-                $excel->setActiveSheetIndex(0)->setCellValue('L' . $key, $value['sum_price']);
+                $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['pcd'].' '.$value['info']);
+                $excel->setActiveSheetIndex(0)->setCellValue('K' . $key, $value['sum_price']);
             }
             $excel->getActiveSheet()->setTitle('order_list');
             $excel->setActiveSheetIndex(0);
