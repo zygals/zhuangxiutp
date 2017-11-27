@@ -77,10 +77,7 @@ class Dingdan extends model {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-//        $act = 'paginate';
-//        if(!empty($data['excel']) && $data['excel']==1){ //导出表格
-//            $act = 'select';
-//        }
+
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
         //dump($list);
         if(!empty($data['excel']) && $data['excel']==1){ //导出表格
@@ -108,21 +105,17 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['username']);
                 $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['sum_price']);
             }
-
             $excel->getActiveSheet()->setTitle('order_list');
             $excel->setActiveSheetIndex(0);
-
             $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-
             $filename = "order_list.xlsx";
 
-            ob_end_clean();//清除缓存以免乱码出现
-
+            //ob_end_clean();//清除缓存以免乱码出现
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
-            //$objWriter->save('php://output');
+            $objWriter->save('php://output');
         }
         return $list;
     }
