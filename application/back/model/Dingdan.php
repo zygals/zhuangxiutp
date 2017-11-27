@@ -77,9 +77,53 @@ class Dingdan extends model {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
+//        $act = 'paginate';
+//        if(!empty($data['excel']) && $data['excel']==1){ //导出表格
+//            $act = 'select';
+//        }
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
         //dump($list);
+        if(!empty($data['excel']) && $data['excel']==1){ //导出表格
 
+            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->select();
+
+            $excel=  new \PHPExcel();
+
+            $excel->setActiveSheetIndex(0)
+                ->setCellValue('A1', '编号')
+                ->setCellValue('B1', '联合编号')
+                ->setCellValue('C1', '类型')
+                ->setCellValue('D1', '订单编号')
+                ->setCellValue('E1', '商户名称')
+                ->setCellValue('G1', '用户名')
+                ->setCellValue('H1', '总 价');
+
+            foreach ($list_ as $key => $value) {
+                $key += 2; //从第二行开始填充
+                $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
+                $excel->setActiveSheetIndex(0)->setCellValue('B' . $key, $value['orderno_contact']);
+                $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['type']);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['orderno']);
+                $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['shop_name']);
+                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['username']);
+                $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['sum_price']);
+            }
+
+            $excel->getActiveSheet()->setTitle('order_list');
+            $excel->setActiveSheetIndex(0);
+
+            $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+
+            $filename = "order_list.xlsx";
+
+            ob_end_clean();//清除缓存以免乱码出现
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            //$objWriter->save('php://output');
+        }
         return $list;
     }
 

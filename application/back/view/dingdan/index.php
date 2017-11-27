@@ -60,7 +60,8 @@
                                value="desc"
                                }checked{/eq}>降序</label>
 
-                    <button class="btn btn-white btn-xs " type="submit">提交</button>
+                    <button class="btn btn-white btn-xs " name="sub" value="" type="submit">提交</button>
+                    <button class="btn btn-white btn-xs " name="excel" value="1" type="submit">导出表格</button>
                 </div>
             </form>
 
