@@ -38,9 +38,8 @@ class Dingdan extends model {
 
         return $row_;
     }
-
     /*
-     * //分页查询
+     *   分页查询
      * */
     public static function getAlldingdans($data) {
         $where = ['dingdan.st' => ['<>', 0]];
@@ -82,10 +81,8 @@ class Dingdan extends model {
         //dump($list);
         if(!empty($data['excel']) && $data['excel']==1){ //导出表格
 
-            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->select();
-
+            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address','dingdan.address_id=address.id')->order($order)->select();
             $excel=  new \PHPExcel();
-
             $excel->setActiveSheetIndex(0)
                 ->setCellValue('A1', '编号')
                 ->setCellValue('B1', '联合编号')
@@ -93,8 +90,11 @@ class Dingdan extends model {
                 ->setCellValue('D1', '订单编号')
                 ->setCellValue('E1', '商户名称')
                 ->setCellValue('G1', '用户名')
-                ->setCellValue('H1', '总 价');
-
+                ->setCellValue('H1', '姓名')
+                ->setCellValue('I1', '电话')
+                ->setCellValue('J1', '地址')
+                ->setCellValue('K1', '')
+                ->setCellValue('L1', '总 价');
             foreach ($list_ as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -103,7 +103,11 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['orderno']);
                 $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['shop_name']);
                 $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['username']);
-                $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['sum_price']);
+                $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['truename']);
+                $excel->setActiveSheetIndex(0)->setCellValue('I' . $key, $value['mobile']);
+                $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['pcd']);
+                $excel->setActiveSheetIndex(0)->setCellValue('k' . $key, $value['info']);
+                $excel->setActiveSheetIndex(0)->setCellValue('L' . $key, $value['sum_price']);
             }
             $excel->getActiveSheet()->setTitle('order_list');
             $excel->setActiveSheetIndex(0);

@@ -236,7 +236,7 @@ class ActivityController extends BaseController {
                 ->setCellValue('C1', '姓名')
                 ->setCellValue('D1', '电话')
                 ->setCellValue('E1', '小区名称')
-                ->setCellValue('G1', '报名时间');
+                ->setCellValue('F1', '报名时间');
             foreach ($res as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -244,7 +244,7 @@ class ActivityController extends BaseController {
                 $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['truename']);
                 $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['mobile']);
                 $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['xiaoqu']);
-                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['create_time']);
+                $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, $value['create_time']);
             }
         } else {
             $excel->setActiveSheetIndex(0)
