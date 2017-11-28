@@ -183,6 +183,10 @@ class Dingdan extends Base{
 		if ( !$row_group ) {
 			return ['code' => __LINE__ , 'msg' => '团购数据没有'];
 		}
+		$count = self::where(['type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$data['t_id']])->count();
+		if($count>=$row_group->pnum){
+            return ['code' => __LINE__ , 'msg' => '参团人数已满'];
+        }
 		$data_order['shop_id'] = $row_group->shop_id;
 		$data_order['group_id'] = $row_group->id;
 		$data_order['orderno'] = $this->makeTradeNo( $data['username'] );
