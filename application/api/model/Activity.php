@@ -88,8 +88,8 @@ class Activity extends Base {
         if (!$row_ = self::getById($id, new self)) {
             return ['code' => __LINE__];
         }
-        $row_->start_time = date('Y-m-d');
-        $row_->end_time = date('Y-m-d');
+        $row_->start_time = date('Y-m-d',$row_->start_time);
+        $row_->end_time = date('Y-m-d',$row_->end_time);
         return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
     }
 
