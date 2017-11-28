@@ -18,12 +18,12 @@
                 <div class="col-xs-8">
                     <input type="datetime-local" id="" name="time_from" value="{$Think.get.time_from}"
                            class="form-control input-sm " placeholder="日期从">
-                   <!-- <input type="text" id="" name="time_from" value="{$Think.get.time_from}"
-                           class="form-control input-sm date_input" placeholder="日期从">-->
+                    <!-- <input type="text" id="" name="time_from" value="{$Think.get.time_from}"
+                            class="form-control input-sm date_input" placeholder="日期从">-->
                     <input type="datetime-local" id="" name="time_to" value="{$Think.get.time_to}"
                            class="form-control input-sm" placeholder="到">
-                  <!--  <input type="text" id="" name="time_to" value="{$Think.get.time_to}"
-                           class="form-control input-sm date_input" placeholder="到">-->
+                    <!--  <input type="text" id="" name="time_to" value="{$Think.get.time_to}"
+                             class="form-control input-sm date_input" placeholder="到">-->
                     <!--<input type="text" name="orderno" value="{$Think.get.orderno}" class="form-control input-sm"
                            placeholder="输入订单编号">
                     <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
@@ -46,12 +46,11 @@
                     </select>
                     <select class=" form-control" name="sel_type">
                         <option value="">--商家名称等--</option>
-                        <option value="shop_name" {eq name="Think.get.sel_type" value="shop_name" }selected{/eq}>商家名称</option>
-                        <option value="truename" {eq name="Think.get.sel_type" value="truename"
-                                }selected{/eq}>商家姓名</option>
-                        <option value="mobile" {eq name="Think.get.sel_type" value="mobile" }selected{/eq}>商家手机</option>
-                        <option value="brand" {eq name="Think.get.sel_type" value="brand" }selected{/eq}>商家品牌</option>
-                        <option value="orderno" {eq name="Think.get.sel_type" value="orderno" }selected{/eq}>订单号 </option>
+                        <option value="shop_name" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'shop_name' ? 'selected' : '' : ''; ?>>商家名称</option>
+                        <option value="truename" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'truename' ? 'selected' : '' : ''; ?>>商家姓名</option>
+                        <option value="mobile" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'mobile' ? 'selected' : '' : ''; ?>>商家手机</option>
+                        <option value="brand" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'brand' ? 'selected' : '' : ''; ?>>商家品牌</option>
+                        <option value="orderno" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'orderno' ? 'selected' : '' : ''; ?>>订单号 </option>
 
                     </select>
                     <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
@@ -60,15 +59,9 @@
                 <div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
                         <option value="">--请选择排序字段--</option>
-                        <option value="sum_price" {eq name="Think.get.paixu" value="sum_price"
-                                }selected{
-                        /eq}>总价</option>
-                        <option value="create_time" {eq name="Think.get.paixu" value="create_time"
-                                }selected{
-                        /eq}>添加时间</option>
-                        <option value="update_time" {eq name="Think.get.paixu" value="update_time"
-                                }selected{
-                        /eq}>修改时间</option>
+                        <option value="sum_price" <?php echo isset($_GET['paixu']) ? $_GET['sel_type'] == 'sum_price' ? 'selected' : '' : ''; ?>>总价</option>
+                        <option value="create_time" <?php echo isset($_GET['paixu']) ? $_GET['sel_type'] == 'create_time' ? 'selected' : '' : ''; ?>>添加时间</option>
+                        <option value="update_time" <?php echo isset($_GET['paixu']) ? $_GET['sel_type'] == 'update_time' ? 'selected' : '' : ''; ?>>修改时间</option>
                     </select>
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"
