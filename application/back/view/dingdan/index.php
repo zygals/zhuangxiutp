@@ -47,9 +47,10 @@
                     <select class=" form-control" name="sel_type">
                         <option value="">--商家名称等--</option>
                         <option value="shop_name" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'shop_name' ? 'selected' : '' : ''; ?>>商家名称</option>
-                        <option value="truename" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'truename' ? 'selected' : '' : ''; ?>>商家姓名</option>
-                        <option value="mobile" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'mobile' ? 'selected' : '' : ''; ?>>商家手机</option>
                         <option value="brand" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'brand' ? 'selected' : '' : ''; ?>>商家品牌</option>
+                        <option value="truename" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'truename' ? 'selected' : '' : ''; ?>>用户姓名</option>
+                        <option value="mobile" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'mobile' ? 'selected' : '' : ''; ?>>用户手机</option>
+
                         <option value="orderno" <?php echo isset($_GET['sel_type']) ? $_GET['sel_type'] == 'orderno' ? 'selected' : '' : ''; ?>>订单号 </option>
 
                     </select>
