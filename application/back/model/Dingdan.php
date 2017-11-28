@@ -91,7 +91,9 @@ class Dingdan extends model {
                 ->setCellValue('I1', '地址')
                 ->setCellValue('J1', '总价')
                 ->setCellValue('K1', '状态')
-                ->setCellValue('L1', '商品状态');
+                ->setCellValue('L1', '商品状态')
+                ->setCellValue('M1', '下单时间')
+            ;
             foreach ($list_ as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -106,6 +108,7 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['sum_price']);
                 $excel->setActiveSheetIndex(0)->setCellValue('K' . $key, $value['st']);
                 $excel->setActiveSheetIndex(0)->setCellValue('L' . $key, $value['goodst']);
+                $excel->setActiveSheetIndex(0)->setCellValue('M' . $key, $value['create_time']);
             }
             $excel->getActiveSheet()->setTitle('订单列表');
             $excel->setActiveSheetIndex(0);
