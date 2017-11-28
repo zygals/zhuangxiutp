@@ -21,10 +21,10 @@
 
                     <input type="text" id="" name="time_to" value="{$Think.get.time_to}"
                            class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
-                    <input type="text" name="orderno" value="{$Think.get.orderno}" class="form-control input-sm"
+                    <!--<input type="text" name="orderno" value="{$Think.get.orderno}" class="form-control input-sm"
                            placeholder="输入订单编号">
                     <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
-                           placeholder="输入店铺ID">
+                           placeholder="输入店铺ID">-->
                     <select name="st" id="" class="form-control">
                         <option value="">－－选择状态－－</option>
                         <?php foreach (app\back\model\Dingdan::$arrStatus as $k => $v) { ?>
@@ -41,6 +41,20 @@
                             </option>
                         <?php } ?>
                     </select>
+                    <select class=" form-control" name="sel_type">
+                        <option value="">--商家名称等--</option>
+                        <option value="shop_name" {eq name="Think.get.sel_type" value="shop_name"}selected{
+                        /eq}>商家名称</option>
+                        <option value="shop_name" {eq name="Think.get.sel_type" value="shop_name"
+                                }selected{
+                        /eq}>商家姓名</option>  <option value="truename" {eq name="Think.get.sel_type" value="truename"}selected{
+                        /eq}>商家手机</option>  <option value="brand" {eq name="Think.get.sel_type" value="brand"}selected{
+                        /eq}>商家品牌</option><option value="orderno" {eq name="Think.get.sel_type" value="orderno" }selected{
+                        /eq}>订单号 </option>
+
+                    </select>
+                    <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
+                           placeholder="输入对应内容">
                 </div>
                 <div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">

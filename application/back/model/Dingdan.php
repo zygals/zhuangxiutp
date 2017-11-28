@@ -56,9 +56,33 @@ class Dingdan extends model {
         if (!empty($data['time_from']) && !empty($data['time_to'])) {
             $where['dingdan.create_time'] = [['gt', strtotime($data['time_from'])], ['lt', strtotime($data['time_to'])]];
         }
-        if (!empty($data['orderno'])) {
-            $where['dingdan.orderno'] = ['like', '%' . $data['orderno'] . '%'];
+        if(!empty($data['sel_type'])){
+            switch ($data['sel_type']){
+                case 'orderno':
+                    $where['dingdan.orderno'] = ['like', '%' . $data['name_'] . '%'];
+                    break;
+                case 'shop_name':
+                    $ids = Shop::where(['name'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.shop_id'] = ['in', $ids];
+                    break;
+                case 'mobile':
+                    $ids = Shop::where(['phone'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.shop_id'] = ['in', $ids];
+                    break;
+                case 'truename':
+                    $ids = Shop::where(['truename'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.shop_id'] = ['in', $ids];
+                    break;
+                case 'brand':
+                    $ids = Shop::where(['brand'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.shop_id'] = ['in', $ids];
+                    break;
+
+            }
         }
+  /*      if (!empty($data['orderno'])) {
+            $where['dingdan.orderno'] = ['like', '%' . $data['orderno'] . '%'];
+        }*/
         if (!empty($data['shop_id'])) {
             $where['shop_id'] = $data['shop_id'];
         }
