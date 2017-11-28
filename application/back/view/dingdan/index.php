@@ -20,9 +20,10 @@
                            class="form-control input-sm " placeholder="日期从">
                    <!-- <input type="text" id="" name="time_from" value="{$Think.get.time_from}"
                            class="form-control input-sm date_input" placeholder="日期从">-->
-
-                    <input type="text" id="" name="time_to" value="{$Think.get.time_to}"
-                           class="form-control input-sm date_input" placeholder="到">
+                    <input type="datetime-local" id="" name="time_to" value="{$Think.get.time_to}"
+                           class="form-control input-sm" placeholder="到">
+                  <!--  <input type="text" id="" name="time_to" value="{$Think.get.time_to}"
+                           class="form-control input-sm date_input" placeholder="到">-->
                     <!--<input type="text" name="orderno" value="{$Think.get.orderno}" class="form-control input-sm"
                            placeholder="输入订单编号">
                     <input type="text" name="shop_id" value="{$Think.get.shop_id}" class="form-control input-sm"
