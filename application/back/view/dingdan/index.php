@@ -110,7 +110,7 @@
                 商品状态
             </div>
             <div class="col-xs-">
-                操 作
+                操 作({$list_->total()})
             </div>
         </div>
         <div class="tablebody">

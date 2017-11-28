@@ -66,12 +66,12 @@ class Dingdan extends model {
                     $where['dingdan.shop_id'] = ['in', $ids];
                     break;
                 case 'mobile':
-                    $ids = Shop::where(['phone'=>['like',"%{$data['name_']}%"]])->column('id');
-                    $where['dingdan.shop_id'] = ['in', $ids];
+                    $ids = Address::where(['mobile'=>['=',$data['name_']]])->column('id');
+                    $where['dingdan.user_id'] = ['in', $ids];
                     break;
                 case 'truename':
-                    $ids = Shop::where(['truename'=>['like',"%{$data['name_']}%"]])->column('id');
-                    $where['dingdan.shop_id'] = ['in', $ids];
+                    $ids = Address::where(['truename'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.user_id'] = ['in', $ids];
                     break;
                 case 'brand':
                     $ids = Shop::where(['brand'=>['like',"%{$data['name_']}%"]])->column('id');

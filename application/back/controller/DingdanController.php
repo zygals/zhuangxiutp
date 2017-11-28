@@ -30,8 +30,8 @@ class DingdanController extends BaseController {
         if ($res !== true) {
             $this->error($res);
         }
-        //dump($data);exit;
         $list_ = Dingdan::getAlldingdans($data);
+        //dump($list_->total());exit;
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
