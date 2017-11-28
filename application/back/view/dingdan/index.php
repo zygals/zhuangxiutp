@@ -59,9 +59,9 @@
                 <div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
                         <option value="">--请选择排序字段--</option>
-                        <option value="sum_price" <?php echo isset($_GET['paixu']) ? $_GET['sel_type'] == 'sum_price' ? 'selected' : '' : ''; ?>>总价</option>
-                        <option value="create_time" <?php echo isset($_GET['paixu']) ? $_GET['sel_type'] == 'create_time' ? 'selected' : '' : ''; ?>>添加时间</option>
-                        <option value="update_time" <?php echo isset($_GET['paixu']) ? $_GET['sel_type'] == 'update_time' ? 'selected' : '' : ''; ?>>修改时间</option>
+                        <option value="sum_price" <?php echo isset($_GET['paixu']) ? $_GET['paixu'] == 'sum_price' ? 'selected' : '' : ''; ?>>总价</option>
+                        <option value="create_time" <?php echo isset($_GET['paixu']) ? $_GET['paixu'] == 'create_time' ? 'selected' : '' : ''; ?>>添加时间</option>
+                        <option value="update_time" <?php echo isset($_GET['paixu']) ? $_GET['paixu'] == 'update_time' ? 'selected' : '' : ''; ?>>修改时间</option>
                     </select>
                     <label class="">
                         <input type="checkbox" name="sort_type" id="" value="desc" {eq name="Think.get.sort_type"
