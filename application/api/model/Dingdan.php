@@ -146,7 +146,7 @@ class Dingdan extends Base{
 		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_DEPOSIT , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
 			return ['code' => 0 , 'msg' => '有订金订单' , 'data' => $row];
 		}
-		return ['code' => __LINE__ , 'msg' => '无订金订单'];
+		return ['code' => __LINE__ ];
 	}
 	/*
 		 * 我是否下过些团购尾款订单？
@@ -160,7 +160,7 @@ class Dingdan extends Base{
 		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_FINAL , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
 			return ['code' => 0 , 'msg' => '有尾款订单' , 'data' => $row];
 		}
-		return ['code' => __LINE__ , 'msg' => '无尾款订单'];
+		return ['code' => __LINE__ ];
 	}
 
 	/**

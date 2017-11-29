@@ -22,6 +22,13 @@ class Pay extends Base {
             $row_order = OrderContact::where(['id' => $data['order_id']])->find();
             $fee = $row_order->sum_price_all;
         }
+        if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_DEPOSIT ){
+            $row_group = self::getById($row_order->group_id, new Tuangou() );
+            $count = self::where(['type'=>Dingdan::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$data['t_id']])->count();
+            if($count >= $row_group->pnum){
+                return ['code' => __LINE__ , 'msg' => '参团人数已满，不再支付'];
+            }
+        }
         if (!$row_order) {
             return ['code' => __LINE__, 'msg' => '订单不存在'];
         }
@@ -105,7 +112,7 @@ class Pay extends Base {
         }
         $row_order = Dingdan::where(['id' => $data['order_id']])->find();
         if (!$row_order) {
-            return ['code' => __LINE__, 'msg' => '订单在！'];
+            return ['code' => __LINE__, 'msg' => '订单不存在！'];
         }
         if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
