@@ -2,6 +2,7 @@
 
 namespace app\api\model;
 
+use app\back\model\Ad;
 use app\back\model\Admin;
 
 
@@ -115,6 +116,14 @@ class Pay extends Base {
             $row_order->refundno = $refund_no;
         }else{
             $out_refund_no = $row_order->refundno;//商户退款号
+        }
+        $row_shop = Shop::where( ['id' => $row_order->shop_id , 'st' => 1] )->find();
+        if(!$row_shop){
+            return ['code' => __LINE__, 'msg' => '此店铺不存在或已下架,请上架后操作！'];
+        }
+        $admin_shop = Admin::where(['shop_id' => $row_order->shop_id, 'st' => 1])->find();
+        if(!$admin_shop){
+            return ['code' => __LINE__, 'msg' => '此店铺没有添加管理员或已禁用，请先添加或改为正常！'];
         }
         $fee = $row_order->sum_price;
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
