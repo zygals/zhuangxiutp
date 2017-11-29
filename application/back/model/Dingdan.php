@@ -174,13 +174,14 @@ class Dingdan extends model {
         }
         $row_order = self::where(['id' => $data['order_id']])->find();
         if ($data['st'] == 'paid') {
-
-            $row_order->st = 2;
             self::udpateShouyi($row_order->shop_id,$row_order->sum_price);
+            $row_order->st = 2;
+
         } elseif ($data['st'] == 'tuikuan') {
-            $row_order->st = 3;
             self::udpateShouyi($row_order->shop_id,-$row_order->sum_price);
             Shop::incTradenum( $row_order->shop_id ,false);//交易量－
+            $row_order->st = 3;
+
         }
         $row_order->save();
 
