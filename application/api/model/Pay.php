@@ -111,12 +111,16 @@ class Pay extends Base {
         }
         if(empty($row_order->refundno)){
             $refund_no= Dingdan::makeRefundNo();
+            $out_refund_no = $refund_no;//商户退款号
+            $row_order->refundno = $refund_no;
+        }else{
+            $out_refund_no = $row_order->refundno;//商户退款号
         }
         $fee = $row_order->sum_price;
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $nonce_str = $this->nonce_str();//随机字符串
-        $out_refund_no = $row_order->refundno?$row_order->refundno:$refund_no;//商户退款号
+
         $out_trade_no = $row_order->orderno;//商户订单号
         $total_fee = $fee * 100;//最不为1
 
@@ -146,12 +150,10 @@ class Pay extends Base {
         $array = $this->xml($xml);//全要大写
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
-                \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);
+                \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化
                 Shop::incTradenum( $row_order->shop_id ,false);//交易量－
                 $row_order->st = Dingdan::ORDER_ST_REFUNDED;
-                $row_order->refundno = $refund_no;
                 $row_order->save();
-
                 $ret['code'] = 0;
                 $ret['msg'] = "退款申请成功";
             } else {
