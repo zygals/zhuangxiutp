@@ -24,7 +24,7 @@ class Pay extends Base {
         }
         if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_DEPOSIT ){
             $row_group = self::getById($row_order->group_id, new Tuangou() );
-            $count = self::where(['type'=>Dingdan::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$row_order->group_id])->count();
+            $count = Dingdan::where(['type'=>Dingdan::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$row_order->group_id])->count();
             if($count >= $row_group->pnum){
                 return ['code' => __LINE__ , 'msg' => '参团人数已满，不再支付'];
             }
