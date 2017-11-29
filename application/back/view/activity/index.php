@@ -76,6 +76,9 @@
             <div class="col-xs-2">
                 添加时间
             </div>
+            <div class="col-xs-1">
+                实报名
+            </div>
 			<div class="col-xs-">
 				操 作
 			</div>
@@ -107,6 +110,9 @@
                 </div>
                 <div class="col-xs-2">
                     {$row_->create_time}
+                </div>
+                <div class="col-xs-1">
+                    {$row_->pnum}
                 </div>
                <div class="col-xs-">
                    <?php if($row_->pnum>0){?>
