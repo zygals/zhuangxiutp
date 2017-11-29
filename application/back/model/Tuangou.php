@@ -71,9 +71,12 @@ class Tuangou extends model{
 //					}
 //					break;
 			}
-            $list_group[$key]['order_deposit_num'] = Dingdan::group_attend_num($group['id']);
+
 		}
 		$list_ = self::where( $where )->join( 'shop' , 'shop.id=tuangou.shop_id' )->join( 'good' , 'good.id=tuangou.good_id' )->field( $field )->order( $order )->paginate(10);
+		foreach($list_ as $k=>$val){
+            $list_[$k]['order_deposit_num'] = Dingdan::group_attend_num($val['id']);
+        }
 		return $list_;
 	}
 
