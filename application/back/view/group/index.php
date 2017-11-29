@@ -1,5 +1,5 @@
 {extend name='layout:base' /}
-{block name="title"}商品列表{/block}
+{block name="title"}团购列表{/block}
 {block name="content"}
 <style>
 	.pagination li.disabled > a, .pagination li.disabled > span {
@@ -83,6 +83,9 @@
 			<div class="col-xs-1">
 				订金
 			</div>
+            <div class="col-xs-1">
+                订金数
+            </div>
 			<div class="col-xs-1">
 				团购状态
 			</div>
@@ -137,7 +140,9 @@
 								{$row_->deposit}
 							</div>
 
-
+                        <div class="col-xs-1 " title="{$row_->order_deposit_num}">
+                            {$row_->order_deposit_num}
+                        </div>
 						<div class="col-xs-1 " title="{$row_->group_st}">
 							{$row_->group_st}
 						</div>
