@@ -70,7 +70,7 @@
             <div class="col-xs-2">
                 活动开始
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 活动结束
             </div>
             <div class="col-xs-2">
@@ -105,7 +105,7 @@
                 <div class="col-xs-2">
                     {$row_->start_time}
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-1">
                     {$row_->end_time}
                 </div>
                 <div class="col-xs-2">

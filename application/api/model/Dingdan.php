@@ -45,6 +45,11 @@ class Dingdan extends Base{
 				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款' , 6 => '限人尾款'];
 		return $status[$value];
 	}
+	public static function group_attend_num($t_id){
+        $count =  self::where(['type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$t_id])->count();
+        return $count;
+
+    }
 	/*
 	 * 添加订单-团购  不要了
 	 * zhuangxiu-zyg
@@ -183,8 +188,8 @@ class Dingdan extends Base{
 		if ( !$row_group ) {
 			return ['code' => __LINE__ , 'msg' => '团购数据没有'];
 		}
-		$count = self::where(['type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$data['t_id']])->count();
-		if($count>=$row_group->pnum){
+
+		if(self::group_attend_num($row_group->id) >= $row_group->pnum){
             return ['code' => __LINE__ , 'msg' => '参团人数已满'];
         }
 		$data_order['shop_id'] = $row_group->shop_id;
