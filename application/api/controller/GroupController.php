@@ -66,6 +66,6 @@
 			}
 
 //			echo $t_id;exit;
-            return json(['code'=>0,'msg'=>'group/pnuminfo','data'=>TuanGou::getPnumList($data['t_id']),'attend_order'=>$attend_order]);
+            return json(['code'=>0,'msg'=>'group/pnuminfo','data'=>TuanGou::getPnumList($data['t_id'])]);
         }
     }
