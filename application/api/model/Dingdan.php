@@ -50,48 +50,6 @@ class Dingdan extends Base{
         return $count;
 
     }
-	/*
-	 * 添加订单-团购  不要了
-	 * zhuangxiu-zyg
-	 * */
-	/*public function addOrderGroup($data){
-		$user_id = User::getUserIdByName($data['username']);
-		if(is_array($user_id)){
-			return $user_id;
-		}
-		$row_group = self::getById( $data['group_id'] , new Tuangou() , '*' , ['group_st' => 1] );//正在进行;
-		if ( !$row_group ) {
-			return ['code' => __LINE__ , 'msg' => 'group not find'];
-		}
-		$data_order_group = [];
-		$data_order_group['shop_id'] = $row_group->shop_id;
-		$data_order_group['user_id'] = $user_id;
-		$data_order_group['orderno'] = $this->makeTradeNo($data['username']);
-		$data_order_group['address_id'] = $data['address_id'];
-		$data_order_group['sum_price'] = $row_group->price_group;
-		$data_order_group['type'] = $row_group->getData('type');
-		$data_order_group['create_time'] =time();
-		$data_order_group['update_time'] = time();
-		if(!$new_order_id=$this->insertGetId($data_order_group)){
-			return ['code' => __LINE__ , 'msg' => 'save order error'];
-		}
-		//添加订单商品
-		$row_good = self::getById($row_group->good_id,new Good(),'name,img,unit');
-        $data_order_good['order_id'] = $new_order_id;
-        $data_order_good['shop_id'] = $row_group->shop_id;
-        $data_order_good['good_id'] = $row_group->good_id;
-        $data_order_good['num'] = 1;
-        $data_order_good['st'] = 1;
-        $data_order_good['img'] = $row_good->img;
-        $data_order_good['name'] = $row_good['name'];
-        $data_order_good['price'] =$row_group->price_group;
-        $data_order_good['unit'] =$row_good->unit;
-		if(!(new OrderGood())->save($data_order_good)){
-			return ['code' => __LINE__ , 'msg' => 'save order ok,but save order_good error'];
-		}
-		return ['code' => 0 , 'msg' => 'save group order and order_good ok','type_shop'=>self::ORDER_TYPE_SHOP,'type_group'=>''];
-
-	}*/
 
 	public static function findOne($order_id){
 		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name' )->find();

@@ -90,12 +90,6 @@
 				团购状态
 			</div>
 
-			<!--<div class="col-xs-1">
-				活动截止时间
-			</div>-->
-<!--			<div class="col-xs-1">-->
-<!--				类型-->
-<!--			</div>-->
 			<div class="col-xs-">
 				操 作
 			</div>
@@ -122,15 +116,6 @@
 								无
 							</div>
 						<?php } ?>
-<!--						--><?php //if ( $row_->type == '限量' ) { ?>
-<!--							<div class="col-xs-1 " title="已售：{$row_->already_sales}人">-->
-<!--								{$row_->store}-->
-<!--							</div>-->
-<!--						--><?php //} else { ?>
-<!--							<div class="col-xs-1 ">-->
-<!--								无-->
-<!--							</div>-->
-<!--						--><?php //} ?>
 
 						<div class="col-xs-1 " title="{$row_->price_group}">
 							{$row_->price_group}
