@@ -54,11 +54,11 @@ class Tuangou extends model{
 			switch ( $group['type'] ) {
 				case '限人':
 					//判断条件:活动正在进行,团购人数已满足最低要求
-					if ( /*$group['end_time'] > time() &&*/ $group['attend_pnum'] >= $group['pnum'] ) {
+					if ( $group['attend_pnum'] >= $group['pnum'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
 						//判断条件:活动已结束,团购人数不满足最低要求
-					} else
-                     ( /*$group['end_time'] <= time() &&*/ $group['attend_pnum'] < $group['pnum'] ) {
+					} elseif
+                     ( $group['attend_pnum'] < $group['pnum'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 1] );
 					}
 					break;
