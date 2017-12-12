@@ -87,8 +87,11 @@ class Base extends model {
         $appid=config('wx_appid');
         $appsecret=config('wx_appsecret');
         $file = file_get_contents("./access_token.json",true);
+
         $result = json_decode($file,true);
+
         if (time() > $result['expires'] || $file==''){
+
             $data = array();
             $data['access_token'] = $this->getNewToken($appid,$appsecret);
             $data['expires']=time()+7000;
@@ -102,9 +105,10 @@ class Base extends model {
         }
     }
     private function getNewToken($appid,$appsecret){
+
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$appsecret}";
-        $access_token_Arr =   $this->http_request($url);
-        //dump($access_token_Arr);
+        $access_token_Arr =   json_decode($this->http_request($url),true);
+
         return $access_token_Arr['access_token'];
 
 
