@@ -88,7 +88,6 @@ class Pay extends Base {
             $tmp['package'] = 'prepay_id=' . $array['PREPAY_ID'];
             $tmp['signType'] = 'MD5';
             $tmp['timeStamp'] = "$time";
-
             $data_return['code'] = 0;
             $data_return['timeStamp'] = "$time";//时间戳
             $data_return['nonceStr'] = $nonce_str;//随机字符串
