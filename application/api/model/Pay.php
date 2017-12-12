@@ -95,7 +95,7 @@ class Pay extends Base {
             $data_return['package'] = 'prepay_id=' . $array['PREPAY_ID'];//统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*
             $data_return['paySign'] = $this->sign($tmp);//签名,具体签名方案参见微信公众号支付帮助文档;
             $data_return['out_trade_no'] = $out_trade_no;
-            $data_return['prepay_id'] = $array['PREPAY_ID'];
+           // $data_return['prepay_id'] = $array['PREPAY_ID'];
 
         } else {
             $data_return['code'] = __LINE__;
