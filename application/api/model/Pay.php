@@ -10,14 +10,9 @@ use app\back\model\Admin;
 class Pay extends Base {
     public function pay_ok(){
 
-        $fc = file_get_contents("php://input");
-        $xml = simplexml_load_string($fc);
-        $fp = fopen('xml.txt','a');
-        $str = 'appid:'.(string)$xml->appid."return_code:".(string)$xml->return_code."result_code:".(string)$xml->result_code.'is_string:'.is_string($fc)."\n";
-        fwrite($fp,$str);
-        return 1;
     }
     public function requestWxPay($data, $request) {
+
         $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return json($user_id);
@@ -48,8 +43,8 @@ class Pay extends Base {
         $mch_id = config('wx_mchid');
         $body = '55家收款';
         $nonce_str = $this->nonce_str();//随机字符串
-        $notify_url = $request->domain() . url('pay_ok');
-//		dump($notify_url);exit;
+        $notify_url =  $request->domain() .'/zhuangxiutp/public/notify.php';
+       //dump($notify_url);exit;
         $openid = User::where(['id' => $user_id])->value('open_id');
         $out_trade_no = $row_order->orderno;//商户订单号
         $spbill_create_ip = config('wx_spbill_create_ip');
