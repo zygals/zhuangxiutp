@@ -88,7 +88,7 @@ class Base extends model {
         $appsecret=config('wx_appsecret');
         $file = file_get_contents("./access_token.json",true);
         $result = json_decode($file,true);
-        if (time() > $result['expires']){
+        if (time() > $result['expires'] || $file==''){
             $data = array();
             $data['access_token'] = $this->getNewToken($appid,$appsecret);
             $data['expires']=time()+7000;
