@@ -44,7 +44,7 @@ class TplMessage extends Base {
         ];
 
         dump($res = $this->http_request($url,json_encode($arr,JSON_UNESCAPED_UNICODE)));
-
+        dump();
 
     }
 }
