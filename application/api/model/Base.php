@@ -84,8 +84,8 @@ class Base extends model {
     }
 
     public function getToken(){
-        $appid=config('appid');
-        $appsecret=config('appsecret');
+        $appid=config('wx_appid');
+        $appsecret=config('wx_appsecret');
         $file = file_get_contents("./access_token.json",true);
         $result = json_decode($file,true);
         if (time() > $result['expires']){
