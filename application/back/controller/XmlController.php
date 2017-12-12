@@ -20,12 +20,9 @@ class XmlController extends BaseController {
         return $this->fetch('create',['act'=>'save']);
     }
     public function save(Request $request){
-        $data = $request->post();
-        $fc = file_get_contents("php://input");
-        $xml = simplexml_load_string($fc);
-     dump($xml);
-        $fp = fopen('xml.txt','w');
-        fwrite($fp,$data['cont']);
+
+        $fp = fopen('xml.txt','a');
+        fwrite($fp,"sdasd\n");
         //$xml = $data['cont'];
        // $xml = simplexml_load_string($data['cont']);
         //print_r( (string) $xml->appid);
