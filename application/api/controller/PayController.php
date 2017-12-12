@@ -20,14 +20,13 @@ class PayController extends BaseController {
 	 * @order_id :dingdan表中id
 	 * */
     public function pay_now(Request $request) {
-        $data=[];
-//        dump($request->domain());
-       /* $rules = ['username' => 'require', 'order_id' => 'require|number','type_'=>'require'];
+
+      $rules = ['username' => 'require', 'order_id' => 'require|number','type_'=>'require'];
 		$data = $request->param();
         $res = $this->validate($data, $rules);
         if ($res !== true) {
             return json(['code' => __LINE__, 'msg' => $res]);
-        }*/
+        }
 		return json((new Pay)->requestWxPay($data,$request));
 
     }
