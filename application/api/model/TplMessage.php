@@ -34,7 +34,7 @@ class TplMessage extends Base {
                     "color"=> '#173177',
                 ],
                 'keyword2'=>[
-                    "value"=> $row_order->sum_price,
+                    "value"=> $row_order->sum_price.'元',
                     "color"=> '#173177',
                 ],
                 'keyword3'=>[
