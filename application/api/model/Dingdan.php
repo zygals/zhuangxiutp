@@ -401,19 +401,11 @@ class Dingdan extends Base{
 			}
 			$row_order->st = self::ORDER_ST_PAID;
 			//全款被订金优惠
-            /*if($data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL && !empty($data['order_id_deposit']) && $data['order_id_deposit']>0  ){
-                //用了订金
-                $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
 
-                $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
-                $row_deposit->orderno_youhui = $row_order->orderno;
-                $row_order->sum_price_youhui = $row_deposit->sum_price;
-                $row_order->orderno_youhui= $row_deposit->orderno;//被优惠订单
-                $row_deposit->save();
-            }*/
 			if ( !$row_order->save() ) {
 				return ['code' => 0 , 'msg' => '支付状态失败'];
 			}
+
 			//订单支付完成，则商家收益也增加
 			$admin_shop = Admin::where( ['shop_id' => $row_order->shop_id , 'st' => 1] )->find();
 			if ( !$admin_shop ) {
@@ -434,7 +426,8 @@ class Dingdan extends Base{
                 self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
 			}
 
-
+            //send template message
+            (new TplMessage())->sendPayOkMsg($row_order,$data['prepay_id']);
 			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );

@@ -95,6 +95,7 @@ class Pay extends Base {
             $data_return['package'] = 'prepay_id=' . $array['PREPAY_ID'];//统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*
             $data_return['paySign'] = $this->sign($tmp);//签名,具体签名方案参见微信公众号支付帮助文档;
             $data_return['out_trade_no'] = $out_trade_no;
+            $data_return['prepay_id'] = $array['PREPAY_ID'];
 
         } else {
             $data_return['code'] = __LINE__;
@@ -216,26 +217,7 @@ class Pay extends Base {
     }
 
 
-//curl请求啊
-    function http_request($url, $data = null, $headers = array()) {
-        $curl = curl_init();
-        if (count($headers) >= 1) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        }
-        curl_setopt($curl, CURLOPT_URL, $url);
 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-        if (!empty($data)) {
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($curl);
-        curl_close($curl);
-        return $output;
-    }
 
     //限款的请求
     function http_post($url, $vars, $second = 30, $aHeader = array()) {
