@@ -14,6 +14,16 @@ class TplMessage extends Base {
         $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=".$access_token;
         $user = User::getById($row_order->user_id,new User(),'open_id');
         $shop = Shop::getById($row_order->shop_id,new Shop());
+
+        $good_name='';
+        if($row_order->getData('type')==Dingdan::ORDER_TYPE_SHOP){
+            $list_order_good = OrderGood::getGood($row_order->id);
+            foreach ($list_order_good as $good){
+                $good_name.=$good['good_name'].',';
+            }
+            trim($good_name,',');
+
+        }
         $arr = [
             'touser'=>$user->open_id,
             "template_id"=>config('template_id_payok'),
@@ -31,16 +41,24 @@ class TplMessage extends Base {
                     "value"=> $row_order->create_time,
                     "color"=> '#173177',
                 ],
+                'keyword4'=>[
+                    "value"=> $good_name,
+                    "color"=> '#173177',
+                ],
+                'keyword5'=>[
+                    "value"=> $row_order->update_time,
+                    "color"=> '#173177',
+                ],
                 'keyword6'=>[
-                    "value"=> $row_order->type,
+                    "value"=> $row_order['type'],
                     "color"=> '#173177',
                 ],
                 'keyword7'=>[
-                    "value"=> $shop->name,
+                    "value"=> $shop['name'],
                     "color"=> '#173177',
                 ],
             ],
-            "emphasis_keyword"=>"keyword1.DATA" ,
+            "emphasis_keyword"=>"keyword2.DATA" ,
         ];
 
         dump($res = $this->http_request($url,json_encode($arr,JSON_UNESCAPED_UNICODE)));
