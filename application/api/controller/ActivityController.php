@@ -151,5 +151,21 @@ class ActivityController extends BaseController {
         return json(ActivityAttend::getMyAttend($data['username']));
     }
 
+    /*
+     * 删除报名列表
+     * zhuangxiu-zyg
+     * */
+    public function del_attend(Request $request){
+        $data= $request->post();
+        $rule = ['id' => 'require|number'];
+        $res = $this->validate($data, $rule);
+        //dump( $res);exit;
+        if ($res !== true) {
+            return json(['code' => __LINE__, 'msg' => $res]);
+        }
+        return json(ActivityAttend::delMyAttend($data['id']));
+    }
+
+
 
 }
