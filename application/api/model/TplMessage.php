@@ -15,19 +15,19 @@ class TplMessage extends Base {
         $user = User::getById($row_order->user_id,new User(),'open_id');
         $shop = Shop::getById($row_order->shop_id,new Shop());
 
-        $good_name='';
-        if($row_order->getData('type')==Dingdan::ORDER_TYPE_SHOP){
+        $good_name='无';
+        if(in_array($row_order->getData('type'),[Dingdan::ORDER_TYPE_SHOP,Dingdan::ORDER_TYPE_SHOP_DEPOSIT,Dingdan::ORDER_TYPE_SHOP_MONEY_ALL])){
             $list_order_good = OrderGood::getGood($row_order->id);
             foreach ($list_order_good as $good){
                 $good_name.=$good['good_name'].',';
             }
             trim($good_name,',');
-
         }
         $arr = [
             'touser'=>$user->open_id,
             "template_id"=>config('template_id_payok'),
             "form_id"=>$prepay_id,
+            "page"=>'index',
             "data"=>[
                 'keyword1'=>[
                     "value"=> $row_order->orderno,
