@@ -30,7 +30,7 @@
                                     <label class="control-label" >
                                         <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
                                     <label class="control-label">
-                                        <input type="radio" name="st" id="" value="0" <?php echo $row_->st=='关'?'checked':''?>> 关</label>
+                                        <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='关'?'checked':''?>> 关</label>
                                 </div>
                             </div>
                         <?php }?>
