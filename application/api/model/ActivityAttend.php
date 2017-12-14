@@ -25,6 +25,8 @@ return ['code'=>__LINE__];
        $row = self::where(['id'=>$id])->find();
        $row->st=2;
         $row->save();
+        $row_activity= Activity::where(['id'=>$row->activity_id])->find();
+        $row_activity->setDec('pnum');
         return ['code'=>0,'msg'=>'删除成功'];
     }
 
