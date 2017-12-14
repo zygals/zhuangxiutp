@@ -6,6 +6,7 @@ use app\back\model\Article;
 use app\back\model\Base;
 use app\back\model\Cate;
 use app\back\model\School;
+use think\Cache;
 use think\Request;
 
 
@@ -117,7 +118,7 @@ class ArticleController extends BaseController {
             $data['img'] = $arr['save_url_path'];
         }
         if($this->saveById($data['id'],new Article(),$data)){
-
+            Cache::clear();
             $this->success('编辑成功', $referer, '', 1);
         }else{
             $this->error('编辑失败', $referer, '', 3);
@@ -132,6 +133,7 @@ class ArticleController extends BaseController {
     public function delete(Request $request) {
         $data = $request->param();
         if( $this->deleteStatusById($data['id'],new Article())){
+            Cache::clear();
             $this->success('删除成功', $data['url'], '', 1);
         }else{
             $this->error('删除失败', $data['url'], '', 3);

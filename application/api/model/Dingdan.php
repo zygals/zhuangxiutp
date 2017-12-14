@@ -492,7 +492,9 @@ class Dingdan extends Base{
         return ['code'=>0,'data'=>$row_];
 
     }
-
+/*
+ * 没有用，是测试事务的
+ * */
     public static function testshiwu(){
         $data = ['orderno' => 'orderno5'];
         Db::startTrans();

@@ -2,9 +2,7 @@
 
 namespace app\back\controller;
 
-
 use app\back\model\Activity;
-
 use app\back\model\ActivityAttend;
 use app\back\model\Base;
 use think\Request;
@@ -193,6 +191,7 @@ class ActivityController extends BaseController {
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         if ($this->saveById($data['id'], new Activity(), $data)) {
+
             $this->success('编辑成功', $referer, '', 1);
         } else {
             $this->error('没有修改', $referer, '', 1);

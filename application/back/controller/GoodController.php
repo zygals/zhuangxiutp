@@ -10,6 +10,7 @@ use app\back\model\Admin;
 use app\back\model\OrderGood;
 use app\back\model\Shop;
 use app\back\model\Tuangou;
+use think\Cache;
 use think\Db;
 use think\Request;
 
@@ -113,6 +114,7 @@ class GoodController extends BaseController {
         }
         $Good = new Good();
         $Good->save($data);
+        Cache::clear();
         $this->success('添加成功', 'index', '', 1);
     }
 
@@ -201,7 +203,7 @@ class GoodController extends BaseController {
         }
 
         if ($this->saveById($data['id'], new Good(), $data)) {
-
+            Cache::clear();
             $this->success('编辑成功', $referer, '', 1);
         } else {
             $this->error('编辑失败', $referer, '', 1);
@@ -232,6 +234,7 @@ class GoodController extends BaseController {
         $row_ = $this->findById($data['id'], new Good());
         $row_->st = 2;
         $row_->save();
+        Cache::clear();
         $this->success('下架成功', $data['url'], '', 1);
     }
 
@@ -245,6 +248,7 @@ class GoodController extends BaseController {
         $data = $request->param();
 
         if ($this->deleteStatusById($data['id'], new Good())) {
+            Cache::clear();
             $this->success('删除成功', $data['url'], '', 1);
         } else {
             $this->error('删除失败', $data['url'], '', 3);

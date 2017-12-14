@@ -11,6 +11,7 @@ use app\back\model\Shop;
 use app\back\model\Cate;
 
 use app\back\model\ShopAddress;
+use think\Cache;
 use think\Request;
 
 
@@ -94,6 +95,7 @@ class ShopController extends BaseController{
 		}
 		$shop = new Shop();
 		$shop->save( $data );
+        Cache::clear();
 		$this->success( '添加成功' , 'index' , '' , 1 );
 	}
 	//add shop_address
@@ -177,7 +179,7 @@ class ShopController extends BaseController{
 			$data['qrcode'] = $arr['save_url_path'];
 		}
 		if ( $this->saveById( $data['id'] , new Shop() , $data ) ) {
-
+            Cache::clear();
 			$this->success( '编辑成功' , $referer , '' , 1 );
 		} else {
 			$this->error( '没有修改内容' , $referer , '' , 1 );
@@ -201,6 +203,7 @@ class ShopController extends BaseController{
 		if ( $ret = $this->deleteStatusById( $data['id'] , new Shop() ) ) {
 			//同时删除管理员
 			$this->deleteStatusById( $ret->admin_id , new Admin() );
+            Cache::clear();
 			$this->success( '删除成功' , $data['url'] , '' , 1 );
 		} else {
 			$this->error( '删除失败' , $data['url'] , '' , 3 );
@@ -238,6 +241,7 @@ class ShopController extends BaseController{
 		( new ShopAddress() )->saveAddress( $data );
 		$row_shop->is_add_address = 1;
 		$row_shop->save();
+        Cache::clear();
 		$this->success( '添加成功' , $referer , '' , 1 );
 	}
 
@@ -265,6 +269,7 @@ class ShopController extends BaseController{
 
 		$referer = $data['referer'];
 		unset( $data['referer'] );
+        Cache::clear();
 		$this->success( '修改成功' , $referer , '' , 1 );
 
 	}
@@ -278,6 +283,7 @@ class ShopController extends BaseController{
         $row_=$this->findById($data['id'],new shop());
         $row_->st=2; //不显示前台
         $row_->save();
+        Cache::clear();
         $this->success( '修改成功' , $back, '' , 1 );
 	}
 
