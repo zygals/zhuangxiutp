@@ -47,7 +47,7 @@ class Pay extends Base {
             $body = '55家-'.$shop_name.'订金';
         }
         if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
-            $body = '55家'.$shop_name.'全款';
+            $body = '55家-'.$shop_name.'全款';
         }
         $nonce_str = $this->nonce_str();//随机字符串
         $notify_url =  $request->domain() .'/zhuangxiutp/public/notify.php';

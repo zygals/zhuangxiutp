@@ -12,6 +12,7 @@ use app\back\model\Cate;
 use app\back\model\Good;
 use app\back\model\OrderGood;
 use app\back\model\User;
+use think\Cache;
 use think\Request;
 
 
@@ -97,6 +98,7 @@ class DingdanController extends BaseController {
         if ($row_=$this->deleteStatusById($data['id'], new Dingdan())) {
             //删除订单
             Shop::increaseOrdernum( $row_->shop_id ,false);
+            Cache::clear();
             $this->success('删除成功',  $data['url'], '', 1);
         } else {
             $this->error('删除失败',  $data['url'], '', 3);
