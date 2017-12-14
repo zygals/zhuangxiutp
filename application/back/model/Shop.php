@@ -46,7 +46,7 @@ class Shop extends Base {
             $where['shop.st'] = 2;
         }
         if (!empty($data['name_'])) {
-            $where['shop.name|shop.truename|city|brand'] = ['like', '%' . $data['name_'] . '%'];
+            $where['shop.name|shop.truename|city|brand|shop.id'] = ['like', '%' . $data['name_'] . '%'];
         }
         if (!empty($data['to_top'])) {
             $where['shop.to_top'] = $data['to_top'];
