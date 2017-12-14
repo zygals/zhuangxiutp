@@ -42,6 +42,13 @@ class Pay extends Base {
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $body = '55家收款';
+        $shop_name = Shop::where(['id'=>$row_order->shop_id])->value('name');
+        if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT){
+            $body = '55家-'.$shop_name.'订金';
+        }
+        if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
+            $body = '55家'.$shop_name.'全款';
+        }
         $nonce_str = $this->nonce_str();//随机字符串
         $notify_url =  $request->domain() .'/zhuangxiutp/public/notify.php';
        //dump($notify_url);exit;
