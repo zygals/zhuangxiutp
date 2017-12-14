@@ -126,7 +126,7 @@ class ActivityController extends BaseController {
         if (is_array($user_id)) {
             return json($user_id);
         }
-        $row_attend = ActivityAttend::where(['user_id' => $user_id, 'activity_id' => $data['activity_id']])->find();
+        $row_attend = ActivityAttend::where(['user_id' => $user_id, 'activity_id' => $data['activity_id'],'st'=>1])->find();
 
         if ($row_attend) {
             $row_attend->time_to = date('Y-m-d H:i:s', $row_attend->time_to);
