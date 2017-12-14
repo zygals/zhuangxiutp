@@ -96,7 +96,7 @@ class ActivityController extends BaseController {
         }
 
         //is add ?
-        $row_attend = ActivityAttend::where(['user_id' => $user_id, 'activity_id' => $data['activity_id']])->find();
+        $row_attend = ActivityAttend::where(['user_id' => $user_id, 'activity_id' => $data['activity_id'],'st'=>1])->find();
         if ($row_attend) {//not add
             $row_attend->save($data);
             return json(['code' => '0', 'msg' => 'update attend ok']);
