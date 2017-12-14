@@ -52,7 +52,7 @@ class Shop extends Base{
 			$where['shop.to_top'] = 1;
 			$order = "shop.update_time desc";
 		}
-		$list_ = self::where( $where )->join( 'cate' , 'shop.cate_id=cate.id' )->order( $order )->field( $field )->cache()->paginate(8);
+		$list_ = self::where( $where )->join( 'cate' , 'shop.cate_id=cate.id' )->order( $order )->field( $field )->paginate(8);
 		if ( $list_->isEmpty() ) {
 			return ['code' => __LINE__ , 'msg' => '暂无数据'];
 		}
