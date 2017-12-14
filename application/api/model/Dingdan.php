@@ -4,6 +4,7 @@ namespace app\api\model;
 
 use app\back\model\OrderGood;
 use app\back\model\Tuangou;
+use think\Cache;
 use think\Db;
 use think\Model;
 
@@ -272,6 +273,7 @@ class Dingdan extends Base{
 			//添加商家订单表end
 			//给商家订单量增加一个
 			Shop::increaseOrdernum( $shop->shop_id );
+            Cache::clear();
 			//  添加订单商品
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
