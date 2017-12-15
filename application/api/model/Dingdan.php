@@ -19,7 +19,7 @@ class Dingdan extends Base{
 	const ORDER_ST_ADMIN_DELETE = 0;
 	const ORDER_ST_YOUHUI_GOOD = 7;
 	const ORDER_ST_YOUHUI_QUANKUAN = 8;
-	const GOOT_ST_DAIFAHUO = 1;
+	const ORDER_ST_FINISH_DEL = 9;//	const GOOT_ST_DAIFAHUO = 1;
 	const GOOT_ST_DAIFANKUI = 3; //已收货
 	const GOOT_ST_FANKUIOK = 4; //已评价
 	const ORDER_TYPE_SHOP = 1; //单商家订单
@@ -30,8 +30,8 @@ class Dingdan extends Base{
 	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
 	//public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
-	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款'];
+	public function getStAttr($value) {
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
 		return $status[$value];
 	}
 
@@ -348,7 +348,8 @@ class Dingdan extends Base{
 		}
 		$where = ['dingdan.st' => ['neq' , 0] , 'user_id' => $user_id];
 		$where2 = ['dingdan.st' => ['neq' , self::ORDER_ST_USER_DELETE]];
-		$list_order = self::where( $where )->where( $where2 )->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
+		$where3 = ['dingdan.st' => ['neq' , self::ORDER_ST_FINISH_DEL]];
+		$list_order = self::where( $where )->where( $where2 )->where($where3)->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
 		if ( $list_order->isEmpty() ) {
 			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
@@ -382,8 +383,13 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
-			$row_->st = self::ORDER_ST_USER_DELETE;
-		}elseif ( $data['st'] == 'refundByUser' ) {
+		    if($row_->st==self::ORDER_ST_USER_CANCEL || $row_->st==self::ORDER_ST_REFUNDED){
+                $row_->st = self::ORDER_ST_USER_DELETE;
+            }elseif ($row_->st==self::ORDER_ST_USER_CANCEL){
+                $row_->st = self::ORDER_ST_FINISH_DEL;
+            }
+
+        }elseif ( $data['st'] == 'refundByUser' ) {
             $row_->st = self::ORDER_ST_USER_REFUND;
         }
 		$row_->save();
