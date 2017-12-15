@@ -6,7 +6,7 @@ use think\Db;
 
 class Withdraw extends Base{
     public static $stStatus  = [1=>'待转账',2=>'转账成功'];
-
+    protected $dateFormat='Y-m-d H:i:s';
 
     public function getStAttr($value){
         $status = [1 => '待转账',2 => '转账成功'];
