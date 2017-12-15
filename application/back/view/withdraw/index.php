@@ -16,11 +16,11 @@
         <div class="row">
             <form method="get" action="{:url('index')}" id="searchForm">
                 <div class="col-xs-8">
-                    <input type="text" id="" name="time_from" value="{$Think.get.time_from}"
+                    <!--<input type="text" id="" name="time_from" value="{$Think.get.time_from}"
                            class="form-control input-sm date_input" placeholder="从？如：2017-02-03">
 
                     <input type="text" id="" name="time_to" value="{$Think.get.time_to}"
-                           class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">
+                           class="form-control input-sm date_input" placeholder="到?如：2017-03-03"">-->
 
                     <input type="text" name="cash" value="" class="form-control input-sm"
                            placeholder="输入金额">
@@ -34,19 +34,15 @@
                         <?php } ?>
                     </select>
 
-                    <select name="cash_st" id="" class="form-control">
-                        <option value="">--资金状态--</option>
-                        <?php foreach (app\back\model\Withdraw::$cashStStatus as $m => $n) { ?>
-                            <option value="{$m}" <?php echo isset($_GET['cash_st']) ? $m === (int)$_GET['cash_st'] ? 'selected' : '' : ''; ?>>
-                                {$n}
-                            </option>
-                        <?php } ?>
-                    </select>
+
 
                 </div>
                 <div class=" col-xs-4" style=" padding-right: 40px;color:inherit">
                     <select class=" form-control" name="paixu">
                         <option value="">--请选择排序字段--</option>
+                        <option value="cash" {eq name="Think.get.paixu" value="cash"
+                                }selected{
+                        /eq}>金额 </option>
                         <option value="create_time" {eq name="Think.get.paixu" value="create_time"
                                 }selected{
                         /eq}>添加时间</option>
@@ -70,24 +66,26 @@
             <div class="col-xs-1 ">
                 编号
             </div>
-            <div class="col-xs-1 ">
+            <div class="col-xs-2 ">
                 帐号
             </div>
-            <div class="col-xs-1 ">
-                真实姓名
-                </div>
+            <div class="col-xs-2 ">
+                商家姓名
+             </div>
             <div class="col-xs-1 ">
                 申请金额
             </div>
             <div class="col-xs-1 ">
-                申请状态
-            </div>
-            <div class="col-xs-1">
-                资金状态
+                状态
             </div>
             <div class="col-xs-2">
                 申请时间
             </div>
+
+            <div class="col-xs-2">
+                成功时间
+            </div>
+
             <div class="col-xs-">
                 <?php if(!\app\back\model\Admin::isShopAdmin()){ ?>
                 操作
@@ -101,29 +99,33 @@
                         <div class="col-xs-1">
                             {$row_->id}
                         </div>
-                        <div class="col-xs-1" title="admin_id">
+                        <div class="col-xs-2" title=" {$row_->admin_name}">
                             {$row_->admin_name}
                         </div>
-                        <div class="col-xs-1" title="admin_truename">
+                        <div class="col-xs-2" title=" {$row_->admin_truename}">
                             {$row_->admin_truename}
                         </div>
-                        <div class="col-xs-1 " title=" ">
+                        <div class="col-xs-1 " title="{$row_->cash}元">
                             {$row_->cash}元
                         </div>
                         <div class="col-xs-1">
                             {$row_->st}
                         </div>
-                        <div class="col-xs-1">
-                            {$row_->cash_st}
-                        </div>
+
                         <div class="col-xs-2">
                             {$row_->create_time}
                         </div>
+<?php if($row_->st=='转账成功'){?>
+                        <div class="col-xs-2">
+                            {$row_->update_time}
+                        </div>
+<?php }?>
                         <div class="col-xs-">
-                            <?php if(!\app\back\model\Admin::isShopAdmin()){ ?>
-                                <a href="{:url('editSt')}?id={$row_->id}">
-                                    <button class="btn btn-success btn-xs edit_" title="修改">修改</button>
-                                </a>
+                            <?php if(!\app\back\model\Admin::isShopAdmin() && $row_->st=='待转账'){ ?>
+
+                                    <button class="btn btn-danger btn-xs edit_" title="通过?" onclick
+                                    ="transferOk(this)" data_cash="{$row_->cash}" data_id="{$row_->id}">通过</button>
+
                             <?php }?>
 
                         </div>
@@ -175,9 +177,33 @@
     </div>
 </div>
 <script>
-    function modalShow(url, id) {
-        window.open(url + "?id=" + id, 'orderDetail', "width=900,height=500,left=200,top=180,location=no,menubar=0");
-    }
+   function transferOk(obj) {
+       var money= $(obj).attr('data_cash');
+       var id= $(obj).attr('data_id');
+       if(confirm('确定财务已线下转账了 '+money+'元 ？，同意后商户收益会相应减少。')){
+           var admin_pass = prompt('请输入管理员密码');
+           if(admin_pass==''){
+               alert('密码不能为空');
+               return false;
+           }
+           $.ajax({
+               method:'post',
+               url:'{:url("updateSt")}',
+               data:{
+                    pass_admin:admin_pass,
+                    withdraw_id:id,
+               },
+               success:function (data) {
+                   alert(data.msg);
+                   if(data.code==0){
+                       window.location.reload();
+                   }
+               }
+               
+           });
+
+       }
+   }
     function del_(obj) {
         var id = $(obj).attr('data-id');
         $('#del_id').val(id);

@@ -100,4 +100,15 @@ class Admin extends Base {
 	public static function findShopAdmin($shop_id){
 		return self::where(['shop_id'=>$shop_id,'st'=>1])->find();
 	}
+/*
+ * 管理员密码不对，返回数组
+ * */
+	public static function passRight($pass_admin){
+        $admin = Admin::where(['type' => 1])->find();
+        //dump($admin);exit;
+        if (Admin::pwdGenerate($pass_admin) !== $admin->pwd) {
+            return ['code' => __LINE__, 'msg' => '密码有误！'];
+        }
+        return true;
+    }
 }
