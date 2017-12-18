@@ -21,6 +21,8 @@ class Dingdan extends model {
         return $status[$value];
     }
 
+
+
     public function getTypeAttr($value) {
         $status = [1 => '普通',
             3 => '限人', 4 => '商家订金', 5 => '商家全款', 6 => '限人尾款'];
@@ -37,6 +39,16 @@ class Dingdan extends model {
             , 'left')->join('order_contact', 'order_contact.id=dingdan.order_contact_id', 'left')->field('dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name,order_contact.orderno orderno_contact')->find();
 
         return $row_;
+    }
+
+    public function saveGoodSt($order_id) {
+        $row_ = self::where(['id'=>$order_id])->find();
+        if($row_->goodst=='已发货'){
+            return false;
+        }
+        $row_->goodst=2;
+        $row_->save();
+        return true;
     }
     /*
      *   分页查询

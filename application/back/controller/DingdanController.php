@@ -115,6 +115,17 @@ class DingdanController extends BaseController {
 			$this->error('状态修改失败',$referer, '', 1);
 		}
 	}
+
+    public function change_order_goodst(Request $request) {
+        $data = $request->param();
+        $referer = $request->header()['referer'];
+        //dump($referer);exit;
+        if((new Dingdan())->saveGoodSt($data['order_id'])){
+            $this->success('状态修改成功',$referer,'',1);
+        }else{
+            $this->error('状态修改失败',$referer, '', 1);
+        }
+	}
 /*
  * 管理员改为已支付
  * */
