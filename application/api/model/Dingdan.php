@@ -19,7 +19,8 @@ class Dingdan extends Base{
 	const ORDER_ST_ADMIN_DELETE = 0;
 	const ORDER_ST_YOUHUI_GOOD = 7;
 	const ORDER_ST_YOUHUI_QUANKUAN = 8;
-	const ORDER_ST_FINISH_DEL = 9;//	const GOOT_ST_DAIFAHUO = 1;
+	const ORDER_ST_FINISH_DEL = 9;//
+    const GOOT_ST_DAIFAHUO = 1;
 	const GOOT_ST_DAIFANKUI = 3; //已收货
 	const GOOT_ST_FANKUIOK = 4; //已评价
 	const ORDER_TYPE_SHOP = 1; //单商家订单
