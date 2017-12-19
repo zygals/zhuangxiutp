@@ -148,12 +148,7 @@
                         </div>
 
                         <div class="col-xs-1">
-                            <?php if ($row_->type == '商家订金' || $row_->type == '商家全款') { ?>
-                                无
-                            <?php } else { ?>
                                 {$row_->goodst}
-                            <?php } ?>
-
                         </div>
                         <div class="col-xs-">
                             <button class="btn btn-success btn-xs "
