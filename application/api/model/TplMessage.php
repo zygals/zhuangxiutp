@@ -61,8 +61,7 @@ class TplMessage extends Base {
             "emphasis_keyword"=>"keyword2.DATA" ,
         ];
 
-        dump($res = $this->http_request($url,json_encode($arr,JSON_UNESCAPED_UNICODE)));
-        dump();
+        $this->http_request($url,json_encode($arr,JSON_UNESCAPED_UNICODE));
 
     }
 }
