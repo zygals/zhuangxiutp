@@ -42,7 +42,7 @@ class Fankui extends Base {
             $where['fankui.create_time']=[['gt',strtotime($time_from)],['lt',strtotime($time_to)]];
         }*/
         if(Admin::isShopAdmin()){
-            $where['shop_id']=session('admin_zhx')->shop_id;
+            $where['fankui.shop_id']=session('admin_zhx')->shop_id;
         }
         if(!empty($data['paixu'])){
             $where['star'] = $data['paixu'];
