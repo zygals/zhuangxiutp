@@ -35,13 +35,14 @@
                             </div>
                         <?php }?>
 
-
+<?php if(\app\back\model\Admin::isAdmin()){?>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label">排序：</label>
                             <div class="col-xs-8 ">
                                 <input type="number" class="form-control input-sm duiqi" name='sort' value="{$row_->sort}" id="" placeholder=""><span class="tip">小的在前</span>
                             </div>
                         </div>
+                        <?php }?>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>经营类目：</label>
                             <div class="col-xs-8 ">

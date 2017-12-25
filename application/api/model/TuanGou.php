@@ -7,7 +7,7 @@
     class TuanGou extends Base{
         protected $table = 'tuangou';
 		public function getGroupStAttr($groupalue){
-			$status = [1 => '正在进行' , 2 => '活动成功'/* , 3 => '活动失败'*/];
+			$status = [1 => '正在进行' , 2 => '活动成功'];
 			return $status[$groupalue];
 		}
         /**
@@ -25,12 +25,12 @@
         /**
          * 查询历史的团购活动
          */
-        public static function getHistory(){
+        /*public static function getHistory(){
             $field = 'good.id good_id,good.img good_img,good.name good_name,price_group,good.price good_price,tuangou.id,article.id a_id';
             $where = ['tuangou.group_st'=>['=',2],'tuangou.type'=>['=',2],'article_st'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->join('article','article.tuangou_id=tuangou.id')->field($field)->paginate();
             return $list_;
-        }
+        }*/
 
         /**
          * 获取限量团购商品列表

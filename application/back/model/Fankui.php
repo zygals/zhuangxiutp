@@ -30,7 +30,7 @@ class Fankui extends Base {
     public static function getListPage($data=[]){
         $order = 'create_time desc';
         $where = ['fankui.st'=>['<>',0]];
-        $time_from = isset($data['time_from'])?$data['time_from']:'';
+        /*$time_from = isset($data['time_from'])?$data['time_from']:'';
         $time_to = isset($data['time_to'])?$data['time_to']:'';
         if(!empty($time_from)){
             $where['fankui.create_time']=['gt',strtotime($time_from)];
@@ -40,6 +40,9 @@ class Fankui extends Base {
         }
         if(!empty($time_to) && !empty($time_from)){
             $where['fankui.create_time']=[['gt',strtotime($time_from)],['lt',strtotime($time_to)]];
+        }*/
+        if(Admin::isShopAdmin()){
+            $where['shop_id']=session('admin_zhx')->shop_id;
         }
         if(!empty($data['paixu'])){
             $where['star'] = $data['paixu'];

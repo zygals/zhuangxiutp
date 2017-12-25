@@ -18,10 +18,10 @@
         /**
          * 历史团购活动
          */
-        public function history()
+     /*   public function history()
         {
             return json(['code'=>0,'msg'=>'group/history','data'=>TuanGou::getHistory()]);
-        }
+        }*/
 
         /**
          * 查看限量团购详情页
