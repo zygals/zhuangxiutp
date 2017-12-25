@@ -55,7 +55,7 @@ class Fankui extends Base {
     public static function getEvalute($data){
         $user_id = User::getUserIdByName($data);
         $field = 'fankui.*,nickname,vistar';
-        if(!empty($data['star'])){
+        if(empty($data['star'])){
             $where = ['user_id'=>$user_id,'fankui.st'=>['<>',0]];
         }else{
             $where = ['user_id'=>$user_id,'fankui.st'=>['<>',0],'star'=>$data['star']];
