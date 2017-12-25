@@ -55,10 +55,10 @@ class Fankui extends Base {
     public static function getEvalute($data){
         $user_id = User::getUserIdByName($data);
         $field = 'fankui.*,nickname,vistar';
-        if(!empty($data['hp'])){
+        if(!empty($data['star'])){
             $where = ['user_id'=>$user_id,'fankui.st'=>['<>',0]];
         }else{
-            $where = ['user_id'=>$user_id,'fankui.st'=>['<>',0],'star'=>$data['hp']];
+            $where = ['user_id'=>$user_id,'fankui.st'=>['<>',0],'star'=>$data['star']];
         }
         $row_ = self::where($where)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate();
         if($row_->isEmpty()){
