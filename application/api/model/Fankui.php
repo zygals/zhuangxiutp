@@ -56,6 +56,7 @@ class Fankui extends Base {
         $user_id = User::getUserIdByName($data);
         $field = 'fankui.*,nickname,vistar';
         if(empty($data['star'])){
+            echo 'stat=0..';
             $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0]];
         }else{
             echo 'stat....';
