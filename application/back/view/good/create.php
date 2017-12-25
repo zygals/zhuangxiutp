@@ -60,7 +60,7 @@ $('#cate_name_label').html(cate_name);
                                     </label>
                                 <?php }else{?>
 
-                                <label id="cate_name_label"><?php echo $list_shop[0]->cate_name?></label>
+                               > <label id="cate_name_label"><?php echo $list_shop[0]->cate_name?></label
                                 <?php } ?>
                             </div>
                         </div>

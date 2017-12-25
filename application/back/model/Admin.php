@@ -29,6 +29,9 @@ class Admin extends Base {
     public static  function getList($data=[]){
         $order = "create_time asc";
         $where = ['st'=>['=',1]];
+        if(Admin::isShopAdmin()){
+            $where['shop_id']=session('admin_zhx')->shop_id;
+        }
        // dump($data['shop_id']);exit;
         if (!empty($data['shop_id'])) {
             $where['shop_id'] = $data['shop_id'];
