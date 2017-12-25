@@ -72,7 +72,7 @@ class Fankui extends Base {
     public static function getShopEvalute($data){
         $field = 'fankui.*,nickname,vistar';
         $listRows = 4;
-        $row_ = self::where(['shop_id',$data['shop_id'],'fankui.st'=>1])->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->paginate($listRows);
+        $row_ = self::where(['shop_id'=>$data['shop_id'],'fankui.st'=>1])->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->paginate($listRows);
         if($row_->isEmpty()){
             return ['code'=>__LINE__];
         }
