@@ -275,7 +275,7 @@ class ActivityController extends BaseController {
         ob_end_clean();//清除缓存以免乱码出现
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
     }

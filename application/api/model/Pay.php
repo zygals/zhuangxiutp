@@ -167,8 +167,9 @@ class Pay extends Base {
             $ret['RETURN_MSG'] = $array['RETURN_MSG'];
         }
         return $ret;
-
     }
+
+
 
 //随机32位字符串
     private function nonce_str() {

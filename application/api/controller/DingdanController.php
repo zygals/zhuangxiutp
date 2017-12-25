@@ -36,7 +36,6 @@ class DingdanController extends BaseController {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
         return json(Dingdan::updateSt($data));
-
     }
 
     /**
@@ -52,7 +51,6 @@ class DingdanController extends BaseController {
             return json(['code' => __LINE__, 'msg' => $res]);
         }
         return json(Dingdan::updatePaySt($data));
-
     }
 
     /**
