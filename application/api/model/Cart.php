@@ -64,7 +64,7 @@ class Cart extends Base {
         }
         $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
         if ($list_cart->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => '无商品'];
+            return ['code' => __LINE__];
         }
         $sum_price_all = 0;
         if(!$list_cart->isEmpty()){
