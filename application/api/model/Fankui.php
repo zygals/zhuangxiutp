@@ -58,6 +58,7 @@ class Fankui extends Base {
         if(empty($data['star'])){
             $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0]];
         }else{
+            echo 'stat....';
             $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0],'fankui.star'=>$data['star']];
         }
         $row_ = self::where($where)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate();
