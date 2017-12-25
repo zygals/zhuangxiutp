@@ -8,7 +8,7 @@ use think\Request;
 
 class Fankui extends Base {
     public function getStAttr($value){
-        $st = [0=>'deleted',1=>'正常','不显示'];
+        $st = [0=>'deleted',1=>'正常',2=>'不显示'];
         return $st[$value];
     }
 
@@ -72,7 +72,7 @@ class Fankui extends Base {
     public static function getShopEvalute($data){
         $field = 'fankui.*,nickname,vistar';
         $listRows = 4;
-        $row_ = self::where('shop_id',$data['shop_id'])->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->paginate($listRows);
+        $row_ = self::where(['shop_id',$data['shop_id'],'fankui.st'=>1])->join('user','user.id=fankui.user_id')->order('create_time desc')->field($field)->paginate($listRows);
         if($row_->isEmpty()){
             return ['code'=>__LINE__];
         }

@@ -6,7 +6,7 @@ use think\Model;
 
 class Fankui extends Base {
     public function getStAttr($value){
-        $st = [0=>'deleted',1=>'正常','不显示'];
+        $st = [0=>'deleted',1=>'正常',2=>'不显示'];
         return $st[$value];
     }
     public function getStarAttr($value){
