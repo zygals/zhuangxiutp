@@ -69,7 +69,7 @@ class FankuiController extends BaseController {
      */
     public function getFankui(Request $request){
         $data = $request->param();
-        return json(Fankui::getEvalute($data['username']));
+        return json(Fankui::getEvalute($data));
     }
 
     /**

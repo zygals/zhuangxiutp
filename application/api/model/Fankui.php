@@ -53,13 +53,13 @@ class Fankui extends Base {
      * 获取用户所有的评价
      */
     public static function getEvalute($data){
-        $user_id = User::getUserIdByName($data);
+        $user_id = User::getUserIdByName($data['username']);
         $field = 'fankui.*,nickname,vistar';
         if(empty($data['star'])){
-            echo 'stat=0..';
+
             $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0]];
         }else{
-            echo 'stat....';
+
             $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0],'fankui.star'=>$data['star']];
         }
         $row_ = self::where($where)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate();
