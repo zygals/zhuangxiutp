@@ -110,8 +110,8 @@ class Good extends Base {
      * @return \think\Paginator
      */
     public static function read($shop_id){
-        $order='update_time desc';
-        $list_ = self::where(['st'=>1,'shop_id'=>$shop_id,'to_top'=>1])->field('id,name,price,img,unit')->order($order)->cache()->paginate(10);
+        $order='sort asc';
+        $list_ = self::where(['st'=>1,'shop_id'=>$shop_id])->field('id,name,price,img,unit')->order($order)->cache()->paginate(10);
 
         return $list_;
     }
