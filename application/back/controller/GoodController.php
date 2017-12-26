@@ -112,6 +112,7 @@ class GoodController extends BaseController {
                 $data['imgs'] = $arr['save_url_path'];
             }
         }
+        $data['to_top']= 1;
         $Good = new Good();
         $Good->save($data);
         Cache::clear();
@@ -201,7 +202,7 @@ class GoodController extends BaseController {
                 $data['imgs'] = $arr['save_url_path'];
             }
         }
-
+        $data['update_time'] = time();
         if ($this->saveById($data['id'], new Good(), $data)) {
             Cache::clear();
             $this->success('编辑成功', $referer, '', 1);

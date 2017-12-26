@@ -12,21 +12,7 @@ use app\api\model\Cate;
 
 class GoodController extends BaseController {
 
-   /* public function index(Request $request) {
-        $data = $request->param();
-        $rule = ['type' => 'require|number|in:1,2', 'cate_id' => 'require|number','school_id'=>'number'];
-        $res = $this->validate($data, $rule);
-        if ($res !== true) {
-            return json(['code' => __LINE__, 'msg' => $res]);
-        }
-        if(!isset($data['school_id'])){
-            $data['school_id'] = 0 ;
-        }
-        if(empty($data['title'])){
-            $data['title']='';
-        }
-        return json(['code' => 0, 'msg' => 'good/index', 'data' => Good::getList(['type_id' => $data['type'], 'cate_id' => $data['cate_id'],'school_id' => $data['school_id'], 'title'=>$data['title'],'paixu' => 'sort'], 'good.id,good.title,img,good.price,good.type', ['good.st' => 1])]);
-    }*/
+
 
     /**
      * 店铺详情-全部宝贝页面列表
