@@ -70,8 +70,8 @@
                                value="desc"
                                }checked{/eq}>降序</label>
                     <label class="">
-                        <input type="checkbox" name="to_top" id="" value="1" {eq name="Think.get.to_top" value="1"
-                               }checked{/eq}>置顶</label>
+                       <!-- <input type="checkbox" name="to_top" id="" value="1" {eq name="Think.get.to_top" value="1"
+                               }checked{/eq}>置顶</label>-->
                     <label class="">
                         <input type="checkbox" name="st" id="" value="2" {eq name="Think.get.st" value="2"
                                }checked{/eq}>下架</label>
