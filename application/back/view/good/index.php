@@ -104,7 +104,7 @@
                 列表图
             </div>
             <div class="col-xs-1">
-                置顶
+                排序
             </div>
 
             <div class="col-xs-1">
@@ -147,7 +147,7 @@
                         </div>
 
                         <div class="col-xs-1">
-                            {$row_->to_top}
+                            {$row_->sort}
                         </div>
                         <div class="col-xs-1">
                             <?php if ($row_->st == '下架') { ?>
