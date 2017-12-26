@@ -15,12 +15,13 @@ class ActivityAttend extends Base {
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_ =self::where(['user_id'=>$user_id,'activity_attend.st'=>1])->field("activity_attend.*, FROM_UNIXTIME( time_to, '%Y-%m-%d %H:%i:%S' ) time_to,activity.name activity_name,activity.address activity_address,activity.img activity_img,activity.type,activity.img_big img_big")->join('activity','activity.id=activity_attend.activity_id')->select() ;
+        $list_ =self::where(['user_id'=>$user_id,'activity_attend.st'=>1])->field("activity_attend.*, FROM_UNIXTIME( time_to, '%Y-%m-%d %H:%i:%S' ) time_to,activity.name activity_name,activity.address activity_address,activity.img activity_img,activity.type,activity.img_big img_big")->join('activity','activity.id=activity_attend.activity_id')->order('activity_attend.id desc')->select() ;
         if($list_->isEmpty()){
 return ['code'=>__LINE__];
         }
         return ['code'=>0,'msg'=>'数据成功','data'=>$list_];
     }
+
     public static function delMyAttend($id){
        $row = self::where(['id'=>$id])->find();
        $row->st=2;
