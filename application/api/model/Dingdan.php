@@ -386,7 +386,7 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'delByUser' ) {
 		    if($row_->st==self::ORDER_ST_USER_CANCEL || $row_->st==self::ORDER_ST_REFUNDED){
                 $row_->st = self::ORDER_ST_USER_DELETE;
-            }elseif ($row_->st==self::ORDER_ST_USER_CANCEL){
+            }else{
                 $row_->st = self::ORDER_ST_FINISH_DEL;
             }
 
