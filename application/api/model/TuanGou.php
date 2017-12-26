@@ -71,7 +71,7 @@
             $where = ['tuangou.st'=>['=',2],'tuangou.type'=>['=',1],'article_st'=>['=',1]];
             $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->join('article','article.tuangou_id=tuangou.id')->field($field)->order('t_id desc')->select();
             if($list_->isEmpty()){
-                return ['code'=>__LINE__,'msg'=>'历史团购数据不存在'];
+                return ['code'=>__LINE__];
             }
             return ['code'=>0,'msg'=>'group/history_pnum','data'=>$list_];
         }
