@@ -31,9 +31,9 @@ class Cart extends Base {
             return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
-        if (is_array($row_good)) {
+        /*if (is_array($row_good)) {
             return $row_good;
-        }
+        }*/
         if (!$row_cart) {//没有此商家的购物车
             $data_cart['user_id'] = $user_id;
             $data_cart['shop_id'] = $row_good->shop_id;

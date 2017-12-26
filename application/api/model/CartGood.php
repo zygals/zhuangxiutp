@@ -20,7 +20,7 @@ class CartGood extends model {
       * */
 
     public function addGood($data) {
-        $row_ = self::where(['good_id' => $data['good_id'], 'st' => 1])->find();
+        $row_ = self::where(['cart_id'=>$data['cart_id'],'good_id' => $data['good_id'], 'st' => 1])->find();
         if (!$row_) {
             if (!$this->save($data)) {
                 return ['code' => __LINE__, 'msg' => '添加失败'];
