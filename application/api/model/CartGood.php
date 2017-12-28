@@ -20,7 +20,7 @@ class CartGood extends model {
       * */
 
     public function addGood($data) {
-        $row_ = self::where(['good_id' => $data['good_id'], 'st' => 1])->find();
+        $row_ = self::where(['cart_id'=>$data['cart_id'],'good_id' => $data['good_id'], 'st' => 1])->find();
         if (!$row_) {
             if (!$this->save($data)) {
                 return ['code' => __LINE__, 'msg' => '添加失败'];
@@ -38,8 +38,8 @@ class CartGood extends model {
     /*
      * useing
      * */
-    public static function getGoodsByShop($shop_id) {
-        $list_ = self::where(['cart_good.shop_id'=>$shop_id,'cart_good.st'=>1,'good.st'=>1])->join('good','cart_good.good_id=good.id')->field('cart_good.id cart_good_id,cart_id,cart_good.shop_id,good_id,num,good.name good_name,good.img,good.price,good.unit')->select();
+    public static function getGoodsByShop($cart_id,$shop_id) {
+        $list_ = self::where(['cart_id'=>$cart_id,'cart_good.shop_id'=>$shop_id,'cart_good.st'=>1,'good.st'=>1])->join('good','cart_good.good_id=good.id')->field('cart_good.id cart_good_id,cart_id,cart_good.shop_id,good_id,num,good.name good_name,good.img,good.price,good.unit')->select();
         return $list_;
     }
 

@@ -164,7 +164,8 @@ class AdminController extends BaseController {
         if (true !== $res) {
             $this->error($res);
         }
-        $row_admin = Admin::findByName($data['name']);
+        //dump($data['name']);exit;
+        $row_admin = Admin::findByName2($data['name'],$data['admin_id']);
         if ($row_admin) {
             $this->error('账号已经存在！', $referer);
         }

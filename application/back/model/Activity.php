@@ -27,7 +27,7 @@ class Activity extends Base {
             if($data['online']=='now'){
                 $where['end_time'] = ['>' ,time()];
                 $where['start_time'] = ['<' ,time()];
-            }else if($data['type']=='online'){
+            }else if($data['online']=='end'){
                 $where['end_time'] = ['<' ,time()];
             }
         }

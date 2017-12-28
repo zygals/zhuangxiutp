@@ -1,5 +1,5 @@
 {extend name='layout:base' /}
-{block name="title"}会员列表{/block}
+{block name="title"}订单列表{/block}
 
 {block name="content"}
 <style>

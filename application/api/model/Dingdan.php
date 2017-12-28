@@ -385,9 +385,9 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
-		    if($row_->st==self::ORDER_ST_USER_CANCEL || $row_->st==self::ORDER_ST_REFUNDED){
+		    if($row_->getData('st')==self::ORDER_ST_USER_CANCEL || $row_->getData('st')==self::ORDER_ST_REFUNDED){
                 $row_->st = self::ORDER_ST_USER_DELETE;
-            }elseif ($row_->st==self::ORDER_ST_USER_CANCEL){
+            }else{
                 $row_->st = self::ORDER_ST_FINISH_DEL;
             }
 

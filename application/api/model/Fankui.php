@@ -53,16 +53,23 @@ class Fankui extends Base {
      * 获取用户所有的评价
      */
     public static function getEvalute($data){
-        $user_id = User::getUserIdByName($data);
+        $user_id = User::getUserIdByName($data['username']);
         $field = 'fankui.*,nickname,vistar';
-        $row_ = self::where(['user_id'=>$user_id,'fankui.st'=>['<>',0]])->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate();
+        if(empty($data['star'])){
+
+            $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0]];
+        }else{
+
+            $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0],'fankui.star'=>$data['star']];
+        }
+        $row_ = self::where($where)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate();
         if($row_->isEmpty()){
             return ['code'=>__LINE__,'msg'=>'暂无评论'];
         }
         //获取评价数
-        $evalute['best'] = self::where(['user_id'=>$user_id,'star'=>1,'fankui.st'=>['<>',0]])->count();
-        $evalute['mid'] = self::where(['user_id'=>$user_id,'star'=>2,'fankui.st'=>['<>',0]])->count();
-        $evalute['bad'] = self::where(['user_id'=>$user_id,'star'=>3,'fankui.st'=>['<>',0]])->count();
+        $evalute['best'] = self::where(['fankui.user_id'=>$user_id,'star'=>1,'fankui.st'=>['<>',0]])->count();
+        $evalute['mid'] = self::where(['fankui.user_id'=>$user_id,'star'=>2,'fankui.st'=>['<>',0]])->count();
+        $evalute['bad'] = self::where(['fankui.user_id'=>$user_id,'star'=>3,'fankui.st'=>['<>',0]])->count();
         return ['code'=>0,'msg'=>'数据成功','data'=>$row_,'evalute'=>$evalute];
     }
 

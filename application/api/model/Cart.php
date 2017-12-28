@@ -31,9 +31,9 @@ class Cart extends Base {
             return ['code' => __LINE__, 'msg' => '无商品'];
         }
         $row_cart = self::where(['user_id' => $user_id, 'shop_id' => $row_good->shop_id])->find();
-        if (is_array($row_good)) {
+        /*if (is_array($row_good)) {
             return $row_good;
-        }
+        }*/
         if (!$row_cart) {//没有此商家的购物车
             $data_cart['user_id'] = $user_id;
             $data_cart['shop_id'] = $row_good->shop_id;
@@ -64,14 +64,16 @@ class Cart extends Base {
         }
         $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
         if ($list_cart->isEmpty()) {
-            return ['code' => __LINE__, 'msg' => '无商品'];
+            return ['code' => __LINE__];
         }
         $sum_price_all = 0;
         if(!$list_cart->isEmpty()){
             foreach ($list_cart as $k => $cart) {
-                $list_good = CartGood::getGoodsByShop($cart->shop_id);
+                $list_good = CartGood::getGoodsByShop($cart->cart_id,$cart->shop_id);
                 if (!$list_good->isEmpty()) {
-                    $sum_price_all += $cart->sum_price;
+                    foreach($list_good as $good){
+                        $sum_price_all += $good->price*$good->num;
+                    }
                     $list_cart[$k]['shop_goods'] = $list_good;
                 }
 

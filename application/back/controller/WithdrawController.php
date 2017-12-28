@@ -48,6 +48,10 @@ class WithdrawController extends BaseController{
         if(!Admin::isShopAdmin()){
             $this->error('非商户管理员没有权限！');
         }
+        $min=Setting::getMinBenefit();
+        if($data['cash'] < $min){
+            $this->error('提现最小金额为'.$min);
+        }
         if($data['cash']>Withdraw::getRemain()['remain']){
             $this->error('提现超出收益！');
         }

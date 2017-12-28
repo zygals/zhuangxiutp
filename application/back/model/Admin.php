@@ -25,6 +25,10 @@ class Admin extends Base {
         $row_ = self::where(['name' => $name])->find();
         return $row_;
     }
+    public static function findByName2($name,$admin_id) {
+        $row_ = self::where(['id'=>['<>',$admin_id],'name' => $name])->find();
+        return $row_;
+    }
 
     public static  function getList($data=[]){
         $order = "create_time asc";

@@ -9,10 +9,10 @@ class Tuangou extends model{
 
 	public static $type_ = [
 		['type_id'=>1,'name'=>'限人'],
-		['type_id'=>2,'name'=>'限量'],
+
 	];
     public function getTypeAttr($groupalue){
-		$type = [1 => '限人' , '2' => '限量'];
+		$type = [1 => '限人' ];
 		return $type[$groupalue];
 	}
     public function getStAttr($groupalue){
@@ -24,13 +24,13 @@ class Tuangou extends model{
 		$status = [1 => '正在进行' , 2 => '活动成功'/* , 3 => '活动失败'*/];
 		return $status[$groupalue];
 	}
-    public static function getListAll(){
+ /*   public static function getListAll(){
 		$where = ['st' => ['=' , 1] , 'type' => ['=' , 2]];
 		$order = "create_time asc";
 		$list_ = self::where( $where )->order( $order )->select();
 
 		return $list_;
-	}
+	}*/
     public static function getList($data = [] , $field = 'tuangou.*,shop.name shop_name,good.name good_name' , $where = ['tuangou.st' => [['<>' , 0] , ['<>' , 2]]]){
 		$order = "tuangou.create_time desc";
       if(!empty($data['type_id'])){
@@ -49,7 +49,6 @@ class Tuangou extends model{
 			$where['tuangou.st']= ['=',2];
 		}
 		$list_group = self::select();
-//        dump($row);
 		foreach ( $list_group as $key => $group ) {
 			switch ( $group['type'] ) {
 				case '限人':
@@ -62,15 +61,7 @@ class Tuangou extends model{
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 1] );
 					}
 					break;
-//				case '限量':
-//					//判断条件:活动正在进行,但团购数量已满足最大值
-//					if ( $group['end_time'] > time() && $group['already_sales'] >= $group['store'] ) {
-//						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
-//						//判断条件:活动已结束
-//					} elseif ( $group['end_time'] <= time() ) {
-//						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
-//					}
-//					break;
+
 			}
 
 		}
