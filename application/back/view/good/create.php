@@ -45,13 +45,23 @@ $('#cate_name_label').html(cate_name);
                                 </div>
                             <?php } ?>
 
-
                         </div>
 
                         <div class="form-group">
                             <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>分类：</label>
                             <div class="col-xs-8">
-                                <label id="cate_name_label"><?php echo $list_shop[0]->cate_name?></label>
+                                <?php if($isShopAdmin){?>
+                                    <label >
+                                        <?php foreach ($list_shop as $row_) {
+                                            if($row_['id']==session('admin_zhx')->shop_id){
+                                                echo $row_['cate_name'];
+                                            }
+                                        }?>
+                                    </label>
+                                <?php }else{?>
+
+                               > <label id="cate_name_label"><?php echo $list_shop[0]->cate_name?></label
+                                <?php } ?>
                             </div>
                         </div>
 							<div class="form-group ">

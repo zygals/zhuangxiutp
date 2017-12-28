@@ -6,6 +6,7 @@ namespace app\back\controller;
 use app\back\model\Ad;
 
 use app\back\model\Base;
+use think\Cache;
 use think\Request;
 
 
@@ -175,6 +176,7 @@ class AdController extends BaseController {
             $data['img'] = $arr['save_url_path'];
         }
         if ($this->saveById($data['id'], new Ad(), $data)) {
+            Cache::clear();
             $this->success('编辑成功', $referer, '', 1);
         } else {
             $this->error('没有修改', $referer, '', 1);
@@ -192,6 +194,7 @@ class AdController extends BaseController {
         $data = $request->param();
 
         if ($this->deleteStatusById($data['id'], new Ad())) {
+            Cache::clear();
             $this->success('删除成功', $data['url'], '', 1);
         } else {
             $this->error('删除失败', $data['url'], '', 3);

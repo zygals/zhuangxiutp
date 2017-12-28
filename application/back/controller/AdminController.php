@@ -159,10 +159,14 @@ class AdminController extends BaseController {
         $referer = $data['referer'];
         unset($data['referer']);
         // dump(url('logout'));exit;
-        $rule = ['admin_id' => 'require|number', 'repass' => 'confirm:pass'];
+        $rule = ['name'=>'require','admin_id' => 'require|number', 'repass' => 'confirm:pass'];
         $res = $this->validate($data, $rule);
         if (true !== $res) {
             $this->error($res);
+        }
+        $row_admin = Admin::findByName($data['name']);
+        if ($row_admin) {
+            $this->error('账号已经存在！', $referer);
         }
 
         if (!empty($data['pass']) && !empty($data['repass'])) {

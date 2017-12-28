@@ -29,7 +29,8 @@
                                 <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>账号：</label>
 								<div class="col-xs-8 ">
                                     <label for="">
-                                        {$row_admin->name}
+                                        <input type="text"  class="form-control input-sm duiqi" name='name' value="{$row_admin->name}" id="" >
+
                                     </label>
 								</div>
 							</div>

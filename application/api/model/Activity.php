@@ -50,7 +50,7 @@ class Activity extends Base {
     public static function getListYanfangNow() {
         $where = ['type'=>2,'st' => ['=', 1], 'start_time' => ['<', time()], 'end_time' => ['>', time()]];
 
-        $list_ = self::where($where)->field('id,name,img_big,info,attend_num,imgs')->order('create_time desc')->find();
+        $list_ = self::where($where)->field('*')->order('create_time desc')->find();
 
         if (!$list_) {
             return ['code' => __LINE__];
@@ -88,8 +88,8 @@ class Activity extends Base {
         if (!$row_ = self::getById($id, new self)) {
             return ['code' => __LINE__];
         }
-        $row_->start_time = date('Y-m-d');
-        $row_->end_time = date('Y-m-d');
+        $row_->start_time = date('Y-m-d',$row_->start_time);
+        $row_->end_time = date('Y-m-d',$row_->end_time);
         return ['code' => 0, 'msg' => '数据成功', 'data' => $row_];
     }
 

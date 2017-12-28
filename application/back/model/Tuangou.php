@@ -2,6 +2,7 @@
 
 namespace app\back\model;
 
+use app\api\model\Dingdan;
 use think\Model;
 
 class Tuangou extends model{
@@ -53,10 +54,11 @@ class Tuangou extends model{
 			switch ( $group['type'] ) {
 				case '限人':
 					//判断条件:活动正在进行,团购人数已满足最低要求
-					if ( /*$group['end_time'] > time() &&*/ $group['attend_pnum'] >= $group['pnum'] ) {
+					if ( $group['attend_pnum'] >= $group['pnum'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 2] );
 						//判断条件:活动已结束,团购人数不满足最低要求
-					} elseif ( /*$group['end_time'] <= time() &&*/ $group['attend_pnum'] < $group['pnum'] ) {
+					} elseif
+                     ( $group['attend_pnum'] < $group['pnum'] ) {
 						self::where( 'id' , $group['id'] )->update( ['group_st' => 1] );
 					}
 					break;
@@ -70,8 +72,12 @@ class Tuangou extends model{
 //					}
 //					break;
 			}
+
 		}
 		$list_ = self::where( $where )->join( 'shop' , 'shop.id=tuangou.shop_id' )->join( 'good' , 'good.id=tuangou.good_id' )->field( $field )->order( $order )->paginate(10);
+		foreach($list_ as $k=>$val){
+            $list_[$k]['order_deposit_num'] = Dingdan::group_attend_num($val['id']);
+        }
 		return $list_;
 	}
 

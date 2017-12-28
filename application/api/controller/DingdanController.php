@@ -2,6 +2,7 @@
 
 namespace app\api\controller;
 
+use app\api\model\Base;
 use app\api\model\Dingdan;
 use think\Db;
 use think\Request;
@@ -9,6 +10,11 @@ use think\Request;
 
 class DingdanController extends BaseController {
 
+    public function gettk(){
+       dump( (new Base())->getToken());
+       exit;
+
+    }
     /*
      * 取用户订单列表
      * zhuangxiu-zyg

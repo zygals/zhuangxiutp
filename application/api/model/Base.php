@@ -62,4 +62,56 @@ class Base extends model {
         return $row;
     }
 
+    //curl请求啊
+    protected function http_request($url, $data = null, $headers = array()) {
+        $curl = curl_init();
+        if (count($headers) >= 1) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        }
+        curl_setopt($curl, CURLOPT_URL, $url);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+
+    public function getToken(){
+        $appid=config('wx_appid');
+        $appsecret=config('wx_appsecret');
+        $file = file_get_contents("./access_token.json",true);
+
+        $result = json_decode($file,true);
+
+        if (time() > $result['expires'] || $file==''){
+
+            $data = array();
+            $data['access_token'] = $this->getNewToken($appid,$appsecret);
+            $data['expires']=time()+7000;
+            $jsonStr =  json_encode($data);
+            $fp = fopen("./access_token.json", "w");
+            fwrite($fp, $jsonStr);
+            fclose($fp);
+            return $data['access_token'];
+        }else{
+            return $result['access_token'];
+        }
+    }
+    private function getNewToken($appid,$appsecret){
+
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$appsecret}";
+        $access_token_Arr =   json_decode($this->http_request($url),true);
+
+        return $access_token_Arr['access_token'];
+
+
+}
+
 }

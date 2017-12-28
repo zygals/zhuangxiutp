@@ -2,6 +2,7 @@
 
 namespace app\api\model;
 
+use think\Cache;
 use think\Model;
 
 class Shop extends Base{
@@ -104,10 +105,14 @@ class Shop extends Base{
 	 * */
 	public static function incTradenum($shop_id,$add=true){
 		$row_shop = self::where( ['id' => $shop_id , 'st' => 1] )->find();
+		if(!$row_shop){
+		    return ['code'=>__LINE__,'msg'=>'商家已下架或不存在'];
+        }
 		if($add){
             $row_shop->setInc('tradenum');
         }else{
             $row_shop->setDec('tradenum');
         }
+        Cache::clear();
 	}
 }

@@ -4,6 +4,7 @@ namespace app\api\model;
 
 use app\back\model\OrderGood;
 use app\back\model\Tuangou;
+use think\Cache;
 use think\Db;
 use think\Model;
 
@@ -18,7 +19,8 @@ class Dingdan extends Base{
 	const ORDER_ST_ADMIN_DELETE = 0;
 	const ORDER_ST_YOUHUI_GOOD = 7;
 	const ORDER_ST_YOUHUI_QUANKUAN = 8;
-	const GOOT_ST_DAIFAHUO = 1;
+	const ORDER_ST_FINISH_DEL = 9;//
+    const GOOT_ST_DAIFAHUO = 1;
 	const GOOT_ST_DAIFANKUI = 3; //已收货
 	const GOOT_ST_FANKUIOK = 4; //已评价
 	const ORDER_TYPE_SHOP = 1; //单商家订单
@@ -29,8 +31,9 @@ class Dingdan extends Base{
 	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
 	//public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
-	public function getStAttr($value){
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
+
+	public function getStAttr($value) {
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
 		return $status[$value];
 	}
 
@@ -45,48 +48,11 @@ class Dingdan extends Base{
 				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款' , 6 => '限人尾款'];
 		return $status[$value];
 	}
-	/*
-	 * 添加订单-团购  不要了
-	 * zhuangxiu-zyg
-	 * */
-	/*public function addOrderGroup($data){
-		$user_id = User::getUserIdByName($data['username']);
-		if(is_array($user_id)){
-			return $user_id;
-		}
-		$row_group = self::getById( $data['group_id'] , new Tuangou() , '*' , ['group_st' => 1] );//正在进行;
-		if ( !$row_group ) {
-			return ['code' => __LINE__ , 'msg' => 'group not find'];
-		}
-		$data_order_group = [];
-		$data_order_group['shop_id'] = $row_group->shop_id;
-		$data_order_group['user_id'] = $user_id;
-		$data_order_group['orderno'] = $this->makeTradeNo($data['username']);
-		$data_order_group['address_id'] = $data['address_id'];
-		$data_order_group['sum_price'] = $row_group->price_group;
-		$data_order_group['type'] = $row_group->getData('type');
-		$data_order_group['create_time'] =time();
-		$data_order_group['update_time'] = time();
-		if(!$new_order_id=$this->insertGetId($data_order_group)){
-			return ['code' => __LINE__ , 'msg' => 'save order error'];
-		}
-		//添加订单商品
-		$row_good = self::getById($row_group->good_id,new Good(),'name,img,unit');
-        $data_order_good['order_id'] = $new_order_id;
-        $data_order_good['shop_id'] = $row_group->shop_id;
-        $data_order_good['good_id'] = $row_group->good_id;
-        $data_order_good['num'] = 1;
-        $data_order_good['st'] = 1;
-        $data_order_good['img'] = $row_good->img;
-        $data_order_good['name'] = $row_good['name'];
-        $data_order_good['price'] =$row_group->price_group;
-        $data_order_good['unit'] =$row_good->unit;
-		if(!(new OrderGood())->save($data_order_good)){
-			return ['code' => __LINE__ , 'msg' => 'save order ok,but save order_good error'];
-		}
-		return ['code' => 0 , 'msg' => 'save group order and order_good ok','type_shop'=>self::ORDER_TYPE_SHOP,'type_group'=>''];
+	public static function group_attend_num($t_id){
+        $count =  self::where(['type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'st'=>2,'group_id'=>$t_id])->count();
+        return $count;
 
-	}*/
+    }
 
 	public static function findOne($order_id){
 		$row_ = self::where( ['dingdan.id' => $order_id] )->join( 'user' , 'dingdan.user_id=user.id' )->join( 'shop' , 'shop.id=dingdan.shop_id' )->join( 'address' , 'address.id=dingdan.address_id' )->field( 'dingdan.*,address.truename,address.mobile,address.pcd,address.info,user.username,shop.id shop_id,shop.name shop_name' )->find();
@@ -146,7 +112,7 @@ class Dingdan extends Base{
 		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_DEPOSIT , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
 			return ['code' => 0 , 'msg' => '有订金订单' , 'data' => $row];
 		}
-		return ['code' => __LINE__ , 'msg' => '无订金订单'];
+		return ['code' => __LINE__ ];
 	}
 	/*
 		 * 我是否下过些团购尾款订单？
@@ -160,7 +126,7 @@ class Dingdan extends Base{
 		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_FINAL , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
 			return ['code' => 0 , 'msg' => '有尾款订单' , 'data' => $row];
 		}
-		return ['code' => __LINE__ , 'msg' => '无尾款订单'];
+		return ['code' => __LINE__ ];
 	}
 
 	/**
@@ -183,6 +149,10 @@ class Dingdan extends Base{
 		if ( !$row_group ) {
 			return ['code' => __LINE__ , 'msg' => '团购数据没有'];
 		}
+
+		if(self::group_attend_num($row_group->id) >= $row_group->pnum){
+            return ['code' => __LINE__ , 'msg' => '参团人数已满'];
+        }
 		$data_order['shop_id'] = $row_group->shop_id;
 		$data_order['group_id'] = $row_group->id;
 		$data_order['orderno'] = $this->makeTradeNo( $data['username'] );
@@ -305,6 +275,7 @@ class Dingdan extends Base{
 			//添加商家订单表end
 			//给商家订单量增加一个
 			Shop::increaseOrdernum( $shop->shop_id );
+            Cache::clear();
 			//  添加订单商品
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
@@ -379,7 +350,8 @@ class Dingdan extends Base{
 		}
 		$where = ['dingdan.st' => ['neq' , 0] , 'user_id' => $user_id];
 		$where2 = ['dingdan.st' => ['neq' , self::ORDER_ST_USER_DELETE]];
-		$list_order = self::where( $where )->where( $where2 )->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
+		$where3 = ['dingdan.st' => ['neq' , self::ORDER_ST_FINISH_DEL]];
+		$list_order = self::where( $where )->where( $where2 )->where($where3)->join( 'shop' , 'shop.id=dingdan.shop_id' )->field( 'dingdan.*,shop.name shop_name' )->order( 'create_time desc' )->select();
 		if ( $list_order->isEmpty() ) {
 			return ['code' => __LINE__ , 'msg' => '订单不存在'];
 		}
@@ -413,8 +385,13 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {
-			$row_->st = self::ORDER_ST_USER_DELETE;
-		}elseif ( $data['st'] == 'refundByUser' ) {
+		    if($row_->st==self::ORDER_ST_USER_CANCEL || $row_->st==self::ORDER_ST_REFUNDED){
+                $row_->st = self::ORDER_ST_USER_DELETE;
+            }elseif ($row_->st==self::ORDER_ST_USER_CANCEL){
+                $row_->st = self::ORDER_ST_FINISH_DEL;
+            }
+
+        }elseif ( $data['st'] == 'refundByUser' ) {
             $row_->st = self::ORDER_ST_USER_REFUND;
         }
 		$row_->save();
@@ -434,19 +411,11 @@ class Dingdan extends Base{
 			}
 			$row_order->st = self::ORDER_ST_PAID;
 			//全款被订金优惠
-            /*if($data['type_']==self::ORDER_TYPE_SHOP_MONEY_ALL && !empty($data['order_id_deposit']) && $data['order_id_deposit']>0  ){
-                //用了订金
-                $row_deposit=self::where(['id'=>$data['order_id_deposit'],'st'=>self::ORDER_ST_PAID])->find();
 
-                $row_deposit->st=self::ORDER_ST_YOUHUI_QUANKUAN;
-                $row_deposit->orderno_youhui = $row_order->orderno;
-                $row_order->sum_price_youhui = $row_deposit->sum_price;
-                $row_order->orderno_youhui= $row_deposit->orderno;//被优惠订单
-                $row_deposit->save();
-            }*/
 			if ( !$row_order->save() ) {
 				return ['code' => 0 , 'msg' => '支付状态失败'];
 			}
+
 			//订单支付完成，则商家收益也增加
 			$admin_shop = Admin::where( ['shop_id' => $row_order->shop_id , 'st' => 1] )->find();
 			if ( !$admin_shop ) {
@@ -467,7 +436,8 @@ class Dingdan extends Base{
                 self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
 			}
 
-
+            //send template message
+            (new TplMessage())->sendPayOkMsg($row_order,$data['prepay_id']);
 			return ['code' => 0 , 'msg' => '订单为已支付'];
 		} elseif ( $data['type_'] == Dingdan::ORDER_TYPE_CONTACT ) {
 			$row_order_contact = self::getById( $data['order_id'] , new OrderContact() );
@@ -532,7 +502,9 @@ class Dingdan extends Base{
         return ['code'=>0,'data'=>$row_];
 
     }
-
+/*
+ * 没有用，是测试事务的
+ * */
     public static function testshiwu(){
         $data = ['orderno' => 'orderno5'];
         Db::startTrans();

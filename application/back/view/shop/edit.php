@@ -30,18 +30,19 @@
                                     <label class="control-label" >
                                         <input type="radio" name="st" id="" value="1" <?php echo $row_->st=='正常'?'checked':''?>>正常</label> &nbsp;
                                     <label class="control-label">
-                                        <input type="radio" name="st" id="" value="0" <?php echo $row_->st=='关'?'checked':''?>> 关</label>
+                                        <input type="radio" name="st" id="" value="2" <?php echo $row_->st=='关'?'checked':''?>> 关</label>
                                 </div>
                             </div>
                         <?php }?>
 
-
+<?php if(\app\back\model\Admin::isAdmin()){?>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label">排序：</label>
                             <div class="col-xs-8 ">
                                 <input type="number" class="form-control input-sm duiqi" name='sort' value="{$row_->sort}" id="" placeholder=""><span class="tip">小的在前</span>
                             </div>
                         </div>
+                        <?php }?>
                         <div class="form-group ">
                             <label for="sName" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>经营类目：</label>
                             <div class="col-xs-8 ">

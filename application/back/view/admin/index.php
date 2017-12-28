@@ -3,6 +3,7 @@
 {block name="content"}
 <div role="tabpanel" class="tab-pane active" id="sour">
     <div class="check-div form-inline">
+       <?php if(\app\back\model\Admin::isAdmin()){?>
         <div class="col-xs-4">
             <a href="{:url('create_')}">
                 <button class="btn btn-yellow btn-xs">添加平台管理员</button>
@@ -17,7 +18,7 @@
                 <button class="btn btn-white btn-xs " type="submit">提交</button>
             </form>
         </div>
-
+<?php }?>
     </div>
     <div class="data-div">
         <div class="row tableHeader">
@@ -38,6 +39,9 @@
             </div>
             <div class=" col-sm-1 ">
                 收益
+            </div>
+            <div class=" col-sm-1 ">
+                已提现
             </div>
             <div class=" col-sm-2 ">
                 创建时间
@@ -69,6 +73,9 @@
                     </div>
                     <div class="col-sm-1" title="{$admin->income}">
                         {$admin->income}
+                    </div>
+                    <div class="col-sm-1" title="{$admin->withdraw_ok}">
+                        {$admin->withdraw_ok}
                     </div>
                     <div class="col-sm-2">
                         <?= $admin['create_time'] ?>

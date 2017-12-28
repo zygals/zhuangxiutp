@@ -2,9 +2,7 @@
 
 namespace app\back\controller;
 
-
 use app\back\model\Activity;
-
 use app\back\model\ActivityAttend;
 use app\back\model\Base;
 use think\Request;
@@ -193,6 +191,7 @@ class ActivityController extends BaseController {
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         if ($this->saveById($data['id'], new Activity(), $data)) {
+
             $this->success('编辑成功', $referer, '', 1);
         } else {
             $this->error('没有修改', $referer, '', 1);
@@ -236,7 +235,7 @@ class ActivityController extends BaseController {
                 ->setCellValue('C1', '姓名')
                 ->setCellValue('D1', '电话')
                 ->setCellValue('E1', '小区名称')
-                ->setCellValue('G1', '报名时间');
+                ->setCellValue('F1', '报名时间');
             foreach ($res as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -244,7 +243,7 @@ class ActivityController extends BaseController {
                 $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['truename']);
                 $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['mobile']);
                 $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['xiaoqu']);
-                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['create_time']);
+                $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, $value['create_time']);
             }
         } else {
             $excel->setActiveSheetIndex(0)

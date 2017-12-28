@@ -110,7 +110,7 @@
                     <div class="form-group " style="display:<?php /* echo $row_->type==2?'block':'none';*/?>">
                         <label for="sName" class="col-xs-3 control-label">已参加人数：</label>
                         <div class="col-xs-8 ">
-                            <input type="number" class="form-control input-sm duiqi" name='attend_num' value="{$row_->attend_num}" id="" placeholder="">
+                            <input type="number" class="form-control input-sm duiqi" name='attend_num' value="{$row_->attend_num}" id="" placeholder=""><span>大于0则会在前台显示此数目</span>
                         </div>
                     </div>
 

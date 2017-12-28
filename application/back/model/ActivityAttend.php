@@ -9,13 +9,13 @@ class ActivityAttend extends Base {
   protected $dateFormat='Y-m-d H:i:s';
 
     public function getStAttr($value) {
-        $status = [0 => 'deleted', 1 => '正常', 2 => '不显示'];
+        $status = [1 => '成功', 2 => '用户删除'];
         return $status[$value];
     }
 
 
     public static function getList($data=[]) {
-        $where = ['activity_attend.activity_id' => ['=', $data['activity_id']]];
+        $where = ['activity_attend.activity_id' => ['=', $data['activity_id']],'activity_attend.st'=>1];
         $order = "activity_attend.create_time desc";
         if (!empty($data['name_'])) {
             $where['activity_attend.truename|activity_attend.mobile|activity_attend.zuoji'] = ['like', '%' . $data['name_'] . '%'];

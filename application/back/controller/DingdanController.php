@@ -12,6 +12,7 @@ use app\back\model\Cate;
 use app\back\model\Good;
 use app\back\model\OrderGood;
 use app\back\model\User;
+use think\Cache;
 use think\Request;
 
 
@@ -30,8 +31,8 @@ class DingdanController extends BaseController {
         if ($res !== true) {
             $this->error($res);
         }
-        //dump($data);exit;
         $list_ = Dingdan::getAlldingdans($data);
+        //dump($list_->total());exit;
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
@@ -95,7 +96,9 @@ class DingdanController extends BaseController {
     public function delete(Request $request) {
         $data = $request->param();
         if ($row_=$this->deleteStatusById($data['id'], new Dingdan())) {
-            //删除订单            Shop::increaseOrdernum( $row_->shop_id ,false);
+            //删除订单
+            Shop::increaseOrdernum( $row_->shop_id ,false);
+            Cache::clear();
             $this->success('删除成功',  $data['url'], '', 1);
         } else {
             $this->error('删除失败',  $data['url'], '', 3);
@@ -111,6 +114,17 @@ class DingdanController extends BaseController {
 		}else{
 			$this->error('状态修改失败',$referer, '', 1);
 		}
+	}
+
+    public function change_order_goodst(Request $request) {
+        $data = $request->param();
+        $referer = $request->header()['referer'];
+        //dump($referer);exit;
+        if((new Dingdan())->saveGoodSt($data['order_id'])){
+            $this->success('状态修改成功',$referer,'',1);
+        }else{
+            $this->error('状态修改失败',$referer, '', 1);
+        }
 	}
 /*
  * 管理员改为已支付

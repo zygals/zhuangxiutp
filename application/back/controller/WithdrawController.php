@@ -2,6 +2,7 @@
 
 namespace app\back\controller;
 
+use app\back\model\Dingdan;
 use app\back\model\Setting;
 use think\Request;
 use app\back\model\Admin;
@@ -28,55 +29,47 @@ class WithdrawController extends BaseController{
      * @return \think\Response
      */
     public function edit(Request $request){
-        $benefit = Admin::getBenefit();
-        $minBenefit = Setting::getMinBenefit();
+        $benefit = Admin::getBenefit();$min=Setting::getMinBenefit();
+        if($benefit < Setting::getMinBenefit()){
+            $this->error('提现最小金额为'.$min);
+        }
+        $minBenefit = Setting::getMinBenefit(); //限定最小
         $id = session('admin_zhx')->id;
-        $referer = $request->header()['referer'];
-        return $this->fetch('edit',['admin_id'=>$id,'minBenefit'=>$minBenefit,'benefit'=>$benefit,'referer'=>$referer,'title'=>'申请提现','act'=>'update']);
+        $remain = Withdraw::getRemain(); //还可提多少
+        return $this->fetch('edit',['admin_id'=>$id,'minBenefit'=>$minBenefit,'benefit'=>$benefit,'title'=>'申请提现','act'=>'save','remain'=>$remain]);
     }
 
     /**
      * 收益提现逻辑处理
      * @param Request $request
      */
-    public function update(Request $request){
+    public function save(Request $request){
         $data = $request->param();
-        $referer = $data['referer'];unset($data['referer']);
-        $income = $data['benefit']-$data['cash'];
-        $admin = new Admin();
-        $admin->save(['income'=>$income],['id'=>$data['admin_id']]);
-        unset($data['benefit']);
-        $withdraw = new Withdraw();
-        $withdraw->save($data);
-        $this->success('申请成功', 'index', '', 1);
-    }
-
-    public function editSt(Request $request){
-        $data = $request->param();
-
-//        dump($data);exit;
-        $row_ = Withdraw::getListByWithdrawId($data['id']);
-
-//        dump($row_['admin_id']);exit;
-        $benefit = Admin::getBenefitByAdminId($row_['admin_id']);
-//        dump($benefit);exit;
-        $minBenefit = Setting::getMinBenefit();
-        $referer = $request->header()['referer'];
-        return $this->fetch('edit_st',['row_'=>$row_,'benefit'=>$benefit,'minBenefit'=>$minBenefit,'referer'=>$referer,'act'=>'updateSt','title'=>'修改提现信息']);
-
-    }
-
-    public function updateSt(Request $request){
-        $data=$request->param();
-//        dump($data);exit;
-        $referer = $data['referer'];unset($data['referer']);
-
-        if($this->saveById($data['id'],new Withdraw(),$data)){
-
-            $this->success('修改成功', $referer, '', 1);
-        }else{
-            $this->error('没有修改', $referer, '', 1);
+        if(!Admin::isShopAdmin()){
+            $this->error('非商户管理员没有权限！');
         }
+        if($data['cash']>Withdraw::getRemain()['remain']){
+            $this->error('提现超出收益！');
+        }
+
+        $data['admin_id']= session('admin_zhx')->id;
+//        dump($data);exit;
+        (new Withdraw())->save($data);
+        $this->success('申请成功，请等待管理员审核', 'index', '', 3);
+    }
+
+    /*
+     *
+     *将状态改为已通过
+     * */
+    public function updateSt(Request $request){
+        $data=$request->post();
+        $rule =['pass_admin'=>'require','withdraw_id'=>'require|number'];
+        $res=$this->validate($data,$rule);
+        if($res!==true){
+            return ['code'=>__LINE__,'msg'=>$res];
+        }
+        return json(Withdraw::updateWithdrawStOk($data));
     }
 
 }

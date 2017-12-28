@@ -2,12 +2,17 @@
 
 namespace app\api\model;
 
+use app\back\model\Ad;
 use app\back\model\Admin;
 
 
 
 class Pay extends Base {
+    public function pay_ok(){
+
+    }
     public function requestWxPay($data, $request) {
+
         $user_id = User::getUserIdByName($data['username']);
         if (is_array($user_id)) {
             return json($user_id);
@@ -21,6 +26,13 @@ class Pay extends Base {
             $row_order = OrderContact::where(['id' => $data['order_id']])->find();
             $fee = $row_order->sum_price_all;
         }
+        if($data['type_'] == Dingdan::ORDER_TYPE_GROUP_DEPOSIT ){
+            $row_group = self::getById($row_order->group_id, new Tuangou() );
+            $count =  Dingdan::group_attend_num($row_order->group_id);
+            if($count >= $row_group->pnum){
+                return ['code' => __LINE__ , 'msg' => '参团人数已满，不再支付'];
+            }
+        }
         if (!$row_order) {
             return ['code' => __LINE__, 'msg' => '订单不存在'];
         }
@@ -30,9 +42,16 @@ class Pay extends Base {
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $body = '55家收款';
+        $shop_name = Shop::where(['id'=>$row_order->shop_id])->value('name');
+        if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT){
+            $body = '55家-'.$shop_name.'订金';
+        }
+        if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
+            $body = '55家-'.$shop_name.'全款';
+        }
         $nonce_str = $this->nonce_str();//随机字符串
-        $notify_url = $request->domain() . url('pay_ok');
-//		dump($notify_url);exit;
+        $notify_url =  $request->domain() .'/zhuangxiutp/public/notify.php';
+       //dump($notify_url);exit;
         $openid = User::where(['id' => $user_id])->value('open_id');
         $out_trade_no = $row_order->orderno;//商户订单号
         $spbill_create_ip = config('wx_spbill_create_ip');
@@ -76,7 +95,6 @@ class Pay extends Base {
             $tmp['package'] = 'prepay_id=' . $array['PREPAY_ID'];
             $tmp['signType'] = 'MD5';
             $tmp['timeStamp'] = "$time";
-
             $data_return['code'] = 0;
             $data_return['timeStamp'] = "$time";//时间戳
             $data_return['nonceStr'] = $nonce_str;//随机字符串
@@ -84,6 +102,7 @@ class Pay extends Base {
             $data_return['package'] = 'prepay_id=' . $array['PREPAY_ID'];//统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=*
             $data_return['paySign'] = $this->sign($tmp);//签名,具体签名方案参见微信公众号支付帮助文档;
             $data_return['out_trade_no'] = $out_trade_no;
+            $data_return['prepay_id'] = $array['PREPAY_ID'];
 
         } else {
             $data_return['code'] = __LINE__;
@@ -104,20 +123,31 @@ class Pay extends Base {
         }
         $row_order = Dingdan::where(['id' => $data['order_id']])->find();
         if (!$row_order) {
-            return ['code' => __LINE__, 'msg' => '订单在！'];
+            return ['code' => __LINE__, 'msg' => '订单不存在！'];
         }
         if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
-        if(empty($row_order->refund_no)){
+        if(empty($row_order->refundno)){
             $refund_no= Dingdan::makeRefundNo();
-
+            $out_refund_no = $refund_no;//商户退款号
+            $row_order->refundno = $refund_no;
+        }else{
+            $out_refund_no = $row_order->refundno;//商户退款号
+        }
+        $row_shop = Shop::where( ['id' => $row_order->shop_id , 'st' => 1] )->find();
+        if(!$row_shop){
+            return ['code' => __LINE__, 'msg' => '此店铺不存在或已下架,请上架后操作！'];
+        }
+        $admin_shop = Admin::where(['shop_id' => $row_order->shop_id, 'st' => 1])->find();
+        if(!$admin_shop){
+            return ['code' => __LINE__, 'msg' => '此店铺没有添加管理员或已禁用，请先添加或改为正常！'];
         }
         $fee = $row_order->sum_price;
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $nonce_str = $this->nonce_str();//随机字符串
-        $out_refund_no = $refund_no;//商户退款号
+
         $out_trade_no = $row_order->orderno;//商户订单号
         $total_fee = $fee * 100;//最不为1
 
@@ -147,12 +177,10 @@ class Pay extends Base {
         $array = $this->xml($xml);//全要大写
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
-                \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);
-                Shop::incTradenum( $row_order->shop_id ,false);//交易量－
                 $row_order->st = Dingdan::ORDER_ST_REFUNDED;
-                $row_order->refundno = $refund_no;
                 $row_order->save();
-
+                \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化
+                Shop::incTradenum( $row_order->shop_id ,false);//交易量－
                 $ret['code'] = 0;
                 $ret['msg'] = "退款申请成功";
             } else {
@@ -197,26 +225,7 @@ class Pay extends Base {
     }
 
 
-//curl请求啊
-    function http_request($url, $data = null, $headers = array()) {
-        $curl = curl_init();
-        if (count($headers) >= 1) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        }
-        curl_setopt($curl, CURLOPT_URL, $url);
 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-        if (!empty($data)) {
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($curl);
-        curl_close($curl);
-        return $output;
-    }
 
     //限款的请求
     function http_post($url, $vars, $second = 30, $aHeader = array()) {

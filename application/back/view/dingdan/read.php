@@ -29,7 +29,6 @@
 					<?php } ?>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">订单号：</label>
-
 						<div class="col-xs-8 ">
 							<label>{$row_order->orderno}</label>
 						</div>
@@ -72,7 +71,7 @@
                             <?php } ?>
 						</div>
 					</div>
-					<?php if($row_order->type=='普通' || $row_order->type=='限人'){?>
+					<?php if($row_order->type=='普通' || $row_order->type=='限人' || $row_order->type=='商家订金' || $row_order->type=='商家全款'){?>
 						<div class="form-group ">
 							<label for="sName" class="col-xs-3 control-label">商品状态：</label>
 
@@ -81,8 +80,21 @@
 							</div>
 						</div>
 					<?php }?>
+                    <?php if(($row_order->type=='商家订金' || $row_order->type=='商家全款' ) && $row_order->goodst=='未发货'){?>
+                    <div class="form-group ">
+                        <label for="sName"
+                               class="col-xs-3 control-label">商品：</label>
 
+                        <div class="col-xs-8">
 
+                            <div class="col-xs-6">
+                                    <a href="javascript:if(confirm('确认已发货了吗？'))window.location.href='{:url('change_order_goodst')}?order_id={$row_order->id}'">确认发货</a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <?php }?>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">会员用户名：</label>
 

@@ -36,7 +36,7 @@
                         </select>
 
                         <input type="text" name="name_" value="{$Think.get.name_}" class="form-control input-sm"
-                               placeholder="输入名称/姓名/城市搜索"/>
+                               placeholder="输入名称/品牌/姓名/城市搜索"/>
                     <?php } ?>
 
 

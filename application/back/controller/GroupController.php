@@ -168,14 +168,14 @@ class GroupController extends BaseController {
     public function down(Request $request) {
         $data = $request->param();
         //下架条件：
-        $allow_ = true;
+     /*   $allow_ = true;
         $res = Dingdan::where(['group_id'=>$data['id'],'goodst'=>['in','1,2,5']])->select();
         if(count($res)>0){
             $allow_ = false;
         }
         if ($allow_ == false) {
             $this->error('此团购活动有未完成的订单，不能下架','index');
-        }
+        }*/
         //可以下架
         $row_ = $this->findById($data['id'],new Tuangou());
         $row_->st = 2;

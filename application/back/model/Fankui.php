@@ -6,7 +6,7 @@ use think\Model;
 
 class Fankui extends Base {
     public function getStAttr($value){
-        $st = [0=>'deleted',1=>'正常','不显示'];
+        $st = [0=>'deleted',1=>'正常',2=>'不显示'];
         return $st[$value];
     }
     public function getStarAttr($value){
@@ -30,7 +30,7 @@ class Fankui extends Base {
     public static function getListPage($data=[]){
         $order = 'create_time desc';
         $where = ['fankui.st'=>['<>',0]];
-        $time_from = isset($data['time_from'])?$data['time_from']:'';
+        /*$time_from = isset($data['time_from'])?$data['time_from']:'';
         $time_to = isset($data['time_to'])?$data['time_to']:'';
         if(!empty($time_from)){
             $where['fankui.create_time']=['gt',strtotime($time_from)];
@@ -40,6 +40,9 @@ class Fankui extends Base {
         }
         if(!empty($time_to) && !empty($time_from)){
             $where['fankui.create_time']=[['gt',strtotime($time_from)],['lt',strtotime($time_to)]];
+        }*/
+        if(Admin::isShopAdmin()){
+            $where['fankui.shop_id']=session('admin_zhx')->shop_id;
         }
         if(!empty($data['paixu'])){
             $where['star'] = $data['paixu'];

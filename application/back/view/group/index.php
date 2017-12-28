@@ -1,5 +1,5 @@
 {extend name='layout:base' /}
-{block name="title"}商品列表{/block}
+{block name="title"}团购列表{/block}
 {block name="content"}
 <style>
 	.pagination li.disabled > a, .pagination li.disabled > span {
@@ -83,16 +83,13 @@
 			<div class="col-xs-1">
 				订金
 			</div>
+            <div class="col-xs-1">
+                订金数
+            </div>
 			<div class="col-xs-1">
 				团购状态
 			</div>
 
-			<!--<div class="col-xs-1">
-				活动截止时间
-			</div>-->
-<!--			<div class="col-xs-1">-->
-<!--				类型-->
-<!--			</div>-->
 			<div class="col-xs-">
 				操 作
 			</div>
@@ -119,15 +116,6 @@
 								无
 							</div>
 						<?php } ?>
-<!--						--><?php //if ( $row_->type == '限量' ) { ?>
-<!--							<div class="col-xs-1 " title="已售：{$row_->already_sales}人">-->
-<!--								{$row_->store}-->
-<!--							</div>-->
-<!--						--><?php //} else { ?>
-<!--							<div class="col-xs-1 ">-->
-<!--								无-->
-<!--							</div>-->
-<!--						--><?php //} ?>
 
 						<div class="col-xs-1 " title="{$row_->price_group}">
 							{$row_->price_group}
@@ -137,7 +125,9 @@
 								{$row_->deposit}
 							</div>
 
-
+                        <div class="col-xs-1 " title="{$row_->order_deposit_num}">
+                            {$row_->order_deposit_num}
+                        </div>
 						<div class="col-xs-1 " title="{$row_->group_st}">
 							{$row_->group_st}
 						</div>

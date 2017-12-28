@@ -13,13 +13,15 @@ class Dingdan extends model {
     const GOODST_YIFAHUO = 2;
     const GOODST_BUFEN_FAHUO = 5;
 
-    public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款'];
+    public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
     public static $arrType = [1 => '普通', 3 => '限人', 4 => '商家订金', 5 => '商家全款', 6 => '限人尾款'];
 
     public function getStAttr($value) {
-        $status = ['0' => '管理员删除', 1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款'];
+        $status = ['0' => '管理员删除', 1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
         return $status[$value];
     }
+
+
 
     public function getTypeAttr($value) {
         $status = [1 => '普通',
@@ -39,14 +41,21 @@ class Dingdan extends model {
         return $row_;
     }
 
+    public function saveGoodSt($order_id) {
+        $row_ = self::where(['id'=>$order_id])->find();
+        if($row_->goodst=='已发货'){
+            return false;
+        }
+        $row_->goodst=2;
+        $row_->save();
+        return true;
+    }
     /*
-     * //分页查询
+     *   分页查询
      * */
     public static function getAlldingdans($data) {
         $where = ['dingdan.st' => ['<>', 0]];
         $order = ['create_time desc'];
-        //$time_from = isset($data['time_from']) ? $data['time_from'] : '';
-       // $time_to = isset($data['time_to']) ? $data['time_from'] : '';
         if (Admin::isShopAdmin()) {
             $where['dingdan.shop_id'] = session('admin_zhx')->shop_id;
         }
@@ -59,12 +68,34 @@ class Dingdan extends model {
         if (!empty($data['time_from']) && !empty($data['time_to'])) {
             $where['dingdan.create_time'] = [['gt', strtotime($data['time_from'])], ['lt', strtotime($data['time_to'])]];
         }
-        if (!empty($data['orderno'])) {
-            $where['dingdan.orderno'] = ['like', '%' . $data['orderno'] . '%'];
+        if(!empty($data['sel_type'])){
+            $data['name_'] = trim($data['name_']);
+            switch ($data['sel_type']){
+                case 'orderno':
+                    $where['dingdan.orderno'] = ['like', '%' . $data['name_'] . '%'];
+                    break;
+                case 'shop_name':
+                    $ids = Shop::where(['name'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.shop_id'] = ['in', $ids];
+                    break;
+                case 'mobile':
+                    $ids = Address::where(['mobile'=>['=',$data['name_']]])->column('user_id');
+                    $where['dingdan.user_id'] = ['in', $ids];
+                    break;
+                case 'truename':
+                    $ids = Address::where(['truename'=>['like',"%{$data['name_']}%"]])->column('user_id');
+                    $where['dingdan.user_id'] = ['in', $ids];
+                    break;
+                case 'brand':
+                    $ids = Shop::where(['brand'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $where['dingdan.shop_id'] = ['in', $ids];
+                    break;
+                default:
+
+
+            }
         }
-        if (!empty($data['shop_id'])) {
-            $where['shop_id'] = $data['shop_id'];
-        }
+
         if (!empty($data['st'])) {
             $where['dingdan.st'] = $data['st'];
         }
@@ -79,22 +110,24 @@ class Dingdan extends model {
         }
 
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
-        //dump($list);
         if(!empty($data['excel']) && $data['excel']==1){ //导出表格
-
-            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->select();
-
+            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address','dingdan.address_id=address.id')->order($order)->select();
             $excel=  new \PHPExcel();
-
             $excel->setActiveSheetIndex(0)
                 ->setCellValue('A1', '编号')
                 ->setCellValue('B1', '联合编号')
                 ->setCellValue('C1', '类型')
                 ->setCellValue('D1', '订单编号')
                 ->setCellValue('E1', '商户名称')
-                ->setCellValue('G1', '用户名')
-                ->setCellValue('H1', '总 价');
-
+                ->setCellValue('F1', '用户名')
+                ->setCellValue('G1', '姓名')
+                ->setCellValue('H1', '电话')
+                ->setCellValue('I1', '地址')
+                ->setCellValue('J1', '总价')
+                ->setCellValue('K1', '状态')
+                ->setCellValue('L1', '商品状态')
+                ->setCellValue('M1', '下单时间')
+            ;
             foreach ($list_ as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -102,15 +135,20 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['type']);
                 $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['orderno']);
                 $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['shop_name']);
-                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['username']);
-                $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['sum_price']);
+                $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, $value['username']);
+                $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['truename']);
+                $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['mobile']);
+                $excel->setActiveSheetIndex(0)->setCellValue('I' . $key, $value['pcd'].' '.$value['info']);
+                $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['sum_price']);
+                $excel->setActiveSheetIndex(0)->setCellValue('K' . $key, $value['st']);
+                $excel->setActiveSheetIndex(0)->setCellValue('L' . $key, $value['goodst']);
+                $excel->setActiveSheetIndex(0)->setCellValue('M' . $key, $value['create_time']);
             }
-            $excel->getActiveSheet()->setTitle('order_list');
+            $excel->getActiveSheet()->setTitle('订单列表');
             $excel->setActiveSheetIndex(0);
             $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-            $filename = "order_list.xlsx";
-
-            //ob_end_clean();//清除缓存以免乱码出现
+            $filename = "订单列表.xlsx";
+            ob_end_clean();//清除缓存以免乱码出现
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -148,13 +186,14 @@ class Dingdan extends model {
         }
         $row_order = self::where(['id' => $data['order_id']])->find();
         if ($data['st'] == 'paid') {
-
-            $row_order->st = 2;
             self::udpateShouyi($row_order->shop_id,$row_order->sum_price);
+            $row_order->st = 2;
+
         } elseif ($data['st'] == 'tuikuan') {
-            $row_order->st = 3;
             self::udpateShouyi($row_order->shop_id,-$row_order->sum_price);
             Shop::incTradenum( $row_order->shop_id ,false);//交易量－
+            $row_order->st = 3;
+
         }
         $row_order->save();
 
