@@ -138,7 +138,7 @@ class Pay extends Base {
             return ['code' => __LINE__, 'msg' => '此商户有申请提现没审核或有未转账的提现,先处理！'];
         }
         //如果退款金额>可用收益，则提示
-        if($fee > Admin::getBenefit()){
+        if($fee > Admin::getBenefitByAdminId($row_order->shop_id)){
             return ['code' => __LINE__, 'msg' => '退款金额>商户收益，不能退款！'];
         }
         if(empty($row_order->refundno)){

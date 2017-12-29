@@ -106,8 +106,8 @@ class Admin extends Base {
     /**
      * 通过admin_id获取管理员用户收益
      */
-    public static function getBenefitByAdminId($data){
-        $benefit = self::where(['id'=>$data])->find();
+    public static function getBenefitByAdminId($shop_id){
+        $benefit = self::where(['shop_id'=>$shop_id])->find();
         return $benefit['income'];
     }
     public static function increaseLock($cash){
