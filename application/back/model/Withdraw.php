@@ -129,9 +129,9 @@ class Withdraw extends Base {
             if (is_array($refund)) {
                 return $refund;
             }//2100      4000-2000
-            echo($refund);
-            echo (Withdraw::getRemain()['remain']);
-            if ($refund > Withdraw::getRemain()['remain']) {
+
+            echo self::getRemain()['remain'],'|*88*|';
+            if ($refund > self::getRemain()['remain']) {
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
@@ -144,7 +144,7 @@ class Withdraw extends Base {
             $row_->verify_time = time();
             $row_->save();
             // 提交事务
-            Db::commit();
+             Db::commit();
             return ['code' => 0, 'msg' => '审核通过，请于线下转账给商家' . $row_->cash . '元，并在后台维护数据正确性！'];
 
         } catch (\Exception $e) {
