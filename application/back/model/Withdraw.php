@@ -10,11 +10,11 @@ class Withdraw extends Base {
     const ST_OK = 2; //审核成功
     const ST_FAIL = 3; // 审核失败
 
-    public static $stStatus = [1 => '待审核', 2 => '审核成功', 3 => '审核失败'];
+    public static $stStatus = [1 => '待审核', 2 => '审核通过', 3 => '审核不通过'];
     protected $dateFormat = 'Y-m-d H:i:s';
 
     public function getStAttr($value) {
-        $status = [1 => '待审核', 2 => '审核通过', 3 => '审核失败'];
+        $status = [1 => '待审核', 2 => '审核通过', 3 => '审核不通过'];
         return $status[$value];
     }
 
@@ -71,9 +71,8 @@ class Withdraw extends Base {
      * */
     public static function getRemain() {
         $income = Admin::getBenefit();
-        $sum_widthdraw = self::where(['admin_id' => session('admin_zhx')->id, 'st' => 1])->field('cash')->sum('cash');
-        //echo $income-$sum_widthdraw;exit;
-        return ['already_apply' => $sum_widthdraw, 'remain' => $income - $sum_widthdraw];
+         $lock= Admin::getBenefitLock();
+        return ['already_apply' => $lock, 'remain' => $income - $lock];
     }
 
 
@@ -93,6 +92,7 @@ class Withdraw extends Base {
             $row_->save();
             $admin_shop->setDec('income', $row_->cash);
             $admin_shop->setInc('withdraw_ok', $row_->cash);
+            $admin_shop->setDec('income_lock',$row_->cash); //冻结减
             Db::commit();
             return ['code' => 0, 'msg' => '已转账'];
         } catch (\Exception $e) {
@@ -105,8 +105,10 @@ class Withdraw extends Base {
 
     /*
      *
-     *
-     *
+        审核
+        1、如通过，则状态为审核通过（同时线下转账后）、可后台操作转账（维护数据正确性：1、收益减；2、冻结减）
+        2、如不通过，则状态不通过，后台无后续操作（维护数据正确性：1、冻结减 ；2、收益加）
+
      * */
     public static function updateWithdrawStOk($data) {
         if (is_array($ret = Admin::passRight($data['pass_admin']))) {
@@ -126,24 +128,27 @@ class Withdraw extends Base {
             $refund = Dingdan::getAllRedundOfMe($row_->admin_id);
             if (is_array($refund)) {
                 return $refund;
-            }//5   6
-            if ($refund > ($admin_shop->income - $row_->cash)) {
+            }//2100      4000-2000
+            if ($refund > Withdraw::getRemain()['remain']) {
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
+                $admin_shop->setDec('income_lock',$row_->cash); //冻结减
+
                 Db::commit();
-                return ['code' => 0, 'msg' => '申请退款总额>可用收益,审核失败！'];
+                return ['code' => 0, 'msg' => '申请退款总额>可用收益,审核失败,申请金额已返回！'];
             }
             $row_->st = self::ST_OK;
             $row_->verify_time = time();
             $row_->save();
-
+           // $admin_shop->setDec('income_lock',$row_->cash); //冻结减
             // 提交事务
             Db::commit();
-            return ['code' => 0, 'msg' => '审核成功，请于线下转账给商家' . $row_->cach . '元'];
+            return ['code' => 0, 'msg' => '审核通过，请于线下转账给商家' . $row_->cash . '元，并在后台维护数据正确性！'];
 
         } catch (\Exception $e) {
             // 回滚事务
+
             Db::rollback();
             return ['code' => __LINE__, 'msg' => '通过失败'];
 
@@ -160,8 +165,9 @@ class Withdraw extends Base {
         if (!$admin_) {
             return ['code' => __LINE__, 'msg' => '管理员禁用或删除'];
         }
-        $row_ = self::where(['admin_id' => $admin_->id, 'st' => 1])->find();
-        if (!$row_) {
+        $row_1 = self::where(['admin_id' => $admin_->id, 'st' => self::ST_WAIT])->find();
+        $row_2= self::where(['admin_id' => $admin_->id, 'st' => self::ST_OK,'cashst'=>1])->find();
+        if (!$row_1 && !$row_2) {
             return false;
         }
         return true;

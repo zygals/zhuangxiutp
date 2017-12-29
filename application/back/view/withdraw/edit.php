@@ -9,10 +9,7 @@
 
 <!--弹出添加用户窗口-->
 <form class="form-horizontal" action="{:url($act)}" method="post" >
-    <?php if($act=='update'){?>
-        <input type="hidden" name="admin_id" value="{$admin_id}">
-        <input type="hidden" name="benefit" value="{$benefit}">
-    <?php }?>
+
     <div class="row">
         <div class="col-xs-8">
             <div class="text-center">
@@ -53,7 +50,6 @@
 
 <script>
     $(function () {
-      //  var minBenefit = '{$minBenefit}';
         $('form').bootstrapValidator({
             fields: {
                 cash: {

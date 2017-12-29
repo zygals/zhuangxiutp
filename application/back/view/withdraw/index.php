@@ -112,10 +112,10 @@
                         <div class="col-xs-1 " title="{$row_->cash}元">
                             {$row_->cash}元
                         </div>
-                        <div class="col-xs-1">
+                        <div class="col-xs-1" title=" {$row_->st}">
                             {$row_->st}
                         </div>
-                        <div class="col-xs-1">
+                        <div class="col-xs-1" title="  {$row_->cashst}">
                             {$row_->cashst}
                         </div>
                         <div class="col-xs-1" title="{$row_->create_time}">
@@ -222,7 +222,7 @@
    }
    function transferOk(obj) {
        var id= $(obj).attr('data_id');
-       if(confirm('此操作可以查看商家是否能够正常提现，如审核状态为通过，则平台通过线下转账给商家。')){
+       if(confirm('此操作可以分析商家是否能够正常提现，如审核状态为通过，则平台通过线下转账给商家。')){
            var admin_pass = prompt('请输入管理员密码');
            if(admin_pass==''){
                alert('密码不能为空');

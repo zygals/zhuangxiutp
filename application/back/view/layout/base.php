@@ -78,6 +78,9 @@
 <?php }?>
             <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
                 <p>我的收益:　<?php echo(\app\back\model\Admin::getBenefit()) ?>元</p>
+                <?php if(($lock_income = \app\back\model\Admin::getBenefitLock()) >0 ){?>
+                    <p>收益冻结:　<?php echo $lock_income ;?>元</p>
+                <?php }?>
                 <p><a href="{:Url('withdraw/edit')}">申请提现</a></p>
             <?php }?>
 

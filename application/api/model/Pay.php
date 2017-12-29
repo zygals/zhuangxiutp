@@ -135,7 +135,7 @@ class Pay extends Base {
             return $admin_have_withdraw;
         }
         if($admin_have_withdraw){
-            return ['code' => __LINE__, 'msg' => '此商户有申请提现,先处理！'];
+            return ['code' => __LINE__, 'msg' => '此商户有申请提现没审核或有未转账的提现,先处理！'];
         }
         //如果退款金额>可用收益，则提示
         if($fee > Admin::getBenefit()){

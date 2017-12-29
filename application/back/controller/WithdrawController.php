@@ -29,15 +29,9 @@ class WithdrawController extends BaseController{
      * @return \think\Response
      */
     public function edit(Request $request){
-        $benefit = Admin::getBenefit();$min=Setting::getMinBenefit();
-        if($benefit < Setting::getMinBenefit()){
-            $this->error('提现最小金额为'.$min);
-        }
-
-        $minBenefit = Setting::getMinBenefit(); //限定最小
-        $id = session('admin_zhx')->id;
+        $benefit = Admin::getBenefit();
         $remain = Withdraw::getRemain(); //还可提多少
-        return $this->fetch('edit',['admin_id'=>$id,'minBenefit'=>$minBenefit,'benefit'=>$benefit,'title'=>'申请提现','act'=>'save','remain'=>$remain]);
+        return $this->fetch('edit',['benefit'=>$benefit,'title'=>'申请提现','act'=>'save','remain'=>$remain]);
     }
 
     /**
@@ -58,22 +52,22 @@ class WithdrawController extends BaseController{
         if($data['cash'] < $min){
             $this->error('单次提现金额最小为'.$min);
         }
+        if($data['cash']>Withdraw::getRemain()['remain']){
+            $this->error('提现超出可用收益！');
+        }
         $data['admin_id']= session('admin_zhx')->id;
         //如果有申请退款的订单，则
         $refund=Dingdan::getAllRedundOfMe($data['admin_id']);
-        if(is_array($refund)){
+        if(is_array($refund)) {
             $this->error($refund['msg']);
-        }//3   5
-        if($refund >= Withdraw::getRemain()['remain']){
+        }
+        if(($refund + $data['cash']) > Withdraw::getRemain()['remain']){
             $this->error("申请失败，有申请退款的订单合计 {$refund}！");
         }
 
-        if($data['cash']>Withdraw::getRemain()['remain']){
-            $this->error('提现超出收益！');
-        }
-
-
         (new Withdraw())->save($data);
+        //锁定收益+
+        Admin::increaseLock($data['cash']);
         $this->success('申请成功，请等待管理员审核', 'index', '', 3);
     }
 

@@ -91,6 +91,15 @@ class Admin extends Base {
         return $benefit['income'];
     }
 
+    /**
+     * 获取商品管理员 ，已锁定收益
+     */
+    public static function getBenefitLock(){
+        $id = session('admin_zhx')->id;
+//        dump(self::where('id',$id)->value('income_lock'));
+       return self::where('id',$id)->value('income_lock');
+
+    }
 
 
 
@@ -100,6 +109,10 @@ class Admin extends Base {
     public static function getBenefitByAdminId($data){
         $benefit = self::where(['id'=>$data])->find();
         return $benefit['income'];
+    }
+    public static function increaseLock($cash){
+
+        self::where('id',session('admin_zhx')->id)->setInc('income_lock',$cash);
     }
 	/*
 	 * 根据商家id查询相应的管理员，一个商家只有一个管理员
