@@ -4,7 +4,7 @@ namespace app\api\model;
 
 use app\back\model\Ad;
 use app\back\model\Admin;
-
+use app\back\model\Withdraw;
 
 
 class Pay extends Base {
@@ -128,6 +128,19 @@ class Pay extends Base {
         if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
+        $fee = $row_order->sum_price;
+        //是否有申请提现，如有，则提示先处理
+        $admin_have_withdraw= Withdraw::haveWithdraw($row_order->shop_id);
+        if(is_array($admin_have_withdraw)){
+            return $admin_have_withdraw;
+        }
+        if($admin_have_withdraw){
+            return ['code' => __LINE__, 'msg' => '此商户有申请提现,先处理！'];
+        }
+        //如果退款金额>可用收益，则提示
+        if($fee > Admin::getBenefit()){
+            return ['code' => __LINE__, 'msg' => '退款金额>商户收益，不能退款！'];
+        }
         if(empty($row_order->refundno)){
             $refund_no= Dingdan::makeRefundNo();
             $out_refund_no = $refund_no;//商户退款号
@@ -143,7 +156,7 @@ class Pay extends Base {
         if(!$admin_shop){
             return ['code' => __LINE__, 'msg' => '此店铺没有添加管理员或已禁用，请先添加或改为正常！'];
         }
-        $fee = $row_order->sum_price;
+
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $nonce_str = $this->nonce_str();//随机字符串

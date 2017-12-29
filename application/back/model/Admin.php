@@ -91,6 +91,9 @@ class Admin extends Base {
         return $benefit['income'];
     }
 
+
+
+
     /**
      * 通过admin_id获取管理员用户收益
      */

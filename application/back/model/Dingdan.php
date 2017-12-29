@@ -8,19 +8,18 @@ use app\back\model\Good;
 use app\back\model\OrderGood;
 
 class Dingdan extends model {
-    protected $dateFormat='Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d H:i:s';
     const GOODST_WEIFAHUO = 1;
     const GOODST_YIFAHUO = 2;
     const GOODST_BUFEN_FAHUO = 5;
 
-    public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
+    public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除', 6 => '申请退款', 7 => '订金抵扣商品', 8 => '订金抵扣全款', 9 => '完成删除'];
     public static $arrType = [1 => '普通', 3 => '限人', 4 => '商家订金', 5 => '商家全款', 6 => '限人尾款'];
 
     public function getStAttr($value) {
-        $status = ['0' => '管理员删除', 1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
+        $status = ['0' => '管理员删除', 1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除', 6 => '申请退款', 7 => '订金抵扣商品', 8 => '订金抵扣全款', 9 => '完成删除'];
         return $status[$value];
     }
-
 
 
     public function getTypeAttr($value) {
@@ -42,14 +41,15 @@ class Dingdan extends model {
     }
 
     public function saveGoodSt($order_id) {
-        $row_ = self::where(['id'=>$order_id])->find();
-        if($row_->goodst=='已发货'){
+        $row_ = self::where(['id' => $order_id])->find();
+        if ($row_->goodst == '已发货') {
             return false;
         }
-        $row_->goodst=2;
+        $row_->goodst = 2;
         $row_->save();
         return true;
     }
+
     /*
      *   分页查询
      * */
@@ -68,26 +68,26 @@ class Dingdan extends model {
         if (!empty($data['time_from']) && !empty($data['time_to'])) {
             $where['dingdan.create_time'] = [['gt', strtotime($data['time_from'])], ['lt', strtotime($data['time_to'])]];
         }
-        if(!empty($data['sel_type'])){
+        if (!empty($data['sel_type'])) {
             $data['name_'] = trim($data['name_']);
-            switch ($data['sel_type']){
+            switch ($data['sel_type']) {
                 case 'orderno':
                     $where['dingdan.orderno'] = ['like', '%' . $data['name_'] . '%'];
                     break;
                 case 'shop_name':
-                    $ids = Shop::where(['name'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $ids = Shop::where(['name' => ['like', "%{$data['name_']}%"]])->column('id');
                     $where['dingdan.shop_id'] = ['in', $ids];
                     break;
                 case 'mobile':
-                    $ids = Address::where(['mobile'=>['=',$data['name_']]])->column('user_id');
+                    $ids = Address::where(['mobile' => ['=', $data['name_']]])->column('user_id');
                     $where['dingdan.user_id'] = ['in', $ids];
                     break;
                 case 'truename':
-                    $ids = Address::where(['truename'=>['like',"%{$data['name_']}%"]])->column('user_id');
+                    $ids = Address::where(['truename' => ['like', "%{$data['name_']}%"]])->column('user_id');
                     $where['dingdan.user_id'] = ['in', $ids];
                     break;
                 case 'brand':
-                    $ids = Shop::where(['brand'=>['like',"%{$data['name_']}%"]])->column('id');
+                    $ids = Shop::where(['brand' => ['like', "%{$data['name_']}%"]])->column('id');
                     $where['dingdan.shop_id'] = ['in', $ids];
                     break;
                 default:
@@ -110,9 +110,9 @@ class Dingdan extends model {
         }
 
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
-        if(!empty($data['excel']) && $data['excel']==1){ //导出表格
-            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address','dingdan.address_id=address.id')->order($order)->select();
-            $excel=  new \PHPExcel();
+        if (!empty($data['excel']) && $data['excel'] == 1) { //导出表格
+            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address', 'dingdan.address_id=address.id')->order($order)->select();
+            $excel = new \PHPExcel();
             $excel->setActiveSheetIndex(0)
                 ->setCellValue('A1', '编号')
                 ->setCellValue('B1', '联合编号')
@@ -126,8 +126,7 @@ class Dingdan extends model {
                 ->setCellValue('J1', '总价')
                 ->setCellValue('K1', '状态')
                 ->setCellValue('L1', '商品状态')
-                ->setCellValue('M1', '下单时间')
-            ;
+                ->setCellValue('M1', '下单时间');
             foreach ($list_ as $key => $value) {
                 $key += 2; //从第二行开始填充
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
@@ -138,7 +137,7 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, $value['username']);
                 $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['truename']);
                 $excel->setActiveSheetIndex(0)->setCellValue('H' . $key, $value['mobile']);
-                $excel->setActiveSheetIndex(0)->setCellValue('I' . $key, $value['pcd'].' '.$value['info']);
+                $excel->setActiveSheetIndex(0)->setCellValue('I' . $key, $value['pcd'] . ' ' . $value['info']);
                 $excel->setActiveSheetIndex(0)->setCellValue('J' . $key, $value['sum_price']);
                 $excel->setActiveSheetIndex(0)->setCellValue('K' . $key, $value['st']);
                 $excel->setActiveSheetIndex(0)->setCellValue('L' . $key, $value['goodst']);
@@ -186,12 +185,12 @@ class Dingdan extends model {
         }
         $row_order = self::where(['id' => $data['order_id']])->find();
         if ($data['st'] == 'paid') {
-            self::udpateShouyi($row_order->shop_id,$row_order->sum_price);
+            self::udpateShouyi($row_order->shop_id, $row_order->sum_price);
             $row_order->st = 2;
 
         } elseif ($data['st'] == 'tuikuan') {
-            self::udpateShouyi($row_order->shop_id,-$row_order->sum_price);
-            Shop::incTradenum( $row_order->shop_id ,false);//交易量－
+            self::udpateShouyi($row_order->shop_id, -$row_order->sum_price);
+            Shop::incTradenum($row_order->shop_id, false);//交易量－
             $row_order->st = 3;
 
         }
@@ -201,7 +200,7 @@ class Dingdan extends model {
 
     }
 
-    public static function udpateShouyi($shop_id,$change){
+    public static function udpateShouyi($shop_id, $change) {
         //同时增加商家收益
         $admin_shop = Admin::where(['shop_id' => $shop_id, 'st' => 1])->find();
         if (!$admin_shop) {
@@ -209,5 +208,16 @@ class Dingdan extends model {
         }
         $admin_shop->income += $change;
         $admin_shop->save();
+    }
+
+    public static function getAllRedundOfMe($admin_id) {
+
+        $shop_id = Admin::where(['id' => $admin_id, 'st' => 1])->value('shop_id');
+        if (!$shop_id) {
+            return ['code' => __LINE__, 'msg' => '您被禁用或删除了，请联系平台管理员'];
+        }
+        $sum_refund=self::where(['shop_id'=>$shop_id,'st'=>6])->sum('sum_price');
+
+        return $sum_refund;
     }
 }

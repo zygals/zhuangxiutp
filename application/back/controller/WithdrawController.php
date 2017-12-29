@@ -33,6 +33,7 @@ class WithdrawController extends BaseController{
         if($benefit < Setting::getMinBenefit()){
             $this->error('提现最小金额为'.$min);
         }
+
         $minBenefit = Setting::getMinBenefit(); //限定最小
         $id = session('admin_zhx')->id;
         $remain = Withdraw::getRemain(); //还可提多少
@@ -45,26 +46,40 @@ class WithdrawController extends BaseController{
      */
     public function save(Request $request){
         $data = $request->param();
+        $rule =['cash'=>'require|number'];
+        $res=$this->validate($data,$rule);
+        if($res!==true){
+            $this->error($res);
+        }
         if(!Admin::isShopAdmin()){
             $this->error('非商户管理员没有权限！');
         }
         $min=Setting::getMinBenefit();
         if($data['cash'] < $min){
-            $this->error('提现最小金额为'.$min);
+            $this->error('单次提现金额最小为'.$min);
         }
+        $data['admin_id']= session('admin_zhx')->id;
+        //如果有申请退款的订单，则
+        $refund=Dingdan::getAllRedundOfMe($data['admin_id']);
+        if(is_array($refund)){
+            $this->error($refund['msg']);
+        }//3   5
+        if($refund >= Withdraw::getRemain()['remain']){
+            $this->error("申请失败，有申请退款的订单合计 {$refund}！");
+        }
+
         if($data['cash']>Withdraw::getRemain()['remain']){
             $this->error('提现超出收益！');
         }
 
-        $data['admin_id']= session('admin_zhx')->id;
-//        dump($data);exit;
+
         (new Withdraw())->save($data);
         $this->success('申请成功，请等待管理员审核', 'index', '', 3);
     }
 
     /*
      *
-     *将状态改为已通过
+     *将状态改为已通过或没通过
      * */
     public function updateSt(Request $request){
         $data=$request->post();
@@ -74,6 +89,19 @@ class WithdrawController extends BaseController{
             return ['code'=>__LINE__,'msg'=>$res];
         }
         return json(Withdraw::updateWithdrawStOk($data));
+    }
+    /*
+     *
+     *将状态改为已通过或没通过
+     * */
+    public function update_cashst(Request $request){
+        $data=$request->post();
+        $rule =['pass_admin'=>'require','withdraw_id'=>'require|number'];
+        $res=$this->validate($data,$rule);
+        if($res!==true){
+            return ['code'=>__LINE__,'msg'=>$res];
+        }
+        return json(Withdraw::updateCashst($data));
     }
 
 }
