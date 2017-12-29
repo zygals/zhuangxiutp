@@ -130,14 +130,12 @@ class Withdraw extends Base {
                 return $refund;
             }//2100      4000-2000
             $remain = self::getRemain();
-            echo $remain['remain'],'|*88*|';
 
             if ($refund > $remain) {
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
                 $admin_shop->setDec('income_lock',$row_->cash); //冻结减
-                echo 'fail....';
                 Db::commit();
                 return ['code' => 0, 'msg' => '申请退款总额>可用收益,审核失败！'];
             }
