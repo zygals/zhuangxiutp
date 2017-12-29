@@ -129,9 +129,10 @@ class Withdraw extends Base {
             if (is_array($refund)) {
                 return $refund;
             }//2100      4000-2000
+            $remain = self::getRemain();
+            echo $remain['remain'],'|*88*|';
 
-            echo self::getRemain()['remain'],'|*88*|';
-            if ($refund > self::getRemain()['remain']) {
+            if ($refund > $remain) {
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
