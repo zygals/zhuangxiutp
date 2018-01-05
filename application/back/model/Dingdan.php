@@ -110,6 +110,9 @@ class Dingdan extends model {
         }
 
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
+      
+        $list->sum_all_price = self::where($where)->sum('sum_price');
+
         if (!empty($data['excel']) && $data['excel'] == 1) { //导出表格
             $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address', 'dingdan.address_id=address.id')->order($order)->select();
             $excel = new \PHPExcel();
@@ -154,6 +157,7 @@ class Dingdan extends model {
             header('Cache-Control: max-age=0');
             $objWriter->save('php://output');
         }
+
         return $list;
     }
 

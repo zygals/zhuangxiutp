@@ -92,13 +92,13 @@
                 订单编号
             </div>
             <div class="col-xs-1">
-                商户名称
+                商户名
             </div>
             <div class="col-xs-1 ">
-                用户名
+                用户
             </div>
-            <div class="col-xs-1">
-                总 价
+            <div class="col-xs-1" title="{$list_->sum_all_price}">
+                总价
             </div>
 
             <div class="col-xs-1">
