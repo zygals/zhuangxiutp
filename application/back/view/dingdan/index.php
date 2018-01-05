@@ -36,6 +36,14 @@
                             </option>
                         <?php } ?>
                     </select>
+                    <select name="goodst" id="" class="form-control">
+                        <option value="">－－商品状态－－</option>
+                        <?php foreach (app\back\model\Dingdan::$arrGoodSt as $k => $v) { ?>
+                            <option value="{$k}" <?php echo isset($_GET['goodst']) ? $k === (int)$_GET['goodst'] ? 'selected' : '' : ''; ?>>
+                                {$v}
+                            </option>
+                        <?php } ?>
+                    </select>
                     <select name="type" id="" class="form-control">
                         <option value="">－－选择类型－－</option>
                         <?php foreach (app\back\model\Dingdan::$arrType as $k => $v) { ?>

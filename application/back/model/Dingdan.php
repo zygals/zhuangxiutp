@@ -14,6 +14,9 @@ class Dingdan extends model {
     const GOODST_BUFEN_FAHUO = 5;
 
     public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除', 6 => '申请退款', 7 => '订金抵扣商品', 8 => '订金抵扣全款', 9 => '完成删除'];
+      public static $arrGoodSt = [1 => '未发货', 2 => '已发货', 5 => '部分发货', 3 => '已收货', 4 => '已评价'];
+
+
     public static $arrType = [1 => '普通', 3 => '限人', 4 => '商家订金', 5 => '商家全款', 6 => '限人尾款'];
 
     public function getStAttr($value) {
@@ -99,6 +102,9 @@ class Dingdan extends model {
         if (!empty($data['st'])) {
             $where['dingdan.st'] = $data['st'];
         }
+        if (!empty($data['goodst'])) {
+            $where['dingdan.goodst'] = $data['goodst'];
+        }
         if (!empty($data['type'])) {
             $where['dingdan.type'] = $data['type'];
         }
@@ -110,7 +116,7 @@ class Dingdan extends model {
         }
 
         $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
-      
+
         $list->sum_all_price = self::where($where)->sum('sum_price');
 
         if (!empty($data['excel']) && $data['excel'] == 1) { //导出表格
