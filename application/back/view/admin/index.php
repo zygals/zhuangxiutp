@@ -35,7 +35,7 @@
                 身份
             </div>
             <div class=" col-sm-1 ">
-                商家编号
+                商家
             </div>
             <div class=" col-sm-1 ">
                 收益
@@ -72,8 +72,8 @@
                     <div class="col-sm-1">
                         <?= $admin['type'] ?>
                     </div>
-                    <div class="col-sm-1" title="{$admin->shop_id}">
-                        <?= $admin['shop_id'] ?>
+                    <div class="col-sm-1" title="{$admin->shop_id}:{$admin->shop_name}-{$admin->getShopSt($admin->shop_st)}">
+                        <?= $admin['shop_id'].':'.$admin->shop_name ?>
                     </div>
                     <div class="col-sm-1" title="{$admin->income}">
                         {$admin->income}

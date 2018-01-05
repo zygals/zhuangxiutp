@@ -32,7 +32,7 @@ class Admin extends Base {
 
     public static  function getList($data=[]){
         $order = "create_time asc";
-        $where = ['st'=>['=',1]];
+        $where = ['admin.st'=>['=',1]];
         if(Admin::isShopAdmin()){
             $where['shop_id']=session('admin_zhx')->shop_id;
         }
@@ -50,10 +50,24 @@ class Admin extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
-        $list_ = self::where($where)->order($order)->paginate(10);
+        $list_ = self::where($where)->join('shop','admin.shop_id=shop.id','left')->field('admin.*,shop.name shop_name,shop.st shop_st')->order($order)->paginate(10);
         return $list_;
     }
 
+    public function getShopSt($shop_st){
+        switch ($shop_st){
+            case 0:
+                return '删除';
+                break;
+            case 1:
+                return '正常';
+                break;
+            case 2:
+                return '关';
+                break;
+        }
+
+    }
     /*
      * 判断是不是商户管理员
      * */
