@@ -392,7 +392,7 @@ class Dingdan extends Base{
         }elseif ( $data['st'] == 'refundByUser' ) {
             $row_->st = self::ORDER_ST_USER_REFUND;
         }elseif ( $data['st'] == 'refundCancelByUser' ) {
-		    if( $row_->st==self::ORDER_ST_REFUNDED){
+		    if( $row_->getData('st')==self::ORDER_ST_REFUNDED){
                 return ['code' => 0 , 'msg' => '你的订单已退款成功了，请刷新订单'];
             }
             $row_->st = self::ORDER_ST_PAID;
