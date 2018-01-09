@@ -379,8 +379,20 @@ class Dingdan extends Base{
 		} elseif ( $data['st'] == 'paid' ) {
 			$row_->st = self::ORDER_ST_PAID;
 		} elseif ( $data['st'] == 'taken' ) {
+
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
-			OrderGood::where( ['order_id' => $data['order_id']] )->update( ['st' => OrderGood::ST_TAKEN] );
+            if($row_->getData('type')!=self::ORDER_TYPE_SHOP_DEPOSIT && $row_->getData('type')!=self::ORDER_TYPE_SHOP_MONEY_ALL){
+
+                OrderGood::where( ['order_id' => $data['order_id']] )->update( ['st' => OrderGood::ST_TAKEN] );
+            }
+            //如果有抵扣订单，则同时改为已收货
+            if(($row_->getData('type')==self::ORDER_TYPE_SHOP || $row_->getData('type')==self::ORDER_TYPE_SHOP_MONEY_ALL) && $row_->orderno_youhui!=''){
+               $order_dingjin = self::where(['orderno'=>$row_->orderno_youhui])->find();
+                $order_dingjin->goodst=self::GOOT_ST_DAIFANKUI;
+                $order_dingjin->save();
+            }
+
+
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {

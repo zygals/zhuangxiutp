@@ -4,7 +4,7 @@ namespace app\back\model;
 
 use think\Model;
 use app\back\model\Good;
-
+//这个不用
 class GoodAttr extends model {
 
     public function saveGoodAttr($data) {

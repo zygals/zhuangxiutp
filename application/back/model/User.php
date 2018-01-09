@@ -26,7 +26,7 @@ class User extends Base
             $where['create_time']=[['gt',strtotime($data['time_from'])],['lt',strtotime($data['time_to'])]];
         }
 		if (!empty($data['name_'])) {
-			$where['username|nickname'] = ['like','%'.$data['name_'].'%'];
+			$where['username|nickname'] = ['like','%'.trim($data['name_']).'%'];
 		}
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

@@ -18,7 +18,7 @@ class ActivityAttend extends Base {
         $where = ['activity_attend.activity_id' => ['=', $data['activity_id']],'activity_attend.st'=>1];
         $order = "activity_attend.create_time desc";
         if (!empty($data['name_'])) {
-            $where['activity_attend.truename|activity_attend.mobile|activity_attend.zuoji'] = ['like', '%' . $data['name_'] . '%'];
+            $where['activity_attend.truename|activity_attend.mobile|activity_attend.zuoji'] = ['like', '%' . trim($data['name_']) . '%'];
         }
 
         if (!empty($data['paixu'])) {

@@ -15,7 +15,7 @@ class Baoming extends Base{
 	public static function getList($data=[],$where = ['st' => ['<>', 0]]) {
 		$order = "create_time desc";
 		if (!empty($data['name_'])) {
-			$where['truename|mobile'] = ['like', '%' . $data['name_'] . '%'];
+			$where['truename|mobile'] = ['like', '%' . trim($data['name_']) . '%'];
 		}
 		if (!empty($data['paixu'])) {
 			$order = $data['paixu'] . ' asc';
