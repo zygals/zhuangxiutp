@@ -16,7 +16,7 @@ class Shop extends Base {
     }
 
     public static function getListAll() {
-        $where = ['shop.st' => ['=', 1]];
+        $where = ['shop.st' => ['=', 1],'cate.st'=>1];
         $order = "create_time asc";
         $list_ = self::where($where)->join('cate', 'shop.cate_id=cate.id')->field('shop.*,cate.name cate_name')->order($order)->select();
 
