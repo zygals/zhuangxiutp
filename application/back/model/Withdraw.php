@@ -74,6 +74,14 @@ class Withdraw extends Base {
          $lock= Admin::getBenefitLock();
         return ['already_apply' => $lock, 'remain' => $income - $lock];
     }
+    /*
+     * 还可提现多少
+     * */
+    public static function getRemainByAdmin($admin_id) {
+        $income = Admin::getBenefitByAdmin($admin_id);
+         $lock= Admin::getBenefitLockByAdmin($admin_id);
+        return ['already_apply' => $lock, 'remain' => $income - $lock];
+    }
 
 
     public static function updateCashst($data) {
@@ -129,8 +137,10 @@ class Withdraw extends Base {
             if (is_array($refund)) {
                 return $refund;
             }
+            //2100      4000-2000
+            $remain = self::getRemainByAdmin($row_->admin_id);
             $confirm_order = Dingdan::getConfirmOrderSum($row_->admin_id);
-            if($row_->cash > $confirm_order){
+            if($row_->cash + $remain['already_apply'] > $confirm_order){
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
@@ -139,10 +149,8 @@ class Withdraw extends Base {
                 return ['code' => 0, 'msg' => "提现金额超过实际收货的订单（订金或全款）:({$confirm_order}元)，审核失败"];
             }
 
-            //2100      4000-2000
-            $remain = self::getRemain();
 
-            if ($refund > $remain) {
+            if ($refund > $remain['remain']) {
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();

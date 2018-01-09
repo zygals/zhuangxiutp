@@ -110,11 +110,22 @@ class Admin extends Base {
      */
     public static function getBenefitLock(){
         $id = session('admin_zhx')->id;
-//        dump(self::where('id',$id)->value('income_lock'));
        return self::where('id',$id)->value('income_lock');
 
     }
 
+    /**
+     * 通过admin_id获取管理员用户收益
+     */
+    public static function getBenefitLockByAdmin($admin_id){
+        return self::where(['id'=>$admin_id])->value('income_lock');
+    }
+    /**
+     * 通过admin_id获取管理员用户收益
+     */
+    public static function getBenefitByAdmin($admin_id){
+        return self::where(['id'=>$admin_id])->value('income');
+    }
 
 
     /**
@@ -124,6 +135,7 @@ class Admin extends Base {
         $benefit = self::where(['shop_id'=>$shop_id])->find();
         return $benefit['income'];
     }
+
     public static function increaseLock($cash){
 
         self::where('id',session('admin_zhx')->id)->setInc('income_lock',$cash);
