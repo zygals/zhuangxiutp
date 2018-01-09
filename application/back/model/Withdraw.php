@@ -14,7 +14,7 @@ class Withdraw extends Base {
     protected $dateFormat = 'Y-m-d H:i:s';
 
     public function getStAttr($value) {
-        $status = [1 => '待审核', 2 => '审核通过', 3 => '审核不通过'];
+        $status = [1 => '待审核', 2 => '审核通过', 3 => '审核不通过',9=>'delete'];
         return $status[$value];
     }
 
