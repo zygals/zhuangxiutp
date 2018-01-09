@@ -26,7 +26,7 @@ class Withdraw extends Base {
     public static function getList($data, $field = ['withdraw.*,admin.truename admin_truename,admin.name admin_name']) {
         $order = 'create_time desc';
 //        dump(session('admin_zhx'));exit;
-        $where = 'withdraw.st=1';
+        $where = 'withdraw.st!=9';
         /*$time_from = isset($data['time_from'])?$data['time_from']:'';
         $time_to = isset($data['time_to'])?$data['time_to']:'';*/
         if (Admin::isShopAdmin()) {
