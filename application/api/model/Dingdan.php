@@ -309,8 +309,8 @@ class Dingdan extends Base{
 	}
 
 	//生成订单号 wx
-	public function makeTradeNo($username){
-		return date( 'mdHis' , time() ) .mt_rand(1,99). mt_rand( 10 , 999 ) . '_' . $username;
+	public function makeTradeNo($username=''){
+		return date( 'YmdHi' , time() ) .mt_rand(10,99). mt_rand( 100 , 999 ) /*. '_' . $username*/;
 	}
     public static function makeRefundNo() {
         return date('mdHis', time()) . mt_rand(10, 99) .'_refund';
@@ -389,9 +389,10 @@ class Dingdan extends Base{
             }else{
                 $row_->st = self::ORDER_ST_FINISH_DEL;
             }
-
         }elseif ( $data['st'] == 'refundByUser' ) {
             $row_->st = self::ORDER_ST_USER_REFUND;
+        }elseif ( $data['st'] == 'refundCancelByUser' ) {
+            $row_->st = self::ORDER_ST_PAID;
         }
 		$row_->save();
 		return ['code' => 0 , 'msg' => '订单状态更改'];

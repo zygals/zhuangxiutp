@@ -42,7 +42,7 @@ class Admin extends Base {
         }
        // dump($where);exit;
       if (!empty($data['name_'])) {
-            $where['name|truename']=['like', '%' . $data['name_'] . '%'];
+            $where['admin.name|admin.truename']=['like', '%' . $data['name_'] . '%'];
         }
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

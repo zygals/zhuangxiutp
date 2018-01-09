@@ -160,13 +160,15 @@
                         </div>
                         <div class="col-xs-">
                             <button class="btn btn-success btn-xs "
-                                    onclick="modalShow('{:url(\'read\')}','{$row_->id}')">查看
+                                    onclick="modalShow('{:url(\'read\')}','{$row_->id}')"  title="订单详情?">查
                             </button>
                             <?php if ($row_->st == '申请退款' && \app\api\model\Admin::isAdmin()) { ?>
                                 <a href="javascript:allow_refund({$row_->id})">
                                     <button class="btn btn-danger btn-xs" title="同意退款?">退</button>
                                 </a>
-
+                                <a href="javascript:cancel_refund({$row_->id})">
+                                    <button class="btn btn-danger btn-xs" title="取消退款?">消</button>
+                                </a>
                             <?php } ?>
                             <?php if ($row_->st == '用户删除') { ?>
                                 <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
@@ -223,6 +225,28 @@
     </div>
 </div>
 <script>
+
+    function cancel_refund(order_id) {
+        if (!confirm('确定取消退款么？')) {
+            return false;
+        }
+        $.ajax({
+            url: "{:url('api/dingdan/update_st')}",//前台退款接口
+            method: 'post',
+            data: {
+                order_id: order_id,
+                st: 'refundCancelByUser',
+            },
+            success: function (res) {
+                alert(res.msg)
+                if (res.code == 0) {
+                    location.reload();
+                }
+            }
+
+        })
+
+    }
     function allow_refund(order_id) {
         if (!confirm('确定给用户退款么？')) {
             return false;

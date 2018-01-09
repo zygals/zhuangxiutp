@@ -52,10 +52,16 @@ class WithdrawController extends BaseController{
         if($data['cash'] < $min){
             $this->error('单次提现金额最小为'.$min);
         }
+        $data['admin_id']= session('admin_zhx')->id;
+        //提现５００，实际确认收货的也是500，则可以提现，如此时提现６００则不能提现，提示失败！
+        $confirm_order = Dingdan::getConfirmOrderSum($data['admin_id']);
+        if($data['cash'] > $confirm_order){
+            $this->error("提现金额超过实际收货的订单（订金或全款）:({$confi_order}元)，不能申请");
+        }
         if($data['cash']>Withdraw::getRemain()['remain']){
             $this->error('提现超出可用收益！');
         }
-        $data['admin_id']= session('admin_zhx')->id;
+
         //如果有申请退款的订单，则
         $refund=Dingdan::getAllRedundOfMe($data['admin_id']);
         if(is_array($refund)) {

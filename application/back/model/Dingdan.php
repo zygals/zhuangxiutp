@@ -219,7 +219,9 @@ class Dingdan extends model {
         $admin_shop->income += $change;
         $admin_shop->save();
     }
-
+/*
+ *取我（商家）所有申请退款
+ * */
     public static function getAllRedundOfMe($admin_id) {
 
         $shop_id = Admin::where(['id' => $admin_id, 'st' => 1])->value('shop_id');
@@ -230,4 +232,19 @@ class Dingdan extends model {
 
         return $sum_refund;
     }
+    /*
+ *取我（商家）所有　确认收货
+ * */
+    public static function getConfirmOrderSum($admin_id) {
+
+        $shop_id = Admin::where(['id' => $admin_id, 'st' => 1])->value('shop_id');
+        if (!$shop_id) {
+            return ['code' => __LINE__, 'msg' => '您被禁用或删除了，请联系平台管理员'];
+        }
+        $sum_refund=self::where(['shop_id'=>$shop_id,'type'=>['in','4,5'],'st'=>['in','3,4']])->sum('sum_price');
+
+        return $sum_refund;
+    }
+
+
 }

@@ -128,7 +128,18 @@ class Withdraw extends Base {
             $refund = Dingdan::getAllRedundOfMe($row_->admin_id);
             if (is_array($refund)) {
                 return $refund;
-            }//2100      4000-2000
+            }
+            $confirm_order = Dingdan::getConfirmOrderSum($row_->admin_id);
+            if($row_->cash > $confirm_order){
+                $row_->st = self::ST_FAIL;
+                $row_->verify_time = time();
+                $row_->save();
+                $admin_shop->setDec('income_lock',$row_->cash); //冻结减
+                Db::commit();
+                return ['code' => 0, 'msg' => "提现金额超过实际收货的订单（订金或全款）:({$confirm_order}元)，审核失败"];
+            }
+
+            //2100      4000-2000
             $remain = self::getRemain();
 
             if ($refund > $remain) {
@@ -139,6 +150,7 @@ class Withdraw extends Base {
                 Db::commit();
                 return ['code' => 0, 'msg' => '申请退款总额>可用收益,审核失败！'];
             }
+
             $row_->st = self::ST_OK;
             $row_->verify_time = time();
             $row_->save();
