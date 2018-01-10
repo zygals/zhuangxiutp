@@ -149,7 +149,7 @@ class Withdraw extends Base {
                 return ['code' => 0, 'msg' => "提现金额超过已收货的金额({$confirm_order} 元)，审核失败"];
             }*/
 
-            if ($refund + $row_->cash > $remain['remain']) {
+            if ($refund  > $remain['remain']) {
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
