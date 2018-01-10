@@ -139,15 +139,15 @@ class Withdraw extends Base {
             }
             //2100      4000-2000
             $remain = self::getRemainByAdmin($row_->admin_id);
-            $confirm_order = Dingdan::getConfirmOrderSum($row_->admin_id);
-            if($row_->cash + $remain['already_apply'] > $confirm_order){
+            /*$confirm_order = Dingdan::getConfirmOrderSum($row_->admin_id);
+            if($row_->cash > $confirm_order){
                 $row_->st = self::ST_FAIL;
                 $row_->verify_time = time();
                 $row_->save();
                 $admin_shop->setDec('income_lock',$row_->cash); //冻结减
                 Db::commit();
-                return ['code' => 0, 'msg' => "提现金额超过实际收货的订单（订金或全款）:({$confirm_order}元)，审核失败"];
-            }
+                return ['code' => 0, 'msg' => "提现金额超过已收货的金额({$confirm_order} 元)，审核失败"];
+            }*/
 
             if ($refund + $row_->cash > $remain['remain']) {
                 $row_->st = self::ST_FAIL;
