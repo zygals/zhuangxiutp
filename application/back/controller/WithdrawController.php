@@ -39,6 +39,7 @@ class WithdrawController extends BaseController{
      * @param Request $request
      */
     public function save(Request $request){
+    
         $data = $request->param();
         $rule =['cash'=>'require|number'];
         $res=$this->validate($data,$rule);
@@ -71,7 +72,6 @@ class WithdrawController extends BaseController{
         if(($refund + $data['cash']) > Withdraw::getRemain()['remain']){
             $this->error("申请失败，有申请退款的订单合计 {$refund}！");
         }
-
         (new Withdraw())->save($data);
         //锁定收益+
         Admin::increaseLock($data['cash']);
