@@ -310,7 +310,7 @@ class Dingdan extends Base{
 
 	//生成订单号 wx
 	public function makeTradeNo($username=''){
-		return date( 'YmdHi' , time() ) .mt_rand(10,99). mt_rand( 100 , 999 ) /*. '_' . $username*/;
+		return date( 'YmdHi' , time() ) .'_'.mt_rand(10,99). mt_rand( 100 , 999 ) /*. '_' . $username*/;
 	}
     public static function makeRefundNo() {
         return date('mdHis', time()) . mt_rand(10, 99) .'_refund';
