@@ -28,7 +28,7 @@
                         <label for="sKnot" class="col-xs-3 control-label"><span style="color:red;">*&nbsp;&nbsp;</span>提现金额：</label>
                         <div class="col-xs-8 ">
                             <input type="text" class="form-control input-sm "  name='cash' value="" id=""
-                                   placeholder="已申请{$remain['already_apply']}，还可提现{$remain['remain']}">
+                                   placeholder="已申请{$remain['already_apply']}">
                             <span>
                                 申请成功后，总平台管理员将通过线下为您转账
                             </span>

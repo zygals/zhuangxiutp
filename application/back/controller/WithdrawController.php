@@ -39,7 +39,7 @@ class WithdrawController extends BaseController{
      * @param Request $request
      */
     public function save(Request $request){
-
+ 
         $data = $request->param();
         $rule =['cash'=>'require|number'];
         $res=$this->validate($data,$rule);
@@ -58,8 +58,9 @@ class WithdrawController extends BaseController{
         //提现５００，实际确认收货的也是500，则可以提现，如此时提现６００则不能提现，提示失败！
         $confirm_order = Dingdan::getConfirmOrderSum($data['admin_id']);
         $withdraw_ok=Admin::where(['id'=>$data['admin_id']])->value('withdraw_ok');
+
         if(($data['cash'] + $remian['already_apply']) > ($shou = $confirm_order-$withdraw_ok)){
-            $this->error("提现金额超过已收货的金额({$shou} 元)，申请失败");
+            $this->error("提现金额超过可提现的金额({$shou} 元)，申请失败");
         }
         if($data['cash'] > $remian['remain']){
             $this->error('提现超出可用收益！');
