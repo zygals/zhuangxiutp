@@ -6,6 +6,7 @@ use app\back\model\OrderGood;
 use app\back\model\Tuangou;
 use think\Cache;
 use think\Db;
+use think\image\Exception;
 use think\Model;
 
 class Dingdan extends Base{
@@ -389,6 +390,10 @@ class Dingdan extends Base{
                 $order_dingjin->goodst=self::GOOT_ST_DAIFANKUI;
                 $order_dingjin->save();
             }
+         /*   if ( $row_->getData('type') == Dingdan::ORDER_TYPE_SHOP || $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
+                //给订单中的商品增加销量
+                \app\api\model\OrderGood::increseSales( $row_->id );
+            }*/
 
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
@@ -410,9 +415,107 @@ class Dingdan extends Base{
 		$row_->save();
 		return ['code' => 0 , 'msg' => '订单状态更改'];
 	}
+    /**
+     * 更改订单支付状态 notify_url
+     *zhuangxiu-zyg
+     * @return \think\Response
+     */
+    public static function updatePaySt2($xmlobj){
+        $fp = fopen('xml.txt', 'a');
+        $row_order = self::find( ['orderno' => $xmlobj->orderno] );
+        if($row_order->sign_!==$xmlobj->sign){
+            fwrite($fp, $row_order->orderno."=> sign error \n");
+            return  "<xml>
+                   <return_code><![CDATA[FAIL]]></return_code>
+                   <return_msg><![CDATA[sign error]]></return_msg>
+                   </xml>";
+        }
 
+        if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
+
+            if ( $row_order->st == self::ORDER_ST_PAID ) {
+                return  "<xml>
+                       <return_code><![CDATA[SUCCESS]]></return_code>
+                       <return_msg><![CDATA[OK]]></return_msg>
+                       </xml>";
+            }
+
+
+            $row_order->st = self::ORDER_ST_PAID;
+
+            Db::startTrans();
+            try{
+                if ( !$row_order->save() ) {
+                    fwrite($fp, $row_order->orderno."=> ORDER_ST_PAID error \n");
+                    throw new Exception('ORDER_ST_PAID error');
+                }
+
+                //订单支付完成，则商家收益也增加
+                $admin_shop = Admin::where( ['shop_id' => $row_order->shop_id] )->find();
+                $admin_shop->income += $row_order->sum_price;
+                $admin_shop->save();
+
+                //给商家增加交易量
+                Shop::incTradenum( $row_order->shop_id );
+                if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP || $row_order->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
+                    //给订单中的商品增加销量
+                    \app\api\model\OrderGood::increseSales( $row_order->id );
+                }
+                //将用户团购订金订单取消
+                if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
+
+                    self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
+                }
+
+                //send template message
+                (new TplMessage())->sendPayOkMsg($row_order,$row_order['prepay_id']);
+
+
+                Db::commit();
+            }catch (\Exception $e){
+
+                Db::rollback();
+            }
+
+
+        } elseif ( $row_order->order_contact_id > 0 ) {
+
+            $row_order_contact = self::getById( $row_order->order_contact_id  , new OrderContact() );
+            $row_order_contact->st = OrderContact::ORDER_CONTACT_PAID;
+            Db::startTrans();
+            try{
+                $row_order_contact->save();
+                //且要改下面所有商家订单状态的已支付
+                $res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID] );
+                if ( !$res ) {
+                    fwrite($fp, $row_order->orderno."=> 联合订单之下状态修改失败 \n");
+                    throw new Exception('联合订单之下状态修改失败');
+
+                }
+                //给下面商家管理员增加收益
+                $list_order = self::where( ['order_contact_id' => $row_order_contact->id] )->select();
+                foreach ( $list_order as $order ) {
+                    $admin_shop = Admin::where( ['shop_id' => $order->shop_id ] )->find();
+
+                    $admin_shop->income += $order->sum_price;
+                    $admin_shop->save();
+
+                    //给商家增加交易量
+                    Shop::incTradenum( $order->shop_id );
+                    //给订单中商品增加销量
+
+                    \app\api\model\OrderGood::increseSales( $order->id );
+                }
+                Db::commit();
+            }catch (\Exception $e){
+                Db::rollback();
+            }
+
+
+        }
+    }
 	/**
-	 * 更改订单支付状态
+	 * 更改订单支付状态 from user
 	 *zhuangxiu-zyg
 	 * @return \think\Response
 	 */
@@ -465,7 +568,7 @@ class Dingdan extends Base{
 				return ['code' => __LINE__ , 'msg' => '联合订单状态修改失败'];
 			}
 			//给下面商家管理员增加收益
-			$list_order = Order::where( ['order_contact_id' => $row_order_contact->id] )->select();
+			$list_order = self::where( ['order_contact_id' => $row_order_contact->id] )->select();
 			foreach ( $list_order as $order ) {
 				$admin_shop = Admin::where( ['shop_id' => $order->shop_id , 'st' => 1] )->find();
 				if ( !$admin_shop ) {
@@ -477,7 +580,7 @@ class Dingdan extends Base{
 				//给商家增加交易量
 				Shop::incTradenum( $order->shop_id );
 				//给订单中商品增加销量
-				OrderGood::increseSales( $order->id );
+				\app\api\model\OrderGood::increseSales( $order->id );
 			}
 			return ['code' => 0 , 'msg' => '更改成功'];
 		} else {

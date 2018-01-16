@@ -75,6 +75,9 @@ class Cart extends Base {
                         $sum_price_all += $good->price*$good->num;
                     }
                     $list_cart[$k]['shop_goods'] = $list_good;
+                }else{
+                    $list_cart[$k]['st']=0;
+                    $list_cart[$k]->save();
                 }
 
             }

@@ -103,6 +103,10 @@ class Pay extends Base {
             $data_return['paySign'] = $this->sign($tmp);//签名,具体签名方案参见微信公众号支付帮助文档;
             $data_return['out_trade_no'] = $out_trade_no;
             $data_return['prepay_id'] = $array['PREPAY_ID'];
+            //save sign
+            $row_order->prepay_id= $array['PREPAY_ID'];
+            $row_order->sign_= $sign;
+            $row_order->save();
 
         } else {
             $data_return['code'] = __LINE__;
@@ -271,7 +275,7 @@ class Pay extends Base {
         }
     }
 
-//获取xml
+//获取xml return array
     private function xml($xml) {
         $p = xml_parser_create();
         xml_parse_into_struct($p, $xml, $vals, $index);
