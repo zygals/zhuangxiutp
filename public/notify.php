@@ -1,5 +1,7 @@
 <?php
 
+$fp1 = fopen('xml.txt', 'a');
+fwrite($fp1,__LINE__."qingqiu\n");
 function http_request($url, $data = null, $headers = array()) {
     $curl = curl_init();
     if (count($headers) >= 1) {
