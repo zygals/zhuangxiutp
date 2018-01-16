@@ -17,7 +17,7 @@ function http_request($url, $data = null, $headers = array()) {
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     $output = curl_exec($curl);
     curl_close($curl);
-    return $output;
+    echo $output;
 }
 
 // pay nodify_url
