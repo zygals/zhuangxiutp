@@ -422,7 +422,7 @@ class Dingdan extends Base{
      */
     public static function updatePaySt2($xmlobj){
         $fp = fopen('xml.txt', 'a');
-        $row_order = self::find( ['orderno' => $xmlobj->orderno] );
+        $row_order = self::find( ['orderno' => $xmlobj->out_trade_no] );
         if($row_order->sign_!==$xmlobj->sign){
             fwrite($fp, $row_order->orderno."=> sign error \n");
             return  "<xml>
@@ -443,7 +443,7 @@ class Dingdan extends Base{
 
 
             $row_order->st = self::ORDER_ST_PAID;
-
+            $row_order->pay_time=  $xmlobj->time_end;
             Db::startTrans();
             try{
                 if ( !$row_order->save() ) {
@@ -487,7 +487,7 @@ class Dingdan extends Base{
             try{
                 $row_order_contact->save();
                 //且要改下面所有商家订单状态的已支付
-                $res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID] );
+                $res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID,'pay_time'=>time()] );
                 if ( !$res ) {
                     fwrite($fp, $row_order->orderno."=> 联合订单之下状态修改失败 \n");
                     throw new Exception('联合订单之下状态修改失败');
@@ -527,7 +527,7 @@ class Dingdan extends Base{
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];
 			}
 			$row_order->st = self::ORDER_ST_PAID;
-			//全款被订金优惠
+            $row_order->pay_time = time();
 
 			if ( !$row_order->save() ) {
 				return ['code' => 0 , 'msg' => '支付状态失败'];
@@ -564,7 +564,7 @@ class Dingdan extends Base{
 			$row_order_contact->st = OrderContact::ORDER_CONTACT_PAID;
 			$row_order_contact->save();
 			//且要改下面所有商家订单状态的已支付
-			$res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID] );
+			$res = self::where( ['order_contact_id' => $row_order_contact->id] )->update( ['st' => self::ORDER_ST_PAID,'pay_time'=>time()] );
 			if ( !$res ) {
 				return ['code' => __LINE__ , 'msg' => '联合订单状态修改失败'];
 			}
