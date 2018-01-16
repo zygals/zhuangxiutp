@@ -255,7 +255,7 @@ class DingdanController extends BaseController {
     }
 
     public function notify_($fc){
-        echo 'nogify_';exit;
+        //echo 'nogify_';exit;
         $xml = simplexml_load_string($fc);
         $fp = fopen('xml.txt', 'a');
 
