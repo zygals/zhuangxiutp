@@ -425,7 +425,7 @@ class Dingdan extends Base{
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
 
         if($row_order->sum_price*100 != $xmlobj->cash_fee){
-            fwrite($fp, $row_order->orderno."=> sign error \n");
+            fwrite($fp, $row_order->orderno."=> cash_fee error \n");
             return  "<xml>
                    <return_code><![CDATA[FAIL]]></return_code>
                    <return_msg><![CDATA[cash_fee error]]></return_msg>

@@ -191,7 +191,7 @@
                         <label for="sName" class="col-xs-3 control-label">支付时间：</label>
 
                         <div class="col-xs-8 ">
-                            <label>{$row_order->pay_time|date='Y-m-d H:i:s',###}</label>
+                            <label>{$row_order->pay_time}</label>
                         </div>
                     </div>
                     <?php }?>
