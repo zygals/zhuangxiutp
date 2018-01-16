@@ -422,7 +422,7 @@ class Dingdan extends Base{
      */
     public static function updatePaySt2($xmlobj){
         $fp = fopen('xml.txt', 'a');
-        $row_order = self::find( ['orderno' => $xmlobj->out_trade_no] );
+        $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
         fwrite($fp, "xml.tradeno:{$xmlobj->out_trade_no}\n");
         if($row_order->sign_!==$xmlobj->sign){
             fwrite($fp, $row_order->orderno."=> sign error \n");
