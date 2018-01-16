@@ -201,8 +201,8 @@ class DingdanController extends BaseController {
 
     public function notify_($weixin_notify=''){
         //echo 'nogify_';exit;
-        $fp2 = fopen('xml.txt', 'a');
-         fwrite($fp2,'dingdan control notify_');
+//        $fp2 = fopen('xml.txt', 'a');
+//         fwrite($fp2,'dingdan control notify_');
         $xml = simplexml_load_string($weixin_notify);
 
         return Dingdan::updatePaySt2($xml);
