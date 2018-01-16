@@ -434,6 +434,7 @@ class Dingdan extends Base{
         if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
 
             if ( $row_order->st == self::ORDER_ST_PAID ) {
+                fwrite($fp, $row_order->orderno."=> already pay \n");
                 return  "<xml>
                        <return_code><![CDATA[SUCCESS]]></return_code>
                        <return_msg><![CDATA[OK]]></return_msg>
