@@ -376,9 +376,7 @@ class Dingdan extends Base{
 		if ( $data['st'] == 'cancel' ) {
 			$row_->st = self::ORDER_ST_USER_CANCEL;
 
-		} elseif ( $data['st'] == 'paid' ) {
-			$row_->st = self::ORDER_ST_PAID;
-		} elseif ( $data['st'] == 'taken' ) {
+		}elseif ( $data['st'] == 'taken' ) {
 
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
             if($row_->getData('type')!=self::ORDER_TYPE_SHOP_DEPOSIT && $row_->getData('type')!=self::ORDER_TYPE_SHOP_MONEY_ALL){
