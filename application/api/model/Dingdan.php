@@ -424,7 +424,7 @@ class Dingdan extends Base{
         $fp = fopen('xml.txt', 'a');
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
 
-        if($row_order->sum_price != $xmlobj->cash_fee){
+        if($row_order->sum_price*100 != $xmlobj->cash_fee){
             fwrite($fp, $row_order->orderno."=> sign error \n");
             return  "<xml>
                    <return_code><![CDATA[FAIL]]></return_code>
