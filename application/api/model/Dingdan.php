@@ -473,6 +473,7 @@ class Dingdan extends Base{
 
 
                 Db::commit();
+                fwrite($fp, $row_order->orderno."=>  pay ok \n");
                 return  "<xml>
                        <return_code><![CDATA[SUCCESS]]></return_code>
                        <return_msg><![CDATA[OK]]></return_msg>
@@ -568,6 +569,9 @@ class Dingdan extends Base{
 			if ( !$row_order_contact ) {
 				return ['code' => __LINE__ , 'msg' => '联合订单不存在'];
 			}
+            if($row_order_contact->st==OrderContact::ORDER_CONTACT_PAID){
+                return ['code' => 0 , 'msg' => '更改成功'];
+            }
 			$row_order_contact->st = OrderContact::ORDER_CONTACT_PAID;
 			$row_order_contact->save();
 			//且要改下面所有商家订单状态的已支付
