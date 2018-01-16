@@ -423,7 +423,7 @@ class Dingdan extends Base{
     public static function updatePaySt2($xmlobj){
         $fp = fopen('xml.txt', 'a');
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
-        fwrite($fp, "xml.tradeno:{$xmlobj->out_trade_no}\n");
+
         if($row_order->sign_!==$xmlobj->sign){
             fwrite($fp, $row_order->orderno."=> sign error \n");
             return  "<xml>
@@ -431,7 +431,7 @@ class Dingdan extends Base{
                    <return_msg><![CDATA[sign error]]></return_msg>
                    </xml>";
         }
-
+        fwrite($fp, "xml.tradeno:{$xmlobj->out_trade_no}\n");
         if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
 
             if ( $row_order->st == self::ORDER_ST_PAID ) {
