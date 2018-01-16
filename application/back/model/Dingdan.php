@@ -141,7 +141,7 @@ class Dingdan extends model {
                 $excel->setActiveSheetIndex(0)->setCellValue('A' . $key, $value['id']);
                 $excel->setActiveSheetIndex(0)->setCellValue('B' . $key, $value['orderno_contact']);
                 $excel->setActiveSheetIndex(0)->setCellValue('C' . $key, $value['type']);
-                $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['orderno']);
+                $excel->setActiveSheetIndex(0)->setCellValue('D' . $key, $value['orderno'].'_');
                 $excel->setActiveSheetIndex(0)->setCellValue('E' . $key, $value['shop_name']);
                 $excel->setActiveSheetIndex(0)->setCellValue('F' . $key, $value['username']);
                 $excel->setActiveSheetIndex(0)->setCellValue('G' . $key, $value['truename']);
