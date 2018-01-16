@@ -530,6 +530,9 @@ class Dingdan extends Base{
 			if ( !$row_order ) {
 				return ['code' => __LINE__ , 'msg' => '订单不存在'];
 			}
+			if($row_order->st==self::ORDER_ST_PAID){
+                return ['code' => 0 , 'msg' => '更改成功'];
+            }
 			$row_order->st = self::ORDER_ST_PAID;
             $row_order->pay_time = time();
 
