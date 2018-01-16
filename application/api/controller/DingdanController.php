@@ -254,14 +254,13 @@ class DingdanController extends BaseController {
 
     }
 
-    public function notify_($fc=''){
+    public function notify_($weixin_notify=''){
         //echo 'nogify_';exit;
         $fp = fopen('xml.txt', 'a');
-        $str= fread($fp,300);
-        dump($fp);exit;
-        $xml = simplexml_load_string($fc);
 
-        $str = 'appid:' . (string)$xml->appid . "return_code:" . (string)$xml->return_code . "result_code:" . (string)$xml->result_code . 'is_string:' . is_string($fc) .'-time_end'.(string)$xml->time_end. 'out_trade_no'.(string)$xml->out_trade_no.'-sign'.(string)$xml->sign."\n";
+        $xml = simplexml_load_string($weixin_notify);
+
+        $str = 'appid:' . (string)$xml->appid . "return_code:" . (string)$xml->return_code . "result_code:" . (string)$xml->result_code . 'is_string:' . is_string($weixin_notify) .'-time_end'.(string)$xml->time_end. 'out_trade_no'.(string)$xml->out_trade_no.'-sign'.(string)$xml->sign."\n";
         fwrite($fp, $str);
         echo "<xml>
    <return_code><![CDATA[SUCCESS]]></return_code>
