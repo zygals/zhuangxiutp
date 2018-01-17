@@ -67,18 +67,18 @@ class Cart extends Base {
             return ['code' => __LINE__];
         }
         $sum_price_all = 0;
-        dump($list_cart);
+
         if(!$list_cart->isEmpty()){
-            foreach ($list_cart as $k => $cart) {dump($cart);
+            foreach ($list_cart as $k => $cart) {
                 $list_good = CartGood::getGoodsByShop($cart->cart_id,$cart->shop_id);
-                dump($list_good);
+
                 if (!$list_good->isEmpty()) {
                     foreach($list_good as $good){
                         $sum_price_all += $good->price*$good->num;
                     }
                     $list_cart[$k]['shop_goods'] = $list_good;
                 }else{
-
+                    echo $list_cart[$k]->st;
                     $list_cart[$k]->st = 0;
                     $list_cart[$k]->save();
                 }
