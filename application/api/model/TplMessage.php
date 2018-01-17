@@ -28,7 +28,7 @@ class TplMessage extends Base {
             'touser'=>$user->open_id,
             "template_id"=>config('template_id_payok'),
             "form_id"=>$prepay_id,
-            "page"=>'pages/orders/orders',
+            "page"=>'pages/index/index',
             "data"=>[
                 'keyword1'=>[
                     "value"=> $row_order->orderno,
