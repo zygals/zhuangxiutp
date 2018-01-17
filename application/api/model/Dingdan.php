@@ -390,10 +390,10 @@ class Dingdan extends Base{
                 $order_dingjin->goodst=self::GOOT_ST_DAIFANKUI;
                 $order_dingjin->save();
             }
-         /*   if ( $row_->getData('type') == Dingdan::ORDER_TYPE_SHOP || $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
+          if ( $row_->getData('type') == Dingdan::ORDER_TYPE_SHOP || $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL || $row_->order_contact_id>0) {
                 //给订单中的商品增加销量
                 \app\api\model\OrderGood::increseSales( $row_->id );
-            }*/
+            }
 
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
@@ -459,10 +459,7 @@ class Dingdan extends Base{
 
                 //给商家增加交易量
                 Shop::incTradenum( $row_order->shop_id );
-                if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP || $row_order->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
-                    //给订单中的商品增加销量
-                    \app\api\model\OrderGood::increseSales( $row_order->id );
-                }
+
                 //将用户团购订金订单取消
                 if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
 
@@ -509,8 +506,7 @@ class Dingdan extends Base{
 
                     //给商家增加交易量
                     Shop::incTradenum( $order->shop_id );
-                    //给订单中商品增加销量
-                    \app\api\model\OrderGood::increseSales( $order->id );
+
                 }
                 Db::commit();
             }catch (\Exception $e){
