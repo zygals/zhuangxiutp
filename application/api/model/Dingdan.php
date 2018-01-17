@@ -519,7 +519,7 @@ class Dingdan extends Base{
                     Shop::incTradenum( $order->shop_id );
 
                 }
-
+                //send template message no
                 Db::commit();
                 fwrite($fp, $row_order_contact->orderno."=> order_contact pay ok \n");
                 return  "<xml>

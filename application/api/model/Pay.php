@@ -133,6 +133,10 @@ class Pay extends Base {
         if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
+        if($row_order->order_contact_id >0 ){
+            echo $row_order->order_contact_id;
+            return ['code' => __LINE__, 'msg' => '订单order_contact！'];
+        }
         $fee = $row_order->sum_price;
         //是否有申请提现，如有，则提示先处理
         $admin_have_withdraw= Withdraw::haveWithdraw($row_order->shop_id);
