@@ -133,11 +133,21 @@ class Pay extends Base {
         if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
+        $fee = $row_order->sum_price; //want to refund
+        $out_trade_no = $row_order->orderno;//商户订单号
+        $total_fee = $fee * 100;//订单总额
+        $refund_fee = $fee * 100;//退钱额
+
         if($row_order->order_contact_id >0 ){
-            echo $row_order->order_contact_id;
-            return ['code' => __LINE__, 'msg' => '订单order_contact！'];
+            $row_contact = OrderContact::where(['id'=>$row_order->order_contact_id])->find();
+
+            $out_trade_no = $row_contact->orderno;//商户订单号
+            $fee_contact = $row_contact->sum_price_all;
+            $total_fee = $fee_contact * 100;//订单总额
+            $refund_fee = $fee * 100;//退钱额
+
         }
-        $fee = $row_order->sum_price;
+
         //是否有申请提现，如有，则提示先处理
         $admin_have_withdraw= Withdraw::haveWithdraw($row_order->shop_id);
         if(is_array($admin_have_withdraw)){
@@ -170,9 +180,6 @@ class Pay extends Base {
         $mch_id = config('wx_mchid');
         $nonce_str = $this->nonce_str();//随机字符串
 
-        $out_trade_no = $row_order->orderno;//商户订单号
-        $total_fee = $fee * 100;//最不为1
-
         //这里是按照顺序的 因为下面的签名是按照顺序 排序错误 肯定出错
         $post['appid'] = $appid;
         $post['mch_id'] = $mch_id;
@@ -180,8 +187,8 @@ class Pay extends Base {
         $post['op_user_id'] = $mch_id;
         $post['out_refund_no'] = $out_refund_no;
         $post['out_trade_no'] = $out_trade_no;
-        $post['refund_fee'] = $total_fee;//总金额 最低为一块钱 必须是整数
-        $post['total_fee'] = $total_fee;//总金额 最低为一块钱 必须是整数
+        $post['refund_fee'] = $refund_fee;//退钱额
+        $post['total_fee'] = $total_fee;//总金额
         $sign = $this->sign($post);//签名            <notify_url>' . $notify_url . '</notify_url>
         $post_xml = '<xml>
            <appid>' . $appid . '</appid>
