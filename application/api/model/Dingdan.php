@@ -510,7 +510,6 @@ class Dingdan extends Base{
                     //给商家增加交易量
                     Shop::incTradenum( $order->shop_id );
                     //给订单中商品增加销量
-
                     \app\api\model\OrderGood::increseSales( $order->id );
                 }
                 Db::commit();
