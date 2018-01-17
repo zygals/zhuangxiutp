@@ -217,7 +217,10 @@ class Dingdan extends Base{
 			$sum_price = 0;
 			foreach ( $list_cart_good as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
-				$sum_price += $row_good->price * $good->num;
+				if($row_good){
+
+                    $sum_price += $row_good->price * $good->num;
+                }
 			}
 			$sum_price_all += $sum_price;
 		}
