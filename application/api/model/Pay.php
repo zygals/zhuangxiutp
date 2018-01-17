@@ -106,7 +106,7 @@ class Pay extends Base {
             $data_return['prepay_id'] = $array['PREPAY_ID'];
             //save sign
             $row_order->prepay_id= $array['PREPAY_ID'];
-            $row_order->sign_= $sign;
+           // $row_order->sign_= $sign;
             $row_order->save();
 
         } else {
