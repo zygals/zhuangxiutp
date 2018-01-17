@@ -78,9 +78,9 @@ class Cart extends Base {
                     }
                     $list_cart[$k]['shop_goods'] = $list_good;
                 }else{
-                    dump($cart);
-                    $list_cart[$k]->st = 0;
-                    $list_cart[$k]->save();
+
+                    $cart->st = 0;
+                    $cart->save();
                 }
 
             }
