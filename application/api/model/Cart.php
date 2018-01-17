@@ -69,7 +69,7 @@ class Cart extends Base {
         $sum_price_all = 0;
 
         if(!$list_cart->isEmpty()){
-            foreach ($list_cart as $k => &$cart) {
+            foreach ($list_cart as $k => $cart) {
                 $list_good = CartGood::getGoodsByShop($cart->cart_id,$cart->shop_id);
 
                 if (!$list_good->isEmpty()) {
@@ -78,7 +78,7 @@ class Cart extends Base {
                     }
                     $list_cart[$k]['shop_goods'] = $list_good;
                 }else{
-                    $cart->update(['st' => 0]);
+                    (new Cart)->where('id', $cart->id)->update(['st' => 0]);
                     
                 }
 
