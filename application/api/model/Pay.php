@@ -197,7 +197,7 @@ class Pay extends Base {
            <op_user_id>' . $mch_id . '</op_user_id>
            <out_refund_no>' . $out_refund_no . '</out_refund_no>
            <out_trade_no>' . $out_trade_no . '</out_trade_no>
-           <refund_fee>' . $total_fee . '</refund_fee>
+           <refund_fee>' . $refund_fee . '</refund_fee>
            <total_fee>' . $total_fee . '</total_fee>
            <sign>' . $sign . '</sign>
         </xml> ';
