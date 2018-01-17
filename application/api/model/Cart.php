@@ -62,13 +62,13 @@ class Cart extends Base {
         if (is_array($user_id)) {
             return $user_id;
         }
-        $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
+        $list_cart = self::where(['user_id' => $user_id, 'cart.st' => 1,'shop.st'=>1])->join('shop', 'cart.shop_id=shop.id')->field('cart.id cart_id,cart.shop_id,sum_price,shop.name shop_name')->select();
         if ($list_cart->isEmpty()) {
             return ['code' => __LINE__];
         }
         $sum_price_all = 0;
         if(!$list_cart->isEmpty()){
-            foreach ($list_cart as $k => $cart) {
+            foreach ($list_cart as $k => $cart) {echo "$k\n";
                 $list_good = CartGood::getGoodsByShop($cart->cart_id,$cart->shop_id);
                 if (!$list_good->isEmpty()) {
                     foreach($list_good as $good){
