@@ -78,9 +78,9 @@ class Cart extends Base {
                     }
                     $list_cart[$k]['shop_goods'] = $list_good;
                 }else{
-
                     $cart->st = 0;
-                    $cart->save();
+                    $cart->update_time = time();
+                    $cart->update();
                 }
 
             }
