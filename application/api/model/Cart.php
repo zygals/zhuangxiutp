@@ -78,7 +78,7 @@ class Cart extends Base {
                     }
                     $list_cart[$k]['shop_goods'] = $list_good;
                 }else{
-                    (new Cart)->where('id', $cart->id)->update(['st' => 0]);
+                    (new Cart)->where('id', $cart->cart_id)->update(['st' => 0]);
                     
                 }
 
