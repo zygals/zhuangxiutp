@@ -110,7 +110,7 @@ class Dingdan extends Base{
 		if ( is_array( $user_id ) ) {
 			return $user_id;
 		}
-		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_DEPOSIT , 'group_id' => $data['t_id'],'st'=>['in','1,2']] )->find() ) {
+		if ( $row = self::where( ['user_id' => $user_id , 'type' => self::ORDER_TYPE_GROUP_DEPOSIT , 'group_id' => $data['t_id'],'st'=>['in','1,2,10']] )->find() ) {
 			return ['code' => 0 , 'msg' => '有订金订单' , 'data' => $row];
 		}
 		return ['code' => __LINE__ ];
