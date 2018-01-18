@@ -66,7 +66,7 @@ class GroupController extends BaseController {
         $shop_id = $request->param();
         $id = $shop_id['shop_id'];
         $good = new Good;
-        $res = $good->where('shop_id',$id)->select();
+        $res = $good->where('shop_id',$id)->where(['st'=>1])->select();
         return $res;
     }
 
