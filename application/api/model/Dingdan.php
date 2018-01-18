@@ -428,11 +428,13 @@ class Dingdan extends Base{
         $fp = fopen('xml.txt', 'a');
 
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
+        fwrite($fp, $row_order->orderno."=> 1 \n");
         if($row_order){
-
+            fwrite($fp, $row_order->orderno."=>2 \n");
             if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
-
+                fwrite($fp, $row_order->orderno."=>3 \n");
                 if ( $row_order->st == self::ORDER_ST_PAID ) {
+
                     fwrite($fp, $row_order->orderno."=> already pay \n");
                     return  "<xml>
                        <return_code><![CDATA[SUCCESS]]></return_code>
@@ -443,7 +445,7 @@ class Dingdan extends Base{
 
                 Db::startTrans();
                 try{
-
+                    fwrite($fp, $row_order->orderno."=>4 \n");
                     $row_order->st = self::ORDER_ST_PAID;
                     $row_order->pay_time=  $xmlobj->time_end;
                     if ( !$row_order->save() ) {
@@ -458,25 +460,24 @@ class Dingdan extends Base{
 
                     //给商家增加交易量
                     Shop::incTradenum( $row_order->shop_id );
-
+                    fwrite($fp, $row_order->orderno."=>5 \n");
                     //将用户团购订金订单取消
                     if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
-
+                        fwrite($fp, $row_order->orderno."=>6 \n");
                         self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
                     }
-
+                    fwrite($fp, $row_order->orderno."=>7 \n");
                     //send template message
                     (new TplMessage())->sendPayOkMsg($row_order,$row_order['prepay_id']);
-
-
                     Db::commit();
                     fwrite($fp, $row_order->orderno."=>  pay ok \n");
+                    fclose($fp);
                     return  "<xml>
                        <return_code><![CDATA[SUCCESS]]></return_code>
                        <return_msg><![CDATA[OK]]></return_msg>
                        </xml>";
                 }catch (\Exception $e){
-
+                fclose($fp);
                     Db::rollback();
                 }
             }
