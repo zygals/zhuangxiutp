@@ -428,13 +428,7 @@ class Dingdan extends Base{
 
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
         if($row_order){
-          /* if($row_order->sum_price*100 != $xmlobj->cash_fee){
-                fwrite($fp, $row_order->orderno."=> cash_fee error {$row_order->sum_price}_ $xmlobj->cash_fee\n");
-                return  "<xml>
-                   <return_code><![CDATA[FAIL]]></return_code>
-                   <return_msg><![CDATA[cash_fee error]]></return_msg>
-                   </xml>";
-            }*/
+          
             if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
 
                 if ( $row_order->st == self::ORDER_ST_PAID ) {
