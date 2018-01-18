@@ -30,10 +30,11 @@ class Dingdan extends Base{
 	const ORDER_TYPE_GROUP_FINAL = 6; //限人订金
 	const  ORDER_TYPE_SHOP_DEPOSIT = 4; //商家订金订单
 	const  ORDER_TYPE_SHOP_MONEY_ALL = 5; //全款订单
+    const ORDER_ST_GROUP_OK=10;
 	//public static $arrStatus = [1 => '未支付' , 2 => '已支付' , 4 => '用户取消' , 5 => '用户删除',6=>'申请退款'];
 
 	public function getStAttr($value) {
-		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除'];
+		$status = ['0' => '管理员删除' , 1 => '待支付' , 2 => '已支付' , 3 => '已退款', 4 => '用户取消' , 5 => '用户删除',6=>'申请退款',7=>'订金抵扣商品',8=>'订金抵扣全款',9=>'完成删除',10=>"团购成功"];
 		return $status[$value];
 	}
 
@@ -44,7 +45,7 @@ class Dingdan extends Base{
 	}
 
 	public function getTypeAttr($value){
-		$status = [1 => '普通' ,/* 2 => '限量' ,*/
+		$status = [1 => '普通' ,
 				   3 => '限人' , 4 => '商家订金' , 5 => '商家全款' , 6 => '限人尾款'];
 		return $status[$value];
 	}
@@ -428,11 +429,8 @@ class Dingdan extends Base{
         $fp = fopen('xml.txt', 'a');
 
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
-        fwrite($fp, $row_order->orderno."=> 1 \n");
         if($row_order){
-            fwrite($fp, $row_order->orderno."=>2 \n");
             if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
-                fwrite($fp, $row_order->orderno."=>3 \n");
                 if ( $row_order->getData('st') == self::ORDER_ST_PAID ) {
 
                     fwrite($fp, $row_order->orderno."=> already pay \n");
@@ -445,7 +443,6 @@ class Dingdan extends Base{
 
                 Db::startTrans();
                 try{
-                    fwrite($fp, $row_order->orderno."=>4 \n");
                     $row_order->st = self::ORDER_ST_PAID;
                     $row_order->pay_time=  $xmlobj->time_end;
                     if ( !$row_order->save() ) {
@@ -460,14 +457,11 @@ class Dingdan extends Base{
 
                     //给商家增加交易量
                     Shop::incTradenum( $row_order->shop_id );
-                    fwrite($fp, $row_order->orderno."=>5 \n");
                     //将用户团购订金订单取消
                     if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
-                        fwrite($fp, $row_order->orderno."=>6 \n");
-                        self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->update(['st'=>self::ORDER_ST_USER_CANCEL]);
+                        self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->update(['st'=>self::ORDER_ST_GROUP_OK]);
                     }
-                    fwrite($fp, $row_order->orderno."=>7 \n");
-                    //send template message
+                    //send template messageo
                     (new TplMessage())->sendPayOkMsg($row_order,$row_order['prepay_id']);
                     Db::commit();
                     fwrite($fp, $row_order->orderno."=>  pay ok \n");

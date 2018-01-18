@@ -13,7 +13,7 @@ class Dingdan extends model {
     const GOODST_YIFAHUO = 2;
     const GOODST_BUFEN_FAHUO = 5;
 
-    public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除', 6 => '申请退款', 7 => '订金抵扣商品', 8 => '订金抵扣全款', 9 => '完成删除'];
+    public static $arrStatus = [1 => '未支付', 2 => '已支付', 3 => '已退款', 4 => '用户取消', 5 => '用户删除', 6 => '申请退款', 7 => '订金抵扣商品', 8 => '订金抵扣全款', 9 => '完成删除',10=>'团购成功'];
       public static $arrGoodSt = [1 => '未发货', 2 => '已发货', 5 => '部分发货', 3 => '已收货', 4 => '已评价'];
 
 
