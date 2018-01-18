@@ -428,7 +428,7 @@ class Dingdan extends Base{
 
         $row_order = self::where(['orderno' => $xmlobj->out_trade_no])->find();
         if($row_order){
-          
+
             if ( $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP ||$row_order->getData('type')== Dingdan::ORDER_TYPE_SHOP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_DEPOSIT || $row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL ) {
 
                 if ( $row_order->st == self::ORDER_ST_PAID ) {

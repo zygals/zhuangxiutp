@@ -104,7 +104,7 @@
 						<div class="col-xs-1 " title="{$row_->shop_id}:{$row_->shop_name}">
 							{$row_->shop_id}:{$row_->shop_name}
 						</div>
-						<div class="col-xs-1 " title="{$row_->good_id}">
+						<div class="col-xs-1 " title="{$row_->good_name}">
 							{$row_->good_name}
 						</div>
 						<?php if ( $row_->pnum != '' ) { ?>
