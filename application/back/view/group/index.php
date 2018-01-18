@@ -101,7 +101,7 @@
 						<div class="col-xs-1 ">
 							{$row_->id}
 						</div>
-						<div class="col-xs-1 " title="{$row_->shop_id}:{$row_->shop_name}-{$row_->getShopSt($row_->shop_st)">
+						<div class="col-xs-1 " title="{$row_->shop_id}:{$row_->shop_name}-{$row_->getShopSt($row_->shop_st)}">
 							{$row_->shop_id}:{$row_->shop_name}-{$row_->getShopSt($row_->shop_st)}
 						</div>
 						<div class="col-xs-1 " title="{$row_->good_name}">
