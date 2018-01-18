@@ -399,6 +399,12 @@ class Dingdan extends Base{
                 //给订单中的商品增加销量
                 \app\api\model\OrderGood::increseSales( $row_->id );
             }
+            if ( $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
+                //则订金订单也收货
+                self::where(['user_id'=>$data['user_id'],'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
+
+            }
+
 
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
