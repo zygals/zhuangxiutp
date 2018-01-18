@@ -171,8 +171,7 @@ class Dingdan extends Base{
 		if ( !$this->save( $data_order ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加订单失败'];
 		}
-		//给商家订单量增加一个
-		Shop::increaseOrdernum( $data_order['shop_id'] );
+
 		//添加订单商品
 		$row_good = self::getById( $row_group->good_id , new Good() );
 		if ( !$row_good ) {
@@ -190,6 +189,8 @@ class Dingdan extends Base{
 		if ( !( new OrderGood() )->save( $data_order_good ) ) {
 			return ['code' => __LINE__ , 'msg' => '添加订单成功，商品添加失败'];
 		}
+        //给商家订单量增加一个
+        Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id,'type'=>$data['type_']];
 	}
 
