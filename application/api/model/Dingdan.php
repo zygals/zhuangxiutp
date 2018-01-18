@@ -464,7 +464,7 @@ class Dingdan extends Base{
                     //将用户团购订金订单取消
                     if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
                         fwrite($fp, $row_order->orderno."=>6 \n");
-                        self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->save(['st'=>self::ORDER_ST_USER_CANCEL]);
+                        self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->update(['st'=>self::ORDER_ST_USER_CANCEL]);
                     }
                     fwrite($fp, $row_order->orderno."=>7 \n");
                     //send template message
