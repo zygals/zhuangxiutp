@@ -401,7 +401,7 @@ class Dingdan extends Base{
             }
             if ( $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
                 //则订金订单也收货
-                self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
+                self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id,'st'=>self::ORDER_ST_PAID])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
                 //收货后尾款订单状态为团购成功
                 $row_->st= self::ORDER_ST_GROUP_OK;
 
