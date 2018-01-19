@@ -383,7 +383,7 @@ class Dingdan extends Base{
 			$row_->st = self::ORDER_ST_USER_CANCEL;
 
 		}elseif ( $data['st'] == 'taken' ) {
-
+            $user_id = User::getUserIdByName($data['username']);
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
             if($row_->getData('type')!=self::ORDER_TYPE_SHOP_DEPOSIT && $row_->getData('type')!=self::ORDER_TYPE_SHOP_MONEY_ALL){
 
@@ -401,7 +401,7 @@ class Dingdan extends Base{
             }
             if ( $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
                 //则订金订单也收货
-                self::where(['user_id'=>$data['user_id'],'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
+                self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
                 //收货后尾款订单状态为团购成功
                 $row_->st= self::ORDER_ST_GROUP_OK;
 
