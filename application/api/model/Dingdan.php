@@ -97,7 +97,7 @@ class Dingdan extends Base{
 		}
 
 		//给商家订单量增加一个
-		Shop::increaseOrdernum( $data_order['shop_id'] );
+		//Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id , 'type' => $data['type_']];
 	}
 
@@ -191,7 +191,7 @@ class Dingdan extends Base{
 			return ['code' => __LINE__ , 'msg' => '添加订单成功，商品添加失败'];
 		}
         //给商家订单量增加一个
-        Shop::increaseOrdernum( $data_order['shop_id'] );
+       // Shop::increaseOrdernum( $data_order['shop_id'] );
 		return ['code' => 0 , 'msg' => '添加成功' , 'order_id' => $this->id,'type'=>$data['type_']];
 	}
 
@@ -279,7 +279,7 @@ class Dingdan extends Base{
 			}
 			//添加商家订单表end
 			//给商家订单量增加一个
-			Shop::increaseOrdernum( $shop->shop_id );
+			//Shop::increaseOrdernum( $shop->shop_id );
             Cache::clear();
 			//  添加订单商品
 			foreach ( $shop->shop_goods as $good ) {
@@ -509,7 +509,7 @@ class Dingdan extends Base{
                     $admin_shop = Admin::where( ['shop_id' => $order->shop_id ] )->find();
                     $admin_shop->income += $order->sum_price;
                     $admin_shop->save();
-                    //给商家增加交易量
+                    //给商家增加dingdan
                     Shop::increaseOrdernum( $order->shop_id );
 
                 }
