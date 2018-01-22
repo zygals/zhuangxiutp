@@ -406,8 +406,7 @@ class Dingdan extends Base{
                 $row_->st= self::ORDER_ST_GROUP_OK;
 
             }
-
-
+            Shop::incTradenum( $row_->shop_id );
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
@@ -464,7 +463,7 @@ class Dingdan extends Base{
                     $admin_shop->save();
 
                     //给商家增加交易量
-                    Shop::incTradenum( $row_order->shop_id );
+                   // Shop::incTradenum( $row_order->shop_id );
                     //将用户团购订金订单取消
                     if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
                         self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->update(['st'=>self::ORDER_ST_GROUP_OK]);
@@ -511,7 +510,7 @@ class Dingdan extends Base{
                     $admin_shop->income += $order->sum_price;
                     $admin_shop->save();
                     //给商家增加交易量
-                    Shop::incTradenum( $order->shop_id );
+                   // Shop::incTradenum( $order->shop_id );
 
                 }
                 //send template message no
