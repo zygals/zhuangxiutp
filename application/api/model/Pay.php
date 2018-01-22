@@ -209,7 +209,7 @@ class Pay extends Base {
             $row_order->st = Dingdan::ORDER_ST_REFUNDED;
             $row_order->save();
             \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化
-            //Shop::incTradenum( $row_order->shop_id ,false);//交易量－
+            Shop::increaseOrdernum( $row_order->shop_id ,false);//orderno－
 
                 $ret['code'] = 0;
                 $ret['msg'] = "退款申请成功";

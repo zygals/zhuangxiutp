@@ -462,8 +462,8 @@ class Dingdan extends Base{
                     $admin_shop->income += $row_order->sum_price;
                     $admin_shop->save();
 
-                    //给商家增加交易量
-                   // Shop::incTradenum( $row_order->shop_id );
+                    //给商家增加dingdan
+                   Shop::increaseOrdernum( $row_order->shop_id );
                     //将用户团购订金订单取消
                     if($row_order->getData('type') == Dingdan::ORDER_TYPE_GROUP_FINAL){
                         self::where(['user_id'=>$row_order->user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_order->group_id])->update(['st'=>self::ORDER_ST_GROUP_OK]);
@@ -510,7 +510,7 @@ class Dingdan extends Base{
                     $admin_shop->income += $order->sum_price;
                     $admin_shop->save();
                     //给商家增加交易量
-                   // Shop::incTradenum( $order->shop_id );
+                    Shop::increaseOrdernum( $order->shop_id );
 
                 }
                 //send template message no
