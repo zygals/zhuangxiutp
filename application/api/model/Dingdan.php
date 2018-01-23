@@ -280,7 +280,7 @@ class Dingdan extends Base{
 			//添加商家订单表end
 			//给商家订单量增加一个
 			//Shop::increaseOrdernum( $shop->shop_id );
-            Cache::clear();
+
 			//  添加订单商品
 			foreach ( $shop->shop_goods as $good ) {
 				$row_good = self::getById( $good->good_id , new Good() );
@@ -407,6 +407,7 @@ class Dingdan extends Base{
 
             }
             Shop::incTradenum( $row_->shop_id );
+            Cache::clear();
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
@@ -473,6 +474,7 @@ class Dingdan extends Base{
                     Db::commit();
                     fwrite($fp, $row_order->orderno."=>  pay ok \n");
                     fclose($fp);
+                    Cache::clear();
                     return  "<xml>
                        <return_code><![CDATA[SUCCESS]]></return_code>
                        <return_msg><![CDATA[OK]]></return_msg>
@@ -516,6 +518,7 @@ class Dingdan extends Base{
                 //send template message no
                 Db::commit();
                 fwrite($fp, $row_order_contact->orderno."=> order_contact pay ok \n");
+                Cache::clear();
                 return  "<xml>
                        <return_code><![CDATA[SUCCESS]]></return_code>
                        <return_msg><![CDATA[OK]]></return_msg>
