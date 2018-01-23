@@ -22,7 +22,7 @@ class Base extends model {
     protected static function getListCommon($data=[],$where = ['st' => ['<>', 0]]){
         $order = "create_time desc";
         if (!empty($data['name'])) {
-            $where['name'] = ['like', '%' . $data['name'] . '%'];
+            $where['name'] = ['like', '%' . trim($data['name']) . '%'];
         }
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

@@ -36,6 +36,14 @@
                             </option>
                         <?php } ?>
                     </select>
+                    <select name="goodst" id="" class="form-control">
+                        <option value="">－－商品状态－－</option>
+                        <?php foreach (app\back\model\Dingdan::$arrGoodSt as $k => $v) { ?>
+                            <option value="{$k}" <?php echo isset($_GET['goodst']) ? $k === (int)$_GET['goodst'] ? 'selected' : '' : ''; ?>>
+                                {$v}
+                            </option>
+                        <?php } ?>
+                    </select>
                     <select name="type" id="" class="form-control">
                         <option value="">－－选择类型－－</option>
                         <?php foreach (app\back\model\Dingdan::$arrType as $k => $v) { ?>
@@ -92,13 +100,13 @@
                 订单编号
             </div>
             <div class="col-xs-1">
-                商户名称
+                商户名
             </div>
             <div class="col-xs-1 ">
-                用户名
+                用户
             </div>
-            <div class="col-xs-1">
-                总 价
+            <div class="col-xs-1" title="{$list_->sum_all_price}">
+                总价
             </div>
 
             <div class="col-xs-1">
@@ -152,13 +160,15 @@
                         </div>
                         <div class="col-xs-">
                             <button class="btn btn-success btn-xs "
-                                    onclick="modalShow('{:url(\'read\')}','{$row_->id}')">查看
+                                    onclick="modalShow('{:url(\'read\')}','{$row_->id}')"  title="订单详情?">查
                             </button>
                             <?php if ($row_->st == '申请退款' && \app\api\model\Admin::isAdmin()) { ?>
                                 <a href="javascript:allow_refund({$row_->id})">
                                     <button class="btn btn-danger btn-xs" title="同意退款?">退</button>
                                 </a>
-
+                                <a href="javascript:cancel_refund({$row_->id})">
+                                    <button class="btn btn-danger btn-xs" title="取消退款?">消</button>
+                                </a>
                             <?php } ?>
                             <?php if ($row_->st == '用户删除') { ?>
                                 <button class="btn btn-danger btn-xs del_cate" data-toggle="modal"
@@ -215,6 +225,28 @@
     </div>
 </div>
 <script>
+
+    function cancel_refund(order_id) {
+        if (!confirm('确定取消退款么？')) {
+            return false;
+        }
+        $.ajax({
+            url: "{:url('api/dingdan/update_st')}",//前台退款接口
+            method: 'post',
+            data: {
+                order_id: order_id,
+                st: 'refundCancelByUser',
+            },
+            success: function (res) {
+                alert(res.msg)
+                if (res.code == 0) {
+                    location.reload();
+                }
+            }
+
+        })
+
+    }
     function allow_refund(order_id) {
         if (!confirm('确定给用户退款么？')) {
             return false;

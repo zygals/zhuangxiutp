@@ -175,40 +175,7 @@ class DingdanController extends BaseController {
         }
         return json(Dingdan::hasOrderGroupFinal($data));
     }
-    /*
-     * 取订金订单或全款
-     * */
-    /*public function order_user_deposit(Request $request){
-        $data = $request->param();
-        $rules = [
-            'username' => 'require',
-            'type_'=>'require|number',
 
-        ];
-        $res = $this->validate($data, $rules);
-        if (true !== $res) {
-            return json(['code' => __LINE__, 'msg' => $res]);
-        }
-        return json(Dingdan::getOrderUserDeposit($data));
-    }*/
-    /*
-     * 添加订单-团购  不要了
-     * zhuangxiu-zyg
-     * */
-    /* public function save_group(Request $request){
-           $data = $request->param();
-           $rules = [
-               'username' => 'require',
-               'group_id'=>'require|number',
-               'address_id'=>'require|number',
-           ];
-           $res = $this->validate($data, $rules);
-           if (true !== $res) {
-               return json(['code' => __LINE__, 'msg' => $res]);
-           }
-           return json((new Dingdan)->addOrderGroup($data));
-
-       }*/
     /*
      * 取我支付过的订金
      * zhuangxiu -zyg
@@ -228,26 +195,15 @@ class DingdanController extends BaseController {
 
     }
 
-    public function shiwu() {
-        /*$conn = mysqli_connect('localhost', 'root', 'root', 'zhuangxiu') or die ("数据连接错误!!!");
-//开始一个事务
 
-        mysqli_query($conn, "BEGIN"); //或者mysql_query("START TRANSACTION");
-        $sql = "insert into dingdan2 value (null,'ornderno13',55)";
-        $sql2 = "insert into dingdan_good2 value (null,'13',13)";
-        $res = mysqli_query($conn, $sql);
-        $res1 = mysqli_query($conn, $sql2);
-//        dump($res);
-//        dump($res1);
-        if ($res && $res1) {
-            mysqli_query($conn, "COMMIT");
-            echo '提交成功。';
-        } else {
-            mysqli_query($conn, "ROLLBACK");
-            echo '数据回滚。';
-        }*/
-        Dingdan::testshiwu();
 
+    public function notify_($weixin_notify=''){
+        //echo 'nogify_';exit;
+//        $fp2 = fopen('xml.txt', 'a');
+//         fwrite($fp2,'dingdan control notify_');
+        $xml = simplexml_load_string($weixin_notify);
+
+        return Dingdan::updatePaySt2($xml);
 
 
     }

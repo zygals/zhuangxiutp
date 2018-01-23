@@ -101,10 +101,14 @@
 						<div class="col-xs-1 ">
 							{$row_->id}
 						</div>
-						<div class="col-xs-1 " title="{$row_->shop_id}:{$row_->shop_name}">
-							{$row_->shop_id}:{$row_->shop_name}
+						<div class="col-xs-1 " title="{$row_->shop_id}:{$row_->shop_name}-{$row_->getShopSt($row_->shop_st)}">
+                            <?php if($row_->shop_st==0 || $row_->shop_st==2){?>
+							<span style="color:red">{$row_->shop_id}:{$row_->shop_name}-{$row_->getShopSt($row_->shop_st)}</span>
+<?php }else{?>
+                                {$row_->shop_id}:{$row_->shop_name}-{$row_->getShopSt($row_->shop_st)}
+                        <?php }?>
 						</div>
-						<div class="col-xs-1 " title="{$row_->good_id}">
+						<div class="col-xs-1 " title="{$row_->good_name}">
 							{$row_->good_name}
 						</div>
 						<?php if ( $row_->pnum != '' ) { ?>

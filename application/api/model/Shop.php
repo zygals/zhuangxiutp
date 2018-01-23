@@ -39,7 +39,7 @@ class Shop extends Base{
 	public static function getList($data = []){
 		$field = 'shop.id shop_id,shop.name shop_name,shop.ordernum,shop.tradenum,shop.img,shop.logo,cate.name cate_name';
 		$where = ['shop.st' => 1];
-		$order = "shop.sort asc,shop.ordernum desc,shop.tradenum desc,shop.create_time asc";//
+		$order = "shop.sort asc,shop.tradenum desc,shop.ordernum desc,shop.create_time asc";//
 		if ( !empty( $data['cate_id'] ) ) {
 			$where['cate_id'] = $data['cate_id'];
 		}
@@ -92,12 +92,15 @@ class Shop extends Base{
 	 * */
 	public static function increaseOrdernum($shop_id,$add=true){
 		$row_shop = self::where( ['id' => $shop_id , 'st' => 1] )->find();
-		if($add){
+		if($row_shop){
+            if($add){
+                $row_shop->setInc('ordernum');
 
-            $row_shop->setInc('ordernum');
-        }else{
-            $row_shop->setDec('ordernum');
+            }else{
+                $row_shop->setDec('ordernum');
+            }
         }
+
 	}
 	/*
 	 *给商家增加交易量

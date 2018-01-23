@@ -52,7 +52,7 @@ class Good extends Base {
             $where['shop_id'] = $data['shop_id'];
         }
         if (!empty($data['name'])) {
-            $where['good.name'] = ['like','%'.$data['name'].'%'];
+            $where['good.name'] = ['like','%'.trim($data['name']).'%'];
         }
         if(!empty($data['index_show'])){
             $where['index_show'] = $data['index_show'];

@@ -24,14 +24,8 @@ class Tuangou extends model{
 		$status = [1 => '正在进行' , 2 => '活动成功'/* , 3 => '活动失败'*/];
 		return $status[$groupalue];
 	}
- /*   public static function getListAll(){
-		$where = ['st' => ['=' , 1] , 'type' => ['=' , 2]];
-		$order = "create_time asc";
-		$list_ = self::where( $where )->order( $order )->select();
 
-		return $list_;
-	}*/
-    public static function getList($data = [] , $field = 'tuangou.*,shop.name shop_name,good.name good_name' , $where = ['tuangou.st' => [['<>' , 0] , ['<>' , 2]]]){
+    public static function getList($data = [] , $field = 'tuangou.*,shop.name shop_name,good.name good_name,shop.st shop_st' , $where = ['tuangou.st' => [['<>' , 0] , ['<>' , 2]]]){
 		$order = "tuangou.create_time desc";
       if(!empty($data['type_id'])){
            $where['tuangou.st'] = $data['type_id'];
@@ -104,6 +98,20 @@ class Tuangou extends model{
 		$list_ = self::where( $where )->join( 'shop' , 'shop.id=tuangou.shop_id' )->join( 'good' , 'good.id=tuangou.good_id' )->field( $field )->find();
 		return $list_;
 	}
+public function getShopSt($st){
 
+        $stname='';
+        switch($st){
+            case 0:
+                $stname= '删除';
+                break;
+            case 1:
+                $stname ='正常'; break;
+            case 2:
+                $stname ='关';
+                break;
+        }
+        return $stname;
+}
 
 }

@@ -4,6 +4,7 @@ namespace app\back\model;
 use think\Model;
 
 class AdminLog extends model{
+    protected $dateFormat = 'Y-m-d H:i:s';
 	public static function getLogs(){
         $admin_id=session('admin_zhx')->id;
         $list_ = self::where(['admin_id'=>$admin_id])->alias('al')->order('create_time desc')->join('admin','al.admin_id=admin.id')->field('admin.name admin_name,times,al.*')->paginate(10);

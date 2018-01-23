@@ -4,13 +4,11 @@ namespace app\api\model;
 
 use app\back\model\Ad;
 use app\back\model\Admin;
-
+use app\back\model\Withdraw;
 
 
 class Pay extends Base {
-    public function pay_ok(){
 
-    }
     public function requestWxPay($data, $request) {
 
         $user_id = User::getUserIdByName($data['username']);
@@ -42,13 +40,16 @@ class Pay extends Base {
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $body = '55家收款';
-        $shop_name = Shop::where(['id'=>$row_order->shop_id])->value('name');
-        if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT){
-            $body = '55家-'.$shop_name.'订金';
+        if(isset($row_order->shop_id)){
+            $shop_name = Shop::where(['id'=>$row_order->shop_id])->value('name');
+            if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_DEPOSIT){
+                $body = '55家-'.$shop_name.'订金';
+            }
+            if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
+                $body = '55家-'.$shop_name.'全款';
+            }
         }
-        if($data['type_'] == Dingdan::ORDER_TYPE_SHOP_MONEY_ALL){
-            $body = '55家-'.$shop_name.'全款';
-        }
+
         $nonce_str = $this->nonce_str();//随机字符串
         $notify_url =  $request->domain() .'/zhuangxiutp/public/notify.php';
        //dump($notify_url);exit;
@@ -103,6 +104,10 @@ class Pay extends Base {
             $data_return['paySign'] = $this->sign($tmp);//签名,具体签名方案参见微信公众号支付帮助文档;
             $data_return['out_trade_no'] = $out_trade_no;
             $data_return['prepay_id'] = $array['PREPAY_ID'];
+            //save sign
+            $row_order->prepay_id= $array['PREPAY_ID'];
+           // $row_order->sign_= $sign;
+            $row_order->save();
 
         } else {
             $data_return['code'] = __LINE__;
@@ -128,6 +133,33 @@ class Pay extends Base {
         if ($row_order->st == Dingdan::ORDER_ST_REFUNDED) {
             return ['code' => __LINE__, 'msg' => '订单已退过款了！'];
         }
+        $fee = $row_order->sum_price; //want to refund
+        $out_trade_no = $row_order->orderno;//商户订单号
+        $total_fee = $fee * 100;//订单总额
+        $refund_fee = $fee * 100;//退钱额
+
+        if($row_order->order_contact_id >0 ){
+            $row_contact = OrderContact::where(['id'=>$row_order->order_contact_id])->find();
+
+            $out_trade_no = $row_contact->orderno;//商户订单号
+            $fee_contact = $row_contact->sum_price_all;
+            $total_fee = $fee_contact * 100;//订单总额
+            $refund_fee = $fee * 100;//退钱额
+
+        }
+
+        //是否有申请提现，如有，则提示先处理
+        $admin_have_withdraw= Withdraw::haveWithdraw($row_order->shop_id);
+        if(is_array($admin_have_withdraw)){
+            return $admin_have_withdraw;
+        }
+        if($admin_have_withdraw){
+            return ['code' => __LINE__, 'msg' => '此商户有申请提现没审核或有未转账的提现,先处理！'];
+        }
+        //如果退款金额>可用收益，则提示
+        if($fee > Admin::getBenefitByAdminId($row_order->shop_id)){
+            return ['code' => __LINE__, 'msg' => '退款金额>商户收益，不能退款！'];
+        }
         if(empty($row_order->refundno)){
             $refund_no= Dingdan::makeRefundNo();
             $out_refund_no = $refund_no;//商户退款号
@@ -143,13 +175,10 @@ class Pay extends Base {
         if(!$admin_shop){
             return ['code' => __LINE__, 'msg' => '此店铺没有添加管理员或已禁用，请先添加或改为正常！'];
         }
-        $fee = $row_order->sum_price;
+
         $appid = config('wx_appid');//如果是公众号 就是公众号的appid
         $mch_id = config('wx_mchid');
         $nonce_str = $this->nonce_str();//随机字符串
-
-        $out_trade_no = $row_order->orderno;//商户订单号
-        $total_fee = $fee * 100;//最不为1
 
         //这里是按照顺序的 因为下面的签名是按照顺序 排序错误 肯定出错
         $post['appid'] = $appid;
@@ -158,8 +187,8 @@ class Pay extends Base {
         $post['op_user_id'] = $mch_id;
         $post['out_refund_no'] = $out_refund_no;
         $post['out_trade_no'] = $out_trade_no;
-        $post['refund_fee'] = $total_fee;//总金额 最低为一块钱 必须是整数
-        $post['total_fee'] = $total_fee;//总金额 最低为一块钱 必须是整数
+        $post['refund_fee'] = $refund_fee;//退钱额
+        $post['total_fee'] = $total_fee;//总金额
         $sign = $this->sign($post);//签名            <notify_url>' . $notify_url . '</notify_url>
         $post_xml = '<xml>
            <appid>' . $appid . '</appid>
@@ -168,7 +197,7 @@ class Pay extends Base {
            <op_user_id>' . $mch_id . '</op_user_id>
            <out_refund_no>' . $out_refund_no . '</out_refund_no>
            <out_trade_no>' . $out_trade_no . '</out_trade_no>
-           <refund_fee>' . $total_fee . '</refund_fee>
+           <refund_fee>' . $refund_fee . '</refund_fee>
            <total_fee>' . $total_fee . '</total_fee>
            <sign>' . $sign . '</sign>
         </xml> ';
@@ -177,10 +206,11 @@ class Pay extends Base {
         $array = $this->xml($xml);//全要大写
         if ($array['RETURN_CODE'] == 'SUCCESS') {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
-                $row_order->st = Dingdan::ORDER_ST_REFUNDED;
-                $row_order->save();
-                \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化
-                Shop::incTradenum( $row_order->shop_id ,false);//交易量－
+            $row_order->st = Dingdan::ORDER_ST_REFUNDED;
+            $row_order->save();
+            \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化
+            Shop::increaseOrdernum( $row_order->shop_id ,false);//orderno－
+
                 $ret['code'] = 0;
                 $ret['msg'] = "退款申请成功";
             } else {
@@ -258,7 +288,7 @@ class Pay extends Base {
         }
     }
 
-//获取xml
+//获取xml return array
     private function xml($xml) {
         $p = xml_parser_create();
         xml_parse_into_struct($p, $xml, $vals, $index);

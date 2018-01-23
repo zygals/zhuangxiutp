@@ -1,5 +1,5 @@
 {extend name='layout:base' /}
-{block name="title"}会员列表{/block}
+{block name="title"}提现列表{/block}
 
 {block name="content"}
 <style>
@@ -66,10 +66,10 @@
             <div class="col-xs-1 ">
                 编号
             </div>
-            <div class="col-xs-2 ">
+            <div class="col-xs-1 ">
                 帐号
             </div>
-            <div class="col-xs-2 ">
+            <div class="col-xs-1 ">
                 商家姓名
              </div>
             <div class="col-xs-1 ">
@@ -78,14 +78,18 @@
             <div class="col-xs-1 ">
                 状态
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1 ">
+                资金状态
+            </div>
+            <div class="col-xs-1">
                 申请时间
             </div>
-
             <div class="col-xs-2">
-                成功时间
+                审核时间
             </div>
-
+            <div class="col-xs-2">
+                转账时间
+            </div>
             <div class="col-xs-">
                 <?php if(!\app\back\model\Admin::isShopAdmin()){ ?>
                 操作
@@ -99,32 +103,43 @@
                         <div class="col-xs-1">
                             {$row_->id}
                         </div>
-                        <div class="col-xs-2" title=" {$row_->admin_name}">
+                        <div class="col-xs-1" title=" {$row_->admin_name}">
                             {$row_->admin_name}
                         </div>
-                        <div class="col-xs-2" title=" {$row_->admin_truename}">
+                        <div class="col-xs-1" title=" {$row_->admin_truename}">
                             {$row_->admin_truename}
                         </div>
                         <div class="col-xs-1 " title="{$row_->cash}元">
                             {$row_->cash}元
                         </div>
-                        <div class="col-xs-1">
+                        <div class="col-xs-1" title=" {$row_->st}">
                             {$row_->st}
                         </div>
-
-                        <div class="col-xs-2">
+                        <div class="col-xs-1" title="  {$row_->cashst}">
+                            {$row_->cashst}
+                        </div>
+                        <div class="col-xs-1" title="{$row_->create_time}">
                             {$row_->create_time}
                         </div>
-<?php if($row_->st=='转账成功'){?>
-                        <div class="col-xs-2">
-                            {$row_->update_time}
-                        </div>
-<?php }?>
-                        <div class="col-xs-">
-                            <?php if(!\app\back\model\Admin::isShopAdmin() && $row_->st=='待转账'){ ?>
 
-                                    <button class="btn btn-danger btn-xs edit_" title="通过?" onclick
-                                    ="transferOk(this)" data_cash="{$row_->cash}" data_id="{$row_->id}">通过</button>
+                        <div class="col-xs-2">
+                            <?php echo $row_->verify_time>0?date('Y-m-d H:i:s',$row_->verify_time):'无' ;?>
+                        </div>
+                        <div class="col-xs-2">
+            <?php echo $row_->transfer_time>0?date('Y-m-d H:i:s',$row_->transfer_time):'无' ;?>
+                        </div>
+                        <div class="col-xs-">
+
+                            <?php if(!\app\back\model\Admin::isShopAdmin() && $row_->st=='待审核'){ ?>
+
+                                    <button class="btn btn-danger btn-xs edit_" title="点击是否能给商家转账？" onclick
+                                    ="transferOk(this)"  data_id="{$row_->id}">审核</button>
+
+                            <?php }?>
+                            <?php if(!\app\back\model\Admin::isShopAdmin() && $row_->st=='审核通过' &&$row_->cashst=='待转账'){ ?>
+
+                                <button class="btn btn-danger btn-xs edit_" title="线下已转账？" onclick
+                                ="transferOk2(this)" data_cash="{$row_->cash}" data_id="{$row_->id}">转账</button>
 
                             <?php }?>
 
@@ -177,10 +192,11 @@
     </div>
 </div>
 <script>
-   function transferOk(obj) {
+
+   function transferOk2(obj) {
        var money= $(obj).attr('data_cash');
        var id= $(obj).attr('data_id');
-       if(confirm('确定财务已线下转账了 '+money+'元 ？，同意后商户收益会相应减少。')){
+       if(confirm('商家可用收益也会减少'+money)){
            var admin_pass = prompt('请输入管理员密码');
            if(admin_pass==''){
                alert('密码不能为空');
@@ -188,7 +204,7 @@
            }
            $.ajax({
                method:'post',
-               url:'{:url("updateSt")}',
+               url:'{:url("update_cashst")}',
                data:{
                     pass_admin:admin_pass,
                     withdraw_id:id,
@@ -204,6 +220,33 @@
 
        }
    }
+   function transferOk(obj) {
+       var id= $(obj).attr('data_id');
+       if(confirm('此操作可以分析商家是否能够正常提现，如审核状态为通过，则平台通过线下转账给商家。')){
+           var admin_pass = prompt('请输入管理员密码');
+           if(admin_pass==''){
+               alert('密码不能为空');
+               return false;
+           }
+           $.ajax({
+               method:'post',
+               url:'{:url("updateSt")}',
+               data:{
+                   pass_admin:admin_pass,
+                   withdraw_id:id,
+               },
+               success:function (data) {
+                   alert(data.msg);
+                   if(data.code==0){
+                       window.location.reload();
+                   }
+               }
+
+           });
+
+       }
+   }
+
     function del_(obj) {
         var id = $(obj).attr('data-id');
         $('#del_id').val(id);

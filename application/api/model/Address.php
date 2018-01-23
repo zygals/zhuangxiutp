@@ -169,9 +169,9 @@ class Address extends Base{
 			$row_address = self::where( ['user_id' => $user_id , 'st' => 1] )->order( 'create_time desc' )->find();
 		}
 		if ( !$row_address ) {
-			return ['code' => __LINE__ , 'msg' => 'address not exsits'];
+			return ['code' => __LINE__ , 'msg' => '暂无地址'];
 		}
-		return ['code' => 0 , 'msg' => 'get address default ok' , 'data' => $row_address];
+		return ['code' => 0 , 'msg' => '地址成功' , 'data' => $row_address];
 
 	}
 }

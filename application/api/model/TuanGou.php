@@ -55,8 +55,8 @@
          */
         public static function getGoonPnum(){
             $field = 'tuangou.id t_id,good.img good_img,good.name good_name,price_group,pnum';
-            $where = ['type'=>['=',1],'good.st'=>1,'tuangou.st'=>1];
-            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->field($field)->order('t_id desc')->select();
+            $where = ['type'=>['=',1],'good.st'=>1,'tuangou.st'=>1,'shop.st'=>1];
+            $list_ = self::where($where)->join('good','good.id=tuangou.good_id')->join('shop','shop.id=tuangou.shop_id')->field($field)->order('t_id asc')->select();
             if($list_->isEmpty()){
                 return ['code'=>__LINE__,'msg'=>'团购数据不存在'];
             }

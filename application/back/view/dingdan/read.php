@@ -186,6 +186,15 @@
 							<label>{$row_order->create_time}</label>
 						</div>
 					</div>
+                    <?php if($row_order->pay_time>0){?>
+                    <div class="form-group ">
+                        <label for="sName" class="col-xs-3 control-label">支付时间：</label>
+
+                        <div class="col-xs-8 ">
+                            <label>{$row_order->pay_time}</label>
+                        </div>
+                    </div>
+                    <?php }?>
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">修改时间：</label>
 

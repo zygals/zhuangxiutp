@@ -36,7 +36,7 @@ class Cate extends model {
             $where['type'] = $data['type_id'];
         }
         if (!empty($data['name'])) {
-            $where['name'] = ['like', '%' . $data['name'] . '%'];
+            $where['name'] = ['like', '%' . trim($data['name']) . '%'];
         }
         if (!empty($data['paixu'])) {
             $order = $data['paixu'] . ' asc';

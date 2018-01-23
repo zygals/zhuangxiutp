@@ -37,7 +37,7 @@ class Article extends Base {
         }
 
         if (!empty($data['name'])) {
-            $where['article.name'] = ['like','%'.$data['name'].'%'];
+            $where['article.name'] = ['like','%'.trim($data['name']).'%'];
         }
 
         if(!empty($data['index_show'])){

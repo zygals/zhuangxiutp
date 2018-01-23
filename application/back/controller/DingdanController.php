@@ -97,7 +97,7 @@ class DingdanController extends BaseController {
         $data = $request->param();
         if ($row_=$this->deleteStatusById($data['id'], new Dingdan())) {
             //删除订单
-            Shop::increaseOrdernum( $row_->shop_id ,false);
+            //Shop::increaseOrdernum( $row_->shop_id ,false);
             Cache::clear();
             $this->success('删除成功',  $data['url'], '', 1);
         } else {

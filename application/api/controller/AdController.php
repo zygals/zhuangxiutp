@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\api\model\Article;
 use app\api\model\Cate;
+use app\api\model\Dingdan;
 use app\api\model\Good;
 
 use think\Request;
@@ -19,6 +20,8 @@ class AdController extends BaseController
         return json(Ad::getList());
 
    }
+
+
 
 
 

@@ -35,14 +35,18 @@
                 身份
             </div>
             <div class=" col-sm-1 ">
-                商家编号
+                商家
             </div>
             <div class=" col-sm-1 ">
                 收益
             </div>
             <div class=" col-sm-1 ">
+                已冻结
+            </div>
+            <div class=" col-sm-1 ">
                 已提现
             </div>
+
             <div class=" col-sm-2 ">
                 创建时间
             </div>
@@ -68,11 +72,14 @@
                     <div class="col-sm-1">
                         <?= $admin['type'] ?>
                     </div>
-                    <div class="col-sm-1" title="{$admin->shop_id}">
-                        <?= $admin['shop_id'] ?>
+                    <div class="col-sm-1" title="{$admin->shop_id}:{$admin->shop_name}-{$admin->getShopSt($admin->shop_st)}">
+                        <?= $admin['shop_id'].':'.$admin->shop_name ?>
                     </div>
                     <div class="col-sm-1" title="{$admin->income}">
                         {$admin->income}
+                    </div>
+                    <div class="col-sm-1" title="{$admin->income_lock}">
+                        {$admin->income_lock}
                     </div>
                     <div class="col-sm-1" title="{$admin->withdraw_ok}">
                         {$admin->withdraw_ok}

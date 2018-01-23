@@ -18,10 +18,11 @@ class TplMessage extends Base {
         $good_name='无';
         if(in_array($row_order->getData('type'),[Dingdan::ORDER_TYPE_SHOP,Dingdan::ORDER_TYPE_SHOP_DEPOSIT,Dingdan::ORDER_TYPE_SHOP_MONEY_ALL])){
             $list_order_good = OrderGood::getGood($row_order->id);
+            $good_name='';
             foreach ($list_order_good as $good){
                 $good_name.=$good['good_name'].',';
             }
-            trim($good_name,',');
+            $good_name=trim($good_name,',');
         }
         $arr = [
             'touser'=>$user->open_id,
