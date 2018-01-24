@@ -40,7 +40,8 @@ class IndexController extends BaseController
             $shop->tradenum = $tradenum;
             $shop->ordernum = $ordernum;
             $shop->save();
-            echo $shop->id.$ordernum,"<br>";
+            echo $shop->id.'_'.$ordernum,"<br>";
+            echo $shop->id.'_'.$tradenum,"<br>";
         }
         $k++;
         return "gai hao le $k ge";
