@@ -405,8 +405,8 @@ class Dingdan extends Base{
                 $row_->st= self::ORDER_ST_GROUP_OK;
 
             }
-            Shop::incTradenum( $row_->shop_id );
-            Cache::clear();
+           // Shop::incTradenum( $row_->shop_id );
+            //Cache::clear();
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
