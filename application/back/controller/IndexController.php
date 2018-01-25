@@ -2,6 +2,7 @@
 
 namespace app\back\controller;
 
+use app\back\model\Admin;
 use app\back\model\Dingdan;
 use app\back\model\Shop;
 use think\Cache;
@@ -46,6 +47,19 @@ class IndexController extends BaseController
         $k++;
         return "gai hao le $k ge";
 
+    }
+
+    public function gaisy(){
+       $admins = Admin::where('shop.st=1 and type=2')->field('admin.id,income,shop_id')->join('shop','shop.id=admin.shop_id')->select();
+       dump($admins);exit;
+       foreach($admins as $admin){
+           $ordersum_price = Dingdan::where(['shop_id'=>$admin->shop_id,'st'=>['in','2,6,7,8,9,10']])->sum('sum_price');
+           $admin->income = $ordersum_price;
+
+           $admin->save();
+           echo $admin->id.'_'.$ordersum_price,"<br>";
+       }
+       return 'shou yi ok';
     }
 
 }
