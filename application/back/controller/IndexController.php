@@ -51,7 +51,7 @@ class IndexController extends BaseController
 
     public function gaisy(){
        $admins = Admin::where('shop.st=1 and type=2')->field('admin.id,income,shop_id')->join('shop','shop.id=admin.shop_id')->select();
-       dump($admins);exit;
+      // dump($admins);exit;
        foreach($admins as $admin){
            $ordersum_price = Dingdan::where(['shop_id'=>$admin->shop_id,'st'=>['in','2,6,7,8,9,10']])->sum('sum_price');
            $admin->income = $ordersum_price;
