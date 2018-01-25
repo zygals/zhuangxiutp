@@ -62,6 +62,7 @@ class Dingdan extends model {
     public static function getAlldingdans($data) {
         $where = ['dingdan.st' => ['<>', 0]];
         $order = ['create_time desc'];
+        $where2='';
         if (Admin::isShopAdmin()) {
             $where2['dingdan.shop_id'] = session('admin_zhx')->shop_id;
         }
