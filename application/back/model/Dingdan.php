@@ -63,7 +63,7 @@ class Dingdan extends model {
         $where = ['dingdan.st' => ['<>', 0]];
         $order = ['create_time desc'];
         if (Admin::isShopAdmin()) {
-            $where['dingdan.shop_id'] = session('admin_zhx')->shop_id;
+            $where2['dingdan.shop_id'] = session('admin_zhx')->shop_id;
         }
         if (!empty($data['time_from'])) {
             $where['dingdan.create_time'] = ['gt', strtotime($data['time_from'])];
@@ -118,7 +118,7 @@ class Dingdan extends model {
             $order = $data['paixu'] . ' desc';
         }
 
-        $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
+        $list = self::where($where)->where($where2)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
 
         $list->sum_all_price = self::where($where)->sum('sum_price');
 
