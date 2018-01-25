@@ -2,6 +2,8 @@
 
 namespace app\back\model;
 
+use app\api\model\Shop;
+use think\Cache;
 use think\Model;
 
 class OrderGood extends model {
@@ -38,6 +40,8 @@ class OrderGood extends model {
 			Dingdan::updateGoodst($row_->order_id,'part');
 		}else{
 			Dingdan::updateGoodst($row_->order_id,'all');
+            Shop::incTradenum( $row_->shop_id );
+            Cache::clear();
 		}
 		return true;
 	}

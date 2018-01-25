@@ -3,6 +3,7 @@
 namespace app\back\model;
 
 use app\api\model\Shop;
+use think\Cache;
 use think\Model;
 use app\back\model\Good;
 use app\back\model\OrderGood;
@@ -50,6 +51,8 @@ class Dingdan extends model {
         }
         $row_->goodst = 2;
         $row_->save();
+        Shop::incTradenum( $row_->shop_id );
+        Cache::clear();
         return true;
     }
 

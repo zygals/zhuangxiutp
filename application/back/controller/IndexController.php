@@ -2,6 +2,8 @@
 
 namespace app\back\controller;
 
+use app\back\model\Dingdan;
+use app\back\model\Shop;
 use think\Cache;
 use think\Request;
 use app\back\model\User;
@@ -24,5 +26,26 @@ class IndexController extends BaseController
        $this->success('缓存清理成功',$back,'',1);
 
    }
+
+    public function gaidd() {
+       //all st=1 shop
+        /*
+         * foreach shop and find dingdan ,sum yishouhuo = jiaoyi ;sum yizhifu= dingdanshu
+         * */
+        $list_shop = Shop::where(['st'=>1])->select();
+        foreach($list_shop as $k=>$shop){
+//            $tradenum=0;$ordernum=0;
+            $tradenum = Dingdan::where(['shop_id'=>$shop->id,'goodst'=>2,'st'=>['in','2,6,7,8,9,10']])->count('id');
+            $ordernum = Dingdan::where(['shop_id'=>$shop->id,'st'=>['in','2,6,7,8,9,10']])->count('id');
+            $shop->tradenum = $tradenum;
+            $shop->ordernum = $ordernum;
+            $shop->save();
+            echo $shop->id.'_'.$ordernum,"<br>";
+            echo $shop->id.'_'.$tradenum,"<br>";
+        }
+        $k++;
+        return "gai hao le $k ge";
+
+    }
 
 }

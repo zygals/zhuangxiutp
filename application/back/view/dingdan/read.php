@@ -127,7 +127,7 @@
 	<p>团购订金：{$row_good->group_deposit}</p>
 									<?php }?>
 									<p>{$row_good->st}</p>
-									<?php if ( $row_order->st == '已支付' && $row_good->st == '没发货' && $row_order->getData('type')!==3) { ?>
+									<?php if ( $row_order->st == '已支付' && $row_good->st == '没发货' /*&& $row_order->getData('type')!==3*/) { ?>
 										<a href="javascript:if(confirm('确认已发货了吗？'))window.location.href='{:url('change_goodst')}?order_good_id={$row_good->id}'">确认发货</a>
 									<?php } ?>
 									<!--<p>状态：<label><input type="radio" name="st" <? /*= $row_good->st=='1'?'checked':'';*/ ?>/>待发货</label>
