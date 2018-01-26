@@ -39,7 +39,6 @@ class WithdrawController extends BaseController{
      * @param Request $request
      */
     public function save(Request $request){
- 
         $data = $request->param();
         $rule =['cash'=>'require|number'];
         $res=$this->validate($data,$rule);
@@ -63,12 +62,10 @@ class WithdrawController extends BaseController{
         }else{
             $shou = $confirm_order;
         }
-        //echo $data['cash'] + $remian['already_apply'],'-', $confirm_order-$withdraw_ok;
 
         if(($data['cash'] + $remian['already_apply']) > $shou ){
             $this->error("提现金额超过可提现的金额({$shou} 元)，申请失败");
         }
-//        exit;
         if($data['cash'] > $remian['remain']){
             $this->error('提现超出可用收益！');
         }

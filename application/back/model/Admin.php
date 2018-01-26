@@ -104,6 +104,29 @@ class Admin extends Base {
         $benefit = self::where('id',$id)->find();
         return $benefit['income'];
     }
+    /**
+ * 获取商品管理员yitixian
+ */
+    public static function getwithdrawok(){
+        $id = session('admin_zhx')->id;
+        return   self::where('id',$id)->value('withdraw_ok');
+    }
+    /**
+ * 获取商品管理员ketixian
+ */
+    public static function getketixian(){
+        $id = session('admin_zhx')->id;
+        $remian = Withdraw::getRemain();
+        $confirm_order = Dingdan::getConfirmOrderSum($id);
+        $withdraw_ok=Admin::where(['id'=>$id])->value('withdraw_ok');
+        if($confirm_order>0 && $withdraw_ok>0){
+            $shou = $confirm_order-$withdraw_ok;
+        }else{
+            $shou = $confirm_order;
+        }
+        return $shou - $remian['already_apply'];
+    }
+
 
     /**
      * 获取商品管理员 ，已锁定收益
