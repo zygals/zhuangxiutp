@@ -245,7 +245,7 @@ class Dingdan extends model {
         if (!$shop_id) {
             return ['code' => __LINE__, 'msg' => '您被禁用或删除了，请联系平台管理员'];
         }
-        $sum_refund=self::where(['shop_id'=>$shop_id,'type'=>['in','1,4,5'],'goodst'=>['in','3,4'],'st'=>['in','2,7,8,9,10']])->sum('sum_price');
+        $sum_refund=self::where(['shop_id'=>$shop_id,/*'type'=>['in','1,4,5'],*/'goodst'=>['in','3,4'],'st'=>['in','2,7,8,9,10']])->sum('sum_price');
 
         return $sum_refund;
     }
