@@ -36,7 +36,7 @@ class IndexController extends BaseController
         $list_shop = Shop::where(['st'=>1])->select();
         foreach($list_shop as $k=>$shop){
 //            $tradenum=0;$ordernum=0;
-            $tradenum = Dingdan::where(['shop_id'=>$shop->id,'goodst'=>2,'st'=>['in','2,6,7,8,9,10']])->count('id');
+            $tradenum = Dingdan::where(['shop_id'=>$shop->id,'goodst'=>['in','2,3,4'],'st'=>['in','2,6,7,8,9,10']])->count('id');
             $ordernum = Dingdan::where(['shop_id'=>$shop->id,'st'=>['in','2,6,7,8,9,10']])->count('id');
             $shop->tradenum = $tradenum;
             $shop->ordernum = $ordernum;

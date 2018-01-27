@@ -80,7 +80,7 @@
 							</div>
 						</div>
 					<?php }?>
-                    <?php if(($row_order->type=='商家订金' || $row_order->type=='商家全款' ) && $row_order->goodst=='未发货'){?>
+                    <?php if(($row_order->type=='商家订金' || $row_order->type=='商家全款'|| $row_order->type=='限人' ) && $row_order->goodst=='未发货'){?>
                     <div class="form-group ">
                         <label for="sName"
                                class="col-xs-3 control-label">商品：</label>
