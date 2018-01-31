@@ -62,8 +62,9 @@ class Dingdan extends model {
     public static function getAlldingdans($data) {
         $where = ['dingdan.st' => ['<>', 0]];
         $order = ['create_time desc'];
+        $where2='';
         if (Admin::isShopAdmin()) {
-            $where['dingdan.shop_id'] = session('admin_zhx')->shop_id;
+            $where2['dingdan.shop_id'] = session('admin_zhx')->shop_id;
         }
         if (!empty($data['time_from'])) {
             $where['dingdan.create_time'] = ['gt', strtotime($data['time_from'])];
@@ -118,12 +119,12 @@ class Dingdan extends model {
             $order = $data['paixu'] . ' desc';
         }
 
-        $list = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
+        $list = self::where($where)->where($where2)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact')->order($order)->paginate(10);
 
         $list->sum_all_price = self::where($where)->sum('sum_price');
 
         if (!empty($data['excel']) && $data['excel'] == 1) { //导出表格
-            $list_ = self::where($where)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address', 'dingdan.address_id=address.id')->order($order)->select();
+            $list_ = self::where($where)->where($where2)->join('user', 'user.id=dingdan.user_id')->join('shop', 'dingdan.shop_id=shop.id')->join('order_contact', 'dingdan.order_contact_id=order_contact.id', 'left')->field('dingdan.*,user.username,shop.name shop_name,order_contact.orderno orderno_contact,address.truename,address.mobile,address.info,address.pcd')->join('address', 'dingdan.address_id=address.id')->order($order)->select();
             $excel = new \PHPExcel();
             $excel->setActiveSheetIndex(0)
                 ->setCellValue('A1', '编号')
@@ -244,7 +245,7 @@ class Dingdan extends model {
         if (!$shop_id) {
             return ['code' => __LINE__, 'msg' => '您被禁用或删除了，请联系平台管理员'];
         }
-        $sum_refund=self::where(['shop_id'=>$shop_id,'type'=>['in','1,4,5'],'goodst'=>['in','3,4'],'st'=>['in','2,7,8,9']])->sum('sum_price');
+        $sum_refund=self::where(['shop_id'=>$shop_id,/*'type'=>['in','1,4,5'],*/'goodst'=>['in','3,4'],'st'=>['in','2,7,8,9,10']])->sum('sum_price');
 
         return $sum_refund;
     }
