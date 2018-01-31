@@ -1,16 +1,17 @@
 <?php
-namespace app\api\model;
-use think\model;
 
-    class AccessToken extends Base{
+namespace app\api\model;
+use think\Model;
+
+class AccessToken extends Base{
 
         /**
          * 返回access_token
          * @return mixed
          */
         public function getToken(){
-            $appid=config('appid');
-            $appsecret=config('appsecret');
+            $appid=config('wx_appid');
+            $appsecret=config('wx_appsecret');
             $file = file_get_contents("./access_token.json",true);
             $result = json_decode($file,true);
             if (time() > $result['expires']){
@@ -35,7 +36,8 @@ use think\model;
          */
         private function getNewToken($appid,$appsecret){
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appid}&secret={$appsecret}";
-            $access_token_Arr =   $this->https_request($url);
+//            dump($url);exit;
+            $access_token_Arr =$this->https_request($url);
             return $access_token_Arr['access_token'];
         }
     }

@@ -62,7 +62,16 @@ class Base extends model {
         return $row;
     }
 
-    //curl请求啊
+    //curl请求
+    protected function https_request($url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $out = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($out, true);
+    }
     protected function http_request($url, $data = null, $headers = array()) {
         $curl = curl_init();
         if (count($headers) >= 1) {
@@ -82,7 +91,6 @@ class Base extends model {
         curl_close($curl);
         return $output;
     }
-
     public function getToken(){
         $appid=config('wx_appid');
         $appsecret=config('wx_appsecret');

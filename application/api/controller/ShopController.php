@@ -2,6 +2,7 @@
 
 namespace app\api\controller;
 
+use app\api\model\AccessToken;
 use app\api\model\Shop;
 use app\api\model\ShopAddress;
 use app\api\model\TuanGou;
@@ -62,9 +63,9 @@ class ShopController extends BaseController
     }
 
     /**
-     * 获取商户二维码
+     * 获取access_token
      */
-    public function getQRcode(){
-
+    public function at(){
+        return json((new AccessToken())->getToken());
     }
 }
