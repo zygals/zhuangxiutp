@@ -60,4 +60,11 @@ class ShopController extends BaseController
         $data = $request->param();
         return json(TuanGou::isAttend($data['shop_id']));
     }
+
+    /**
+     * 获取商户二维码
+     */
+    public function getQRcode(){
+
+    }
 }
