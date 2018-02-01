@@ -63,9 +63,33 @@ class ShopController extends BaseController
     }
 
     /**
-     * 获取access_token
+     * 获取二维码
      */
-    public function at(){
-        return json((new AccessToken())->getToken());
+    public function at(Request $request){
+        //判断该商户是否已生成微信二维码
+        $data = $request->param();
+        $shop_id = $data['shop_id'];
+        $res = (new Shop())->where(['id'=>$shop_id])->find();
+        //储存到static下的qrcode目录,并将名称保存至数据库
+        if($res->wx_qrcode == ""){
+            //获取access_token
+            $ac =  (new AccessToken())->getToken();
+            $path="pages/store/store?shop_id=".$shop_id;
+            $width=430;
+            $post_data='{"path":"'.$path.'","width":'.$width.'}';
+            $url="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ac;
+            $result=$this->api_notice_increment($url,$post_data);
+            $name = ROOT_PATH . 'public/upload/qrcode/temp.jpg';
+            $newname = ROOT_PATH . 'public/upload/qrcode/'.md5(md5(rand(0,999))).'.jpg';
+            file_put_contents($name,$result);
+            rename($name,$newname);
+            $wx_qrcode = substr($newname,34);
+            $shop = new Shop();
+            $shop->where('id',$shop_id)->update(['wx_qrcode'=>$wx_qrcode]);
+            return json(['wx_qrcode'=>$wx_qrcode]);
+        }else{
+            $wx_qrcode = $res->wx_qrcode;
+            return json(['wx_qrcode'=>$wx_qrcode]);
+        }
     }
 }
