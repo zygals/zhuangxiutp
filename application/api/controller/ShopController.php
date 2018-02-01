@@ -83,7 +83,8 @@ class ShopController extends BaseController
             $newname = ROOT_PATH . 'public/upload/qrcode/'.md5(md5(rand(0,999))).'.jpg';
             file_put_contents($name,$result);
             rename($name,$newname);
-            $wx_qrcode = substr($newname,34);
+            $tmp = stripos($newname,'/upload');
+            $wx_qrcode = substr($newname,$tmp);
             $shop = new Shop();
             $shop->where('id',$shop_id)->update(['wx_qrcode'=>$wx_qrcode]);
             return json(['wx_qrcode'=>$wx_qrcode]);
