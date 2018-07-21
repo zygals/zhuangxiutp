@@ -46,11 +46,14 @@ class AdminController extends BaseController {
         }
         $name = $request->param('name');
         $pass = $request->param('pass');
+
         $pwd = Admin::pwdGenerate($pass);
+        //return $pwd;
         $condition = array();
         $condition['name'] = $name;
         $condition['pwd'] = $pwd;
         $admin = Admin::get($condition);
+
         if ($admin) {
             if ($admin->type == '商户') {
                 if ($admin->st != '正常') {

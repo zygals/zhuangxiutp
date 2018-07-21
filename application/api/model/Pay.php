@@ -52,7 +52,7 @@ class Pay extends Base {
 
         $nonce_str = $this->nonce_str();//随机字符串
         $notify_file = config('notify_file');
-        $notify_url =  $request->domain() .$notify_file;
+        $notify_url =  $request->domain() .$notify_file; //回调
 //       dump($notify_url);exit;
         $openid = User::where(['id' => $user_id])->value('open_id');
         $out_trade_no = $row_order->orderno;//商户订单号

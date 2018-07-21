@@ -21,11 +21,11 @@ function http_request($url, $data = null, $headers = array()) {
     echo $output;
 }
 
-// pay nodify_url
+// pay nodify_url:微信返回的xml信息
 $weixin_notify = file_get_contents("php://input");
 
-
-$url = "https://huahui.qingyy.net/zhuangxiutp/public/index.php/api/dingdan/notify_";
+// curl请求本服务器地址
+$url = "https://huahui.qingyy.net/zhangxiutpceshi/public/index.php/api/dingdan/notify_";
 
 
 http_request($url,'weixin_notify='.$weixin_notify); //weixin_notify=abc&cde=fgi
