@@ -27,8 +27,8 @@ class IndexController extends BaseController
        $this->success('缓存清理成功',$back,'',1);
 
    }
-
-    public function gaidd() {
+//订单数和交易数改
+  public function gaidd() {
        //all st=1 shop
         /*
          * foreach shop and find dingdan ,sum yishouhuo = jiaoyi ;sum yizhifu= dingdanshu

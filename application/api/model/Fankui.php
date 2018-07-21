@@ -26,10 +26,10 @@ class Fankui extends Base {
 
         return ['code'=>0,'msg'=>'添加成功'];
     }
-    public static function getListPage($data=[]){
+   /* public static function getListPage($data=[]){
         $list_ = self::where(['fankui.st'=>['<>',0]])->join('dingdan','fankui.order_id=dingdan.id')->join('user','fankui.user_id=user.id')->join('shop','fankui.shop_id=shop.id')->field('fankui.*,dingdan.orderno,user.username username,shop.name shop_name')->paginate();
         return $list_;
-    }
+    }*/
     public static function getList($data){
         $user_id = User::getUserIdByName($data['user_name']);
         if(is_array($user_id)){
@@ -57,19 +57,19 @@ class Fankui extends Base {
         $field = 'fankui.*,nickname,vistar';
         if(empty($data['star'])){
 
-            $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0]];
+            $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['=',1]];
         }else{
 
-            $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['<>',0],'fankui.star'=>$data['star']];
+            $where = ['fankui.user_id'=>$user_id,'fankui.st'=>['=',1],'fankui.star'=>$data['star']];
         }
         $row_ = self::where($where)->join('user','user.id=fankui.user_id','left')->order('create_time desc')->field($field)->paginate();
         if($row_->isEmpty()){
             return ['code'=>__LINE__,'msg'=>'暂无评论'];
         }
         //获取评价数
-        $evalute['best'] = self::where(['fankui.user_id'=>$user_id,'star'=>1,'fankui.st'=>['<>',0]])->count();
-        $evalute['mid'] = self::where(['fankui.user_id'=>$user_id,'star'=>2,'fankui.st'=>['<>',0]])->count();
-        $evalute['bad'] = self::where(['fankui.user_id'=>$user_id,'star'=>3,'fankui.st'=>['<>',0]])->count();
+        $evalute['best'] = self::where(['fankui.user_id'=>$user_id,'star'=>1,'fankui.st'=>['=',1]])->count();
+        $evalute['mid'] = self::where(['fankui.user_id'=>$user_id,'star'=>2,'fankui.st'=>['=',1]])->count();
+        $evalute['bad'] = self::where(['fankui.user_id'=>$user_id,'star'=>3,'fankui.st'=>['=',1]])->count();
         return ['code'=>0,'msg'=>'数据成功','data'=>$row_,'evalute'=>$evalute];
     }
 
