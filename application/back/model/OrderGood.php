@@ -40,7 +40,7 @@ class OrderGood extends model {
 			Dingdan::updateGoodst($row_->order_id,'part');
 		}else{
 			Dingdan::updateGoodst($row_->order_id,'all');
-            Shop::incTradenum( $row_->shop_id );
+            Shop::incTradenum( $row_->shop_id );//tradenum ++
             Cache::clear();
 		}
 		return true;

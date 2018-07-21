@@ -384,6 +384,9 @@ class Dingdan extends Base{
 
 		}elseif ( $data['st'] == 'taken' ) {
             $user_id = User::getUserIdByName($data['username']);
+            if(is_array($user_id)){
+            	return $user_id;
+			}
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
             if($row_->getData('type')!=self::ORDER_TYPE_SHOP_DEPOSIT && $row_->getData('type')!=self::ORDER_TYPE_SHOP_MONEY_ALL){
 
@@ -406,8 +409,7 @@ class Dingdan extends Base{
                 $row_->st= self::ORDER_ST_GROUP_OK;
 
             }
-           // Shop::incTradenum( $row_->shop_id );
-            //Cache::clear();
+
 
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;

@@ -105,7 +105,7 @@ class DingdanController extends BaseController {
             $this->error('删除失败',  $data['url'], '', 3);
         }
     }
-
+//change good st
 	public function change_goodst(Request $request){
 		$data = $request->param();
 		$referer = $request->header()['referer'];
