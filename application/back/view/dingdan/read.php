@@ -88,8 +88,9 @@
                         <div class="col-xs-8">
 
                             <div class="col-xs-6">
+								<?php if ( $row_order->st == '已支付' ) { ?>
                                     <a href="javascript:if(confirm('确认已发货了吗？'))window.location.href='{:url('change_order_goodst')}?order_id={$row_order->id}'">确认发货</a>
-
+<?php }?>
                             </div>
 
                         </div>
