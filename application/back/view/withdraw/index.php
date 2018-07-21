@@ -6,7 +6,6 @@
     .pagination li.disabled > a, .pagination li.disabled > span {
         color: inherit;
     }
-
     .pagination li > a, .pagination li > span {
         color: inherit
     }
@@ -160,7 +159,7 @@
 
     <!--页码块-->
     <footer class="footer">
-
+        {$page_str}
     </footer>
 
     <!--弹出删除用户警告窗口-->
@@ -196,7 +195,7 @@
    function transferOk2(obj) {
        var money= $(obj).attr('data_cash');
        var id= $(obj).attr('data_id');
-       if(confirm('商家可用收益也会减少'+money)){
+       if(confirm('转账后商家已提现会增加'+money)){
            var admin_pass = prompt('请输入管理员密码');
            if(admin_pass==''){
                alert('密码不能为空');

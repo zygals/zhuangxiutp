@@ -59,6 +59,8 @@ class Withdraw extends Base {
         }
 //        dump($where);exit;
         $list_ = self::where($where)->join('admin', 'admin.id=withdraw.admin_id')->field($field)->order($order)->paginate(10);
+        // $list_ = self::where($where)->join('admin', 'admin.id=withdraw.admin_id')->field($field)->order($order)->select();
+        // dump($list_);die;
         return $list_;
     }
 
@@ -99,8 +101,8 @@ class Withdraw extends Base {
             $row_->cashst = 2;
             $row_->transfer_time = time();
             $row_->save();
-            $admin_shop->setDec('income', $row_->cash);
-            $admin_shop->setInc('withdraw_ok', $row_->cash);
+            //$admin_shop->setDec('income', $row_->cash);
+            $admin_shop->setInc('withdraw_ok', $row_->cash);//已提现加
             $admin_shop->setDec('income_lock',$row_->cash); //冻结减
             Db::commit();
             return ['code' => 0, 'msg' => '已转账'];
@@ -134,12 +136,12 @@ class Withdraw extends Base {
         Db::startTrans();
 
         try {
-            $refund = Dingdan::getAllRedundOfMe($row_->admin_id);
-            if (is_array($refund)) {
-                return $refund;
-            }
+//            $refund = Dingdan::getAllRedundOfMe($row_->admin_id);
+//            if (is_array($refund)) {
+//                return $refund;
+//            }
             //2100      4000-2000
-            $remain = self::getRemainByAdmin($row_->admin_id);
+            //$remain = self::getRemainByAdmin($row_->admin_id);
             /*$confirm_order = Dingdan::getConfirmOrderSum($row_->admin_id);
             if($row_->cash > $confirm_order){
                 $row_->st = self::ST_FAIL;
@@ -150,16 +152,16 @@ class Withdraw extends Base {
                 return ['code' => 0, 'msg' => "提现金额超过已收货的金额({$confirm_order} 元)，审核失败"];
             }*/
 
-            if ($refund  > $remain['remain']) {
-                $row_->st = self::ST_FAIL;
-                $row_->verify_time = time();
-                $row_->save();
-                $admin_shop->setDec('income_lock',$row_->cash); //冻结减
-                Db::commit();
-                return ['code' => 0, 'msg' => '申请退款总额>可用收益,审核失败！'];
-            }
+//            if ($refund  > $remain['remain']) {
+//                $row_->st = self::ST_FAIL;
+//                $row_->verify_time = time();
+//                $row_->save();
+//                $admin_shop->setDec('income_lock',$row_->cash); //冻结减
+//                Db::commit();
+//                return ['code' => 0, 'msg' => '申请退款总额>可用收益,审核失败！'];
+//            }
 
-            $row_->st = self::ST_OK;
+            $row_->st = self::ST_OK ;
             $row_->verify_time = time();
             $row_->save();
             // 提交事务

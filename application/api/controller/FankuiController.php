@@ -7,6 +7,7 @@ use app\api\model\Fankui;
 use app\api\model\OrderGood;
 use app\back\model\Shop;
 use think\Request;
+use think\Db;
 
 
 class FankuiController extends BaseController {
@@ -91,10 +92,11 @@ class FankuiController extends BaseController {
      */
     public function getShop(Request $request){
         $data = $request->param();
-        return json(Fankui::getShopEvalute($data));
+        $gonggaodata = Db::name('gonggao')->field('content')->order('sort','asc')->select();
+        $gonggaodataitem['gongao'] = $gonggaodata->toArray();
+        $b = array_merge(Fankui::getShopEvalute($data),$gonggaodataitem);
+        return json($b);
     }
-
-
 
     /**
      * 显示指定的资源 use

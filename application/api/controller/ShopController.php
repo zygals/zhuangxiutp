@@ -7,6 +7,7 @@ use app\api\model\Shop;
 use app\api\model\ShopAddress;
 use app\api\model\TuanGou;
 use think\Request;
+use think\Db;
 class ShopController extends BaseController
 {
     /*

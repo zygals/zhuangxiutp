@@ -51,8 +51,9 @@ class Pay extends Base {
         }
 
         $nonce_str = $this->nonce_str();//随机字符串
-        $notify_url =  $request->domain() .'/zhuangxiutp/public/notify.php';
-       //dump($notify_url);exit;
+        $notify_file = config('notify_file');
+        $notify_url =  $request->domain() .$notify_file;
+//       dump($notify_url);exit;
         $openid = User::where(['id' => $user_id])->value('open_id');
         $out_trade_no = $row_order->orderno;//商户订单号
         $spbill_create_ip = config('wx_spbill_create_ip');
@@ -208,8 +209,8 @@ class Pay extends Base {
             if ($array['RESULT_CODE'] == 'SUCCESS') {
             $row_order->st = Dingdan::ORDER_ST_REFUNDED;
             $row_order->save();
-            \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化
-            Shop::increaseOrdernum( $row_order->shop_id ,false);//orderno－
+           // \app\back\model\Dingdan::udpateShouyi($row_order->shop_id,-$fee);//商家收益变化(后改为不用减少了)
+            Shop::increaseOrdernum( $row_order->shop_id ,false);//订单量－
 
                 $ret['code'] = 0;
                 $ret['msg'] = "退款申请成功";
@@ -253,9 +254,6 @@ class Pay extends Base {
         $stringSignTemp = $stringA . '&key=' . $wx_key;
         return strtoupper(md5($stringSignTemp));
     }
-
-
-
 
     //限款的请求
     function http_post($url, $vars, $second = 30, $aHeader = array()) {

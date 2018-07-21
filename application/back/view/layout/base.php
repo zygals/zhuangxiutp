@@ -77,11 +77,11 @@
             <p> <a href="__PUBLIC__/bake.php">备份数据库</a></p>
 <?php }?>
             <?php if(\app\back\model\Admin::isShopAdmin()){ ?>
-                <p>我的收益:　<?php echo(\app\back\model\Admin::getBenefit()) ?>元</p>
+                <p>我的收益:　<?php echo(\app\back\model\Dingdan::getConfirmOrderSum(session('admin_zhx')->id) )?>元</p>
                 <p>成功提现:　<?php echo(\app\back\model\Admin::getwithdrawok()) ?>元</p>
                 <p>可提现:　<?php echo(\app\back\model\Admin::getketixian()) ?>元</p>
                 <?php if(($lock_income = \app\back\model\Admin::getBenefitLock()) >0 ){?>
-                    <p>收益冻结:　<?php echo $lock_income ;?>元</p>
+                    <p>冻结总额:　<?php echo $lock_income ;?>元</p>
                 <?php }?>
                 <p><a href="{:Url('withdraw/edit')}">申请提现</a></p>
             <?php }?>

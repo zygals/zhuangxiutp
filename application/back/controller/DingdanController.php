@@ -25,6 +25,7 @@ class DingdanController extends BaseController {
     public function index(Request $request) {
 
         $data = $request->param();
+        // print_r($data);die;
         $rules = ['time_from' => 'date', 'time_to' => 'date'];
         $msg = ['time_from' => '日期格式有误', 'time_to' => '日期格式有误'];
         $res = $this->validate($request->get(), $rules, $msg);
@@ -32,7 +33,7 @@ class DingdanController extends BaseController {
             $this->error($res);
         }
         $list_ = Dingdan::getAlldingdans($data);
-        //dump($list_->total());exit;
+        // dump($list_->total());exit;
         $page_str = $list_->render();
         $page_str = Base::getPageStr($data, $page_str);
         $url = $request->url();
@@ -127,7 +128,7 @@ class DingdanController extends BaseController {
         }
 	}
 /*
- * 管理员改为已支付
+ * 管理员改为已支付或已退款
  * */
 	public function order_paid(Request $request){
 		$data = $request->param();

@@ -2,6 +2,7 @@
 
 namespace app\back\model;
 
+//use app\api\model\Dingdan;
 use think\Model;
 
 class Admin extends Base {
@@ -50,7 +51,16 @@ class Admin extends Base {
         if (!empty($data['paixu']) && !empty($data['sort_type'])) {
             $order = $data['paixu'] . ' desc';
         }
+
         $list_ = self::where($where)->join('shop','admin.shop_id=shop.id','left')->field('admin.*,shop.name shop_name,shop.st shop_st')->order($order)->paginate(10);
+
+       foreach($list_ as $admin){
+           $shouyi= Dingdan::getConfirmOrderSum($admin->id); //统计收益方法;
+           if(is_numeric($shouyi)){
+               $admin['income'] = $shouyi;
+           }
+       }
+//        dump($list_[2]->income);
         return $list_;
     }
 
@@ -116,15 +126,22 @@ class Admin extends Base {
  */
     public static function getketixian(){
         $id = session('admin_zhx')->id;
-        $remian = Withdraw::getRemain();
-        $confirm_order = Dingdan::getConfirmOrderSum($id);
-        $withdraw_ok=Admin::where(['id'=>$id])->value('withdraw_ok');
-        if($confirm_order>0 && $withdraw_ok>0){
-            $shou = $confirm_order-$withdraw_ok;
+        //$remian = Withdraw::getRemain();
+//        $confirm_order = Dingdan::getConfirmOrderSum($id);
+        $withdraw_ok=Admin::where(['id'=>$id])->value('withdraw_ok');//已提现的
+        $lock= Admin::getBenefitLock(); //冻结的
+//        if($confirm_order>0 && $withdraw_ok>0){
+//            $shou = $confirm_order-$withdraw_ok;
+//        }else{
+//            $shou = $confirm_order;
+//        }
+        $shouyi= Dingdan::getConfirmOrderSum($id);
+        if(is_numeric($shouyi)){
+            $keti=$shouyi-$withdraw_ok-$lock;
         }else{
-            $shou = $confirm_order;
+            $keti=0;  //被禁用可能
         }
-        return $shou - $remian['already_apply'];
+        return $keti;
     }
 
 

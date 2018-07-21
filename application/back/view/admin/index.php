@@ -81,7 +81,7 @@
                             </span>
                         <?php } ?>
 
-                    </div>
+                    </div><!--收益统计=已收货+评价;该字段不做维护(即修改),用来统计用了;-->
                     <div class="col-sm-1" title="{$admin->income}">
                         {$admin->income}
                     </div>

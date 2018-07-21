@@ -458,10 +458,10 @@ class Dingdan extends Base{
                         throw new Exception('ORDER_ST_PAID error');
                     }
 
-                    //订单支付完成，则商家收益也增加
-                    $admin_shop = Admin::where( ['shop_id' => $row_order->shop_id] )->find();
-                    $admin_shop->income += $row_order->sum_price;
-                    $admin_shop->save();
+                    //订单支付完成，则商家收益也增加(后改为不增加了)
+					/*  $admin_shop = Admin::where( ['shop_id' => $row_order->shop_id] )->find();
+                       /*  $admin_shop->income += $row_order->sum_price;
+                       $admin_shop->save();*/
 
                     //给商家增加dingdan
                    Shop::increaseOrdernum( $row_order->shop_id );
@@ -480,7 +480,7 @@ class Dingdan extends Base{
                        <return_msg><![CDATA[OK]]></return_msg>
                        </xml>";
                 }catch (\Exception $e){
-                fclose($fp);
+                	fclose($fp);
                     Db::rollback();
                 }
             }
@@ -508,9 +508,9 @@ class Dingdan extends Base{
                 //给下面商家管理员增加收益
                 $list_order = self::where( ['order_contact_id' => $row_order_contact->id] )->select();
                 foreach ( $list_order as $order ) {
-                    $admin_shop = Admin::where( ['shop_id' => $order->shop_id ] )->find();
+                    /*$admin_shop = Admin::where( ['shop_id' => $order->shop_id ] )->find();
                     $admin_shop->income += $order->sum_price;
-                    $admin_shop->save();
+                    $admin_shop->save();*/
                     //给商家增加dingdan
                     Shop::increaseOrdernum( $order->shop_id );
 
@@ -532,6 +532,7 @@ class Dingdan extends Base{
 
     }
 	/**
+	 * 不用了--zyg
 	 * 更改订单支付状态 from user
 	 *zhuangxiu-zyg
 	 * @return \think\Response

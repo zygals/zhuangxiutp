@@ -199,12 +199,13 @@ class Dingdan extends model {
         }
         $row_order = self::where(['id' => $data['order_id']])->find();
         if ($data['st'] == 'paid') {
-            self::udpateShouyi($row_order->shop_id, $row_order->sum_price);
+            //self::udpateShouyi($row_order->shop_id, $row_order->sum_price);
+            Shop::increaseOrdernum($row_order->shop_id);//订单量+
             $row_order->st = 2;
 
         } elseif ($data['st'] == 'tuikuan') {
-            self::udpateShouyi($row_order->shop_id, -$row_order->sum_price);
-            Shop::incTradenum($row_order->shop_id, false);//交易量－
+            //self::udpateShouyi($row_order->shop_id, -$row_order->sum_price);
+            Shop::increaseOrdernum($row_order->shop_id, false);//订单量－
             $row_order->st = 3;
 
         }
@@ -242,11 +243,11 @@ class Dingdan extends model {
     public static function getConfirmOrderSum($admin_id) {
 
         $shop_id = Admin::where(['id' => $admin_id, 'st' => 1])->value('shop_id');
+
         if (!$shop_id) {
             return ['code' => __LINE__, 'msg' => '您被禁用或删除了，请联系平台管理员'];
         }
-        $sum_refund=self::where(['shop_id'=>$shop_id,/*'type'=>['in','1,4,5'],*/'goodst'=>['in','3,4'],'st'=>['in','2,7,8,9,10']])->sum('sum_price');
-
+        $sum_refund=self::where(['shop_id'=>$shop_id,'goodst'=>['in','3,4'],'st'=>['in','2,7,8,9,10']])->sum('sum_price');
         return $sum_refund;
     }
 

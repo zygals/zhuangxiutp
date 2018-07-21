@@ -16,8 +16,9 @@ class AdminController extends BaseController {
     public function index(Request $request) {
         //not use layout.html
         $data = $request->param();
+        
         $list_admin = Admin::getList($data);
-
+// dump($list_admin);die;
         $page_str = $list_admin->render();
         $page_str = Base::getPageStr($data,$page_str);
         $url = $request->url();
@@ -45,14 +46,11 @@ class AdminController extends BaseController {
         }
         $name = $request->param('name');
         $pass = $request->param('pass');
-
         $pwd = Admin::pwdGenerate($pass);
-        //return $pwd;
         $condition = array();
         $condition['name'] = $name;
         $condition['pwd'] = $pwd;
         $admin = Admin::get($condition);
-
         if ($admin) {
             if ($admin->type == '商户') {
                 if ($admin->st != '正常') {

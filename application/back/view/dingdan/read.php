@@ -218,9 +218,9 @@
 
 	function order_st_paid(order_id,st) {
 	    if(st=='paid'){
-           alertstr='确定更改订单为已支付吗？商家收益也会相应增加';
+           alertstr='确定更改订单为已支付吗？商家订单量也会相应增加';
         }else {
-            alertstr='确定已经在商户平台给用户退过款了吗？确定后商家收益也会相应减少';
+            alertstr='确定已经在商户平台给用户退过款了吗？确定后状态变为已退款!';
         }
 		//alert()
 		if (confirm(alertstr)) {
@@ -234,7 +234,7 @@
                     st:st
 				},
 				success: function (data) {
-					alert(data.msg)
+					alert(data.msg);
 					if (data.code == 0) {
 						window.location.href = '';
 					}
