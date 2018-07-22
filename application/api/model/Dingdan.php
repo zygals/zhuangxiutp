@@ -381,12 +381,11 @@ class Dingdan extends Base{
 		}
 		if ( $data['st'] == 'cancel' ) {
 			$row_->st = self::ORDER_ST_USER_CANCEL;
+			if($row_->getData('type')==1||$row_->getData('type')==5){		//如果是取消了１普通订单或５全款订单，则订单类型为４商家订金的订单恢复为已支付状态
+				self::where( ['orderno' => $row_->orderno_youhui,'type'=>self::ORDER_TYPE_SHOP_DEPOSIT] )->update( ['st' => self::ORDER_ST_PAID] );
+			}
 
 		}elseif ( $data['st'] == 'taken' ) {
-            $user_id = User::getUserIdByName($data['username']);
-            if(is_array($user_id)){
-            	return $user_id;
-			}
 			$row_->goodst = self::GOOT_ST_DAIFANKUI;//已收货
             if($row_->getData('type')!=self::ORDER_TYPE_SHOP_DEPOSIT && $row_->getData('type')!=self::ORDER_TYPE_SHOP_MONEY_ALL){
 
@@ -403,14 +402,16 @@ class Dingdan extends Base{
                 \app\api\model\OrderGood::increseSales( $row_->id );
             }
             if ( $row_->getData('type')== Dingdan::ORDER_TYPE_GROUP_FINAL) {
-                //则订金订单也收货
-                self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id,'st'=>self::ORDER_ST_PAID])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
+            	if(isset($data['username'])){
+					$user_id = User::getUserIdByName($data['username']);
+					if(!is_array($user_id)){
+						//则订金订单也收货
+						self::where(['user_id'=>$user_id,'type'=>self::ORDER_TYPE_GROUP_DEPOSIT,'group_id'=>$row_->group_id,'st'=>self::ORDER_ST_PAID])->update(['goodst'=>self::GOOT_ST_DAIFANKUI]);
+					}
+				}
                 //收货后尾款订单状态为团购成功
                 $row_->st= self::ORDER_ST_GROUP_OK;
-
             }
-
-
 		} elseif ( $data['st'] == 'fankui' ) {//已评价
 			$row_->goodst = self::GOOT_ST_FANKUIOK;
 		} elseif ( $data['st'] == 'delByUser' ) {

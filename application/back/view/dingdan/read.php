@@ -77,6 +77,9 @@
 
 							<div class="col-xs-8 ">
 								<label>{$row_order->goodst}</label>
+                                <?php if($row_order->goodst=='已发货'){?>
+                                <input type="button" value="确认收货" title="系统会在７－１５天自动收货，如现在已经收货，请点击这里。" id="confirmTakenByAdmin" />
+                                <?php }?>
 							</div>
 						</div>
 					<?php }?>
@@ -96,6 +99,7 @@
                         </div>
                     </div>
                     <?php }?>
+
 					<div class="form-group ">
 						<label for="sName" class="col-xs-3 control-label">会员用户名：</label>
 
@@ -216,7 +220,30 @@
 </form>
 
 <script>
+    // order_id ,st=taken, username=
+$('#confirmTakenByAdmin').click(function () {
+    if(confirm('现在已经收货?')){
+        var order_id='{$row_order->id}';
+        var username='{$row_order->username}';
+        $.ajax({
 
+            "url": "{:url('order_taken')}",
+            "data": {
+                username: username,
+                order_id: order_id,
+                st:'taken'
+            },
+            success: function (data) {
+                alert(data.msg);
+                if (data.code == 0) {
+                    window.location.href = '';
+                }
+            }
+
+        })
+    }
+})
+    
 	function order_st_paid(order_id,st) {
 	    if(st=='paid'){
            alertstr='确定更改订单为已支付吗？商家订单量也会相应增加';

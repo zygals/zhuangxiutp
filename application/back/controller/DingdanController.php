@@ -141,5 +141,19 @@ class DingdanController extends BaseController {
 
 	}
 
+	/*
+ * 管理员改为已经收货 goodst
+ * */
+	public function order_taken(Request $request){
+		$data = $request->param();
+		$rules = ['order_id' => 'require','username'=>'require','st'=>'require'];
+		$res = $this->validate($data,$rules);
+		if ($res !== true) {
+			return json(['code'=>__LINE__,'msg'=>$res]);
+		}
+		return json(\app\api\model\Dingdan::updateSt($data));
+
+	}
+
 
 }

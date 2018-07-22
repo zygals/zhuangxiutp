@@ -46,7 +46,7 @@ class Dingdan extends model {
 
     public function saveGoodSt($order_id) {
         $row_ = self::where(['id' => $order_id])->find();
-        if ($row_->goodst == '已发货') {
+        if ($row_->goodst == '已发货' || $row_->goodst == '已收货'|| $row_->goodst == '已评价') {
             return false;
         }
         $row_->goodst = 2;
